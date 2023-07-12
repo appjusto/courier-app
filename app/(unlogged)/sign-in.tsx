@@ -1,4 +1,4 @@
-import { useAuth } from '@/auth/context/auth-context';
+import { useAuth } from '@/common/expo/auth/context/useAuth';
 import { DefaultButton } from '@/common/expo/components/buttons/default/DefaultButton';
 import { PatternInput } from '@/common/expo/components/inputs/pattern/PatternInput';
 import screens from '@/common/expo/constants/screens';

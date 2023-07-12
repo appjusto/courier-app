@@ -1,4 +1,4 @@
-import { Provider } from '@/auth/context/auth-context';
+import { Provider } from '@/common/expo/auth/context/AuthContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
   DarkTheme,
