@@ -1,9 +1,10 @@
-import { Text } from 'react-native';
+import { TextInput } from 'react-native';
 import { ThemeProps } from '../themes';
 
 import typography from '@/common/constants/typography';
 
-export type DefaultTextProps = Text['props'] &
+export type DefaultInputProps = TextInput['props'] &
   ThemeProps & {
+    title?: string;
     size?: keyof typeof typography;
   };

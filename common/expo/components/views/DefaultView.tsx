@@ -1,8 +1,8 @@
 import { View } from 'react-native';
 import { useThemeColor } from '../themes/useThemeColor';
-import { ViewProps } from './types';
+import { DefaultViewProps } from './types';
 
-export function DefaultView(props: ViewProps) {
+export function DefaultView(props: DefaultViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },

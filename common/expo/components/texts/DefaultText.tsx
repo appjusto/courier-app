@@ -1,7 +1,7 @@
 import typography from '@/common/constants/typography';
 import { Text } from 'react-native';
 import { useThemeColor } from '../themes/useThemeColor';
-import { TextProps } from './types';
+import { DefaultTextProps } from './types';
 
 export function DefaultText({
   style,
@@ -9,7 +9,7 @@ export function DefaultText({
   darkColor,
   size,
   ...props
-}: TextProps) {
+}: DefaultTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
