@@ -4,7 +4,6 @@ const primaryLightColor = '#B8E994';
 const primaryDarkColor = '#22543D';
 
 export default {
-  primary: '#78E08F',
   light: {
     text: colors.black,
     background: colors.white,

@@ -1,4 +1,7 @@
+const primary = '#78E08F';
+
 export default {
+  primary,
   gray50: '#F2F6EA',
   gray100: '#F0F4E7',
   gray200: '#ECF0E3',
@@ -16,7 +19,7 @@ export default {
   green200: '#D7FABC',
   green300: '#B8E994',
   green400: '#97E78A',
-  green500: '#78E08F',
+  green500: primary,
   green600: '#4EA031',
   green700: '#36801C',
   green800: '#285C15',
