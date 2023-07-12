@@ -1,10 +1,10 @@
-import borders from '@/common/constants/borders';
-import colors from '@/common/constants/colors';
-import paddings from '@/common/constants/paddings';
-import typography from '@/common/constants/typography';
+import borders from '@/common/styles/borders';
+import colors from '@/common/styles/colors';
+import paddings from '@/common/styles/paddings';
+import typography from '@/common/styles/typography';
 import { forwardRef, useRef } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
-import { DefaultText } from '../texts/DefaultText';
+import { DefaultText } from '../../texts/DefaultText';
 import { DefaultInputProps } from './types';
 
 export const DefaultInput = forwardRef(

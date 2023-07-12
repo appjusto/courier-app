@@ -1,4 +1,4 @@
-import colors from '@/common/constants/colors';
+import colors from '@/common/styles/colors';
 import Constants from 'expo-constants';
 
 export default {

@@ -1,4 +1,4 @@
-import typography from '@/common/constants/typography';
+import typography from '@/common/styles/typography';
 import { Text } from 'react-native';
 import { useThemeColor } from '../themes/useThemeColor';
 import { DefaultTextProps } from './types';
