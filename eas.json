@@ -6,7 +6,7 @@
     "base": {
       "channel": "v13"
     },
-    "development": {
+    "devclient": {
       "extends": "base",
       "developmentClient": true,
       "distribution": "internal"
