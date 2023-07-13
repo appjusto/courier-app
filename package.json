@@ -3,10 +3,11 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start": "env-cmd -f .env.${ENV:-dev}.local expo start",
+    "start:dev": "ENV=dev npm start",
+    "update": "env-cmd -f .env.${ENV:-dev}.local eas update",
+    "update:dev": "env-cmd -f .env.${ENV:-dev}.local eas update",
+    "build": "env-cmd -f .env.${ENV:-dev}.local eas build --profile ${PROFILE:-internal} --platform ${PLATFORM:-android}",
     "test": "jest --watchAll"
   },
   "jest": {
@@ -22,10 +23,12 @@
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "~2.4.0",
+    "expo-updates": "~0.18.10",
     "expo-web-browser": "~12.3.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.3",
+    "react-native-gesture-handler": "~2.12.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-web": "~0.19.6"
@@ -33,6 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
+    "env-cmd": "^10.1.0",
     "jest": "^29.2.1",
     "jest-expo": "~49.0.0",
     "react-test-renderer": "18.2.0",
