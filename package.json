@@ -4,10 +4,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "env-cmd -f .env.${ENV:-dev}.local expo start",
-    "start:dev": "ENV=dev npm start",
-    "update": "env-cmd -f .env.${ENV:-dev}.local eas update",
-    "update:dev": "env-cmd -f .env.${ENV:-dev}.local eas update",
+    "start:dev": "ENV=dev npm run start",
+    "update": "env-cmd -f .env.${ENV:-dev}.local eas update --channel v13",
+    "update:dev": "ENV=dev npm run update",
     "build": "env-cmd -f .env.${ENV:-dev}.local eas build --profile ${PROFILE:-internal} --platform ${PLATFORM:-android}",
+    "build:dev": "ENV=dev npm run build",
+    "update-channel": "env-cmd -f .env.${ENV:-dev}.local eas channel:edit $CHANNEL --branch main",
+    "update-channel:dev": "ENV=dev npm run update-channel",
     "test": "jest --watchAll"
   },
   "jest": {
