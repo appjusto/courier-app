@@ -1,9 +1,12 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { router, useSegments } from 'expo-router';
 import { useEffect } from 'react';
-import { U } from './context/AuthContext';
 
-export function useProtectedRoute(user: U | null) {
+export function useProtectedRoute(
+  user: FirebaseAuthTypes.User | null | undefined
+) {
   const segments = useSegments();
+  console.log(segments);
 
   useEffect(() => {
     const restricted = segments[0] === '(logged)';

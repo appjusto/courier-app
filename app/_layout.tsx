@@ -1,4 +1,5 @@
-import { Provider } from '@/common/expo/auth/context/AuthContext';
+import { ApiProvider } from '@/api/ApiContext';
+import { AuthProvider } from '@/api/auth/AuthContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
   DarkTheme,
@@ -43,9 +44,11 @@ export default function RootLayout() {
   }
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Provider>
-        <Slot />
-      </Provider>
+      <ApiProvider>
+        <AuthProvider>
+          <Slot />
+        </AuthProvider>
+      </ApiProvider>
     </ThemeProvider>
   );
 }

@@ -9,7 +9,10 @@
     "devclient": {
       "extends": "base",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
     },
     "internal": {
       "extends": "base",

@@ -10,16 +10,19 @@ export const DefaultButton = ({
   title,
   variant = 'primary',
   style,
+  disabled,
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (() => {
+    if (disabled) return colors.gray500;
     return colors.primary;
   })();
   const borderColor = (() => {
+    if (disabled) return colors.gray500;
     return colors.primary;
   })();
   return (
-    <Pressable {...props}>
+    <Pressable disabled={disabled} {...props}>
       {({ pressed }) => (
         <View
           style={[

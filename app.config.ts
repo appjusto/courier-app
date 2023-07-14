@@ -1,7 +1,9 @@
+import { Environment } from '@appjusto/types';
 import { ConfigContext, ExpoConfig } from 'expo/config';
+import { Extra } from './extra/types';
 import { version, versionCode } from './version.json';
 
-const env = process.env.EXPO_PUBLIC_ENV;
+const env = process.env.EXPO_PUBLIC_ENV as Environment;
 const projectId = process.env.EXPO_PUBLIC_EAS_PROJECT_ID;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -28,6 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: appBundlePackage(),
     buildNumber: `${versionCode}`,
     supportsTablet: false,
+    googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PLIST,
   },
   android: {
     package: appBundlePackage(),
@@ -36,8 +39,24 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
+    googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_JSON,
   },
-  plugins: ['expo-router'],
+  plugins: [
+    'expo-router',
+    '@react-native-firebase/app',
+    '@react-native-firebase/auth',
+    [
+      'expo-build-properties',
+      {
+        android: {
+          enableProguardInReleaseBuilds: false,
+        },
+        ios: {
+          useFrameworks: 'static',
+        },
+      },
+    ],
+  ],
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
@@ -49,10 +68,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     policy: 'sdkVersion',
   },
   extra: {
+    env,
+    firebase: {
+      emulator: {
+        host: process.env.EXPO_PUBLIC_FIREBASE_EMULATOR,
+      },
+      region: 'southamerica-east1',
+    },
     eas: {
       projectId,
     },
-  },
+  } as Extra,
 });
 
 const name = () => {

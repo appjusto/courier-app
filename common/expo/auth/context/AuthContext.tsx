@@ -17,7 +17,7 @@ interface ProvideProps {
   children?: React.ReactNode | undefined;
 }
 
-export function Provider(props: ProvideProps) {
+export function AuthProvider(props: ProvideProps) {
   const [user, setAuth] = React.useState<U | null>(null);
 
   useProtectedRoute(user);
