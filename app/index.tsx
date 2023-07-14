@@ -7,7 +7,7 @@ export default function Welcome() {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Link href="/(logged)/(tabs)/two" asChild>
         <Pressable>
-          <DefaultText size="2xl">Entrar :)</DefaultText>
+          <DefaultText size="2xl">Entrar!</DefaultText>
         </Pressable>
       </Link>
     </View>

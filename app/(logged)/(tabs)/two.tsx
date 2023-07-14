@@ -1,9 +1,25 @@
 import { StyleSheet } from 'react-native';
 
+import { useContextApi } from '@/api/ApiContext';
 import { DefaultText } from '@/common/expo/components/texts/DefaultText';
 import { DefaultView } from '@/common/expo/components/views/DefaultView';
+import { useEffect } from 'react';
 
 export default function TabTwoScreen() {
+  // context
+  const api = useContextApi();
+  // side effects
+  useEffect(() => {
+    api
+      .getServerTime()
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  // UI
   return (
     <DefaultView style={styles.container}>
       <DefaultText style={styles.title}>Tab Two</DefaultText>

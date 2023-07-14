@@ -7,6 +7,7 @@ import storage from '@react-native-firebase/storage';
 
 import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
+import { getServerTime } from './firebase/refs/functions';
 import ProfileApi from './profile/ProfileApi';
 
 const extra = getManifestExtra();
@@ -38,6 +39,20 @@ export default class Api {
 
   getProfile() {
     return this.profile;
+  }
+
+  async getServerTime(): Promise<number> {
+    try {
+      if (this.auth.getUserId()) {
+        const result = await getServerTime()();
+        return (result.data as any).time;
+      }
+    } catch (error) {
+      console.error('getServerTime');
+      console.error(error);
+      // Sentry.Native.captureException(error);
+    }
+    return new Date().getTime();
   }
 }
 

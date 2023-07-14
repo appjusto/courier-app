@@ -5,6 +5,7 @@ import { version, versionCode } from './version.json';
 
 const env = process.env.EXPO_PUBLIC_ENV as Environment;
 const projectId = process.env.EXPO_PUBLIC_EAS_PROJECT_ID;
+const domain = `${env === 'live' ? '' : `${env}.`}appjusto.com.br}`;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -31,6 +32,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     buildNumber: `${versionCode}`,
     supportsTablet: false,
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PLIST,
+    associatedDomains: [`applinks:${domain}`, 'appjusto.ngrok.io'],
   },
   android: {
     package: appBundlePackage(),
@@ -40,6 +42,32 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#ffffff',
     },
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_JSON,
+    intentFilters: [
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: domain,
+            pathPrefix: '/',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
+      },
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: 'appjusto.ngrok.io',
+            pathPrefix: '/',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
+      },
+    ],
   },
   plugins: [
     'expo-router',
