@@ -58,7 +58,7 @@ export default function SignIn() {
       ?.confirm(code)
       .then((result) => {
         console.log('result', result);
-        router.replace('/(logged)/(tabs)/two');
+        router.replace('/(logged)/(tabs)/home');
       })
       .catch((error) => {});
   };

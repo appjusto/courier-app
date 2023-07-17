@@ -1,11 +1,12 @@
 import { DefaultText } from '@/common/expo/components/texts/DefaultText';
 import { DefaultView } from '@/common/expo/components/views/DefaultView';
+import screens from '@/common/expo/constants/screens';
 import { StyleSheet } from 'react-native';
 
-export default function TabOneScreen() {
+export default function Home() {
   return (
-    <DefaultView style={styles.container}>
-      <DefaultText style={styles.title}>Tab One</DefaultText>
+    <DefaultView style={screens.default}>
+      <DefaultText style={styles.title}>Profile</DefaultText>
       <DefaultView
         style={styles.separator}
         lightColor="#eee"
