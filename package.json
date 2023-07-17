@@ -10,6 +10,7 @@
     "build": "node ./scripts/build",
     "update-channel": "env-cmd -f .env.${ENV:-dev}.local eas channel:edit $CHANNEL --branch main",
     "update-channel:dev": "ENV=dev npm run update-channel",
+    "republish": "env-cmd -f .env.${ENV:-dev}.local eas update:republish --group $GROUP",
     "credentials": "env-cmd -f .env.dev.local eas credentials",
     "test": "jest --watchAll"
   },
