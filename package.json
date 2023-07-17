@@ -3,13 +3,14 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "env-cmd -f .env.${ENV:-dev}.local expo start --dev-client --tunnel",
+    "start": "env-cmd -f .env.${ENV:-dev}.local expo start --dev-client",
     "start:dev": "ENV=dev npm run start",
     "update": "node ./scripts/update",
     "update:dev": "ENV=dev npm run update",
     "build": "node ./scripts/build",
     "update-channel": "env-cmd -f .env.${ENV:-dev}.local eas channel:edit $CHANNEL --branch main",
     "update-channel:dev": "ENV=dev npm run update-channel",
+    "credentials": "env-cmd -f .env.dev.local eas credentials",
     "test": "jest --watchAll"
   },
   "jest": {

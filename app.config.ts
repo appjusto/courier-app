@@ -5,7 +5,7 @@ import { version, versionCode } from './version.json';
 
 const env = process.env.EXPO_PUBLIC_ENV as Environment;
 const projectId = process.env.EXPO_PUBLIC_EAS_PROJECT_ID;
-const domain = `${env === 'live' ? '' : `${env}.`}appjusto.com.br}`;
+const domain = `${env === 'live' ? '' : `${env}.`}appjusto.com.br`;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
