@@ -8,7 +8,7 @@ import {
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
 export { ErrorBoundary } from 'expo-router';
@@ -33,6 +33,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+  // splash
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
