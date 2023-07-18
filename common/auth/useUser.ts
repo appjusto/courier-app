@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React from 'react';
-import { useContextApi } from '../ApiContext';
+import { useContextApi } from '../../api/ApiContext';
 
 export const useUser = () => {
   // context

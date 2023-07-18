@@ -6,4 +6,14 @@ export default {
     borderRadius: 8,
     borderColor: colors.gray500,
   },
+  white: {
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: colors.white,
+  },
+  badge: {
+    borderWidth: 1,
+    borderRadius: 32,
+    borderColor: colors.black,
+  },
 };

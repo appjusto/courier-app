@@ -1,7 +1,7 @@
 import { UserProfile, WithId } from '@appjusto/types';
 import React from 'react';
+import { useContextUser } from '../../common/auth/AuthContext';
 import { useContextApi } from '../ApiContext';
-import { useContextUser } from '../auth/AuthContext';
 
 export const useProfile = <T extends UserProfile>() => {
   // context

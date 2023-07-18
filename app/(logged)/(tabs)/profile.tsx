@@ -1,34 +1,39 @@
-import { DefaultText } from '@/common/expo/components/texts/DefaultText';
-import { DefaultView } from '@/common/expo/components/views/DefaultView';
-import screens from '@/common/expo/constants/screens';
-import { StyleSheet } from 'react-native';
+import { DefaultBadge } from '@/common/components/badges/DefaultBadge';
+import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
+import { ArrowRightIcon } from '@/common/components/lists/icons/ArrowRightIcon';
+import { FoodIcon } from '@/common/components/lists/icons/FoodIcon';
+import { DefaultView } from '@/common/components/views/DefaultView';
+import screens from '@/common/constants/screens';
+import colors from '@/common/styles/colors';
+import { View } from 'react-native';
 
 export default function Home() {
   return (
-    <DefaultView style={screens.default}>
-      <DefaultText style={styles.title}>Profile</DefaultText>
-      <DefaultView
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
+    <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
+      <DefaultListItem
+        title="Seus dados"
+        subtitles={['Atualize seus dados pessoais']}
+      />
+      <DefaultListItem
+        title="Formas de pagamento"
+        subtitles={['Gerenciar suas formas de pagamento']}
+      />
+      <DefaultListItem
+        title="Nome do restaurante"
+        subtitles={['Rua Teodoro Sampaio, 40', '10/07/2023']}
+        leftView={<FoodIcon />}
+        rightView={<ArrowRightIcon />}
+        bottomView={
+          <View style={{ flexDirection: 'row' }}>
+            <DefaultBadge
+              title="Cancelar"
+              backgroundColor="white"
+              color="red"
+              borderColor="red"
+            />
+          </View>
+        }
       />
     </DefaultView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

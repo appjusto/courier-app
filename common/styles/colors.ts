@@ -1,6 +1,6 @@
 const primary = '#78E08F';
 
-export default {
+const colors = {
   primary,
   gray50: '#F2F6EA',
   gray100: '#F0F4E7',
@@ -31,3 +31,7 @@ export default {
   yellowLight: '#FFE493',
   darkLight: '#C79400',
 };
+
+export default colors;
+
+export type ColorName = keyof typeof colors;

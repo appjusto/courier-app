@@ -1,6 +1,6 @@
-import { getAppVersion } from '@/common/expo/version';
 import { documentAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
+import { getAppVersion } from '@/common/version';
 import {
   ConsumerProfile,
   CourierProfile,

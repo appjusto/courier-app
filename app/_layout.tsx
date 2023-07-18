@@ -1,5 +1,5 @@
 import { ApiProvider } from '@/api/ApiContext';
-import { AuthProvider } from '@/api/auth/AuthContext';
+import { AuthProvider } from '@/common/auth/AuthContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
   DarkTheme,

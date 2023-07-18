@@ -1,5 +1,5 @@
-import { getAppVersion } from '@/common/expo/version';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
+import { getAppVersion } from '@/common/version';
 import { DeleteAccountPayload } from '@appjusto/types';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { getLoginsCollection } from '../firebase/refs/firestore';

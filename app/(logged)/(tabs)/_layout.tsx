@@ -3,16 +3,9 @@ import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 
 import Colors from '@/common/styles/themes';
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { OrdersTabIcon } from '@/common/tabs/icons/orders-tab-icon';
+import { ProfileTabIcon } from '@/common/tabs/icons/profile-tab-icon';
+import { HomeTabIcon } from '../../../common/tabs/icons/home-tab-icon';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -27,7 +20,7 @@ export default function TabLayout() {
         name="home"
         options={{
           title: 'Início',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ focused }) => <HomeTabIcon />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -48,14 +41,14 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Suas corridas',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ focused }) => <OrdersTabIcon />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Sua conta',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ focused }) => <ProfileTabIcon />,
         }}
       />
     </Tabs>

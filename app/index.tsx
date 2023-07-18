@@ -1,4 +1,4 @@
-import { DefaultText } from '@/common/expo/components/texts/DefaultText';
+import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Link } from 'expo-router';
 import { Pressable, View } from 'react-native';
 

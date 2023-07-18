@@ -1,5 +1,5 @@
 // import * as Application from 'expo-application';
-import { version } from '../../../version.json';
+import { version } from '../../version.json';
 
 export const getAppVersion = () => {
   return version;

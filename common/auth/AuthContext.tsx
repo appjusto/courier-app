@@ -1,4 +1,4 @@
-import { useProtectedRoute } from '@/common/expo/auth/useProtectedRoute';
+import { useProtectedRoute } from '@/common/auth/useProtectedRoute';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React from 'react';
 import { useUser } from './useUser';

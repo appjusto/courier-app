@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 import { useContextApi } from '@/api/ApiContext';
-import { DefaultText } from '@/common/expo/components/texts/DefaultText';
-import { DefaultView } from '@/common/expo/components/views/DefaultView';
+import { DefaultText } from '@/common/components/texts/DefaultText';
+import { DefaultView } from '@/common/components/views/DefaultView';
 import { useEffect } from 'react';
 
 export default function TabTwoScreen() {

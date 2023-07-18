@@ -1,14 +1,14 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useContextUser } from '@/api/auth/AuthContext';
-import { DefaultButton } from '@/common/expo/components/buttons/default/DefaultButton';
-import { PatternInput } from '@/common/expo/components/inputs/pattern/PatternInput';
-import screens from '@/common/expo/constants/screens';
+import { useContextUser } from '@/common/auth/AuthContext';
+import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
+import screens from '@/common/constants/screens';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, ToastAndroid, View } from 'react-native';
 
 type ScreenState =
   | 'initial'
@@ -37,7 +37,9 @@ export default function SignIn() {
   useEffect(() => {
     if (confirmation?.verificationId) setState('phone-verified');
   }, [confirmation]);
-  // handlres
+  const canEditPhone = state === 'initial' || state === 'phone-error';
+  const canEnterCode = state === 'phone-verified';
+  // handlers
   const signInHandler = () => {
     console.log('signInHandler', phone);
     setState('verifying-phone');
@@ -49,6 +51,9 @@ export default function SignIn() {
       })
       .catch((error) => {
         console.error(error);
+        const message =
+          error instanceof Error ? error.message : JSON.stringify(error);
+        ToastAndroid.show(message, 3000);
         setState('phone-error');
       });
   };
@@ -60,7 +65,12 @@ export default function SignIn() {
         console.log('result', result);
         router.replace('/(logged)/(tabs)/home');
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.error(error);
+        const message =
+          error instanceof Error ? error.message : JSON.stringify(error);
+        ToastAndroid.show(message, 3000);
+      });
   };
   console.log('user', user);
   // UI
@@ -76,24 +86,31 @@ export default function SignIn() {
         pattern="phone"
         title="Celular"
         placeholder="Número com DDD"
+        keyboardType="number-pad"
+        ref={phoneRef}
+        editable={canEditPhone}
         value={phone}
         onChangeText={setPhone}
-        ref={phoneRef}
       />
-      <DefaultButton title="Entrar" onPress={signInHandler} />
+      <DefaultButton
+        title="Entrar"
+        disabled={!canEditPhone}
+        onPress={signInHandler}
+      />
       <PatternInput
         pattern="sixDigitsCode"
         title="Código"
         placeholder="Código de confirmação"
+        keyboardType="number-pad"
+        ref={codeRef}
+        editable={canEnterCode}
         value={code}
         onChangeText={setCode}
-        ref={codeRef}
-        editable={state === 'phone-verified'}
       />
       <DefaultButton
-        title="Entrar"
+        title="Verificar"
+        disabled={canEditPhone || !canEnterCode}
         onPress={verifyHandler}
-        disabled={state !== 'phone-verified'}
       />
     </View>
   );

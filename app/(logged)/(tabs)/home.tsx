@@ -1,6 +1,6 @@
-import { DefaultText } from '@/common/expo/components/texts/DefaultText';
-import { DefaultView } from '@/common/expo/components/views/DefaultView';
-import screens from '@/common/expo/constants/screens';
+import { DefaultText } from '@/common/components/texts/DefaultText';
+import { DefaultView } from '@/common/components/views/DefaultView';
+import screens from '@/common/constants/screens';
 import { StyleSheet } from 'react-native';
 
 export default function Home() {
