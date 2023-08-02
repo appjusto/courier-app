@@ -20,16 +20,14 @@ export default class AuthApi {
         signInAt: serverTimestamp(),
       });
     } catch (error) {
+      console.error(error);
       // Sentry.Native.captureException(error);
     }
     return auth().signInWithPhoneNumber(phone);
   }
 
   async confirmPhoneSignIn(verificationId: string, verificationCode: string) {
-    const credential = auth.PhoneAuthProvider.credential(
-      verificationId,
-      verificationCode
-    );
+    const credential = auth.PhoneAuthProvider.credential(verificationId, verificationCode);
     const currentUser = auth().currentUser;
     if (currentUser) {
       if (this.getPhoneNumber()) await currentUser.unlink('phone');

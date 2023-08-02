@@ -3,23 +3,23 @@ export default {
     fontFamily: 'BarlowMedium',
     fontSize: 11,
   },
-  xs: {
+  'xs': {
     fontFamily: 'BarlowMedium',
     fontSize: 13,
   },
-  sm: {
+  'sm': {
     fontFamily: 'BarlowMedium',
     fontSize: 15,
   },
-  md: {
+  'md': {
     fontFamily: 'BarlowMedium',
     fontSize: 16,
   },
-  lg: {
+  'lg': {
     fontFamily: 'BarlowMedium',
     fontSize: 18,
   },
-  xl: {
+  'xl': {
     fontFamily: 'BarlowMedium',
     fontSize: 20,
   },

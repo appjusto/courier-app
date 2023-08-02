@@ -19,26 +19,18 @@ export const PatternInput = forwardRef(
   ) => {
     const { mask, parser, formatter } = patterns[pattern];
     const [placeholder, setPlaceholder] = useState(unfocusedPlaceholder);
-    const formattedValue = value
-      ? formatter
-        ? formatter(String(value))
-        : value
-      : value;
+    const formattedValue = value ? (formatter ? formatter(String(value)) : value) : value;
     const [error, setError] = useState<string>();
     // handlers
     const onChangeHandler = (text: string) => {
       if (onChangeText) onChangeText(parser ? parser(text) : text);
     };
-    const onFocusHandler = (
-      ev: NativeSyntheticEvent<TextInputFocusEventData>
-    ) => {
+    const onFocusHandler = (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
       if (mask) setPlaceholder(mask);
       setError('');
       if (onFocus) onFocus(ev);
     };
-    const onBlurHandler = (
-      ev: NativeSyntheticEvent<TextInputFocusEventData>
-    ) => {
+    const onBlurHandler = (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
       setPlaceholder(unfocusedPlaceholder);
       // setError(errorMessage);
       if (onBlur) onBlur(ev);

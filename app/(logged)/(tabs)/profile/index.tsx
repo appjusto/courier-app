@@ -13,9 +13,7 @@ export default function Profile() {
   const router = useRouter();
   // UI
   return (
-    <DefaultScrollView
-      style={{ ...screens.default, backgroundColor: colors.gray50 }}
-    >
+    <DefaultScrollView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
       <Stack.Screen options={{ title: 'Seus dados' }} />
       <DefaultListItem
         title="Dados pessoais"
@@ -33,12 +31,7 @@ export default function Profile() {
         rightView={<ArrowRightIcon />}
         bottomView={
           <View style={{ flexDirection: 'row' }}>
-            <DefaultBadge
-              title="Cancelar"
-              backgroundColor="white"
-              color="red"
-              borderColor="red"
-            />
+            <DefaultBadge title="Cancelar" backgroundColor="white" color="red" borderColor="red" />
           </View>
         }
       />

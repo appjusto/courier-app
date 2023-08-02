@@ -3,9 +3,7 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React from 'react';
 import { useUser } from './useUser';
 
-const AuthContext = React.createContext<
-  FirebaseAuthTypes.User | null | undefined
->(undefined);
+const AuthContext = React.createContext<FirebaseAuthTypes.User | null | undefined>(undefined);
 
 interface Props {
   user?: FirebaseAuthTypes.User;
@@ -18,9 +16,7 @@ export const AuthProvider = (props: Props) => {
   useProtectedRoute(user);
   // side effects
   // result
-  return (
-    <AuthContext.Provider value={user}>{props.children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={user}>{props.children}</AuthContext.Provider>;
 };
 
 export const useContextUser = () => {

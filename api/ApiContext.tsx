@@ -8,9 +8,7 @@ interface Props {
 }
 
 export const ApiProvider = (props: Props) => {
-  return (
-    <ApiContext.Provider value={api}>{props.children}</ApiContext.Provider>
-  );
+  return <ApiContext.Provider value={api}>{props.children}</ApiContext.Provider>;
 };
 
 export const useContextApi = () => {

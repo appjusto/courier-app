@@ -1,10 +1,7 @@
-import * as React from 'react';
 import renderer from 'react-test-renderer';
 
 it(`renders correctly`, () => {
-  const tree = renderer
-    .create(<DefaultText>Snapshot test!</DefaultText>)
-    .toJSON();
+  const tree = renderer.create(<DefaultText>Snapshot test!</DefaultText>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

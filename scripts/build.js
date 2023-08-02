@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
@@ -38,10 +40,7 @@ const run = async () => {
     '--platform',
     platform,
   ];
-  console.log(
-    `Criando build ${profile} para ${platform} no ambiente ${ENV}: eas`,
-    args.join(' ')
-  );
+  console.log(`Criando build ${profile} para ${platform} no ambiente ${ENV}: eas`, args.join(' '));
   spawn('env-cmd', args, { stdio: 'inherit' });
 };
 

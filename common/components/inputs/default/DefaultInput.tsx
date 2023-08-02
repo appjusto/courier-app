@@ -27,16 +27,8 @@ export const DefaultInput = forwardRef(
             style,
           ]}
         >
-          {title ? (
-            <DefaultText style={{ color: colors.green600 }}>
-              {title}
-            </DefaultText>
-          ) : null}
-          <TextInput
-            ref={ref}
-            style={[{ ...typography[size ?? 'md'] }, style]}
-            {...props}
-          />
+          {title ? <DefaultText style={{ color: colors.green600 }}>{title}</DefaultText> : null}
+          <TextInput ref={ref} style={[{ ...typography[size ?? 'md'] }, style]} {...props} />
         </View>
       </Pressable>
     );

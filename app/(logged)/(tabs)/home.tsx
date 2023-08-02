@@ -7,11 +7,7 @@ export default function Home() {
   return (
     <DefaultView style={screens.default}>
       <DefaultText style={styles.title}>Home</DefaultText>
-      <DefaultView
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <DefaultView style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </DefaultView>
   );
 }

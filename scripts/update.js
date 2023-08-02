@@ -1,8 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+/* eslint-env node */
 const { spawn } = require('child_process');
 const { version } = require('../version.json');
-const eas = require('../eas.json');
 const { ENV, CHANNEL } = process.env;
 
 // Usage:
@@ -15,14 +13,7 @@ const run = async () => {
     process.exit(-1);
   }
   const channel = CHANNEL ?? `v${version.slice(0, version.indexOf('.'))}`;
-  const args = [
-    '-f',
-    `.env.${ENV}.local`,
-    'eas',
-    'update',
-    '--channel',
-    channel,
-  ];
+  const args = ['-f', `.env.${ENV}.local`, 'eas', 'update', '--channel', channel];
   console.log(`Atualizando ${channel} no ambiente ${ENV}: eas`, args.join(' '));
   spawn('env-cmd', args, { stdio: 'inherit' });
 };

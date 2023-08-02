@@ -1,8 +1,6 @@
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import functions, {
-  FirebaseFunctionsTypes,
-} from '@react-native-firebase/functions';
+import functions, { FirebaseFunctionsTypes } from '@react-native-firebase/functions';
 import storage from '@react-native-firebase/storage';
 
 import { getManifestExtra } from '../extra';

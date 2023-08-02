@@ -20,36 +20,24 @@ export const DefaultListItem = ({
   ...props
 }: Props) => {
   return (
-    <Pressable
-      style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
-      {...props}
-    >
+    <Pressable style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })} {...props}>
       <View style={{ flexDirection: 'row', padding: paddings.lg }}>
         {/* leftView */}
-        {leftView ? (
-          <View style={{ marginRight: paddings.sm }}>{leftView}</View>
-        ) : null}
+        {leftView ? <View style={{ marginRight: paddings.sm }}>{leftView}</View> : null}
         {/* main */}
         <View style={{ flex: 1 }}>
           <DefaultText size="sm">{title}</DefaultText>
           {subtitles?.length ? (
             <View>
-              <DefaultText
-                size="sm"
-                style={{ marginTop: paddings.sm, color: colors.gray700 }}
-              >
+              <DefaultText size="sm" style={{ marginTop: paddings.sm, color: colors.gray700 }}>
                 {subtitles.join('\n')}
               </DefaultText>
             </View>
           ) : null}
-          {bottomView ? (
-            <View style={{ marginTop: paddings.sm }}>{bottomView}</View>
-          ) : null}
+          {bottomView ? <View style={{ marginTop: paddings.sm }}>{bottomView}</View> : null}
         </View>
         {/* rightView */}
-        {rightView ? (
-          <View style={{ marginLeft: paddings.sm }}>{rightView}</View>
-        ) : null}
+        {rightView ? <View style={{ marginLeft: paddings.sm }}>{rightView}</View> : null}
       </View>
     </Pressable>
   );

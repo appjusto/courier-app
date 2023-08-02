@@ -18,16 +18,12 @@ export default function TabTwoScreen() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [api]);
   // UI
   return (
     <DefaultView style={styles.container}>
       <DefaultText style={styles.title}>Tab Two</DefaultText>
-      <DefaultView
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <DefaultView style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </DefaultView>
   );
 }

@@ -1,15 +1,8 @@
 import { documentAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
-import {
-  ConsumerProfile,
-  CourierProfile,
-  UserProfile,
-  WithId,
-} from '@appjusto/types';
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
+import { ConsumerProfile, CourierProfile, UserProfile, WithId } from '@appjusto/types';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
@@ -56,7 +49,7 @@ export default class ProfileApi {
     retry = 5
   ) {
     return new Promise<void>((resolve) => {
-      void (async () => {
+      (async () => {
         try {
           const appVersion = getAppVersion();
           // TODO: update
@@ -74,10 +67,7 @@ export default class ProfileApi {
           resolve();
         } catch (error) {
           if (retry > 0) {
-            setTimeout(
-              () => resolve(this.updateProfile(id, changes, retry - 1)),
-              2000
-            );
+            setTimeout(() => resolve(this.updateProfile(id, changes, retry - 1)), 2000);
           } else {
             console.error(error);
             // Sentry.Native.captureException(error);

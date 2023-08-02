@@ -10,11 +10,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { TextInput, ToastAndroid, View } from 'react-native';
 
-type ScreenState =
-  | 'initial'
-  | 'verifying-phone'
-  | 'phone-verified'
-  | 'phone-error';
+type ScreenState = 'initial' | 'verifying-phone' | 'phone-verified' | 'phone-error';
 
 export default function SignIn() {
   // context
@@ -27,8 +23,9 @@ export default function SignIn() {
   // state
   const [state, setState] = useState<ScreenState>('initial');
   const [phone, setPhone] = useState('');
-  const [confirmation, setConfirmation] =
-    useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
+  const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult | null>(
+    null
+  );
   const [code, setCode] = useState('');
   // side effects
   useEffect(() => {
@@ -51,8 +48,7 @@ export default function SignIn() {
       })
       .catch((error) => {
         console.error(error);
-        const message =
-          error instanceof Error ? error.message : JSON.stringify(error);
+        const message = error instanceof Error ? error.message : JSON.stringify(error);
         ToastAndroid.show(message, 3000);
         setState('phone-error');
       });
@@ -67,8 +63,7 @@ export default function SignIn() {
       })
       .catch((error) => {
         console.error(error);
-        const message =
-          error instanceof Error ? error.message : JSON.stringify(error);
+        const message = error instanceof Error ? error.message : JSON.stringify(error);
         ToastAndroid.show(message, 3000);
       });
   };
@@ -92,11 +87,7 @@ export default function SignIn() {
         value={phone}
         onChangeText={setPhone}
       />
-      <DefaultButton
-        title="Entrar"
-        disabled={!canEditPhone}
-        onPress={signInHandler}
-      />
+      <DefaultButton title="Entrar" disabled={!canEditPhone} onPress={signInHandler} />
       <PatternInput
         pattern="sixDigitsCode"
         title="Código"
