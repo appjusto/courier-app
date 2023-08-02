@@ -12,7 +12,8 @@
     "update-channel:dev": "ENV=dev npm run update-channel",
     "republish": "env-cmd -f .env.${ENV:-dev}.local eas update:republish --group $GROUP",
     "credentials": "env-cmd -f .env.dev.local eas credentials",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "lint": "eslint ."
   },
   "jest": {
     "preset": "jest-expo"
@@ -46,15 +47,21 @@
     "react-native-gesture-handler": "~2.12.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
-    "react-native-web": "~0.19.6",
-    "react-native-svg": "13.9.0"
+    "react-native-svg": "13.9.0",
+    "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
     "env-cmd": "^10.1.0",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-config-universe": "^11.3.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.2.1",
     "jest-expo": "~49.0.0",
+    "prettier": "^3.0.0",
     "react-test-renderer": "18.2.0",
     "typescript": "^5.1.3"
   },
