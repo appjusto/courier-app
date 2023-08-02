@@ -2,17 +2,25 @@ import { DefaultBadge } from '@/common/components/badges/DefaultBadge';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { ArrowRightIcon } from '@/common/components/lists/icons/ArrowRightIcon';
 import { FoodIcon } from '@/common/components/lists/icons/FoodIcon';
-import { DefaultView } from '@/common/components/views/DefaultView';
+import { DefaultScrollView } from '@/common/components/views/DefaultScrollView';
 import screens from '@/common/constants/screens';
 import colors from '@/common/styles/colors';
+import { Stack, useRouter } from 'expo-router';
 import { View } from 'react-native';
 
-export default function Home() {
+export default function Profile() {
+  // context
+  const router = useRouter();
+  // UI
   return (
-    <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
+    <DefaultScrollView
+      style={{ ...screens.default, backgroundColor: colors.gray50 }}
+    >
+      <Stack.Screen options={{ title: 'Seus dados' }} />
       <DefaultListItem
-        title="Seus dados"
-        subtitles={['Atualize seus dados pessoais']}
+        title="Dados pessoais"
+        subtitles={['Seu nome, e-mail, CPF, celular e data de nascimento']}
+        onPress={() => router.push('/profile/personal')}
       />
       <DefaultListItem
         title="Formas de pagamento"
@@ -34,6 +42,6 @@ export default function Home() {
           </View>
         }
       />
-    </DefaultView>
+    </DefaultScrollView>
   );
 }

@@ -20,7 +20,10 @@ export const DefaultListItem = ({
   ...props
 }: Props) => {
   return (
-    <Pressable {...props}>
+    <Pressable
+      style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+      {...props}
+    >
       <View style={{ flexDirection: 'row', padding: paddings.lg }}>
         {/* leftView */}
         {leftView ? (

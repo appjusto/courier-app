@@ -47,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Sua conta',
+          headerShown: false,
           tabBarIcon: ({ focused }) => <ProfileTabIcon />,
         }}
       />
