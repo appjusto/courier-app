@@ -10,7 +10,7 @@ import { getProfileState } from '@/common/profile/getProfileState';
 import { isProfileValid } from '@/common/profile/isProfileValid';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { CourierProfile, UserProfile } from '@appjusto/types';
+import { CourierProfile, ProfileChange, UserProfile } from '@appjusto/types';
 import { Stack } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
@@ -36,6 +36,7 @@ export default function ProfilePersonalData() {
   const [phone, setPhone] = useState<string>();
   const [birthday, setBirthday] = useState<string>();
   const [isLoading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(false);
   // helpers
   const countryCode = profile?.countryCode ?? '55';
   const updatedUser: Partial<UserProfile> = {
@@ -66,17 +67,43 @@ export default function ProfilePersonalData() {
   // handlers
   const updateProfileHandler = () => {
     if (!profile?.id) return;
+    if (!editing && profileState.includes('approved') && profile.birthday?.length === 8) {
+      setEditing(true);
+      return;
+    }
     setLoading(true);
-    api
-      .getProfile()
-      .updateProfile(profile.id, updatedUser)
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
+    if (!editing) {
+      api
+        .getProfile()
+        .updateProfile(profile.id, updatedUser)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    } else {
+      const userChanges: Partial<ProfileChange> = {
+        accountId: profile.id,
+      };
+      if (name !== profile.name) userChanges.name = name;
+      if (surname !== profile.surname) userChanges.surname = surname;
+      if (cpf !== profile.cpf) userChanges.cpf = cpf;
+      if (phone !== profile.phone) userChanges.phone = phone;
+      if (birthday !== profile.birthday) userChanges.birthday = birthday;
+      setEditing(false);
+      api
+        .getProfile()
+        .requestProfileChange(userChanges)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    }
   };
   // UI
   if (!profile) return null;
@@ -100,7 +127,7 @@ export default function ProfilePersonalData() {
         returnKeyType="next"
         autoCapitalize="none"
         value={email}
-        editable={!profileState.includes('approved')}
+        editable={!profileState.includes('approved') || editing}
         blurOnSubmit={false}
         autoCorrect={false}
         onChangeText={setEmail}
@@ -114,7 +141,7 @@ export default function ProfilePersonalData() {
         value={name}
         keyboardType="default"
         returnKeyType="next"
-        editable={!profileState.includes('approved')}
+        editable={!profileState.includes('approved') || editing}
         blurOnSubmit={false}
         onChangeText={setName}
         onSubmitEditing={() => surnameRef.current?.focus()}
@@ -128,7 +155,7 @@ export default function ProfilePersonalData() {
         value={surname}
         keyboardType="default"
         returnKeyType="next"
-        editable={!profileState.includes('approved')}
+        editable={!profileState.includes('approved') || editing}
         blurOnSubmit={false}
         onChangeText={setSurname}
         onSubmitEditing={() => cpfRef.current?.focus()}
@@ -141,7 +168,7 @@ export default function ProfilePersonalData() {
         title="CPF"
         placeholder="Apenas números"
         keyboardType="number-pad"
-        editable={!profileState.includes('approved')}
+        editable={!profileState.includes('approved') || editing}
         value={cpf}
         onChangeText={setPhone}
       />
@@ -152,7 +179,7 @@ export default function ProfilePersonalData() {
         title="Data de nascimento"
         placeholder="Apenas números"
         keyboardType="number-pad"
-        editable={!profileState.includes('approved') || !profile.birthday}
+        editable={!profileState.includes('approved') || !profile.birthday || editing}
         value={birthday}
         onChangeText={setBirthday}
       />
@@ -163,15 +190,17 @@ export default function ProfilePersonalData() {
         title="Celular"
         placeholder="Apenas números"
         keyboardType="number-pad"
-        editable={false}
+        editable={editing}
         value={phone}
       />
       <View style={{ flex: 1 }} />
-      <AlertBox description="Após aprovação, as solicitações de alteração de dados cadastrais serão revisadas pelo nosso time." />
+      {profileState.includes('approved') ? (
+        <AlertBox description="Após aprovação, as solicitações de alteração de dados cadastrais serão revisadas pelo nosso time." />
+      ) : null}
       <View style={{ flex: 1 }} />
       <DefaultButton
         title="Atualizar dados"
-        disabled={!canUpdateProfile || isLoading}
+        disabled={isLoading || (!canUpdateProfile && !profileState.includes('approved'))}
         onPress={updateProfileHandler}
       />
     </KeyboardAwareScrollView>

@@ -5,7 +5,7 @@ import { Pressable, View } from 'react-native';
 export default function Welcome() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Link href="/home" asChild>
+      <Link href="/(logged)/(tabs)/profile/personal" asChild>
         <Pressable>
           <DefaultText size="2xl">Entrar!</DefaultText>
         </Pressable>

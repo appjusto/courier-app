@@ -1,12 +1,12 @@
 import { documentAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
-import { CourierProfile, UserProfile, WithId } from '@appjusto/types';
+import { CourierProfile, ProfileChange, UserProfile, WithId } from '@appjusto/types';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
-import { getProfile } from '../firebase/refs/firestore';
+import { getProfile, getUsersChangesRef } from '../firebase/refs/firestore';
 
 export default class ProfileApi {
   constructor(private auth: AuthApi) {}
@@ -87,5 +87,14 @@ export default class ProfileApi {
       updatedOn: serverTimestamp(),
     };
     await this.updateProfile(id, update);
+  }
+
+  async requestProfileChange(changes: Partial<ProfileChange>) {
+    await getUsersChangesRef().add({
+      userType: 'courier',
+      situation: 'pending',
+      createdOn: serverTimestamp(),
+      ...changes,
+    });
   }
 }
