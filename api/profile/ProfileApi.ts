@@ -1,7 +1,7 @@
 import { documentAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
-import { ConsumerProfile, CourierProfile, UserProfile, WithId } from '@appjusto/types';
+import { CourierProfile, UserProfile, WithId } from '@appjusto/types';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
@@ -43,11 +43,7 @@ export default class ProfileApi {
     );
   }
   // update profile
-  async updateProfile(
-    id: string,
-    changes: Partial<CourierProfile> | Partial<ConsumerProfile>,
-    retry = 5
-  ) {
+  async updateProfile(id: string, changes: Partial<CourierProfile>, retry = 5) {
     return new Promise<void>((resolve) => {
       (async () => {
         try {

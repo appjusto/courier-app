@@ -8,7 +8,7 @@ import { DefaultText } from '../../texts/DefaultText';
 import { DefaultInputProps } from './types';
 
 export const DefaultInput = forwardRef(
-  ({ title, style, size, ...props }: DefaultInputProps, forwardedRef) => {
+  ({ title, editable, style, size, ...props }: DefaultInputProps, forwardedRef) => {
     const internalRef = useRef<TextInput>(null);
     const ref = (forwardedRef as React.RefObject<TextInput>) ?? internalRef;
     return (
@@ -28,7 +28,14 @@ export const DefaultInput = forwardRef(
           ]}
         >
           {title ? <DefaultText style={{ color: colors.green600 }}>{title}</DefaultText> : null}
-          <TextInput ref={ref} style={[{ ...typography[size ?? 'md'] }, style]} {...props} />
+          <TextInput
+            ref={ref}
+            style={[
+              { ...typography[size ?? 'md'], color: editable ? colors.gray700 : colors.gray500 },
+            ]}
+            editable={editable}
+            {...props}
+          />
         </View>
       </Pressable>
     );
