@@ -13,7 +13,7 @@ export const ArrowRightIcon = () => {
         ...borders.white,
       }}
     >
-      <Feather name="arrow-right" size={24} color="black" />
+      <Feather name="arrow-right" size={16} color="black" />
     </View>
   );
 };

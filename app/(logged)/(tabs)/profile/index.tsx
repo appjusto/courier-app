@@ -18,11 +18,19 @@ export default function Profile() {
       <DefaultListItem
         title="Dados pessoais"
         subtitles={['Seu nome, e-mail, CPF, celular e data de nascimento']}
+        rightView={<ArrowRightIcon />}
         onPress={() => router.push('/profile/personal')}
+      />
+      <DefaultListItem
+        title="Selfie e documento"
+        subtitles={['Sua selfie e a imagem do seu documento']}
+        rightView={<ArrowRightIcon />}
+        onPress={() => router.push('/profile/images')}
       />
       <DefaultListItem
         title="Formas de pagamento"
         subtitles={['Gerenciar suas formas de pagamento']}
+        rightView={<ArrowRightIcon />}
       />
       <DefaultListItem
         title="Nome do restaurante"

@@ -3,10 +3,13 @@ import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
 import { CourierProfile, ProfileChange, UserProfile, WithId } from '@appjusto/types';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
+import { putFile } from '../files/putFile';
 import { getProfile, getUsersChangesRef } from '../firebase/refs/firestore';
+import { getDocumentPath, getSelfiePath } from '../firebase/refs/storage';
 
 export default class ProfileApi {
   constructor(private auth: AuthApi) {}
@@ -96,5 +99,18 @@ export default class ProfileApi {
       createdOn: serverTimestamp(),
       ...changes,
     });
+  }
+
+  async getSelfieDownloadURL(id: string, size?: string) {
+    return storage().ref(getSelfiePath(id, size)).getDownloadURL();
+  }
+  async getDocumentDownloadURL(id: string, size?: string) {
+    return storage().ref(getDocumentPath(id, size)).getDownloadURL();
+  }
+  async uploadSelfie(id: string, localPath: string) {
+    return putFile(localPath, getSelfiePath(id));
+  }
+  async uploadDocument(id: string, localPath: string) {
+    return putFile(localPath, getDocumentPath(id));
   }
 }

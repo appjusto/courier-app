@@ -1,5 +1,6 @@
 import { ApiProvider } from '@/api/ApiContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -41,11 +42,13 @@ export default function RootLayout() {
   }
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <ApiProvider>
-        <AuthProvider>
-          <Slot />
-        </AuthProvider>
-      </ApiProvider>
+      <ActionSheetProvider>
+        <ApiProvider>
+          <AuthProvider>
+            <Slot />
+          </AuthProvider>
+        </ApiProvider>
+      </ActionSheetProvider>
     </ThemeProvider>
   );
 }

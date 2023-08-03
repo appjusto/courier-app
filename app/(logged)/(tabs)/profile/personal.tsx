@@ -20,7 +20,6 @@ export default function ProfilePersonalData() {
   // context
   const api = useContextApi();
   const profile = useProfile<CourierProfile>();
-  console.log('profile.id', profile?.id);
   const profileState = getProfileState(profile);
   // refs
   const nameRef = useRef<TextInput>(null);
@@ -106,7 +105,7 @@ export default function ProfilePersonalData() {
     }
   };
   // UI
-  if (!profile) return null;
+  // if (!profile) return null;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.default, padding: paddings.lg, backgroundColor: colors.gray50 }}
@@ -179,7 +178,7 @@ export default function ProfilePersonalData() {
         title="Data de nascimento"
         placeholder="Apenas números"
         keyboardType="number-pad"
-        editable={!profileState.includes('approved') || !profile.birthday || editing}
+        editable={!profileState.includes('approved') || !profile?.birthday || editing}
         value={birthday}
         onChangeText={setBirthday}
       />

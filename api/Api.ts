@@ -17,7 +17,6 @@ export default class Api {
 
   constructor() {
     auth().languageCode = 'pt';
-    console.log('extra', extra);
     this.functions = firebase.app().functions(extra.firebase.region);
     if (extra.firebase.emulator.host) {
       const host = extra.firebase.emulator.host;

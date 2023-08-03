@@ -17,7 +17,6 @@ export const DefaultBadge = ({
   color = 'black',
   borderColor = 'black',
 }: Props) => {
-  console.log(backgroundColor);
   return (
     <View
       style={{

@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@appjusto/types": "^23.4.0",
+    "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@fnando/cnpj": "^1.0.2",
     "@fnando/cpf": "^1.0.2",
@@ -51,7 +52,8 @@
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "expo-image-picker": "~14.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

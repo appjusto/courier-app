@@ -75,6 +75,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     '@react-native-firebase/auth',
     '@react-native-firebase/crashlytics',
     [
+      'expo-image-picker',
+      {
+        photosPermission: 'Para o envio de selfie e documento',
+        cameraPermission: 'Para o envio de selfie e documento',
+      },
+    ],
+    [
       'expo-build-properties',
       {
         android: {
