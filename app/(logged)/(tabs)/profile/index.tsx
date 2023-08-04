@@ -28,9 +28,10 @@ export default function Profile() {
         onPress={() => router.push('/profile/images')}
       />
       <DefaultListItem
-        title="Formas de pagamento"
-        subtitles={['Gerenciar suas formas de pagamento']}
+        title="Dados da sua PJ"
+        subtitles={['CNPJ, razão social e endereço da sua PJ']}
         rightView={<ArrowRightIcon />}
+        onPress={() => router.push('/profile/company')}
       />
       <DefaultListItem
         title="Nome do restaurante"

@@ -12,20 +12,20 @@ export const DefaultInput = forwardRef(
     const internalRef = useRef<TextInput>(null);
     const ref = (forwardedRef as React.RefObject<TextInput>) ?? internalRef;
     return (
-      <Pressable
-        onPress={() => {
-          ref?.current?.focus();
-        }}
+      <View
+        style={[
+          {
+            ...borders.default,
+            padding: paddings.md,
+            backgroundColor: colors.white,
+          },
+          style,
+        ]}
       >
-        <View
-          style={[
-            {
-              ...borders.default,
-              padding: paddings.md,
-              backgroundColor: colors.white,
-            },
-            style,
-          ]}
+        <Pressable
+          onPress={() => {
+            ref?.current?.focus();
+          }}
         >
           {title ? <DefaultText style={{ color: colors.green600 }}>{title}</DefaultText> : null}
           <TextInput
@@ -36,8 +36,8 @@ export const DefaultInput = forwardRef(
             editable={editable}
             {...props}
           />
-        </View>
-      </Pressable>
+        </Pressable>
+      </View>
     );
   }
 );

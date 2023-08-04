@@ -185,7 +185,10 @@ export default function ProfilePersonalData() {
       <View style={{ flex: 1 }} />
       <View style={{ padding: paddings.lg, alignItems: 'center' }}>
         <View style={{ padding: paddings.lg, alignItems: 'center' }}>
-          <CircledView size={160} style={{ borderColor: selfieUrl ? colors.gray50 : colors.black }}>
+          <CircledView
+            size={160}
+            style={{ borderColor: documentUrl ? colors.gray50 : colors.black }}
+          >
             {documentUrl ? (
               <Image
                 style={{ width: 160, height: 160 }}

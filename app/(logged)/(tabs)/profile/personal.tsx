@@ -1,10 +1,12 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useProfile } from '@/api/profile/useProfile';
+import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { AlertBox } from '@/common/components/views/AlertBox';
+import { DefaultView } from '@/common/components/views/DefaultView';
 import screens from '@/common/constants/screens';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isProfileValid } from '@/common/profile/isProfileValid';
@@ -12,8 +14,9 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { CourierProfile, ProfileChange, UserProfile } from '@appjusto/types';
 import { Stack } from 'expo-router';
+import { isEmpty, omit } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { ActivityIndicator, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ProfilePersonalData() {
@@ -28,6 +31,8 @@ export default function ProfilePersonalData() {
   const birthdayRef = useRef<TextInput>(null);
   const phoneRef = useRef<TextInput>(null);
   // state
+  const pendingChange = useRequestedProfileChanges(profile?.id);
+  const hasPendingChange = !isEmpty(omit(pendingChange ?? {}, ['company']));
   const [email, setEmail] = useState<string>();
   const [name, setName] = useState<string>();
   const [surname, setSurname] = useState<string>();
@@ -66,7 +71,12 @@ export default function ProfilePersonalData() {
   // handlers
   const updateProfileHandler = () => {
     if (!profile?.id) return;
-    if (!editing && profileState.includes('approved') && profile.birthday?.length === 8) {
+    if (
+      !editing &&
+      !hasPendingChange &&
+      profileState.includes('approved') &&
+      profile.birthday?.length === 8
+    ) {
       setEditing(true);
       return;
     }
@@ -83,18 +93,18 @@ export default function ProfilePersonalData() {
           setLoading(false);
         });
     } else {
-      const userChanges: Partial<ProfileChange> = {
+      const changes: Partial<ProfileChange> = {
         accountId: profile.id,
       };
-      if (name !== profile.name) userChanges.name = name;
-      if (surname !== profile.surname) userChanges.surname = surname;
-      if (cpf !== profile.cpf) userChanges.cpf = cpf;
-      if (phone !== profile.phone) userChanges.phone = phone;
-      if (birthday !== profile.birthday) userChanges.birthday = birthday;
+      if (name !== profile.name) changes.name = name;
+      if (surname !== profile.surname) changes.surname = surname;
+      if (cpf !== profile.cpf) changes.cpf = cpf;
+      if (phone !== profile.phone) changes.phone = phone;
+      if (birthday !== profile.birthday) changes.birthday = birthday;
       setEditing(false);
       api
         .getProfile()
-        .requestProfileChange(userChanges)
+        .requestProfileChange(changes)
         .then(() => {
           setLoading(false);
         })
@@ -105,7 +115,12 @@ export default function ProfilePersonalData() {
     }
   };
   // UI
-  // if (!profile) return null;
+  if (!profile)
+    return (
+      <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </DefaultView>
+    );
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.default, padding: paddings.lg, backgroundColor: colors.gray50 }}
@@ -156,9 +171,9 @@ export default function ProfilePersonalData() {
         returnKeyType="next"
         editable={!profileState.includes('approved') || editing}
         blurOnSubmit={false}
+        maxLength={15}
         onChangeText={setSurname}
         onSubmitEditing={() => cpfRef.current?.focus()}
-        maxLength={15}
       />
       <PatternInput
         ref={cpfRef}
@@ -167,9 +182,12 @@ export default function ProfilePersonalData() {
         title="CPF"
         placeholder="Apenas números"
         keyboardType="number-pad"
+        returnKeyType="next"
         editable={!profileState.includes('approved') || editing}
+        blurOnSubmit={false}
         value={cpf}
         onChangeText={setPhone}
+        onSubmitEditing={() => birthdayRef.current?.focus()}
       />
       <PatternInput
         ref={birthdayRef}
@@ -178,6 +196,7 @@ export default function ProfilePersonalData() {
         title="Data de nascimento"
         placeholder="Apenas números"
         keyboardType="number-pad"
+        returnKeyType="done"
         editable={!profileState.includes('approved') || !profile?.birthday || editing}
         value={birthday}
         onChangeText={setBirthday}
@@ -191,15 +210,25 @@ export default function ProfilePersonalData() {
         keyboardType="number-pad"
         editable={editing}
         value={phone}
+        onChangeText={setPhone}
       />
       <View style={{ flex: 1 }} />
       {profileState.includes('approved') ? (
-        <AlertBox description="Após aprovação, as solicitações de alteração de dados cadastrais serão revisadas pelo nosso time." />
+        <AlertBox
+          variant={hasPendingChange ? 'yellow' : 'white'}
+          description={
+            hasPendingChange
+              ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+              : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
+          }
+        />
       ) : null}
       <View style={{ flex: 1 }} />
       <DefaultButton
         title="Atualizar dados"
-        disabled={isLoading || (!canUpdateProfile && !profileState.includes('approved'))}
+        disabled={
+          isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
+        }
         onPress={updateProfileHandler}
       />
     </KeyboardAwareScrollView>

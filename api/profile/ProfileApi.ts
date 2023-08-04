@@ -1,4 +1,4 @@
-import { documentAs } from '@/common/firebase/documentAs';
+import { documentAs, documentsAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
 import { CourierProfile, ProfileChange, UserProfile, WithId } from '@appjusto/types';
@@ -99,6 +99,29 @@ export default class ProfileApi {
       createdOn: serverTimestamp(),
       ...changes,
     });
+  }
+
+  async observePendingChange(
+    id: string,
+    resultHandler: (profile: WithId<ProfileChange> | null) => void
+  ) {
+    const query = getUsersChangesRef()
+      .where('accountId', '==', id)
+      .where('situation', '==', 'pending')
+      .limit(1);
+    return query.onSnapshot(
+      (snapshot) => {
+        if (snapshot.empty) {
+          resultHandler(null);
+        } else {
+          resultHandler(documentsAs<ProfileChange>(snapshot.docs)[0]);
+        }
+      },
+      (error) => {
+        console.error(error);
+        // Sentry.Native.captureException(error);
+      }
+    );
   }
 
   async getSelfieDownloadURL(id: string, size?: string) {
