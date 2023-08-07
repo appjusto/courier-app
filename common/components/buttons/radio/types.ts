@@ -1,8 +1,9 @@
 import { ViewProps } from 'react-native';
 
-export type DefaultButtonProps = ViewProps & {
+export type RadioButtonProps = ViewProps & {
   title: string;
-  variant?: 'primary';
+  variant?: 'circle' | 'square';
+  checked: boolean;
   disabled?: boolean;
   onPress: () => void;
 };

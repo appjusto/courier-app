@@ -125,7 +125,7 @@ export default function ProfilePersonalData() {
   };
   // UI
   return (
-    <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
+    <DefaultView style={{ ...screens.profile }}>
       <Stack.Screen options={{ title: 'Selfie e documento' }} />
       <DefaultListItem
         title="Foto do rosto"

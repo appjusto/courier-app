@@ -11,4 +11,8 @@ export default {
     marginTop: Constants.statusBarHeight,
     backgroundColor: colors.white,
   },
+  profile: {
+    flex: 1,
+    backgroundColor: colors.gray50,
+  },
 };

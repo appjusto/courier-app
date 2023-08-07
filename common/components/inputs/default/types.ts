@@ -7,4 +7,5 @@ export type DefaultInputProps = TextInput['props'] &
   ThemeProps & {
     title?: string;
     size?: keyof typeof typography;
+    onPress?: () => void;
   };

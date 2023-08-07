@@ -26,7 +26,7 @@ export const DefaultBadge = ({
         padding: paddings.sm,
       }}
     >
-      <DefaultText size="xs" style={{ color: colors[color] }}>
+      <DefaultText size="xs" color={color}>
         {title}
       </DefaultText>
     </View>

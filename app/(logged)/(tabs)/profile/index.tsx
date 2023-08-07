@@ -1,19 +1,15 @@
-import { DefaultBadge } from '@/common/components/badges/DefaultBadge';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { ArrowRightIcon } from '@/common/components/lists/icons/ArrowRightIcon';
-import { FoodIcon } from '@/common/components/lists/icons/FoodIcon';
 import { DefaultScrollView } from '@/common/components/views/DefaultScrollView';
 import screens from '@/common/constants/screens';
-import colors from '@/common/styles/colors';
 import { Stack, useRouter } from 'expo-router';
-import { View } from 'react-native';
 
 export default function Profile() {
   // context
   const router = useRouter();
   // UI
   return (
-    <DefaultScrollView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
+    <DefaultScrollView style={{ ...screens.profile }}>
       <Stack.Screen options={{ title: 'Seus dados' }} />
       <DefaultListItem
         title="Dados pessoais"
@@ -34,6 +30,12 @@ export default function Profile() {
         onPress={() => router.push('/profile/company')}
       />
       <DefaultListItem
+        title="Dados bancários"
+        subtitles={['Banco, agência e conta corrente da sua PJ']}
+        rightView={<ArrowRightIcon />}
+        onPress={() => router.push('/profile/bank')}
+      />
+      {/* <DefaultListItem
         title="Nome do restaurante"
         subtitles={['Rua Teodoro Sampaio, 40', '10/07/2023']}
         leftView={<FoodIcon />}
@@ -43,7 +45,7 @@ export default function Profile() {
             <DefaultBadge title="Cancelar" backgroundColor="white" color="red" borderColor="red" />
           </View>
         }
-      />
+      /> */}
     </DefaultScrollView>
   );
 }

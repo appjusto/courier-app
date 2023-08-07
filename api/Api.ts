@@ -6,6 +6,7 @@ import storage from '@react-native-firebase/storage';
 import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
 import { getServerTime } from './firebase/refs/functions';
+import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
 
 const extra = getManifestExtra();
@@ -13,6 +14,7 @@ const extra = getManifestExtra();
 export default class Api {
   private auth: AuthApi;
   private profile: ProfileApi;
+  private platform: PlatformApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -28,6 +30,7 @@ export default class Api {
     }
     this.auth = new AuthApi();
     this.profile = new ProfileApi(this.auth);
+    this.platform = new PlatformApi();
   }
 
   getAuth() {
@@ -36,6 +39,10 @@ export default class Api {
 
   getProfile() {
     return this.profile;
+  }
+
+  getPlatform() {
+    return this.platform;
   }
 
   async getServerTime(): Promise<number> {

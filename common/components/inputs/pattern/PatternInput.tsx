@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
 import { DefaultInput } from '../default/DefaultInput';
 import patterns from './patterns';
@@ -9,6 +9,7 @@ export const PatternInput = forwardRef(
     {
       value,
       pattern,
+      patternObject,
       placeholder: unfocusedPlaceholder,
       onChangeText,
       onBlur,
@@ -17,10 +18,16 @@ export const PatternInput = forwardRef(
     }: PatternInputProps,
     forwardedRef
   ) => {
-    const { mask, parser, formatter } = patterns[pattern];
+    const { mask, parser, formatter } = patternObject ?? (pattern ? patterns[pattern] : {});
+    // state
     const [placeholder, setPlaceholder] = useState(unfocusedPlaceholder);
-    const formattedValue = value ? (formatter ? formatter(String(value)) : value) : value;
     const [error, setError] = useState<string>();
+    const [formattedValue, setFormattedValue] = useState<string>();
+    // effects
+    useEffect(() => {
+      if (!value || !formatter) setFormattedValue(value);
+      else setFormattedValue(formatter(String(value)));
+    }, [formatter, value]);
     // handlers
     const onChangeHandler = (text: string) => {
       if (onChangeText) onChangeText(parser ? parser(text) : text);
@@ -35,6 +42,7 @@ export const PatternInput = forwardRef(
       // setError(errorMessage);
       if (onBlur) onBlur(ev);
     };
+    // UI
     return (
       <DefaultInput
         value={formattedValue}

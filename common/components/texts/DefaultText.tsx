@@ -1,10 +1,13 @@
+import colors from '@/common/styles/colors';
 import typography from '@/common/styles/typography';
 import { Text } from 'react-native';
-import { useThemeColor } from '../themes/useThemeColor';
 import { DefaultTextProps } from './types';
 
-export function DefaultText({ style, lightColor, darkColor, size, ...props }: DefaultTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
-  return <Text style={[{ ...typography[size ?? 'sm'], color }, style]} {...props} />;
+export function DefaultText({ style, color, size, ...props }: DefaultTextProps) {
+  return (
+    <Text
+      style={[{ ...typography[size ?? 'sm'], color: color ? colors[color] : colors.black }, style]}
+      {...props}
+    />
+  );
 }

@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function ProfilePersonalData() {
+export default function ProfileCompany() {
   // context
   const api = useContextApi();
   const profile = useProfile<CourierProfile>();
@@ -139,13 +139,13 @@ export default function ProfilePersonalData() {
   // UI
   if (!profile)
     return (
-      <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
+      <DefaultView style={{ ...screens.profile }}>
         <ActivityIndicator size="large" color={colors.primary} />
       </DefaultView>
     );
   return (
     <KeyboardAwareScrollView
-      style={{ ...screens.default, padding: paddings.lg, backgroundColor: colors.gray50 }}
+      style={{ ...screens.profile, padding: paddings.lg }}
       enableOnAndroid
       enableAutomaticScroll
       keyboardOpeningTime={0}
@@ -271,7 +271,7 @@ export default function ProfilePersonalData() {
       ) : null}
       <View style={{ flex: 1 }} />
       <DefaultButton
-        title="Atualizar dados"
+        title={profileState.includes('approved') ? 'Atualizar dados' : 'Avançar'}
         disabled={
           isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
         }

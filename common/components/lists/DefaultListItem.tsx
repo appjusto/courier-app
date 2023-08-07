@@ -1,4 +1,3 @@
-import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Pressable, PressableProps, View } from 'react-native';
 import { DefaultText } from '../texts/DefaultText';
@@ -29,7 +28,7 @@ export const DefaultListItem = ({
           <DefaultText size="sm">{title}</DefaultText>
           {subtitles?.length ? (
             <View>
-              <DefaultText size="sm" style={{ marginTop: paddings.sm, color: colors.gray700 }}>
+              <DefaultText size="sm" color="gray700" style={{ marginTop: paddings.sm }}>
                 {subtitles.join('\n')}
               </DefaultText>
             </View>

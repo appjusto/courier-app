@@ -22,24 +22,25 @@ export const DefaultButton = ({
     return colors.primary;
   })();
   return (
-    <Pressable disabled={disabled} {...props}>
-      {({ pressed }) => (
-        <View
-          style={[
-            {
-              ...borders.default,
-              padding: paddings.lg,
-              backgroundColor,
-              borderColor,
-              opacity: pressed ? 0.8 : 1,
-              alignItems: 'center',
-            },
-            // style,
-          ]}
-        >
-          <DefaultText style={{ ...typography.md }}>{title}</DefaultText>
-        </View>
-      )}
-    </Pressable>
+    <View style={[style]}>
+      <Pressable disabled={disabled} {...props}>
+        {({ pressed }) => (
+          <View
+            style={[
+              {
+                ...borders.default,
+                padding: paddings.lg,
+                backgroundColor,
+                borderColor,
+                opacity: pressed ? 0.8 : 1,
+                alignItems: 'center',
+              },
+            ]}
+          >
+            <DefaultText style={{ ...typography.md }}>{title}</DefaultText>
+          </View>
+        )}
+      </Pressable>
+    </View>
   );
 };
