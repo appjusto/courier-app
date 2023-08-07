@@ -4,7 +4,10 @@ import { cpfFormatter } from '@/common/formatters/cpf';
 import { fulldateFormatter } from '@/common/formatters/fulldate';
 import { phoneFormatter } from '@/common/formatters/phone';
 
-const numbersOnlyParser = (value: string) => value.replace(/[^0-9]/g, '');
+export const numbersOnlyParser = (value: string | undefined) => {
+  if (!value) return '';
+  return value.replace(/[^0-9]/g, '');
+};
 
 export default {
   phone: {

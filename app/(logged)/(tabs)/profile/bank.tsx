@@ -1,26 +1,34 @@
+import { useContextApi } from '@/api/ApiContext';
 import useBanks from '@/api/platform/useBanks';
 import { useProfile } from '@/api/profile/useProfile';
+import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
+import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { useBankPatterns } from '@/common/components/profile/banks/useBankPatterns';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
+import { AlertBox } from '@/common/components/views/AlertBox';
 import { DefaultView } from '@/common/components/views/DefaultView';
 import screens from '@/common/constants/screens';
-import { zeroing } from '@/common/formatters/bank';
+import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
+import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import {
   Bank,
+  BankAccount,
   BankAccountPersonType,
   BankAccountType,
   CourierProfile,
+  ProfileChange,
   WithId,
 } from '@appjusto/types';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, TextInput, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface AccountTypeRadio {
@@ -30,6 +38,7 @@ interface AccountTypeRadio {
 
 export default function ProfileBank() {
   // context
+  const api = useContextApi();
   const router = useRouter();
   // params
   // @ts-ignore
@@ -41,13 +50,16 @@ export default function ProfileBank() {
   const profile = useProfile<CourierProfile>();
   const profileState = getProfileState(profile);
   const banks = useBanks();
+  const pendingChange = useRequestedProfileChanges(profile?.id);
+  const hasPendingChange = !isEmpty(pendingChange?.bankAccount);
   const [bank, setBank] = useState<WithId<Bank>>();
   const [agency, setAgency] = useState<string>();
   const [account, setAccount] = useState<string>();
   const [personType, setPersonType] = useState<BankAccountPersonType>();
   const [accountTypes, setAccountTypes] = useState<AccountTypeRadio[]>();
   const [accountType, setAccountType] = useState<BankAccountType>();
-  const [editing, setEditing] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(false);
   // effects
   // initial
   useEffect(() => {
@@ -100,8 +112,87 @@ export default function ProfileBank() {
   }, [bank]);
   // helpers
   const { agencyParser, agencyFormatter, accountParser, accountFormatter } = useBankPatterns(bank);
+  const updatedBank = (() => {
+    const value: Partial<BankAccount> = {
+      type: accountType,
+      personType,
+      agency: (agency ?? '').trim(),
+      agencyFormatted: agencyFormatter(agency),
+      account: (account ?? '').trim(),
+      accountFormatted: accountFormatter(account),
+      name: bank?.name ?? '',
+    };
+    return value;
+  })();
+  const canUpdateProfile =
+    !isBankAccountValid(profile?.bankAccount) && isBankAccountValid(updatedBank);
+  // handlers
+  const updateProfileHandler = () => {
+    if (!profile?.id) return;
+    if (!editing && !hasPendingChange && profileState.includes('approved')) {
+      setEditing(true);
+      return;
+    }
+    console.log('canUpdateProfile', canUpdateProfile);
+    if (!bank) {
+      return;
+    }
+    const agencyFormatted = agencyFormatter(agency);
+    let accountFormatted = accountFormatter(account);
+    if (bank.code === '104') {
+      accountFormatted = `${getCEFAccountCode(personType!, accountType!)}${accountFormatted}`;
+    }
+    setLoading(true);
+    if (!editing) {
+      api
+        .getProfile()
+        .updateProfile(profile.id, { bankAccount: updatedBank as BankAccount })
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    } else {
+      const bankChanges: Partial<BankAccount> = {};
+      const changes: Partial<ProfileChange> = {
+        accountId: profile.id,
+        bankAccount: bankChanges,
+      };
+      if (Boolean(accountType) && accountType !== profile.bankAccount?.type) {
+        bankChanges.type = accountType;
+      }
+      if (Boolean(personType) && personType !== profile.bankAccount?.personType) {
+        bankChanges.personType = personType;
+      }
+      if (bank.name !== profile.bankAccount?.name) {
+        bankChanges.name = bank.name;
+      }
+      if (Boolean(agency) && agency !== profile.bankAccount?.agency) {
+        bankChanges.agency = agency;
+        bankChanges.agencyFormatted = agencyFormatted;
+      }
+      if (Boolean(account) && account !== profile.bankAccount?.account) {
+        bankChanges.account = account;
+        bankChanges.accountFormatted = accountFormatted;
+      }
+      console.log(changes);
+      setEditing(false);
+      api
+        .getProfile()
+        .requestProfileChange(changes)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    }
+  };
   // UI
-  if (!profile)
+  if (!profile || !accountTypes)
     return (
       <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
         <ActivityIndicator size="large" color={colors.primary} />
@@ -122,26 +213,35 @@ export default function ProfileBank() {
         <DefaultText size="sm" color="red">
           Aviso:
         </DefaultText>
-        {` Se seu CNPJ for de uma MEI, cadastre sua conta Pessoa Física. Caso contrário, você precisará cadastrar uma conta corrente no nome da sua Pessoa Jurídica.`}
+        {` Se seu CNPJ for de uma MEI, cadastre uma conta no seu nome. Caso contrário, você precisará cadastrar uma conta corrente no nome da sua PJ.`}
       </DefaultText>
-      <View style={{ marginTop: paddings.sm }}>
+      <View style={{ flex: 1, marginTop: paddings.sm }}>
         <RadioButton
           style={{ marginTop: paddings.sm }}
           title="Pessoa Física"
           checked={personType === 'Pessoa Física'}
-          onPress={() => setPersonType('Pessoa Física')}
+          onPress={() => {
+            if (!profileState.includes('approved') || editing) {
+              setPersonType('Pessoa Física');
+            }
+          }}
         />
         <RadioButton
           style={{ marginTop: paddings.xs }}
           title="Pessoa Jurídica"
           checked={personType === 'Pessoa Jurídica'}
-          onPress={() => setPersonType('Pessoa Jurídica')}
+          onPress={() => {
+            if (!profileState.includes('approved') || editing) {
+              setPersonType('Pessoa Jurídica');
+            }
+          }}
         />
         <LabeledText
           style={{ marginTop: paddings.lg }}
           title="Banco"
           placeholder="Escolha seu banco"
           value={bank?.name}
+          color={!profileState.includes('approved') || editing ? 'gray700' : 'gray500'}
           onPress={() => {
             router.push('/(logged)/(tabs)/profile/select-bank');
           }}
@@ -163,7 +263,7 @@ export default function ProfileBank() {
           onChangeText={setAgency}
           onBlur={() => {
             if (bank?.agencyPattern && agency?.length) {
-              setAgency(zeroing(bank?.agencyPattern, agencyParser(agency)));
+              setAgency(bankFormatter(bank?.agencyPattern, agency));
             }
           }}
           onSubmitEditing={() => accountRef.current?.focus()}
@@ -181,7 +281,11 @@ export default function ProfileBank() {
             style={{ marginTop: paddings.xs }}
             title={option.title}
             checked={accountType === option.accountType}
-            onPress={() => setAccountType(option.accountType)}
+            onPress={() => {
+              if (!profileState.includes('approved') || editing) {
+                setAccountType(option.accountType);
+              }
+            }}
           />
         ))}
         <PatternInput
@@ -201,10 +305,33 @@ export default function ProfileBank() {
           onChangeText={setAccount}
           onBlur={() => {
             if (bank?.accountPattern && account?.length) {
-              setAccount(zeroing(bank?.accountPattern, accountParser(account)));
+              setAccount(bankFormatter(bank.accountPattern, account));
             }
           }}
         />
+        <View style={{ flex: 1 }} />
+        {profileState.includes('approved') ? (
+          <AlertBox
+            variant={hasPendingChange ? 'yellow' : 'white'}
+            description={
+              hasPendingChange
+                ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+                : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
+            }
+          />
+        ) : null}
+        <View style={{ flex: 1 }} />
+        <SafeAreaView>
+          <DefaultButton
+            title={profileState.includes('approved') ? 'Atualizar dados' : 'Avançar'}
+            disabled={
+              isLoading ||
+              hasPendingChange ||
+              (!canUpdateProfile && !profileState.includes('approved'))
+            }
+            onPress={updateProfileHandler}
+          />
+        </SafeAreaView>
       </View>
     </KeyboardAwareScrollView>
   );

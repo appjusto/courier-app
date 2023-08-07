@@ -1,13 +1,13 @@
-import { bankAccountParser } from '@/common/formatters/bank';
 import { hyphenFormatter } from '@/common/formatters/hyphen';
 import { Bank } from '@appjusto/types';
 import { useMemo } from 'react';
+import { numbersOnlyParser } from '../../inputs/pattern/patterns';
 
 export const useBankPatterns = (bank?: Bank) => {
   const agencyParser = useMemo(
     () => (value: string | undefined) => {
       if (!bank) return '';
-      return bankAccountParser(bank.agencyPattern)(value);
+      return numbersOnlyParser(value);
     },
     [bank]
   );
@@ -21,7 +21,7 @@ export const useBankPatterns = (bank?: Bank) => {
   const accountParser = useMemo(
     () => (value: string | undefined) => {
       if (!bank) return '';
-      return bankAccountParser(bank.accountPattern)(value);
+      return numbersOnlyParser(value);
     },
     [bank]
   );
