@@ -6,17 +6,16 @@ import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { AlertBox } from '@/common/components/views/AlertBox';
-import { DefaultView } from '@/common/components/views/DefaultView';
+import { Loading } from '@/common/components/views/Loading';
 import screens from '@/common/constants/screens';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isProfileValid } from '@/common/profile/isProfileValid';
-import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { CourierProfile, ProfileChange, UserProfile } from '@appjusto/types';
 import { Stack } from 'expo-router';
 import { isEmpty, omit } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ProfilePersonalData() {
@@ -115,12 +114,7 @@ export default function ProfilePersonalData() {
     }
   };
   // UI
-  if (!profile)
-    return (
-      <DefaultView style={{ ...screens.profile }}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </DefaultView>
-    );
+  if (!profile) return <Loading backgroundColor="gray50" />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}

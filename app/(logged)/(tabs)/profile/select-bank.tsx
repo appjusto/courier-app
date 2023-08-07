@@ -1,15 +1,14 @@
 import useBanks from '@/api/platform/useBanks';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { DefaultView } from '@/common/components/views/DefaultView';
+import { Loading } from '@/common/components/views/Loading';
 import screens from '@/common/constants/screens';
-import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Bank, WithId } from '@appjusto/types';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 export default function ProfileSelectBank() {
   // context
@@ -30,12 +29,7 @@ export default function ProfileSelectBank() {
     );
   }, [banks, name]);
   // UI
-  if (!banks)
-    return (
-      <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </DefaultView>
-    );
+  if (!banks) return <Loading backgroundColor="gray50" />;
   return (
     <View style={{ ...screens.profile }}>
       <Stack.Screen options={{ title: 'Escolha seu banco' }} />

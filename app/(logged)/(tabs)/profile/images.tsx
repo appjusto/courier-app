@@ -10,10 +10,10 @@ import { SelfieIcon } from '@/common/components/profile/icons/SelfieIcon';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { CircledView } from '@/common/components/views/CircledView';
 import { DefaultView } from '@/common/components/views/DefaultView';
+import { Loading } from '@/common/components/views/Loading';
 import screens from '@/common/constants/screens';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { getEnv } from '@/extra';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Stack, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
@@ -34,10 +34,9 @@ export default function ProfilePersonalData() {
   const [checkSelfieTick, setCheckSelfieTick] = useState<number>();
   const [checkDocumentTick, setCheckDocumentTick] = useState<number>();
   // helpers
-  // const canUploadImages = courier?.situation !== 'approved';
-  const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
+  const canUploadImages = courier?.situation !== 'approved';
+  // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
   const fetchSelfie = useCallback(async () => {
-    console.log('fetchSelfie', courierId);
     if (!courierId) return;
     try {
       return await api.getProfile().getSelfieDownloadURL(courierId, '1024x1024');
@@ -47,7 +46,6 @@ export default function ProfilePersonalData() {
     }
   }, [api, courierId]);
   const fetchDocument = useCallback(async () => {
-    console.log('fetchDocument', courierId);
     if (!courierId) return;
     try {
       return await api.getProfile().getDocumentDownloadURL(courierId, '1024x1024');
@@ -123,6 +121,9 @@ export default function ProfilePersonalData() {
       }
     );
   };
+  if (selfieUrl === undefined || documentUrl === undefined) {
+    return <Loading backgroundColor="gray50" />;
+  }
   // UI
   return (
     <DefaultView style={{ ...screens.profile }}>

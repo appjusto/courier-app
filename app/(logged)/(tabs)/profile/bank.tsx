@@ -9,12 +9,11 @@ import { useBankPatterns } from '@/common/components/profile/banks/useBankPatter
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
 import { AlertBox } from '@/common/components/views/AlertBox';
-import { DefaultView } from '@/common/components/views/DefaultView';
+import { Loading } from '@/common/components/views/Loading';
 import screens from '@/common/constants/screens';
 import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
-import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import {
   Bank,
@@ -28,7 +27,7 @@ import {
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, SafeAreaView, TextInput, View } from 'react-native';
+import { SafeAreaView, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface AccountTypeRadio {
@@ -192,12 +191,7 @@ export default function ProfileBank() {
     }
   };
   // UI
-  if (!profile || !accountTypes)
-    return (
-      <DefaultView style={{ ...screens.default, backgroundColor: colors.gray50 }}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </DefaultView>
-    );
+  if (!profile || !accountTypes) return <Loading backgroundColor="gray50" />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}
