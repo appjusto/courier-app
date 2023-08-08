@@ -1,46 +1,49 @@
+export const regularFontFamily = 'BarlowMedium';
+export const boldFontFamily = 'BarlowSemiBold';
+
 export default {
   '2xs': {
-    fontFamily: 'BarlowMedium',
+    fontFamily: regularFontFamily,
     fontSize: 11,
   },
   'xs': {
-    fontFamily: 'BarlowMedium',
+    fontFamily: regularFontFamily,
     fontSize: 13,
   },
   'sm': {
-    fontFamily: 'BarlowMedium',
+    fontFamily: regularFontFamily,
     fontSize: 15,
   },
   'md': {
-    fontFamily: 'BarlowMedium',
+    fontFamily: regularFontFamily,
     fontSize: 16,
   },
   'lg': {
-    fontFamily: 'BarlowMedium',
+    fontFamily: regularFontFamily,
     fontSize: 18,
   },
   'xl': {
-    fontFamily: 'BarlowMedium',
+    fontFamily: regularFontFamily,
     fontSize: 20,
   },
   '2xl': {
-    fontFamily: 'BarlowSemiBold',
+    fontFamily: boldFontFamily,
     fontSize: 24,
   },
   '3xl': {
-    fontFamily: 'BarlowSemiBold',
+    fontFamily: boldFontFamily,
     fontSize: 28,
   },
   '4xl': {
-    fontFamily: 'BarlowSemiBold',
+    fontFamily: boldFontFamily,
     fontSize: 36,
   },
   '5xl': {
-    fontFamily: 'BarlowSemiBold',
+    fontFamily: boldFontFamily,
     fontSize: 48,
   },
   '6xl': {
-    fontFamily: 'BarlowSemiBold',
+    fontFamily: boldFontFamily,
     fontSize: 65,
   },
 };

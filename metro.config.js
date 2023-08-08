@@ -8,4 +8,7 @@ const config = getDefaultConfig(__dirname, {
   isCSSEnabled: true,
 });
 
+// i18n
+config.resolver.assetExts.push('mjs');
+
 module.exports = config;

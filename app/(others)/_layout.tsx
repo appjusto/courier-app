@@ -4,6 +4,6 @@ export const unstable_settings = {
   initialRouteName: '/',
 };
 
-export default function ProfileLayout() {
+export default function OthersLayout() {
   return <Stack />;
 }

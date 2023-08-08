@@ -237,7 +237,7 @@ export default function ProfileBank() {
           value={bank?.name}
           color={!profileState.includes('approved') || editing ? 'gray700' : 'gray500'}
           onPress={() => {
-            router.push('/(logged)/(tabs)/profile/select-bank');
+            router.push('/profile/select-bank');
           }}
         />
         <PatternInput

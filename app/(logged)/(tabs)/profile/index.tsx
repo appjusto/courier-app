@@ -35,36 +35,36 @@ export default function Profile() {
         rightView={<ArrowRightIcon />}
         onPress={() => router.push('/profile/bank')}
       />
-      <DefaultListItem
+      {/* <DefaultListItem
         title="Escolha sua frota"
         subtitles={['Na frota é onde as condições de participação são definidas']}
         rightView={<ArrowRightIcon />}
         onPress={() => null}
-      />
-      <DefaultListItem
+      /> */}
+      {/* <DefaultListItem
         title="Notificações"
         subtitles={['Escolha as notificações que você quer receber']}
         rightView={<ArrowRightIcon />}
         onPress={() => null}
-      />
-      <DefaultListItem
+      /> */}
+      {/* <DefaultListItem
         title="Central de ajuda"
         subtitles={['Tire suas dúvidas ou nos envie uma mensagem']}
         rightView={<ArrowRightIcon />}
         onPress={() => null}
-      />
+      /> */}
       <DefaultListItem
         title="Sobre o AppJusto"
         subtitles={['Acesse nossas páginas']}
         rightView={<ArrowRightIcon />}
-        onPress={() => null}
+        onPress={() => router.push('/howitworks')}
       />
-      <DefaultListItem
+      {/* <DefaultListItem
         title="Termos de uso e política de privacidade"
         subtitles={['Leia os termos de uso']}
         rightView={<ArrowRightIcon />}
         onPress={() => null}
-      />
+      /> */}
       {/* <DefaultListItem
         title="Nome do restaurante"
         subtitles={['Rua Teodoro Sampaio, 40', '10/07/2023']}

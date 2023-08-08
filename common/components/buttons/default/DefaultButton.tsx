@@ -14,11 +14,11 @@ export const DefaultButton = ({
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (() => {
-    if (disabled) return colors.gray500;
+    if (disabled || variant === 'grayed') return colors.gray500;
     return colors.primary;
   })();
   const borderColor = (() => {
-    if (disabled) return colors.gray500;
+    if (disabled || variant === 'grayed') return colors.gray500;
     return colors.primary;
   })();
   return (

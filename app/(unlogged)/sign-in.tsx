@@ -58,8 +58,7 @@ export default function SignIn() {
     confirmation
       ?.confirm(code)
       .then((result) => {
-        console.log('result', result);
-        router.replace('/(logged)/(tabs)/home');
+        router.replace('/home');
       })
       .catch((error) => {
         console.error(error);
