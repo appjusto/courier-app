@@ -3,12 +3,13 @@ import { IconBlocks } from '@/common/components/profile/howitworks/blocks/icon';
 import { IconFleets } from '@/common/components/profile/howitworks/fleets/icon';
 import { IconFreshdesk } from '@/common/components/profile/howitworks/freshdesk/icon';
 import { IconSafety } from '@/common/components/profile/howitworks/safety/icon';
+import { URL_APPJUSTO_FRESHDESK_COURIERS } from '@/common/constants/urls';
 import paddings from '@/common/styles/paddings';
 import { useRouter } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Linking, Pressable } from 'react-native';
+import { DefaultView } from '../../containers/DefaultView';
 import { DefaultText } from '../../texts/DefaultText';
 import DefaultCard from '../../views/DefaultCard';
-import { DefaultView } from '../../views/DefaultView';
 import { IconRevenue } from './revenue/icon';
 
 export const HowAppJustoWorksContent = () => {
@@ -78,9 +79,7 @@ export const HowAppJustoWorksContent = () => {
         />
       </Pressable>
       <Pressable
-        onPress={() => {
-          // Linking.openURL(AppJustoFreshdeskConsumerURL);
-        }}
+        onPress={() => Linking.openURL(URL_APPJUSTO_FRESHDESK_COURIERS)}
         style={{ marginTop: paddings.sm }}
       >
         <DefaultCard

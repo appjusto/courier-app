@@ -1,7 +1,8 @@
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { Accordion } from '@/common/components/containers/accordion/Accordion';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { AlertBox } from '@/common/components/views/AlertBox';
-import { Accordion } from '@/common/components/views/accordion/Accordion';
+import { URL_IZA_SITE } from '@/common/constants/urls';
 import paddings from '@/common/styles/paddings';
 import { Stack } from 'expo-router';
 import { useState } from 'react';
@@ -169,9 +170,7 @@ export default function SafetyScreen() {
                 <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
                   <DefaultButton
                     title="   Saiba mais  "
-                    onPress={() => {
-                      Linking.openURL('https://seguro.iza.com.vc/plano_appjusto');
-                    }}
+                    onPress={() => Linking.openURL(URL_IZA_SITE)}
                   />
                 </View>
               ),
@@ -190,11 +189,7 @@ export default function SafetyScreen() {
                 <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
                   <DefaultButton
                     title="   Baixar App  "
-                    onPress={() => {
-                      Linking.openURL(
-                        'https://play.google.com/store/apps/details?id=vc.com.iza.izaapp'
-                      );
-                    }}
+                    onPress={() => Linking.openURL(URL_IZA_SITE)}
                   />
                 </View>
               ),

@@ -1,8 +1,8 @@
 import paddings from '@/common/styles/paddings';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { Accordion } from '../../containers/accordion/Accordion';
 import { DefaultText } from '../../texts/DefaultText';
-import { Accordion } from '../../views/accordion/Accordion';
 
 interface Props {
   variant: 'how-it-works' | 'blocked';

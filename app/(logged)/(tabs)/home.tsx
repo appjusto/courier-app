@@ -1,6 +1,6 @@
+import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { DefaultView } from '@/common/components/views/DefaultView';
-import screens from '@/common/constants/screens';
+import screens from '@/common/styles/screens';
 import { StyleSheet } from 'react-native';
 
 export default function Home() {

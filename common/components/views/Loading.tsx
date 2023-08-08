@@ -1,7 +1,7 @@
-import screens from '@/common/constants/screens';
 import colors, { ColorName } from '@/common/styles/colors';
+import screens from '@/common/styles/screens';
 import { ActivityIndicator } from 'react-native';
-import { DefaultView } from './DefaultView';
+import { DefaultView } from '../containers/DefaultView';
 
 interface Props {
   backgroundColor?: ColorName;

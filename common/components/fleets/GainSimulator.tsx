@@ -1,7 +1,7 @@
-import screens from '@/common/constants/screens';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import { View } from 'react-native';
 import { DefaultText } from '../texts/DefaultText';
 

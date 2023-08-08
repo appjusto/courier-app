@@ -1,7 +1,7 @@
+import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { ArrowRightIcon } from '@/common/components/lists/icons/ArrowRightIcon';
-import { DefaultScrollView } from '@/common/components/views/DefaultScrollView';
-import screens from '@/common/constants/screens';
+import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
 
 export default function Profile() {
@@ -54,8 +54,8 @@ export default function Profile() {
         onPress={() => null}
       /> */}
       <DefaultListItem
-        title="Sobre o AppJusto"
-        subtitles={['Acesse nossas páginas']}
+        title="Ajuda e tudo sobre o AppJusto"
+        subtitles={['Tire todas as suas dúvidas sobre a plataforma']}
         rightView={<ArrowRightIcon />}
         onPress={() => router.push('/profile/about')}
       />

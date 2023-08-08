@@ -10,11 +10,11 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
 import { AlertBox } from '@/common/components/views/AlertBox';
 import { Loading } from '@/common/components/views/Loading';
-import screens from '@/common/constants/screens';
 import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import {
   Bank,
   BankAccount,

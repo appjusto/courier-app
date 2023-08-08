@@ -1,7 +1,7 @@
+import { DefaultView } from '@/common/components/containers/DefaultView';
 import { ImageApprovalProcess } from '@/common/components/profile/howitworks/approval/image';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { AlertBox } from '@/common/components/views/AlertBox';
-import { DefaultView } from '@/common/components/views/DefaultView';
 import paddings from '@/common/styles/paddings';
 import { Stack } from 'expo-router';
 import { Pressable, ScrollView } from 'react-native';
