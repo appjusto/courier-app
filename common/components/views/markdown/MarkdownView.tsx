@@ -7,12 +7,13 @@ import { useMarkdown } from './useMarkdown';
 interface Props {
   url: string;
   fallback?: string;
+  title?: string;
 }
 
-export function MarkdownView({ url, fallback }: Props) {
+export function MarkdownView({ url, fallback, title }: Props) {
   // state
   const markdown = useMarkdown(url, fallback);
-  if (!markdown) return <Loading />;
+  if (!markdown) return <Loading title={title} />;
   // helpers
   const head =
     '<head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>';

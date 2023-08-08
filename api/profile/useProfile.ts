@@ -16,6 +16,7 @@ export const useProfile = <T extends UserProfile>() => {
     return api.getProfile().observeProfile(user.uid, setProfile);
   }, [api, user?.uid]);
   // when profile changes
+  // console.log('profile', user?.uid, profile);
   React.useEffect(() => {
     if (profile === null) {
       if (user?.uid) {

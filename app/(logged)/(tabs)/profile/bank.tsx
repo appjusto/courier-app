@@ -191,7 +191,8 @@ export default function ProfileBank() {
     }
   };
   // UI
-  if (!profile || !accountTypes) return <Loading backgroundColor="gray50" />;
+  const title = 'Dados bancários';
+  if (!profile || !accountTypes) return <Loading backgroundColor="gray50" title={title} />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}
@@ -202,7 +203,7 @@ export default function ProfileBank() {
       contentContainerStyle={{ flexGrow: 1 }}
       scrollIndicatorInsets={{ right: 1 }}
     >
-      <Stack.Screen options={{ title: 'Dados bancários' }} />
+      <Stack.Screen options={{ title }} />
       <DefaultText size="sm" color="gray700">
         <DefaultText size="sm" color="red">
           Aviso:

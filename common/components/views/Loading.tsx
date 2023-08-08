@@ -1,13 +1,15 @@
 import colors, { ColorName } from '@/common/styles/colors';
 import screens from '@/common/styles/screens';
+import { Stack } from 'expo-router';
 import { ActivityIndicator } from 'react-native';
 import { DefaultView } from '../containers/DefaultView';
 
 interface Props {
   backgroundColor?: ColorName;
+  title?: string;
 }
 
-export function Loading({ backgroundColor }: Props) {
+export function Loading({ backgroundColor, title }: Props) {
   return (
     <DefaultView
       style={{
@@ -17,6 +19,7 @@ export function Loading({ backgroundColor }: Props) {
         backgroundColor: colors[backgroundColor ?? 'white'],
       }}
     >
+      {title ? <Stack.Screen options={{ title }} /> : null}
       <ActivityIndicator size="large" color={colors.primary} />
     </DefaultView>
   );

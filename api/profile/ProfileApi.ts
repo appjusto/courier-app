@@ -31,6 +31,7 @@ export default class ProfileApi {
     id: string,
     resultHandler: (profile: WithId<T> | null) => void
   ) {
+    console.log('observe!');
     return getProfile(id).onSnapshot(
       (snapshot) => {
         if (!snapshot.exists) {

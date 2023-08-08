@@ -5,10 +5,12 @@ import { Stack } from 'expo-router';
 import { View } from 'react-native';
 
 export default function ProfileTerms() {
+  // UI
+  const title = 'Termos de uso';
   return (
     <View style={{ flex: 1 }}>
-      <Stack.Screen options={{ title: 'Termos de uso' }} />
-      <MarkdownView url={URL_TERMS} fallback={TERMS} />
+      <Stack.Screen options={{ title }} />
+      <MarkdownView url={URL_TERMS} fallback={TERMS} title={title} />
     </View>
   );
 }

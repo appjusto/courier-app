@@ -114,7 +114,8 @@ export default function ProfilePersonalData() {
     }
   };
   // UI
-  if (!profile) return <Loading backgroundColor="gray50" />;
+  const title = 'Dados pessoais';
+  if (!profile) return <Loading backgroundColor="gray50" title={title} />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}
@@ -125,7 +126,7 @@ export default function ProfilePersonalData() {
       contentContainerStyle={{ flexGrow: 1 }}
       scrollIndicatorInsets={{ right: 1 }}
     >
-      <Stack.Screen options={{ title: 'Dados pessoais' }} />
+      <Stack.Screen options={{ title }} />
       <DefaultText size="2xl">Seus dados:</DefaultText>
       <DefaultInput
         style={{ marginTop: paddings.lg }}

@@ -41,12 +41,12 @@ export default function Profile() {
         rightView={<ArrowRightIcon />}
         onPress={() => null}
       /> */}
-      {/* <DefaultListItem
+      <DefaultListItem
         title="Notificações"
         subtitles={['Escolha as notificações que você quer receber']}
         rightView={<ArrowRightIcon />}
-        onPress={() => null}
-      /> */}
+        onPress={() => router.push('/profile/notifications/')}
+      />
       {/* <DefaultListItem
         title="Central de ajuda"
         subtitles={['Tire suas dúvidas ou nos envie uma mensagem']}

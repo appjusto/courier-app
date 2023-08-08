@@ -5,10 +5,12 @@ import { Stack } from 'expo-router';
 import { View } from 'react-native';
 
 export default function ProfilePrivacy() {
+  // UI
+  const title = 'Política de privacidade';
   return (
     <View style={{ flex: 1 }}>
-      <Stack.Screen options={{ title: 'Política de privacidade' }} />
-      <MarkdownView url={URL_PRIVACY_POLICY} fallback={PRIVACY_POLICY} />
+      <Stack.Screen options={{ title }} />
+      <MarkdownView url={URL_PRIVACY_POLICY} fallback={PRIVACY_POLICY} title={title} />
     </View>
   );
 }

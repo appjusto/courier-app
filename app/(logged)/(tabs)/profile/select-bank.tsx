@@ -29,10 +29,11 @@ export default function ProfileSelectBank() {
     );
   }, [banks, name]);
   // UI
-  if (!banks) return <Loading backgroundColor="gray50" />;
+  const title = 'Escolha seu banco';
+  if (!banks) return <Loading backgroundColor="gray50" title={title} />;
   return (
     <View style={{ ...screens.profile }}>
-      <Stack.Screen options={{ title: 'Escolha seu banco' }} />
+      <Stack.Screen options={{ title }} />
       <View style={{ padding: paddings.lg }}>
         <DefaultInput
           value={name}

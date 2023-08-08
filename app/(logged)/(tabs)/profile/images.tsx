@@ -121,13 +121,14 @@ export default function ProfilePersonalData() {
       }
     );
   };
-  if (selfieUrl === undefined || documentUrl === undefined) {
-    return <Loading backgroundColor="gray50" />;
-  }
   // UI
+  const title = 'Selfie e documento';
+  if (selfieUrl === undefined || documentUrl === undefined) {
+    return <Loading backgroundColor="gray50" title={title} />;
+  }
   return (
     <DefaultView style={{ ...screens.profile }}>
-      <Stack.Screen options={{ title: 'Selfie e documento' }} />
+      <Stack.Screen options={{ title }} />
       <DefaultListItem
         title="Foto do rosto"
         subtitles={['Adicionar selfie']}

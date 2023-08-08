@@ -135,8 +135,8 @@ export default function ProfileCompany() {
         });
     }
   };
-  // UI
-  if (!profile) return <Loading backgroundColor="gray50" />;
+  const title = 'Dados da sua PJ';
+  if (!profile) return <Loading backgroundColor="gray50" title={title} />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}
@@ -147,7 +147,7 @@ export default function ProfileCompany() {
       contentContainerStyle={{ flexGrow: 1 }}
       scrollIndicatorInsets={{ right: 1 }}
     >
-      <Stack.Screen options={{ title: 'Dados da sua PJ' }} />
+      <Stack.Screen options={{ title }} />
       <DefaultText size="sm">Preencha os dados da sua MEI ou empresa</DefaultText>
       <PatternInput
         style={{ marginTop: paddings.lg }}
