@@ -28,7 +28,7 @@ export const HowAppJustoWorksContent = () => {
         Tire suas dúvidas e entenda os principais benefícios do AppJusto para o entregador
       </DefaultText>
       <Pressable
-        onPress={() => router.push('/howitworks/approval')}
+        onPress={() => router.push('/profile/howitworks/approval')}
         style={{ marginTop: paddings.lg }}
       >
         <DefaultCard
@@ -38,7 +38,7 @@ export const HowAppJustoWorksContent = () => {
         />
       </Pressable>
       <Pressable
-        onPress={() => router.push('/howitworks/revenue')}
+        onPress={() => router.push('/profile/howitworks/revenue')}
         style={{ marginTop: paddings.sm }}
       >
         <DefaultCard
@@ -48,7 +48,7 @@ export const HowAppJustoWorksContent = () => {
         />
       </Pressable>
       <Pressable
-        onPress={() => router.push('/howitworks/fleets')}
+        onPress={() => router.push('/profile/howitworks/fleets')}
         style={{ marginTop: paddings.sm }}
       >
         <DefaultCard
@@ -58,7 +58,7 @@ export const HowAppJustoWorksContent = () => {
         />
       </Pressable>
       <Pressable
-        onPress={() => router.push('/howitworks/blocks')}
+        onPress={() => router.push('/profile/howitworks/blocks')}
         style={{ marginTop: paddings.sm }}
       >
         <DefaultCard
@@ -68,7 +68,7 @@ export const HowAppJustoWorksContent = () => {
         />
       </Pressable>
       <Pressable
-        onPress={() => router.push('/howitworks/safety')}
+        onPress={() => router.push('/profile/howitworks/safety')}
         style={{ marginTop: paddings.sm }}
       >
         <DefaultCard

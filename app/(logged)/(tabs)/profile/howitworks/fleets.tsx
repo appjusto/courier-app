@@ -2,11 +2,13 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import GainSimulator from '@/common/components/fleets/GainSimulator';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import paddings from '@/common/styles/paddings';
+import { Stack } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 
 export default function FleetProcess() {
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>
+      <Stack.Screen options={{ title: 'Frotas' }} />
       <View style={{ padding: paddings.lg }}>
         <DefaultText size="2xl">Funcionamento das frotas</DefaultText>
         <DefaultText

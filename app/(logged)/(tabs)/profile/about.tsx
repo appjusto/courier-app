@@ -10,14 +10,14 @@ export default function Profile() {
   // UI
   return (
     <DefaultScrollView style={{ ...screens.profile }}>
-      <Stack.Screen options={{ title: 'Seus dados' }} />
+      <Stack.Screen options={{ title: 'Sobre o AppJusto' }} />
       <DefaultListItem
         title="Como funciona o AppJusto"
         subtitles={[
           'Aprovação, pagamento, frotas, bloqueios, segurança e tudo mais que você precisa saber',
         ]}
         rightView={<ArrowRightIcon />}
-        onPress={() => router.push('/profile/howitworks')}
+        onPress={() => router.push('/profile/howitworks/')}
       />
     </DefaultScrollView>
   );

@@ -57,7 +57,7 @@ export default function Profile() {
         title="Sobre o AppJusto"
         subtitles={['Acesse nossas páginas']}
         rightView={<ArrowRightIcon />}
-        onPress={() => router.push('/howitworks')}
+        onPress={() => router.push('/profile/about')}
       />
       {/* <DefaultListItem
         title="Termos de uso e política de privacidade"

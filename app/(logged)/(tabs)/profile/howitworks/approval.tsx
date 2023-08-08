@@ -3,6 +3,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { AlertBox } from '@/common/components/views/AlertBox';
 import { DefaultView } from '@/common/components/views/DefaultView';
 import paddings from '@/common/styles/paddings';
+import { Stack } from 'expo-router';
 import { Pressable, ScrollView } from 'react-native';
 
 export default function ApprovalProcess() {
@@ -11,6 +12,7 @@ export default function ApprovalProcess() {
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>
+      <Stack.Screen options={{ title: 'Aprovação de cadastro' }} />
       <DefaultView style={{ padding: paddings.lg }}>
         <DefaultText size="2xl">Funcionamento da aprovação de cadastro</DefaultText>
         <DefaultText

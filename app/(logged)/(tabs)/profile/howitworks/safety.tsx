@@ -3,6 +3,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { AlertBox } from '@/common/components/views/AlertBox';
 import { Accordion } from '@/common/components/views/accordion/Accordion';
 import paddings from '@/common/styles/paddings';
+import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { Linking, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -13,6 +14,7 @@ export default function SafetyScreen() {
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>
+      <Stack.Screen options={{ title: 'Segurança' }} />
       <View style={{ padding: paddings.lg }}>
         <DefaultText
           size="2xl"
