@@ -33,6 +33,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: false,
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PLIST,
     associatedDomains: [`applinks:${domain}`, 'appjusto.ngrok.io'],
+    infoPlist: {
+      UIBackgroundModes: ['remote-notification', 'location'],
+      NSUserTrackingUsageDescription:
+        'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
+      NSLocationWhenInUseUsageDescription:
+        'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
+      NSLocationAlwaysAndWhenInUseUsageDescription:
+        'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
+    },
   },
   android: {
     package: appBundlePackage(),
@@ -79,6 +88,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         photosPermission: 'Para o envio de selfie e documento',
         cameraPermission: 'Para o envio de selfie e documento',
+      },
+    ],
+    [
+      'expo-notifications',
+      {
+        icon: './assets/images/notification-icon.png',
+        sounds: ['./assets/sounds/order_request.wav'],
       },
     ],
     [

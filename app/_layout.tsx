@@ -1,5 +1,6 @@
 import { ApiProvider } from '@/api/ApiContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
+import { useNotificationHandler } from '@/common/notifications/useNotificationHandler';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
@@ -27,6 +28,9 @@ export default function RootLayout() {
   });
   const colorScheme = useColorScheme();
   // side effects
+  // notification handler
+  useNotificationHandler();
+  // error handling
   useEffect(() => {
     if (error) throw error;
   }, [error]);

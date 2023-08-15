@@ -4,7 +4,7 @@ import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
-import { notificationChannels } from '@/common/notifications/channels';
+import { optionalChannels } from '@/common/notifications/config';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { NotificationChannel } from '@appjusto/types';
@@ -21,11 +21,16 @@ export default function ProfileNotifications() {
   const toggleNotificationPreference = (channel: NotificationChannel) => {
     if (!profile?.id) return;
     const { notificationPreferences = [] } = profile;
-    api.getProfile().updateProfile(profile.id, {
-      notificationPreferences: notificationPreferences.includes(channel)
-        ? without(notificationPreferences, channel)
-        : [...notificationPreferences, channel],
-    });
+    api
+      .getProfile()
+      .updateProfile(profile.id, {
+        notificationPreferences: notificationPreferences.includes(channel)
+          ? without(notificationPreferences, channel)
+          : [...notificationPreferences, channel],
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   // UI
   const title = 'Notificações';
@@ -38,12 +43,12 @@ export default function ProfileNotifications() {
         Para garantir a melhor experiência, as mensagens durante o pedido sempre são enviadas.
       </DefaultText>
       <View style={{ marginTop: paddings.xl }}>
-        {notificationChannels.map(({ channel, title, description }) => (
-          <View key={channel} style={{ marginBottom: paddings.lg }}>
+        {optionalChannels.map(({ id, name, description }) => (
+          <View key={id} style={{ marginBottom: paddings.lg }}>
             <CheckButton
-              checked={profile?.notificationPreferences?.includes(channel) === true}
-              title={title}
-              onPress={() => toggleNotificationPreference(channel)}
+              checked={profile?.notificationPreferences?.includes(id) === true}
+              title={name}
+              onPress={() => toggleNotificationPreference(id)}
             />
             <DefaultText size="xs" color="green700" style={{ marginTop: paddings.xs }}>
               {description}
