@@ -9,7 +9,7 @@ export default function ModalScreen() {
   return (
     <DefaultView style={styles.container}>
       <Stack.Screen options={{ title: 'Nova corrida!' }} />
-      <DefaultText style={styles.title}>Modal</DefaultText>
+      <DefaultText style={styles.title}>Matching</DefaultText>
       <DefaultView style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}

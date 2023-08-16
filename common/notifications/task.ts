@@ -1,5 +1,4 @@
 import { NotificationChannel } from '@appjusto/types';
-import { Audio } from 'expo-av';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import { playOrderRequestSound } from './sound';
@@ -17,7 +16,6 @@ TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionIn
 });
 
 export const registerBackgroundNotificationTask = async () => {
-  await Audio.setAudioModeAsync({ staysActiveInBackground: true });
   await Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK);
 };
 

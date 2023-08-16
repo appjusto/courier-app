@@ -7,10 +7,6 @@ import { OrdersTabIcon } from '@/common/tabs/icons/orders-tab-icon';
 import { ProfileTabIcon } from '@/common/tabs/icons/profile-tab-icon';
 import { HomeTabIcon } from '../../../common/tabs/icons/home-tab-icon';
 
-export const unstable_settings = {
-  initialRouteName: 'home',
-};
-
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -42,7 +38,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="deliveries"
         options={{
           title: 'Suas corridas',
           tabBarIcon: ({ focused }) => <OrdersTabIcon />,

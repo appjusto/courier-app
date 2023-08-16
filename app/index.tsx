@@ -8,9 +8,9 @@ export default function Welcome() {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {/* <Link href="/howitworks" asChild> */}
       {/* <Link href="/profile/" asChild> */}
-      <Link href="/profile" asChild>
+      <Link href="/home" asChild>
         <Pressable>
-          <DefaultText size="2xl">Entrar!</DefaultText>
+          <DefaultText size="2xl">Entrar!!</DefaultText>
         </Pressable>
       </Link>
       <View>

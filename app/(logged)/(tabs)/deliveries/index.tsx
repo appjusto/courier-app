@@ -5,7 +5,7 @@ import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { useEffect } from 'react';
 
-export default function TabTwoScreen() {
+export default function DeliveriesIndex() {
   // context
   const api = useContextApi();
   // side effects
@@ -22,7 +22,7 @@ export default function TabTwoScreen() {
   // UI
   return (
     <DefaultView style={styles.container}>
-      <DefaultText style={styles.title}>Tab Two</DefaultText>
+      <DefaultText style={styles.title}>Deliveries</DefaultText>
       <DefaultView style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </DefaultView>
   );

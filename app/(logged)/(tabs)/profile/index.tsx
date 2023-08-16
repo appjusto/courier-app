@@ -2,11 +2,9 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { ArrowRightIcon } from '@/common/components/lists/icons/ArrowRightIcon';
 import screens from '@/common/styles/screens';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, router } from 'expo-router';
 
 export default function Profile() {
-  // context
-  const router = useRouter();
   // UI
   return (
     <DefaultScrollView style={{ ...screens.profile }}>
