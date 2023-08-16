@@ -1,5 +1,6 @@
 import { ApiProvider } from '@/api/ApiContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
+import { setupNotifications } from '@/common/notifications/setup';
 import { useNotificationHandler } from '@/common/notifications/useNotificationHandler';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -12,12 +13,13 @@ import { useColorScheme } from 'react-native';
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '/',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+// setup notification channels and background notification task
+setupNotifications().then(null).catch(console.error);
 
 export default function RootLayout() {
   // state

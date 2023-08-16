@@ -1,12 +1,7 @@
 import { NotificationChannel } from '@appjusto/types';
 import * as Notifications from 'expo-notifications';
-// import { NotificationChannel as Channel } from 'expo-notifications';
 import { Platform } from 'react-native';
 import colors from '../styles/colors';
-
-// interface P extends Channel {
-//   description?: string;
-// }
 
 export const optionalChannels = [
   {
@@ -70,7 +65,7 @@ Notifications.setNotificationHandler({
   },
 });
 
-const config = async () => {
+export const setupChannels = async () => {
   if (Platform.OS === 'android') {
     await [...optionalChannels, ...requiredChannels].reduce(
       async (p, { id, name, sound, bypassDnd }) => {
@@ -91,6 +86,3 @@ const config = async () => {
     );
   }
 };
-config()
-  .then(() => null)
-  .catch(console.error);

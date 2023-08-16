@@ -4,7 +4,7 @@ import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
-import { optionalChannels } from '@/common/notifications/config';
+import { optionalChannels } from '@/common/notifications/channels';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { NotificationChannel } from '@appjusto/types';

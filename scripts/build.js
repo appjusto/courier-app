@@ -8,8 +8,9 @@ const eas = require('../eas.json');
 const { ENV, PLATFORM, CHANNEL, PROFILE } = process.env;
 
 // Usage:
-// ENV=dev npm run build
 // ENV=dev PROFILE=devclient PLATFORM=ios npm run build
+// ENV=dev PROFILE=devclient npm run build
+// ENV=dev npm run build
 // ENV=dev CHANNEL=v14 npm run build
 // ENV=live PROFILE=store npm run build
 

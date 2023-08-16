@@ -34,7 +34,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PLIST,
     associatedDomains: [`applinks:${domain}`, 'appjusto.ngrok.io'],
     infoPlist: {
-      UIBackgroundModes: ['remote-notification', 'location'],
+      UIBackgroundModes: ['remote-notification', 'location', 'audio'],
       NSUserTrackingUsageDescription:
         'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
       NSLocationWhenInUseUsageDescription:

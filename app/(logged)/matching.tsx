@@ -3,10 +3,12 @@ import { Platform, StyleSheet } from 'react-native';
 
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { Stack } from 'expo-router';
 
 export default function ModalScreen() {
   return (
     <DefaultView style={styles.container}>
+      <Stack.Screen options={{ title: 'Nova corrida!' }} />
       <DefaultText style={styles.title}>Modal</DefaultText>
       <DefaultView style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
