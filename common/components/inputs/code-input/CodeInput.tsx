@@ -22,11 +22,6 @@ export const CodeInput = ({ value, onChange, length = 3, style, ...props }: Prop
     previousInputRef?: React.RefObject<TextInput>
   ) => {
     onChange([...values.slice(0, index), char ? char : ' ', ...values.slice(index + 1)].join(''));
-    console.log(
-      'updateValues',
-      char,
-      [...values.slice(0, index), char, ...values.slice(index + 1)].join('')
-    );
     if (char) {
       if (nextInputRef?.current) nextInputRef.current.focus();
       else Keyboard.dismiss();

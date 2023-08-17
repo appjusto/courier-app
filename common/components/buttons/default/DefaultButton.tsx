@@ -10,7 +10,6 @@ type DefaultButtonProps = ViewProps & {
   variant?: 'primary' | 'destructive' | 'outline';
   disabled?: boolean;
   loading?: boolean;
-  loadingTitle?: string;
   onPress: () => void;
 };
 
@@ -20,7 +19,6 @@ export const DefaultButton = ({
   style,
   disabled,
   loading,
-  loadingTitle,
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (pressed: boolean) => {
@@ -53,10 +51,17 @@ export const DefaultButton = ({
               },
             ]}
           >
-            {loading ? <ActivityIndicator size="small" color={colors.white} /> : null}
-            <DefaultText style={{ ...typography.md, color: textColor() }}>
-              {loading && loadingTitle ? loadingTitle : title}
-            </DefaultText>
+            <View style={{ flexDirection: 'row' }}>
+              {loading ? (
+                <ActivityIndicator
+                  size="small"
+                  color={textColor()}
+                  style={{ marginRight: paddings.lg }}
+                />
+              ) : (
+                <DefaultText style={{ ...typography.md, color: textColor() }}>{title}</DefaultText>
+              )}
+            </View>
           </View>
         )}
       </Pressable>

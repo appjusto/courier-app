@@ -18,7 +18,9 @@ export default function SignIn() {
   // refs
   const phoneRef = useRef<TextInput>(null);
   // state
-  const [phone, setPhone] = useState(getEnv() === 'dev' ? '11990085775' : '');
+  // const [phone, setPhone] = useState(getEnv() === 'dev' ? '11990085775' : '');
+  // const [phone, setPhone] = useState(getEnv() === 'dev' ? '85986971945' : '');
+  const [phone, setPhone] = useState(getEnv() === 'dev' ? '11999999999' : '');
   const [termsAccepted, setTermsAccepted] = useState(getEnv() === 'dev');
   console.log(phone);
   const canSubmit = termsAccepted && isPhoneValid(phone);

@@ -3,7 +3,9 @@ import { useContextUser } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
+import { handleErrorMessage } from '@/common/firebase/errors';
 import { phoneFormatter } from '@/common/formatters/phone';
 import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
@@ -13,7 +15,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 
-type ScreenState = 'verifying-phone' | 'phone-verified' | 'code-confirmed' | 'error';
+type ScreenState = 'phone-verified' | 'verifying-code' | 'code-verified' | 'error';
 
 export default function PhoneVerification() {
   // context
@@ -23,12 +25,12 @@ export default function PhoneVerification() {
   // params
   // @ts-ignore
   const search = useLocalSearchParams<{ countryCode: string; phone: string }>();
-  const countryCode = search.countryCode;
+  const countryCode = search.countryCode ?? '55';
   const phone = search.phone;
   // refs
   const codeRef = useRef<TextInput>(null);
   // state
-  const [state, setState] = useState<ScreenState>('verifying-phone');
+  const [state, setState] = useState<ScreenState>();
   const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult | null>(
     null
   );
@@ -37,50 +39,52 @@ export default function PhoneVerification() {
   // helpers
   const signInWithPhoneNumber = useCallback(() => {
     console.log('signInWithPhoneNumber', phone);
-    setState('verifying-phone');
     auth
-      .signInWithPhoneNumber(phone)
+      .signInWithPhoneNumber(phone, countryCode)
       .then((result) => {
         setConfirmation(result);
-        console.log(result);
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
-        const message = error instanceof Error ? error.message : JSON.stringify(error);
-        setError(message);
+        setError(handleErrorMessage(error));
         setState('error');
       });
-  }, [auth, phone]);
+  }, [auth, phone, countryCode]);
   // side effects
+  // sign in
   useEffect(() => {
-    if (state === 'verifying-phone') {
-      signInWithPhoneNumber();
-    } else if (state === 'phone-verified') {
-      codeRef?.current?.focus();
-    } else if (state === 'code-confirmed') {
-      router.replace('/home');
-    }
-  }, [state, signInWithPhoneNumber, router]);
+    signInWithPhoneNumber();
+  }, [signInWithPhoneNumber]);
+  // phone verification
   useEffect(() => {
     if (confirmation?.verificationId) setState('phone-verified');
   }, [confirmation]);
+  // react to state change
+  useEffect(() => {
+    if (state === 'phone-verified') {
+      codeRef?.current?.focus();
+    } else if (state === 'code-verified') {
+      router.replace('/home');
+    }
+  }, [state, phone, signInWithPhoneNumber, router]);
   // handlers
   const verifyHandler = () => {
-    console.log('verifyHandler', phone);
+    setState('verifying-code');
     confirmation
       ?.confirm(code)
       .then((result) => {
-        setState('code-confirmed');
+        setState('code-verified');
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
-        const message = error instanceof Error ? error.message : JSON.stringify(error);
-        setError(message);
+        setError(handleErrorMessage(error));
         setState('error');
       });
   };
   // UI
-  const canSubmit = state === 'phone-verified' && code.length === 6;
+  if (!state) return <Loading />;
+  console.log('code.length', code.length);
+  const canSubmit = state === 'phone-verified' && code.trim().length === 6;
   return (
     <View
       style={{
@@ -105,12 +109,17 @@ export default function PhoneVerification() {
       />
 
       <MessageBox variant={error ? 'error' : 'info'}>
-        {error ??
-          `Se você não receber o código em alguns segundos, verifique seu número e a caixa de SPAM do
-        seu aplicativo de mensagens.`}
+        {error
+          ? error
+          : `Se você não receber o código em alguns segundos, verifique seu número e a caixa de SPAM do seu aplicativo de mensagens.`}
       </MessageBox>
       <View style={{ flex: 1 }} />
-      <DefaultButton title="Entrar" disabled={!canSubmit} onPress={verifyHandler} />
+      <DefaultButton
+        title="Verificar"
+        disabled={!canSubmit}
+        loading={state === 'verifying-code'}
+        onPress={verifyHandler}
+      />
     </View>
   );
 }
