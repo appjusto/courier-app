@@ -29,7 +29,7 @@ export const AccordionItem = ({ data, collpased, style, onPress, ...props }: Pro
             backgroundColor: colors.white,
             borderWidth: 1,
             borderRadius: 8,
-            borderColor: collpased ? colors.gray500 : colors.gray200,
+            borderColor: collpased ? colors.neutral500 : colors.neutral200,
           },
           style,
         ]}
@@ -45,7 +45,7 @@ export const AccordionItem = ({ data, collpased, style, onPress, ...props }: Pro
           <View style={{ maxWidth: '90%' }}>
             <DefaultText size="sm">{title}</DefaultText>
             {subtitle ? (
-              <DefaultText size="xs" color="gray700">
+              <DefaultText size="xs" color="neutral700">
                 {subtitle}
               </DefaultText>
             ) : null}
@@ -61,12 +61,12 @@ export const AccordionItem = ({ data, collpased, style, onPress, ...props }: Pro
                     style={{ marginTop: index === 0 ? paddings.lg : paddings['2xl'] }}
                   >
                     {item.title ? (
-                      <DefaultText size="sm" color="gray700" bold>
+                      <DefaultText size="sm" color="neutral700" bold>
                         {item.title}
                       </DefaultText>
                     ) : null}
                     {item.text ? (
-                      <DefaultText size="sm" color="gray700">
+                      <DefaultText size="sm" color="neutral700">
                         {item.text}
                       </DefaultText>
                     ) : null}

@@ -13,6 +13,6 @@ export default {
   },
   profile: {
     flex: 1,
-    backgroundColor: colors.gray50,
+    backgroundColor: colors.neutral50,
   },
 };

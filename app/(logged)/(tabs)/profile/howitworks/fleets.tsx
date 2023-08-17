@@ -13,7 +13,7 @@ export default function FleetProcess() {
         <DefaultText size="2xl">Funcionamento das frotas</DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.sm,
           }}
@@ -24,7 +24,7 @@ export default function FleetProcess() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.lg,
           }}
@@ -42,7 +42,7 @@ export default function FleetProcess() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.lg,
           }}
@@ -52,7 +52,7 @@ export default function FleetProcess() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.lg,
           }}

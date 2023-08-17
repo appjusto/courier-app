@@ -21,7 +21,7 @@ export const HowAppJustoWorksContent = () => {
       <DefaultText size="2xl">Entenda mais sobre o AppJusto</DefaultText>
       <DefaultText
         size="sm"
-        color="gray700"
+        color="neutral700"
         style={{
           marginTop: paddings.lg,
         }}

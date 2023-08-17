@@ -39,7 +39,7 @@ export default function ProfileNotifications() {
     <DefaultScrollView style={{ ...screens.profile, padding: paddings.lg }}>
       <Stack.Screen options={{ title }} />
       <DefaultText size="2xl">Escolha as notificações que recebe do AppJusto</DefaultText>
-      <DefaultText style={{ marginTop: paddings.sm }} size="sm" color="gray700">
+      <DefaultText style={{ marginTop: paddings.sm }} size="sm" color="neutral700">
         Para garantir a melhor experiência, as mensagens durante o pedido sempre são enviadas.
       </DefaultText>
       <View style={{ marginTop: paddings.xl }}>
@@ -50,7 +50,7 @@ export default function ProfileNotifications() {
               title={name}
               onPress={() => toggleNotificationPreference(id)}
             />
-            <DefaultText size="xs" color="green700" style={{ marginTop: paddings.xs }}>
+            <DefaultText size="xs" style={{ marginTop: paddings.xs }}>
               {description}
             </DefaultText>
           </View>

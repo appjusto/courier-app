@@ -19,20 +19,24 @@ export const DefaultInput = forwardRef(
             if (onPress) onPress();
           }}
         >
+          {title ? <DefaultText color="black">{title}</DefaultText> : null}
           <View
             style={[
               {
+                marginTop: paddings.xs,
                 ...borders.default,
                 padding: paddings.md,
                 backgroundColor: colors.white,
               },
             ]}
           >
-            {title ? <DefaultText color="green600">{title}</DefaultText> : null}
             <TextInput
               ref={ref}
               style={[
-                { ...typography[size ?? 'md'], color: editable ? colors.gray700 : colors.gray500 },
+                {
+                  ...typography[size ?? 'md'],
+                  color: editable ? colors.black : colors.neutral700,
+                },
               ]}
               editable={editable}
               onPressOut={() => {

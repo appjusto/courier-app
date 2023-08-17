@@ -136,7 +136,7 @@ export default function ProfileCompany() {
     }
   };
   const title = 'Dados da sua PJ';
-  if (!profile) return <Loading backgroundColor="gray50" title={title} />;
+  if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}

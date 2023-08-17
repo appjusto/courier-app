@@ -30,7 +30,7 @@ export default function ProfileSelectBank() {
   }, [banks, name]);
   // UI
   const title = 'Escolha seu banco';
-  if (!banks) return <Loading backgroundColor="gray50" title={title} />;
+  if (!banks) return <Loading backgroundColor="neutral50" title={title} />;
   return (
     <View style={{ ...screens.profile }}>
       <Stack.Screen options={{ title }} />

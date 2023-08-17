@@ -1,8 +1,10 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useContextUser } from '@/common/auth/AuthContext';
+import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
-import colors from '@/common/styles/colors';
+import { DefaultText } from '@/common/components/texts/DefaultText';
+import { SignInImage } from '@/common/screens/unlogged/sign-in/image';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
@@ -23,6 +25,7 @@ export default function SignIn() {
   // state
   const [state, setState] = useState<ScreenState>('initial');
   const [phone, setPhone] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult | null>(
     null
   );
@@ -66,16 +69,20 @@ export default function SignIn() {
         ToastAndroid.show(message, 3000);
       });
   };
-  console.log('user', user);
   // UI
   return (
     <View
       style={{
         ...screens.headless,
-        padding: paddings.md,
-        backgroundColor: colors.gray50,
+        paddingHorizontal: paddings.lg,
+        paddingBottom: paddings.xl,
       }}
     >
+      <SignInImage />
+      <View style={{ flex: 1 }} />
+      <DefaultText size="lg" style={{ marginVertical: paddings.xl }}>
+        Acesse ou crie uma conta
+      </DefaultText>
       <PatternInput
         pattern="phone"
         title="Celular"
@@ -86,22 +93,47 @@ export default function SignIn() {
         value={phone}
         onChangeText={setPhone}
       />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          // borderWidth: 1,
+        }}
+      >
+        <DefaultText size="sm" color="neutral800" style={{ marginTop: paddings.xs }}>
+          Digite o número do seu celular
+        </DefaultText>
+        <DefaultText color="black">Ler termos</DefaultText>
+      </View>
+      <CheckButton
+        title="Acesse ou crie uma conta"
+        checked={termsAccepted}
+        style={{ marginVertical: paddings.lg }}
+        onPress={() => setTermsAccepted((value) => !value)}
+      />
+      <View style={{ flex: 1 }} />
       <DefaultButton title="Entrar" disabled={!canEditPhone} onPress={signInHandler} />
-      <PatternInput
-        pattern="sixDigitsCode"
-        title="Código"
-        placeholder="Código de confirmação"
-        keyboardType="number-pad"
-        ref={codeRef}
-        editable={canEnterCode}
-        value={code}
-        onChangeText={setCode}
-      />
-      <DefaultButton
-        title="Verificar"
-        disabled={canEditPhone || !canEnterCode}
-        onPress={verifyHandler}
-      />
+      {canEnterCode ? (
+        <View>
+          <PatternInput
+            pattern="sixDigitsCode"
+            title="Código"
+            placeholder="Código de confirmação"
+            keyboardType="number-pad"
+            ref={codeRef}
+            editable={canEnterCode}
+            value={code}
+            onChangeText={setCode}
+          />
+          <DefaultButton
+            title="Verificar"
+            disabled={canEditPhone || !canEnterCode}
+            onPress={verifyHandler}
+          />
+        </View>
+      ) : null}
     </View>
   );
 }

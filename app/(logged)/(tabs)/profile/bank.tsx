@@ -192,7 +192,7 @@ export default function ProfileBank() {
   };
   // UI
   const title = 'Dados bancários';
-  if (!profile || !accountTypes) return <Loading backgroundColor="gray50" title={title} />;
+  if (!profile || !accountTypes) return <Loading backgroundColor="neutral50" title={title} />;
   return (
     <KeyboardAwareScrollView
       style={{ ...screens.profile, padding: paddings.lg }}
@@ -204,7 +204,7 @@ export default function ProfileBank() {
       scrollIndicatorInsets={{ right: 1 }}
     >
       <Stack.Screen options={{ title }} />
-      <DefaultText size="sm" color="gray700">
+      <DefaultText size="sm" color="neutral700">
         <DefaultText size="sm" color="red">
           Aviso:
         </DefaultText>
@@ -236,7 +236,7 @@ export default function ProfileBank() {
           title="Banco"
           placeholder="Escolha seu banco"
           value={bank?.name}
-          color={!profileState.includes('approved') || editing ? 'gray700' : 'gray500'}
+          color={!profileState.includes('approved') || editing ? 'neutral700' : 'neutral500'}
           onPress={() => {
             router.push('/profile/select-bank');
           }}
@@ -266,7 +266,7 @@ export default function ProfileBank() {
         <DefaultText
           style={{ marginTop: paddings['2xl'], marginBottom: paddings.sm }}
           size="sm"
-          color="gray700"
+          color="neutral700"
         >
           Selecione o tipo da sua conta:
         </DefaultText>

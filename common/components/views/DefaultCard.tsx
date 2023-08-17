@@ -16,7 +16,7 @@ export default function DefaultCard({ title, subtitle, icon }: Props) {
     <View
       style={{
         ...borders.default,
-        borderColor: colors.gray50,
+        borderColor: colors.neutral50,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -29,7 +29,7 @@ export default function DefaultCard({ title, subtitle, icon }: Props) {
         <DefaultText size="sm">{title}</DefaultText>
         <DefaultText
           size="xs"
-          color="gray700"
+          color="neutral700"
           style={{
             flexWrap: 'wrap',
             width: '95%',

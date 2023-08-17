@@ -3,7 +3,7 @@ import { Loading } from '@/common/components/views/Loading';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
-export default function Index() {
+export default function PendingIndex() {
   // context
   // state
   const profile = useProfile();
@@ -11,12 +11,8 @@ export default function Index() {
   // side effects
   useEffect(() => {
     if (!situation) return;
-    if (situation === 'approved') {
-      // router.replace('/home');
-      router.replace('/sign-in');
-    } else if (situation === 'pending') {
-      router.replace('/pending');
-    }
+    if (situation === 'approved') router.replace('/home');
+    else if (situation === 'pending') router.replace('/pending');
   }, [situation]);
   // UI
   return <Loading />;

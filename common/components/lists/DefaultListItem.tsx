@@ -31,7 +31,7 @@ export const DefaultListItem = ({
             alignItems: 'center',
           },
           !borderless
-            ? { borderBottomColor: colors.gray500, borderStyle: 'solid', borderBottomWidth: 1 }
+            ? { borderBottomColor: colors.neutral500, borderStyle: 'solid', borderBottomWidth: 1 }
             : {},
         ]}
       >
@@ -42,7 +42,7 @@ export const DefaultListItem = ({
           <DefaultText size="sm">{title}</DefaultText>
           {subtitles?.length ? (
             <View>
-              <DefaultText size="sm" color="gray700" style={{ marginTop: paddings.sm }}>
+              <DefaultText size="sm" color="neutral700" style={{ marginTop: paddings.sm }}>
                 {subtitles.join('\n')}
               </DefaultText>
             </View>

@@ -22,7 +22,7 @@ export function AlertBox({
       style={[
         style,
         {
-          backgroundColor: variant === 'yellow' ? colors.yellowLight : colors.white,
+          backgroundColor: variant === 'yellow' ? colors.warning300 : colors.white,
           borderWidth: 1,
           borderRadius: 8,
           padding: paddings.lg,

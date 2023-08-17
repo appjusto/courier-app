@@ -33,7 +33,7 @@ export const RadioButton = ({
                 {
                   width: size,
                   height: size,
-                  padding: paddings['2xs'],
+                  padding: paddings.xs,
                   borderWidth: 2,
                   borderRadius: variant === 'circle' ? size / 2 : size / 6,
                   borderColor: colors.black,
@@ -47,7 +47,7 @@ export const RadioButton = ({
               {checked && (
                 <View
                   style={{
-                    backgroundColor: colors.green500,
+                    backgroundColor: colors.black,
                     borderRadius: variant === 'circle' ? size / 2 : size / 6,
                     width: size * 0.66,
                     height: size * 0.66,

@@ -1,10 +1,11 @@
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import { Check } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 import { CheckButtonProps } from './types';
 
-const size = 24;
+const size = 18;
 
 export const CheckButton = ({
   title,
@@ -33,26 +34,17 @@ export const CheckButton = ({
                   width: size,
                   height: size,
                   padding: paddings['2xs'],
-                  borderWidth: 2,
-                  borderRadius: size / 6,
-                  borderColor: colors.black,
-                  backgroundColor: colors.white,
+                  borderWidth: 1,
+                  borderRadius: size / 9,
+                  borderColor: checked ? colors.neutral800 : colors.neutral200,
+                  backgroundColor: checked ? colors.neutral900 : colors.white,
                   opacity: pressed ? 0.8 : 1,
                   alignItems: 'center',
                 },
                 // style,
               ]}
             >
-              {checked && (
-                <View
-                  style={{
-                    backgroundColor: colors.green500,
-                    borderRadius: size / 6,
-                    width: size * 0.66,
-                    height: size * 0.66,
-                  }}
-                />
-              )}
+              {checked ? <Check color={colors.white} size={10} /> : null}
             </View>
             <DefaultText size="xs" style={{ marginLeft: paddings.sm }}>
               {title}

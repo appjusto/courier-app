@@ -124,7 +124,7 @@ export default function ProfilePersonalData() {
   // UI
   const title = 'Selfie e documento';
   if (selfieUrl === undefined || documentUrl === undefined) {
-    return <Loading backgroundColor="gray50" title={title} />;
+    return <Loading backgroundColor="neutral50" title={title} />;
   }
   return (
     <DefaultView style={{ ...screens.profile }}>
@@ -161,7 +161,10 @@ export default function ProfilePersonalData() {
       />
       <View style={{ flex: 1 }} />
       <View style={{ padding: paddings.lg, alignItems: 'center' }}>
-        <CircledView size={160} style={{ borderColor: selfieUrl ? colors.gray50 : colors.black }}>
+        <CircledView
+          size={160}
+          style={{ borderColor: selfieUrl ? colors.neutral50 : colors.black }}
+        >
           {selfieUrl ? (
             <Image
               style={{ width: 160, height: 160 }}
@@ -189,7 +192,7 @@ export default function ProfilePersonalData() {
         <View style={{ padding: paddings.lg, alignItems: 'center' }}>
           <CircledView
             size={160}
-            style={{ borderColor: documentUrl ? colors.gray50 : colors.black }}
+            style={{ borderColor: documentUrl ? colors.neutral50 : colors.black }}
           >
             {documentUrl ? (
               <Image

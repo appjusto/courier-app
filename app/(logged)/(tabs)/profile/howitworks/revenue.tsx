@@ -12,7 +12,7 @@ export default function RevenueProcess() {
         <DefaultText size="2xl">Funcionamento do recebimento</DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.sm,
           }}

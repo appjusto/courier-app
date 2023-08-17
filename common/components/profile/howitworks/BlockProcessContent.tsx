@@ -19,7 +19,7 @@ export const BlockProcessContent = ({ variant }: Props) => {
           <DefaultText size="2xl">Por que o AppJusto tem bloqueios?</DefaultText>
           <DefaultText
             size="sm"
-            color="gray700"
+            color="neutral700"
             style={{
               marginTop: paddings.sm,
             }}
@@ -29,7 +29,7 @@ export const BlockProcessContent = ({ variant }: Props) => {
           </DefaultText>
           <DefaultText
             size="sm"
-            color="gray700"
+            color="neutral700"
             style={{
               marginTop: paddings.lg,
             }}

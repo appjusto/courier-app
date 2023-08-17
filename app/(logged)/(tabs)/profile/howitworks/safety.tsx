@@ -27,7 +27,7 @@ export default function SafetyScreen() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginBottom: paddings.xl,
           }}
@@ -46,7 +46,7 @@ export default function SafetyScreen() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginBottom: paddings.xl,
           }}
@@ -139,7 +139,7 @@ export default function SafetyScreen() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginBottom: paddings.sm,
           }}
@@ -148,7 +148,7 @@ export default function SafetyScreen() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginBottom: paddings.xl,
           }}

@@ -1,49 +1,61 @@
-export const regularFontFamily = 'BarlowMedium';
-export const boldFontFamily = 'BarlowSemiBold';
+export const regularFontFamily = 'HankenGrotesk-Regular';
+export const mediumFontFamily = 'HankenGrotesk-Medium';
+export const semiboldFontFamily = 'HankenGrotesk-SemiBold';
 
 export default {
-  '2xs': {
-    fontFamily: regularFontFamily,
-    fontSize: 11,
-  },
   'xs': {
     fontFamily: regularFontFamily,
-    fontSize: 13,
+    fontSize: 12,
+    // lineHeight: 16,
+  },
+  'sm-overline': {
+    fontFamily: semiboldFontFamily,
+    fontSize: 12,
+    // lineHeight: 16,
   },
   'sm': {
     fontFamily: regularFontFamily,
-    fontSize: 15,
+    fontSize: 14,
+    // lineHeight: 18,
+  },
+  'md-overline': {
+    fontFamily: semiboldFontFamily,
+    fontSize: 14,
+    // lineHeight: 18,
+  },
+  'md-body-app': {
+    fontFamily: regularFontFamily,
+    fontSize: 16,
+    // lineHeight: 26,
   },
   'md': {
     fontFamily: regularFontFamily,
-    fontSize: 16,
+    fontSize: 18,
+    // lineHeight: 28,
   },
   'lg': {
-    fontFamily: regularFontFamily,
-    fontSize: 18,
+    fontFamily: mediumFontFamily,
+    fontSize: 20,
+    // lineHeight: 30,
   },
   'xl': {
-    fontFamily: regularFontFamily,
-    fontSize: 20,
+    fontFamily: mediumFontFamily,
+    fontSize: 24,
+    // lineHeight: 34,
   },
   '2xl': {
-    fontFamily: boldFontFamily,
-    fontSize: 24,
+    fontFamily: mediumFontFamily,
+    fontSize: 32,
+    // lineHeight: 42,
   },
   '3xl': {
-    fontFamily: boldFontFamily,
-    fontSize: 28,
+    fontFamily: mediumFontFamily,
+    fontSize: 38,
+    // lineHeight: 48,
   },
   '4xl': {
-    fontFamily: boldFontFamily,
-    fontSize: 36,
-  },
-  '5xl': {
-    fontFamily: boldFontFamily,
+    fontFamily: mediumFontFamily,
     fontSize: 48,
-  },
-  '6xl': {
-    fontFamily: boldFontFamily,
-    fontSize: 65,
+    // lineHeight: 56,
   },
 };

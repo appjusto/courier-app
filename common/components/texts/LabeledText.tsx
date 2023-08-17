@@ -19,22 +19,23 @@ export function LabeledText({
   return (
     <Pressable onPress={onPress}>
       <View style={style}>
+        {title ? <DefaultText>{title}</DefaultText> : null}
         <View
           style={[
             {
+              marginTop: paddings.xs,
               ...borders.default,
               padding: paddings.md,
               backgroundColor: colors.white,
             },
           ]}
         >
-          <DefaultText color="green600">{title}</DefaultText>
           <Text
             style={[
               {
                 marginTop: paddings.xs,
-                ...typography[size ?? 'sm'],
                 color: colors[color ?? 'black'],
+                ...typography[size ?? 'md'],
               },
             ]}
             {...props}

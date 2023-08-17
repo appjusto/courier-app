@@ -17,7 +17,7 @@ export default function ApprovalProcess() {
         <DefaultText size="2xl">Funcionamento da aprovação de cadastro</DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.sm,
           }}
@@ -27,7 +27,7 @@ export default function ApprovalProcess() {
         </DefaultText>
         <DefaultText
           size="sm"
-          color="gray700"
+          color="neutral700"
           style={{
             marginTop: paddings.sm,
           }}

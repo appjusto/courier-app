@@ -26,7 +26,7 @@ export default function GainSimulator({
         <DefaultText size="sm" style={{ marginBottom: 4 }}>
           Simulação de ganhos
         </DefaultText>
-        <DefaultText size="xs" color="gray700" style={{ marginTop: paddings.xs }}>
+        <DefaultText size="xs" color="neutral700" style={{ marginTop: paddings.xs }}>
           Veja uma simulação aproximada dos ganhos por corrida nessa frota com os valores definidos
           acima.
         </DefaultText>
@@ -53,7 +53,7 @@ export default function GainSimulator({
               justifyContent: 'space-between',
             }}
           >
-            <DefaultText size="sm" color="gray700">
+            <DefaultText size="sm" color="neutral700">
               {`${i === 0 ? 'Até ' : ''}${formatDistance(
                 distanceThreshold + i * kmInterval * 1000
               )}`}

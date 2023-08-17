@@ -23,8 +23,9 @@ setupNotifications().then(null).catch(console.error);
 export default function RootLayout() {
   // state
   const [loaded, error] = useFonts({
-    BarlowSemiBold: require('../assets/fonts/Barlow-SemiBold.ttf'),
-    BarlowMedium: require('../assets/fonts/Barlow-Medium.ttf'),
+    HankenGroteskRegular: require('../assets/fonts/HankenGrotesk-Regular.ttf'),
+    HankenGroteskMedium: require('../assets/fonts/HankenGrotesk-Medium.ttf'),
+    HankenGroteskSemiBold: require('../assets/fonts/HankenGrotesk-SemiBold.ttf'),
     ...FontAwesome.font,
   });
   const colorScheme = useColorScheme();
