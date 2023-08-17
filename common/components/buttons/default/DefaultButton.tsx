@@ -2,13 +2,15 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import typography from '@/common/styles/typography';
-import { Pressable, View, ViewProps } from 'react-native';
+import { ActivityIndicator, Pressable, View, ViewProps } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 
 type DefaultButtonProps = ViewProps & {
   title: string;
   variant?: 'primary' | 'destructive' | 'outline';
   disabled?: boolean;
+  loading?: boolean;
+  loadingTitle?: string;
   onPress: () => void;
 };
 
@@ -17,10 +19,13 @@ export const DefaultButton = ({
   variant = 'primary',
   style,
   disabled,
+  loading,
+  loadingTitle,
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (pressed: boolean) => {
     if (disabled) return colors.neutral100;
+    if (loading) return colors.neutral700;
     if (variant === 'primary') return pressed ? colors.neutral900 : colors.black;
     if (variant === 'destructive') return pressed ? colors.error900 : colors.error500;
     return colors.black;
@@ -31,7 +36,6 @@ export const DefaultButton = ({
   };
   const textColor = () => {
     if (disabled) return colors.neutral700;
-    if (variant === 'primary') return colors.white;
     return colors.white;
   };
   return (
@@ -49,7 +53,10 @@ export const DefaultButton = ({
               },
             ]}
           >
-            <DefaultText style={{ ...typography.md, color: textColor() }}>{title}</DefaultText>
+            {loading ? <ActivityIndicator size="small" color={colors.white} /> : null}
+            <DefaultText style={{ ...typography.md, color: textColor() }}>
+              {loading && loadingTitle ? loadingTitle : title}
+            </DefaultText>
           </View>
         )}
       </Pressable>

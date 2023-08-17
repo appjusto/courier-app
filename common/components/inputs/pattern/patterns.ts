@@ -15,11 +15,6 @@ export default {
     parser: numbersOnlyParser,
     formatter: phoneFormatter,
   },
-  sixDigitsCode: {
-    mask: '999999',
-    parser: numbersOnlyParser,
-    formatter: undefined,
-  },
   cpf: {
     mask: '000.000.000-00',
     parser: numbersOnlyParser,

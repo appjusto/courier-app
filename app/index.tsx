@@ -11,12 +11,12 @@ export default function Index() {
   // side effects
   useEffect(() => {
     if (!situation) return;
-    if (situation === 'approved') {
-      // router.replace('/home');
-      router.replace('/sign-in');
-    } else if (situation === 'pending') {
-      router.replace('/pending');
-    }
+    router.replace('/sign-in');
+    // if (situation === 'approved') {
+    //   router.replace('/home');
+    // } else if (situation === 'pending') {
+    //   router.replace('/pending');
+    // }
   }, [situation]);
   // UI
   return <Loading />;

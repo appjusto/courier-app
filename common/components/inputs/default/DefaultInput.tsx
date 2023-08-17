@@ -3,12 +3,33 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import typography from '@/common/styles/typography';
 import { forwardRef, useRef } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, StyleProp, TextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
-import { DefaultInputProps } from './types';
+import { ThemeProps } from '../../themes';
+
+type DefaultInputProps = TextInput['props'] &
+  ThemeProps & {
+    title?: string;
+    size?: keyof typeof typography;
+    containerStyle?: StyleProp<ViewStyle> | undefined;
+    inputStyle?: StyleProp<TextStyle> | undefined;
+    onPress?: () => void;
+  };
 
 export const DefaultInput = forwardRef(
-  ({ title, editable, style, size, onPress, ...props }: DefaultInputProps, forwardedRef) => {
+  (
+    {
+      title,
+      editable,
+      style,
+      containerStyle,
+      inputStyle,
+      size,
+      onPress,
+      ...props
+    }: DefaultInputProps,
+    forwardedRef
+  ) => {
     const internalRef = useRef<TextInput>(null);
     const ref = (forwardedRef as React.RefObject<TextInput>) ?? internalRef;
     return (
@@ -28,6 +49,7 @@ export const DefaultInput = forwardRef(
                 padding: paddings.md,
                 backgroundColor: colors.white,
               },
+              containerStyle,
             ]}
           >
             <TextInput
@@ -37,6 +59,7 @@ export const DefaultInput = forwardRef(
                   ...typography[size ?? 'md'],
                   color: editable ? colors.black : colors.neutral700,
                 },
+                inputStyle,
               ]}
               editable={editable}
               onPressOut={() => {

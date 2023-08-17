@@ -205,7 +205,7 @@ export default function ProfileBank() {
     >
       <Stack.Screen options={{ title }} />
       <DefaultText size="sm" color="neutral700">
-        <DefaultText size="sm" color="red">
+        <DefaultText size="sm" color="warning900">
           Aviso:
         </DefaultText>
         {` Se seu CNPJ for de uma MEI, cadastre uma conta no seu nome. Caso contrário, você precisará cadastrar uma conta corrente no nome da sua PJ.`}

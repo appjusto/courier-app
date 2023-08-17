@@ -1,74 +1,32 @@
-import { useContextApi } from '@/api/ApiContext';
-import { useContextUser } from '@/common/auth/AuthContext';
 import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { SignInImage } from '@/common/screens/unlogged/sign-in/image';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { useRouter } from 'expo-router';
+import { isPhoneValid } from '@/common/validators/phone';
+import { getEnv } from '@/extra';
+import { Stack, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { TextInput, ToastAndroid, View } from 'react-native';
-
-type ScreenState = 'initial' | 'verifying-phone' | 'phone-verified' | 'phone-error';
+import { TextInput, View } from 'react-native';
 
 export default function SignIn() {
   // context
-  const auth = useContextApi().getAuth();
-  const user = useContextUser();
   const router = useRouter();
   // refs
   const phoneRef = useRef<TextInput>(null);
-  const codeRef = useRef<TextInput>(null);
   // state
-  const [state, setState] = useState<ScreenState>('initial');
-  const [phone, setPhone] = useState('');
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [confirmation, setConfirmation] = useState<FirebaseAuthTypes.ConfirmationResult | null>(
-    null
-  );
-  const [code, setCode] = useState('');
+  const [phone, setPhone] = useState(getEnv() === 'dev' ? '11990085775' : '');
+  const [termsAccepted, setTermsAccepted] = useState(getEnv() === 'dev');
+  console.log(phone);
+  const canSubmit = termsAccepted && isPhoneValid(phone);
   // side effects
   useEffect(() => {
     phoneRef?.current?.focus();
   }, []);
-  useEffect(() => {
-    if (confirmation?.verificationId) setState('phone-verified');
-  }, [confirmation]);
-  const canEditPhone = state === 'initial' || state === 'phone-error';
-  const canEnterCode = state === 'phone-verified';
-  // handlers
-  const signInHandler = () => {
-    console.log('signInHandler', phone);
-    setState('verifying-phone');
-    auth
-      .signInWithPhoneNumber(phone)
-      .then((result) => {
-        setConfirmation(result);
-        console.log(result);
-      })
-      .catch((error) => {
-        console.error(error);
-        const message = error instanceof Error ? error.message : JSON.stringify(error);
-        ToastAndroid.show(message, 3000);
-        setState('phone-error');
-      });
-  };
-  const verifyHandler = () => {
-    console.log('verifyHandler', phone);
-    confirmation
-      ?.confirm(code)
-      .then((result) => {
-        router.replace('/home');
-      })
-      .catch((error) => {
-        console.error(error);
-        const message = error instanceof Error ? error.message : JSON.stringify(error);
-        ToastAndroid.show(message, 3000);
-      });
-  };
+
   // UI
   return (
     <View
@@ -78,18 +36,18 @@ export default function SignIn() {
         paddingBottom: paddings.xl,
       }}
     >
+      <Stack.Screen options={{ title: 'Entrar' }} />
       <SignInImage />
       <View style={{ flex: 1 }} />
       <DefaultText size="lg" style={{ marginVertical: paddings.xl }}>
         Acesse ou crie uma conta
       </DefaultText>
       <PatternInput
+        ref={phoneRef}
         pattern="phone"
         title="Celular"
         placeholder="Número com DDD"
         keyboardType="number-pad"
-        ref={phoneRef}
-        editable={canEditPhone}
         value={phone}
         onChangeText={setPhone}
       />
@@ -105,7 +63,7 @@ export default function SignIn() {
         <DefaultText size="sm" color="neutral800" style={{ marginTop: paddings.xs }}>
           Digite o número do seu celular
         </DefaultText>
-        <DefaultText color="black">Ler termos</DefaultText>
+        <LinkButton onPress={() => router.push('/(unlogged)/terms')}>Ler termos</LinkButton>
       </View>
       <CheckButton
         title="Acesse ou crie uma conta"
@@ -114,26 +72,17 @@ export default function SignIn() {
         onPress={() => setTermsAccepted((value) => !value)}
       />
       <View style={{ flex: 1 }} />
-      <DefaultButton title="Entrar" disabled={!canEditPhone} onPress={signInHandler} />
-      {canEnterCode ? (
-        <View>
-          <PatternInput
-            pattern="sixDigitsCode"
-            title="Código"
-            placeholder="Código de confirmação"
-            keyboardType="number-pad"
-            ref={codeRef}
-            editable={canEnterCode}
-            value={code}
-            onChangeText={setCode}
-          />
-          <DefaultButton
-            title="Verificar"
-            disabled={canEditPhone || !canEnterCode}
-            onPress={verifyHandler}
-          />
-        </View>
-      ) : null}
+      <DefaultButton
+        title="Entrar"
+        disabled={!canSubmit}
+        onPress={() => {
+          router.push({
+            pathname: `/phone-verification`,
+            // @ts-ignore
+            params: { phone, countryCode: 55 },
+          });
+        }}
+      />
     </View>
   );
 }

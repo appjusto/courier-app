@@ -1,8 +1,6 @@
-import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
 import { DeleteAccountPayload } from '@appjusto/types';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { getLoginsCollection } from '../firebase/refs/firestore';
 import { getDeleteAccount } from '../firebase/refs/functions';
 
 export default class AuthApi {
@@ -13,16 +11,6 @@ export default class AuthApi {
   // login with phone
   async signInWithPhoneNumber(number: string, countryCode = '55') {
     const phone = `+${countryCode}${number}`;
-    try {
-      await getLoginsCollection().add({
-        phone,
-        flavor: 'courier',
-        signInAt: serverTimestamp(),
-      });
-    } catch (error) {
-      console.error(error);
-      // Sentry.Native.captureException(error);
-    }
     return auth().signInWithPhoneNumber(phone);
   }
 
