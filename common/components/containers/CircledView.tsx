@@ -9,7 +9,6 @@ export function CircledView({ size, children, style, ...props }: Props) {
   return (
     <View
       style={[
-        style,
         {
           width: size,
           height: size,
@@ -19,6 +18,7 @@ export function CircledView({ size, children, style, ...props }: Props) {
           borderWidth: 1,
           overflow: 'hidden',
         },
+        style,
       ]}
       {...props}
     >
