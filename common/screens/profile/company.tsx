@@ -262,7 +262,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
       <View style={{ flex: 1 }} />
       <DefaultButton
         style={{ marginBottom: paddings.lg }}
-        title={profileState.includes('approved') ? 'Atualizar dados' : 'Avançar'}
+        title={profileState.includes('approved') ? 'Atualizar dados' : 'Salvar e avançar'}
         disabled={
           isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
         }
