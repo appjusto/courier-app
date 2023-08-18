@@ -28,12 +28,12 @@ export default function PendingPager() {
   // context
   const router = useRouter();
   // params
+  // @ts-expect-error
   const search = useLocalSearchParams<{ bankId: string }>();
   // refs
   const pagerViewRef = useRef<PagerView>(null);
   // state
   const [stepIndex, setStepIndex] = useState(0);
-  const step = steps[stepIndex];
   // handlers
   const nextHandler = () => {
     if (stepIndex + 1 < steps.length) {
@@ -56,10 +56,11 @@ export default function PendingPager() {
       >
         <ProfilePersonalData onUpdateProfile={nextHandler} />
         <ProfileCompany onUpdateProfile={nextHandler} />
-        <ProfilePersonalImages />
+        <ProfilePersonalImages onUpdateProfile={nextHandler} />
         <ProfileBank
           bankId={search?.bankId}
           onSelectBank={() => router.push('/pending/select-bank')}
+          onUpdateProfile={() => router.back()}
         />
       </PagerView>
     </View>

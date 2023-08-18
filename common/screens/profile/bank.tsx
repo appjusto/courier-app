@@ -8,8 +8,8 @@ import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { useBankPatterns } from '@/common/components/profile/banks/useBankPatterns';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
-import { AlertBox } from '@/common/components/views/AlertBox';
 import { Loading } from '@/common/components/views/Loading';
+import { MessageBox } from '@/common/components/views/MessageBox';
 import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
@@ -33,11 +33,12 @@ interface AccountTypeRadio {
 }
 
 interface Props {
-  onSelectBank: () => void;
   bankId?: string;
+  onSelectBank: () => void;
+  onUpdateProfile?: () => void;
 }
 
-export default function ProfileBank({ bankId, onSelectBank }: Props) {
+export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
   // refs
@@ -52,7 +53,7 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
   const [bank, setBank] = useState<WithId<Bank>>();
   const [agency, setAgency] = useState<string>();
   const [account, setAccount] = useState<string>();
-  const [personType, setPersonType] = useState<BankAccountPersonType>();
+  const [personType, setPersonType] = useState<BankAccountPersonType>('Pessoa Física');
   const [accountTypes, setAccountTypes] = useState<AccountTypeRadio[]>();
   const [accountType, setAccountType] = useState<BankAccountType>();
   const [isLoading, setLoading] = useState(false);
@@ -105,6 +106,7 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
             { title: 'Poupança', accountType: 'Poupança' },
           ];
     setAccountTypes(types);
+    setAccountType(types[0].accountType);
   }, [bank]);
   // helpers
   const { agencyParser, agencyFormatter, accountParser, accountFormatter } = useBankPatterns(bank);
@@ -145,6 +147,7 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
         .updateProfile(profile.id, { bankAccount: updatedBank as BankAccount })
         .then(() => {
           setLoading(false);
+          if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
           console.error(error);
@@ -191,38 +194,39 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
   if (!profile || !accountTypes) return <Loading />;
   return (
     <View style={{ flex: 1, padding: paddings.lg }}>
-      <DefaultText size="lg">Preencha os dados da sua MEI ou PJ</DefaultText>
-      <DefaultText size="sm" color="neutral700">
-        <DefaultText size="sm" color="warning900">
-          Aviso:
-        </DefaultText>
-        {` Se seu CNPJ for de uma MEI, cadastre uma conta no seu nome. Caso contrário, você precisará cadastrar uma conta corrente no nome da sua PJ.`}
-      </DefaultText>
+      <DefaultText size="lg">Preencha seus dados bancários</DefaultText>
       <View style={{ flex: 1, marginTop: paddings.sm }}>
-        <RadioButton
-          style={{ marginTop: paddings.sm }}
-          title="Pessoa Física"
-          checked={personType === 'Pessoa Física'}
-          onPress={() => {
-            if (!profileState.includes('approved') || editing) {
-              setPersonType('Pessoa Física');
-            }
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: paddings.sm,
+            alignItems: 'center',
           }}
-        />
-        <RadioButton
-          style={{ marginTop: paddings.xs }}
-          title="Pessoa Jurídica"
-          checked={personType === 'Pessoa Jurídica'}
-          onPress={() => {
-            if (!profileState.includes('approved') || editing) {
-              setPersonType('Pessoa Jurídica');
-            }
-          }}
-        />
+        >
+          <RadioButton
+            title="Pessoa Física"
+            checked={personType === 'Pessoa Física'}
+            onPress={() => {
+              if (!profileState.includes('approved') || editing) {
+                setPersonType('Pessoa Física');
+              }
+            }}
+          />
+          <RadioButton
+            style={{ marginLeft: paddings.lg }}
+            title="Pessoa Jurídica"
+            checked={personType === 'Pessoa Jurídica'}
+            onPress={() => {
+              if (!profileState.includes('approved') || editing) {
+                setPersonType('Pessoa Jurídica');
+              }
+            }}
+          />
+        </View>
         <LabeledText
           style={{ marginTop: paddings.lg }}
           title="Banco"
-          placeholder="Escolha seu banco"
+          placeholder="Selecione seu banco"
           value={bank?.name}
           color={!profileState.includes('approved') || editing ? 'neutral700' : 'neutral500'}
           onPress={onSelectBank}
@@ -236,7 +240,7 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
             parser: agencyParser,
           }}
           title="Agência"
-          placeholder="Apenas números"
+          placeholder="Digite sua agência"
           keyboardType="number-pad"
           returnKeyType="next"
           editable={!profileState.includes('approved') || editing}
@@ -249,26 +253,21 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
           }}
           onSubmitEditing={() => accountRef.current?.focus()}
         />
-        <DefaultText
-          style={{ marginTop: paddings['2xl'], marginBottom: paddings.sm }}
-          size="sm"
-          color="neutral700"
-        >
-          Selecione o tipo da sua conta:
-        </DefaultText>
-        {(accountTypes ?? []).map((option) => (
-          <RadioButton
-            key={option.accountType}
-            style={{ marginTop: paddings.xs }}
-            title={option.title}
-            checked={accountType === option.accountType}
-            onPress={() => {
-              if (!profileState.includes('approved') || editing) {
-                setAccountType(option.accountType);
-              }
-            }}
-          />
-        ))}
+        <View style={{ marginTop: paddings.lg }}>
+          {(accountTypes ?? []).map((option) => (
+            <RadioButton
+              key={option.accountType}
+              style={{ marginTop: paddings.xs }}
+              title={option.title}
+              checked={accountType === option.accountType}
+              onPress={() => {
+                if (!profileState.includes('approved') || editing) {
+                  setAccountType(option.accountType);
+                }
+              }}
+            />
+          ))}
+        </View>
         <PatternInput
           ref={accountRef}
           style={{ marginTop: paddings.lg }}
@@ -278,7 +277,7 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
             parser: accountParser,
           }}
           title="Conta"
-          placeholder="Apenas números"
+          placeholder="Digite sua conta"
           keyboardType="number-pad"
           returnKeyType="next"
           editable={!profileState.includes('approved') || editing}
@@ -291,16 +290,13 @@ export default function ProfileBank({ bankId, onSelectBank }: Props) {
           }}
         />
         <View style={{ flex: 1 }} />
-        {profileState.includes('approved') ? (
-          <AlertBox
-            variant={hasPendingChange ? 'yellow' : 'white'}
-            description={
-              hasPendingChange
-                ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
-                : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
-            }
-          />
-        ) : null}
+        <MessageBox>
+          {profileState.includes('approved')
+            ? hasPendingChange
+              ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+              : 'Possíveis alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
+            : 'Se seu CNPJ for de uma MEI, cadastre uma conta no seu nome. Caso contrário, você precisará cadastrar uma conta corrente no nome da sua PJ.'}
+        </MessageBox>
         <View style={{ flex: 1 }} />
         <SafeAreaView>
           <DefaultButton
