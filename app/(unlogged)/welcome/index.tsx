@@ -1,6 +1,6 @@
+import { BulletsSteps } from '@/app/(unlogged)/welcome/BulletsSteps';
 import { ArrowRightIconButton } from '@/common/components/buttons/icon/ArrowRightIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { BulletsSteps } from '@/common/components/views/BulletsSteps';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';

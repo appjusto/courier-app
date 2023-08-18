@@ -1,7 +1,7 @@
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { View, ViewProps } from 'react-native';
-import { CircledView } from '../containers/CircledView';
+import { CircledView } from '../../../common/components/containers/CircledView';
 
 interface Props extends ViewProps {
   size: number;

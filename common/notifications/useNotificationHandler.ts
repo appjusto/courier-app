@@ -7,7 +7,7 @@ import { stopOrderRequestSound } from './sound';
 export const useNotificationHandler = () => {
   // state
   // https://github.com/expo/router/issues/740
-  const mounted = Boolean(useRootNavigationState().key);
+  const mounted = Boolean(useRootNavigationState()?.key);
   const [notification, setNotification] = useState<Notifications.Notification>();
   // side effects
   useEffect(() => {
