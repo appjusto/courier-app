@@ -84,7 +84,7 @@ export default function PhoneVerification() {
   // UI
   if (!state) return <Loading />;
   console.log('code.length', code.length);
-  const canSubmit = state === 'phone-verified' && code.trim().length === 6;
+  const canSubmit = code.trim().length === 6;
   return (
     <View
       style={{

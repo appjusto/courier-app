@@ -12,8 +12,8 @@ export default function Index() {
   // side effects
   useEffect(() => {
     if (!situation) return;
-    router.replace('/welcome');
-    // router.replace('/sign-in');
+    // router.replace('/welcome');
+    router.replace('/sign-in');
     // if (situation === 'approved') {
     //   router.replace('/home');
     // } else if (situation === 'pending') {

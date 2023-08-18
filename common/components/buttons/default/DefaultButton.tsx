@@ -48,6 +48,7 @@ export const DefaultButton = ({
                 backgroundColor: backgroundColor(pressed),
                 borderColor: borderColor(pressed),
                 alignItems: 'center',
+                height: 42,
               },
             ]}
           >
