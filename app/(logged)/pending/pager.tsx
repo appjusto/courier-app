@@ -1,3 +1,4 @@
+import { VPendingSteps } from '@/common/screens/pending/VPendingSteps';
 import ProfileCompany from '@/common/screens/profile/company';
 import ProfilePersonalImages from '@/common/screens/profile/images';
 import ProfilePersonalData from '@/common/screens/profile/personal';
@@ -8,16 +9,16 @@ import PagerView from 'react-native-pager-view';
 
 const steps = [
   {
-    title: 'Dados pessoais',
+    title: 'Seus dados',
   },
   {
-    title: 'Dados da sua PJ',
+    title: 'Dados PJ',
   },
   {
-    title: 'Documentos e foto',
+    title: 'Documentos',
   },
   {
-    title: 'Dados bancários',
+    title: 'Banco',
   },
 ];
 
@@ -37,6 +38,7 @@ export default function PendingPager() {
   // UI
   return (
     <View style={{ ...screens.default }}>
+      <VPendingSteps steps={steps} index={stepIndex} />
       <PagerView
         ref={pagerViewRef}
         style={{ flex: 1 }}
