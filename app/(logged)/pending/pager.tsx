@@ -1,8 +1,10 @@
 import { VPendingSteps } from '@/common/screens/pending/VPendingSteps';
+import ProfileBank from '@/common/screens/profile/bank';
 import ProfileCompany from '@/common/screens/profile/company';
 import ProfilePersonalImages from '@/common/screens/profile/images';
 import ProfilePersonalData from '@/common/screens/profile/personal';
 import screens from '@/common/styles/screens';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -23,6 +25,10 @@ const steps = [
 ];
 
 export default function PendingPager() {
+  // context
+  const router = useRouter();
+  // params
+  const search = useLocalSearchParams<{ bankId: string }>();
   // refs
   const pagerViewRef = useRef<PagerView>(null);
   // state
@@ -51,6 +57,10 @@ export default function PendingPager() {
         <ProfilePersonalData onUpdateProfile={nextHandler} />
         <ProfileCompany onUpdateProfile={nextHandler} />
         <ProfilePersonalImages />
+        <ProfileBank
+          bankId={search?.bankId}
+          onSelectBank={() => router.push('/pending/select-bank')}
+        />
       </PagerView>
     </View>
   );

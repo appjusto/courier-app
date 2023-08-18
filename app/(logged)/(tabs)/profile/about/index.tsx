@@ -22,7 +22,7 @@ export default function ProfileAbout() {
   const router = useRouter();
   // UI
   return (
-    <DefaultScrollView style={{ ...screens.profile }}>
+    <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Sobre o AppJusto' }} />
       <DefaultListItem
         title="Como funciona o AppJusto"

@@ -5,10 +5,9 @@ import { Stack } from 'expo-router';
 
 export default function ProfilePersonalImagesScreen() {
   // UI
-  const title = 'Selfie e documento';
   return (
-    <DefaultView style={{ ...screens.profile }}>
-      <Stack.Screen options={{ title }} />
+    <DefaultView style={{ ...screens.default }}>
+      <Stack.Screen options={{ title: 'Selfie e documento' }} />
       <ProfilePersonalImages />
     </DefaultView>
   );

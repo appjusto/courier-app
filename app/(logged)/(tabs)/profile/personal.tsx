@@ -6,10 +6,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export default function ProfilePersonalDataScreen() {
   // UI
-  const title = 'Dados pessoais';
   return (
     <KeyboardAwareScrollView
-      style={{ ...screens.profile, padding: paddings.lg }}
+      style={{ ...screens.default, padding: paddings.lg }}
       enableOnAndroid
       enableAutomaticScroll
       keyboardOpeningTime={0}
@@ -17,7 +16,7 @@ export default function ProfilePersonalDataScreen() {
       contentContainerStyle={{ flexGrow: 1 }}
       scrollIndicatorInsets={{ right: 1 }}
     >
-      <Stack.Screen options={{ title }} />
+      <Stack.Screen options={{ title: 'Dados pessoais' }} />
       <ProfilePersonalData />
     </KeyboardAwareScrollView>
   );

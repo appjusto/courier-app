@@ -7,7 +7,7 @@ import { Stack, router } from 'expo-router';
 export default function Profile() {
   // UI
   return (
-    <DefaultScrollView style={{ ...screens.profile }}>
+    <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Seus dados' }} />
       <DefaultListItem
         title="Dados pessoais"

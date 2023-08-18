@@ -36,7 +36,7 @@ export default function ProfileNotifications() {
   const title = 'Notificações';
   if (!profile) return <Loading title={title} />;
   return (
-    <DefaultScrollView style={{ ...screens.profile, padding: paddings.lg }}>
+    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title }} />
       <DefaultText size="2xl">Escolha as notificações que recebe do AppJusto</DefaultText>
       <DefaultText style={{ marginTop: paddings.sm }} size="sm" color="neutral700">

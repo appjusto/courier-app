@@ -4,7 +4,7 @@ import { Pressable, View } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 import { RadioButtonProps } from './types';
 
-const size = 24;
+const size = 18;
 
 export const RadioButton = ({
   title,
@@ -40,6 +40,7 @@ export const RadioButton = ({
                   backgroundColor: colors.white,
                   opacity: pressed ? 0.8 : 1,
                   alignItems: 'center',
+                  justifyContent: 'center',
                 },
                 // style,
               ]}
@@ -49,8 +50,8 @@ export const RadioButton = ({
                   style={{
                     backgroundColor: colors.black,
                     borderRadius: variant === 'circle' ? size / 2 : size / 6,
-                    width: size * 0.66,
-                    height: size * 0.66,
+                    width: size * 0.5,
+                    height: size * 0.5,
                   }}
                 />
               )}

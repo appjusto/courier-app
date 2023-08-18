@@ -5,11 +5,10 @@ import { Stack } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ProfileCompanyScreen() {
-  // context
-  const title = 'Dados da sua PJ';
+  // UI
   return (
     <KeyboardAwareScrollView
-      style={{ ...screens.profile, padding: paddings.lg }}
+      style={{ ...screens.default, padding: paddings.lg }}
       enableOnAndroid
       enableAutomaticScroll
       keyboardOpeningTime={0}
@@ -17,7 +16,7 @@ export default function ProfileCompanyScreen() {
       contentContainerStyle={{ flexGrow: 1 }}
       scrollIndicatorInsets={{ right: 1 }}
     >
-      <Stack.Screen options={{ title }} />
+      <Stack.Screen options={{ title: 'Dados da sua PJ' }} />
       <ProfileCompany />
     </KeyboardAwareScrollView>
   );
