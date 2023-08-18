@@ -64,7 +64,7 @@ export default function PhoneVerification() {
     if (state === 'phone-verified') {
       codeRef?.current?.focus();
     } else if (state === 'code-verified') {
-      router.replace('/home');
+      router.replace('/logged');
     }
   }, [state, phone, signInWithPhoneNumber, router]);
   // handlers

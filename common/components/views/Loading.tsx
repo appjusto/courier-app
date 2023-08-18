@@ -13,7 +13,7 @@ export function Loading({ backgroundColor, title }: Props) {
   return (
     <DefaultView
       style={{
-        ...screens.profile,
+        ...screens.default,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors[backgroundColor ?? 'white'],

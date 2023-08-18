@@ -1,19 +1,13 @@
-import { useProfile } from '@/api/profile/useProfile';
-import { Loading } from '@/common/components/views/Loading';
-import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { DefaultText } from '@/common/components/texts/DefaultText';
+import screens from '@/common/styles/screens';
+import { Stack } from 'expo-router';
+import { View } from 'react-native';
 
 export default function PendingIndex() {
-  // context
-  // state
-  const profile = useProfile();
-  const situation = profile?.situation;
-  // side effects
-  useEffect(() => {
-    if (!situation) return;
-    if (situation === 'approved') router.replace('/home');
-    else if (situation === 'pending') router.replace('/pending');
-  }, [situation]);
-  // UI
-  return <Loading />;
+  return (
+    <View style={{ ...screens.default }}>
+      <Stack.Screen options={{ title: 'Cadastro' }} />
+      <DefaultText>Pending</DefaultText>
+    </View>
+  );
 }
