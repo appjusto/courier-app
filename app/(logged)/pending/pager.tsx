@@ -17,10 +17,10 @@ const steps = [
     title: 'Dados PJ',
   },
   {
-    title: 'Documentos',
+    title: 'Banco',
   },
   {
-    title: 'Banco',
+    title: 'Documentos',
   },
 ];
 
@@ -39,6 +39,7 @@ export default function PendingPager() {
     if (stepIndex + 1 < steps.length) {
       pagerViewRef?.current?.setPage(stepIndex + 1);
     } else {
+      router.back();
     }
   };
   // UI
@@ -56,12 +57,12 @@ export default function PendingPager() {
       >
         <ProfilePersonalData onUpdateProfile={nextHandler} />
         <ProfileCompany onUpdateProfile={nextHandler} />
-        <ProfilePersonalImages onUpdateProfile={nextHandler} />
         <ProfileBank
           bankId={search?.bankId}
           onSelectBank={() => router.push('/pending/select-bank')}
-          onUpdateProfile={() => router.back()}
+          onUpdateProfile={nextHandler}
         />
+        <ProfilePersonalImages onUpdateProfile={nextHandler} />
       </PagerView>
     </View>
   );

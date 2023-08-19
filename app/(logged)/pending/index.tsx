@@ -6,6 +6,7 @@ import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import { isProfileValid } from '@/common/profile/isProfileValid';
 import { PendingSteps } from '@/common/screens/pending/PendingSteps';
+import { useImagesURLs } from '@/common/screens/profile/images/useImagesURLs';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { CourierProfile } from '@appjusto/types';
@@ -21,10 +22,10 @@ const steps = [
     title: 'Dados da sua PJ',
   },
   {
-    title: 'Documentos e foto',
+    title: 'Dados bancários',
   },
   {
-    title: 'Dados bancários',
+    title: 'Documentos e foto',
   },
 ];
 
@@ -34,14 +35,16 @@ export default function PendingIndex() {
   // state
   const profile = useProfile<CourierProfile>();
   const [stepIndex, setStepIndex] = useState(0);
+  const { selfieUrl, documentUrl } = useImagesURLs();
   useEffect(() => {
     if (!profile) return;
     let index = 0;
     if (isProfileValid(profile)) index++;
     if (isCompanyValid(profile?.company)) index++;
     if (isBankAccountValid(profile?.bankAccount)) index++;
+    if (selfieUrl && documentUrl) index++;
     setStepIndex(index);
-  }, [profile]);
+  }, [profile, selfieUrl, documentUrl]);
   // UI
   const buttonTitle = `Preencher cadastro`;
   return (

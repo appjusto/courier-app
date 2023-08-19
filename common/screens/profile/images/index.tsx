@@ -9,9 +9,9 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Upload } from 'lucide-react-native';
-import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { PendingStep } from '../pending/PendingStep';
+import { PendingStep } from '../../pending/PendingStep';
+import { useImagesURLs } from './useImagesURLs';
 
 type ImageType = 'selfie' | 'document';
 
@@ -26,64 +26,17 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   const courierId = courier?.id;
   const { showActionSheetWithOptions } = useActionSheet();
   // state
-  const [selfieUrl, setSelfieUrl] = useState<string | null>();
-  const [documentUrl, setDocumentUrl] = useState<string | null>();
-  const [checkSelfieTick, setCheckSelfieTick] = useState<number>();
-  const [checkDocumentTick, setCheckDocumentTick] = useState<number>();
+  const {
+    selfieUrl,
+    documentUrl,
+    checkSelfieTick,
+    setCheckSelfieTick,
+    checkDocumentTick,
+    setCheckDocumentTick,
+  } = useImagesURLs();
   // helpers
   const canUploadImages = courier?.situation !== 'approved';
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
-  const fetchSelfie = useCallback(async () => {
-    if (!courierId) return;
-    try {
-      return await api.getProfile().getSelfieDownloadURL(courierId, '1024x1024');
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
-  }, [api, courierId]);
-  const fetchDocument = useCallback(async () => {
-    if (!courierId) return;
-    try {
-      return await api.getProfile().getDocumentDownloadURL(courierId, '1024x1024');
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
-  }, [api, courierId]);
-  // side effects
-  // initial selfie fetch
-  useEffect(() => {
-    fetchSelfie().then(setSelfieUrl);
-  }, [fetchSelfie]);
-  // initial document fetch
-  useEffect(() => {
-    fetchDocument().then(setDocumentUrl);
-  }, [fetchDocument]);
-  // selfie fetch after upload
-  useEffect(() => {
-    if (!checkSelfieTick) return;
-    const timeout = setTimeout(async () => {
-      const selfie = await fetchSelfie();
-      if (selfie) {
-        setSelfieUrl(selfie);
-        setCheckSelfieTick(undefined);
-      } else setCheckSelfieTick((value) => (value ?? 0) + 1);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, [checkSelfieTick, fetchSelfie]);
-  // selfie fetch after upload
-  useEffect(() => {
-    if (!checkDocumentTick) return;
-    const timeout = setTimeout(async () => {
-      const document = await fetchDocument();
-      if (document) {
-        setDocumentUrl(document);
-        setCheckDocumentTick(undefined);
-      } else setCheckDocumentTick((value) => (value ?? 0) + 1);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, [checkDocumentTick, fetchDocument]);
   // handlers
   const pickAndUpload = async (from: PickImageFrom, type: ImageType, aspect: [number, number]) => {
     if (!courierId) return;

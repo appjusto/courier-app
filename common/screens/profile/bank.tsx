@@ -122,8 +122,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
     };
     return value;
   })();
-  const canUpdateProfile =
-    !isBankAccountValid(profile?.bankAccount) && isBankAccountValid(updatedBank);
+  const canUpdateProfile = isBankAccountValid(updatedBank);
   // handlers
   const updateProfileHandler = () => {
     if (!profile?.id) return;
