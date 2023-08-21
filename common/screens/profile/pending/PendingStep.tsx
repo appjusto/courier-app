@@ -4,7 +4,7 @@ import paddings from '@/common/styles/paddings';
 import { Check, Pencil } from 'lucide-react-native';
 import { forwardRef } from 'react';
 import { View, ViewProps } from 'react-native';
-import { CircledView } from '../../components/containers/CircledView';
+import { CircledView } from '../../../components/containers/CircledView';
 
 interface Props extends ViewProps {
   index: number;

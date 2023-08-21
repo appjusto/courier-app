@@ -10,7 +10,7 @@ import paddings from '@/common/styles/paddings';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Upload } from 'lucide-react-native';
 import { View } from 'react-native';
-import { PendingStep } from '../../pending/PendingStep';
+import { PendingStep } from '../pending/PendingStep';
 import { useImagesURLs } from './useImagesURLs';
 
 type ImageType = 'selfie' | 'document';

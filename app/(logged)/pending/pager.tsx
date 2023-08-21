@@ -1,7 +1,7 @@
-import { VPendingSteps } from '@/common/screens/pending/VPendingSteps';
 import ProfileBank from '@/common/screens/profile/bank';
 import ProfileCompany from '@/common/screens/profile/company';
 import ProfilePersonalImages from '@/common/screens/profile/images';
+import { VPendingSteps } from '@/common/screens/profile/pending/VPendingSteps';
 import ProfilePersonalData from '@/common/screens/profile/personal';
 import screens from '@/common/styles/screens';
 import { useLocalSearchParams, useRouter } from 'expo-router';

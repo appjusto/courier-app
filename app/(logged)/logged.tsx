@@ -17,6 +17,8 @@ export default function LoggedIndex() {
       router.replace('/home');
     } else if (situation === 'pending') {
       router.replace('/pending');
+    } else if (situation === 'submitted' || situation === 'verified') {
+      router.replace('/submitted');
     }
   }, [situation]);
   // UI

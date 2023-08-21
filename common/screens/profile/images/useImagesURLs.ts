@@ -10,8 +10,8 @@ export const useImagesURLs = () => {
   const courierId = courier?.id;
   const [selfieUrl, setSelfieUrl] = useState<string | null>();
   const [documentUrl, setDocumentUrl] = useState<string | null>();
-  const [checkSelfieTick, setCheckSelfieTick] = useState<number>();
-  const [checkDocumentTick, setCheckDocumentTick] = useState<number>();
+  const [checkSelfieTick, setCheckSelfieTick] = useState<number | undefined>(1);
+  const [checkDocumentTick, setCheckDocumentTick] = useState<number | undefined>(1);
   // helpers
   const fetchSelfie = useCallback(async () => {
     if (!courierId) return;
@@ -33,13 +33,13 @@ export const useImagesURLs = () => {
   }, [api, courierId]);
   // side effects
   // initial selfie fetch
-  useEffect(() => {
-    fetchSelfie().then(setSelfieUrl);
-  }, [fetchSelfie]);
-  // initial document fetch
-  useEffect(() => {
-    fetchDocument().then(setDocumentUrl);
-  }, [fetchDocument]);
+  // useEffect(() => {
+  //   fetchSelfie().then(setSelfieUrl);
+  // }, [fetchSelfie]);
+  // // initial document fetch
+  // useEffect(() => {
+  //   fetchDocument().then(setDocumentUrl);
+  // }, [fetchDocument]);
   // selfie fetch after upload
   useEffect(() => {
     if (!checkSelfieTick) return;

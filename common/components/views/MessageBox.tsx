@@ -52,7 +52,10 @@ export function MessageBox({ variant = 'info', children, style, ...props }: Mess
     >
       <View style={{ flexDirection: 'row' }}>
         {icon()}
-        <DefaultText color={textColor()} style={{ marginLeft: paddings.sm }}>
+        <DefaultText
+          color={textColor()}
+          style={{ marginLeft: paddings.sm, borderWidth: 1, borderColor: backgroundColor() }}
+        >
           {children}
         </DefaultText>
       </View>

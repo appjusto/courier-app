@@ -1,12 +1,14 @@
+import { useContextApi } from '@/api/ApiContext';
 import { useProfile } from '@/api/profile/useProfile';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import { isProfileValid } from '@/common/profile/isProfileValid';
-import { PendingSteps } from '@/common/screens/pending/PendingSteps';
 import { useImagesURLs } from '@/common/screens/profile/images/useImagesURLs';
+import { PendingSteps } from '@/common/screens/profile/pending/PendingSteps';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { CourierProfile } from '@appjusto/types';
@@ -31,11 +33,14 @@ const steps = [
 
 export default function PendingIndex() {
   // context
+  const api = useContextApi();
   const router = useRouter();
   // state
   const profile = useProfile<CourierProfile>();
   const [stepIndex, setStepIndex] = useState(0);
-  const { selfieUrl, documentUrl } = useImagesURLs();
+  const [loading, setLoading] = useState(false);
+  const { selfieUrl, documentUrl, checkSelfieTick, checkDocumentTick } = useImagesURLs();
+  // side effects
   useEffect(() => {
     if (!profile) return;
     let index = 0;
@@ -45,8 +50,32 @@ export default function PendingIndex() {
     if (selfieUrl && documentUrl) index++;
     setStepIndex(index);
   }, [profile, selfieUrl, documentUrl]);
+  // handlers
+  const canSubmit = stepIndex === steps.length;
+  const canAdvance = !loading && !checkSelfieTick && !checkDocumentTick;
+  const advanceHandler = () => {
+    if (!profile) return;
+    if (canSubmit) {
+      setLoading(true);
+      api
+        .getProfile()
+        .updateProfile(profile.id, { situation: 'submitted' })
+        .then(() => {
+          setLoading(false);
+          router.replace('/submitted/');
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error(error);
+          // TODO: toast
+        });
+    } else {
+      router.push('/pending/pager');
+    }
+  };
   // UI
-  const buttonTitle = `Preencher cadastro`;
+  if (!profile) return <Loading title="Cadastro" />;
+  const buttonTitle = canSubmit ? 'Enviar cadastro' : 'Preencher cadastro';
   return (
     <View style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Cadastro', headerBackVisible: false }} />
@@ -62,7 +91,9 @@ export default function PendingIndex() {
       <View style={{ flex: 1 }} />
       <DefaultButton
         title={buttonTitle}
-        onPress={() => router.push('/pending/pager')}
+        disabled={!canAdvance}
+        loading={!canAdvance}
+        onPress={advanceHandler}
       ></DefaultButton>
     </View>
   );

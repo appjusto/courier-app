@@ -1,14 +1,14 @@
 import paddings from '@/common/styles/paddings';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Accordion } from '../../containers/accordion/Accordion';
-import { DefaultText } from '../../texts/DefaultText';
+import { Accordion } from '../../../containers/accordion/Accordion';
+import { DefaultText } from '../../../texts/DefaultText';
 
 interface Props {
   variant: 'how-it-works' | 'blocked';
 }
 
-export const BlockProcessContent = ({ variant }: Props) => {
+export default function BlockProcess({ variant }: Props) {
   // state
   const [selectedItemTitle, setSelectedItemTitle] = useState('');
   // UI
@@ -122,4 +122,4 @@ export const BlockProcessContent = ({ variant }: Props) => {
       />
     </View>
   );
-};
+}
