@@ -6,8 +6,8 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { AlertBox } from '@/common/components/views/AlertBox';
 import { Loading } from '@/common/components/views/Loading';
+import { MessageBox } from '@/common/components/views/MessageBox';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import paddings from '@/common/styles/paddings';
@@ -50,7 +50,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     name: (name ?? '').trim(),
     cep: (cep ?? '').trim(),
     address: (address ?? '').trim(),
-    number: (address ?? '').trim(),
+    number: (number ?? '').trim(),
     additional: (additional ?? '').trim(),
     city: (city ?? '').trim(),
     state: (state ?? '').trim(),
@@ -69,7 +69,6 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     if (profile.company?.state && !state) setState(profile.company.state);
   }, [api, profile, cnpj, name, cep, address, number, additional, city, state]);
   useEffect(() => {
-    console.log(cep, cep?.length, cepRef.current?.isFocused());
     if (cep?.length === 8 && cepRef.current?.isFocused()) {
       setLoading(true);
       fetchPostalDetails(cep)
@@ -143,7 +142,11 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
     <View style={{ flex: 1, padding: paddings.lg }}>
-      <DefaultText size="lg">Preencha os dados da sua MEI ou PJ</DefaultText>
+      <DefaultText size="lg">
+        {profileState.includes('approved')
+          ? 'Os dados da sua MEI ou PJ'
+          : 'Preencha os dados da sua MEI ou PJ'}
+      </DefaultText>
       <PatternInput
         style={{ marginTop: paddings.lg }}
         pattern="cnpj"
@@ -248,21 +251,23 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
           onChangeText={setState}
         />
       </View>
-      <View style={{ flex: 1 }} />
       {profileState.includes('approved') ? (
-        <AlertBox
-          variant={hasPendingChange ? 'yellow' : 'white'}
-          description={
-            hasPendingChange
-              ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
-              : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
-          }
-        />
+        <MessageBox style={{ marginTop: paddings.lg }}>
+          {hasPendingChange
+            ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+            : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'}
+        </MessageBox>
       ) : null}
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginBottom: paddings.lg }}
-        title={profileState.includes('approved') ? 'Atualizar dados' : 'Salvar e avançar'}
+        style={{ marginTop: paddings.lg }}
+        title={
+          profileState.includes('approved')
+            ? editing
+              ? 'Salvar'
+              : 'Atualizar dados'
+            : 'Salvar e avançar'
+        }
         disabled={
           isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
         }

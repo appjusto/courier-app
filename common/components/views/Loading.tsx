@@ -7,9 +7,10 @@ import { DefaultView } from '../containers/DefaultView';
 interface Props {
   backgroundColor?: ColorName;
   title?: string;
+  size?: number | 'small' | 'large' | undefined;
 }
 
-export function Loading({ backgroundColor, title }: Props) {
+export function Loading({ backgroundColor, title, size = 'large' }: Props) {
   return (
     <DefaultView
       style={{
@@ -20,7 +21,7 @@ export function Loading({ backgroundColor, title }: Props) {
       }}
     >
       {title ? <Stack.Screen options={{ title }} /> : null}
-      <ActivityIndicator size="large" color={colors.primary900} />
+      <ActivityIndicator size={size} color={colors.primary900} />
     </DefaultView>
   );
 }

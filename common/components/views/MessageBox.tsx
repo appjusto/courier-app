@@ -54,7 +54,13 @@ export function MessageBox({ variant = 'info', children, style, ...props }: Mess
         {icon()}
         <DefaultText
           color={textColor()}
-          style={{ marginLeft: paddings.sm, borderWidth: 1, borderColor: backgroundColor() }}
+          style={{
+            marginLeft: paddings.sm,
+            // borderWidth: 1,
+            // borderColor: backgroundColor(),
+            flex: 1,
+            flexWrap: 'wrap',
+          }}
         >
           {children}
         </DefaultText>

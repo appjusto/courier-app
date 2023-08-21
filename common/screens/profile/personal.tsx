@@ -5,8 +5,8 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { AlertBox } from '@/common/components/views/AlertBox';
 import { Loading } from '@/common/components/views/Loading';
+import { MessageBox } from '@/common/components/views/MessageBox';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isProfileValid } from '@/common/profile/isProfileValid';
 import paddings from '@/common/styles/paddings';
@@ -120,7 +120,9 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
     <View style={{ flex: 1, padding: paddings.lg }}>
-      <DefaultText size="lg">Preencha seus dados pessoais</DefaultText>
+      <DefaultText size="lg">
+        {profileState.includes('approved') ? 'Seus dados pessoais' : 'Preencha seus dados pessoais'}
+      </DefaultText>
       <DefaultInput
         style={{ marginTop: paddings.lg }}
         title="E-mail"
@@ -202,21 +204,22 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
         value={phone}
         onChangeText={setPhone}
       />
-      <View style={{ flex: 1 }} />
       {profileState.includes('approved') ? (
-        <AlertBox
-          variant={hasPendingChange ? 'yellow' : 'white'}
-          description={
-            hasPendingChange
-              ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
-              : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
-          }
-        />
+        <MessageBox style={{ marginTop: paddings.lg }}>
+          {hasPendingChange
+            ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+            : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'}
+        </MessageBox>
       ) : null}
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginBottom: paddings.lg }}
-        title={profileState.includes('approved') ? 'Atualizar dados' : 'Salvar e avançar'}
+        title={
+          profileState.includes('approved')
+            ? editing
+              ? 'Salvar'
+              : 'Atualizar dados'
+            : 'Salvar e avançar'
+        }
         disabled={
           isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
         }

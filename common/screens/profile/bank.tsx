@@ -193,7 +193,9 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   if (!profile || !accountTypes) return <Loading />;
   return (
     <View style={{ flex: 1, padding: paddings.lg }}>
-      <DefaultText size="lg">Preencha seus dados bancários</DefaultText>
+      <DefaultText size="lg">
+        {profileState.includes('approved') ? 'Dados bancários' : 'Preencha seus dados bancários'}
+      </DefaultText>
       <View style={{ flex: 1, marginTop: paddings.sm }}>
         <View
           style={{
@@ -288,8 +290,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
             }
           }}
         />
-        <View style={{ flex: 1 }} />
-        <MessageBox>
+        <MessageBox style={{ marginTop: paddings.lg }}>
           {profileState.includes('approved')
             ? hasPendingChange
               ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
@@ -299,8 +300,13 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
         <View style={{ flex: 1 }} />
         <SafeAreaView>
           <DefaultButton
-            style={{ marginBottom: paddings.lg }}
-            title={profileState.includes('approved') ? 'Atualizar dados' : 'Avançar'}
+            title={
+              profileState.includes('approved')
+                ? editing
+                  ? 'Salvar'
+                  : 'Atualizar dados'
+                : 'Salvar e avançar'
+            }
             disabled={
               isLoading ||
               hasPendingChange ||

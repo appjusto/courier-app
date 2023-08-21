@@ -31,18 +31,20 @@ export const DefaultListItem = ({
             alignItems: 'center',
           },
           !borderless
-            ? { borderBottomColor: colors.neutral500, borderStyle: 'solid', borderBottomWidth: 1 }
+            ? { borderBottomColor: colors.neutral50, borderStyle: 'solid', borderBottomWidth: 1 }
             : {},
         ]}
       >
         {/* leftView */}
-        {leftView ? <View style={{ marginRight: paddings.sm }}>{leftView}</View> : null}
+        {leftView ? <View style={{ marginRight: paddings.md }}>{leftView}</View> : null}
         {/* main */}
         <View style={{ flex: 1 }}>
-          <DefaultText size="sm">{title}</DefaultText>
+          <DefaultText size="md" color="black">
+            {title}
+          </DefaultText>
           {subtitles?.length ? (
             <View>
-              <DefaultText size="sm" color="neutral700" style={{ marginTop: paddings.sm }}>
+              <DefaultText size="sm" color="neutral800" style={{ marginTop: paddings.xs }}>
                 {subtitles.join('\n')}
               </DefaultText>
             </View>

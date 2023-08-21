@@ -22,8 +22,8 @@ interface Props {
 export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
-  const courier = useProfile();
-  const courierId = courier?.id;
+  const profile = useProfile();
+  const courierId = profile?.id;
   const { showActionSheetWithOptions } = useActionSheet();
   // state
   const {
@@ -35,7 +35,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
     setCheckDocumentTick,
   } = useImagesURLs();
   // helpers
-  const canUploadImages = courier?.situation !== 'approved';
+  const canUploadImages = profile?.situation !== 'approved';
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
   // handlers
   const pickAndUpload = async (from: PickImageFrom, type: ImageType, aspect: [number, number]) => {
@@ -78,7 +78,11 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   }
   return (
     <View style={{ flex: 1, padding: paddings.lg }}>
-      <DefaultText size="lg">Tire foto do seu rosto e documento</DefaultText>
+      <DefaultText size="lg">
+        {profile?.situation === 'approved'
+          ? 'Selfie e documento'
+          : 'Tire foto do seu rosto e documento'}
+      </DefaultText>
       <View style={{ flex: 1, marginTop: paddings.lg }}>
         <PendingStep
           index={0}

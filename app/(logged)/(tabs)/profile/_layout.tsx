@@ -12,6 +12,8 @@ export default function ProfileLayout() {
           headerShown: route.name !== 'howitworks',
         };
       }}
-    />
+    >
+      <Stack.Screen name="index" options={{ headerShown: false, title: 'Sua conta' }} />
+    </Stack>
   );
 }
