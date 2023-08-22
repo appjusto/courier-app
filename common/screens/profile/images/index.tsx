@@ -2,11 +2,13 @@ import { useContextApi } from '@/api/ApiContext';
 import { PickImageFrom, pickImage } from '@/api/files/pickImage';
 import { useProfile } from '@/api/profile/useProfile';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { RoundedImageBox } from '@/common/components/views/images/rounded/RoundedImageBox';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Upload } from 'lucide-react-native';
 import { View } from 'react-native';
@@ -77,7 +79,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
     return <Loading backgroundColor="neutral50" title={title} />;
   }
   return (
-    <View style={{ flex: 1, padding: paddings.lg }}>
+    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <DefaultText size="lg">
         {profile?.situation === 'approved'
           ? 'Selfie e documento'
@@ -115,7 +117,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
       <View style={{ flex: 1 }} />
       {canUploadImages ? (
         <DefaultButton
-          style={{ marginBottom: paddings.lg }}
+          style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
           title="Salvar e avançar"
           disabled={!selfieUrl || !documentUrl}
           onPress={() => {
@@ -123,6 +125,6 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
           }}
         />
       ) : null}
-    </View>
+    </DefaultScrollView>
   );
 }

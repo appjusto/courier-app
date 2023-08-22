@@ -4,6 +4,7 @@ import { useProfile } from '@/api/profile/useProfile';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
+import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { useBankPatterns } from '@/common/components/profile/banks/useBankPatterns';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -16,6 +17,7 @@ import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import {
   Bank,
   BankAccount,
@@ -200,7 +202,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   // UI
   if (!profile || !accountTypes) return <Loading />;
   return (
-    <View style={{ flex: 1, padding: paddings.lg }}>
+    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <DefaultText size="lg">
         {profileState.includes('approved') ? 'Dados bancários' : 'Preencha seus dados bancários'}
       </DefaultText>
@@ -308,6 +310,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
         <View style={{ flex: 1 }} />
         <SafeAreaView>
           <DefaultButton
+            style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
             title={
               profileState.includes('approved')
                 ? editing
@@ -320,6 +323,6 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
           />
         </SafeAreaView>
       </View>
-    </View>
+    </DefaultScrollView>
   );
 }

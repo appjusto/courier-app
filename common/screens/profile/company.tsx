@@ -3,6 +3,7 @@ import { fetchPostalDetails } from '@/api/externals/viacep';
 import { useProfile } from '@/api/profile/useProfile';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -13,6 +14,7 @@ import { handleErrorMessage } from '@/common/firebase/errors';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import { CourierCompany, CourierProfile, ProfileChange } from '@appjusto/types';
 import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
@@ -150,7 +152,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   const title = 'Dados da sua PJ';
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
-    <View style={{ flex: 1, padding: paddings.lg }}>
+    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <DefaultText size="lg">
         {profileState.includes('approved')
           ? 'Os dados da sua MEI ou PJ'
@@ -269,7 +271,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
       ) : null}
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginTop: paddings.lg }}
+        style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
         title={
           profileState.includes('approved')
             ? editing
@@ -280,6 +282,6 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
         disabled={isLoading || hasPendingChange || !canUpdateProfile}
         onPress={updateProfileHandler}
       />
-    </View>
+    </DefaultScrollView>
   );
 }
