@@ -7,9 +7,12 @@ import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
+import { useToast } from '@/common/components/views/toast/ToastContext';
+import { handleErrorMessage } from '@/common/firebase/errors';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isProfileValid } from '@/common/profile/isProfileValid';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import { CourierProfile, ProfileChange, UserProfile } from '@appjusto/types';
 import { isEmpty, omit } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
@@ -24,6 +27,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
   const api = useContextApi();
   const profile = useProfile<CourierProfile>();
   const profileState = getProfileState(profile);
+  const { showToast } = useToast();
   // refs
   const nameRef = useRef<TextInput>(null);
   const surnameRef = useRef<TextInput>(null);
@@ -69,6 +73,12 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
     if (profile.phone && phone === undefined) setPhone(profile.phone);
   }, [api, profile, email, name, surname, cpf, birthday, phone]);
   // handlers
+  const handlError = (error: unknown) => {
+    const message = handleErrorMessage(error);
+    console.log(message);
+    showToast(message, 'error');
+    setLoading(false);
+  };
   const updateProfileHandler = () => {
     if (!profile?.id) return;
     if (
@@ -90,8 +100,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
           if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          handlError(error);
         });
     } else {
       const changes: Partial<ProfileChange> = {
@@ -102,16 +111,16 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
       if (cpf !== profile.cpf) changes.cpf = cpf;
       if (phone !== profile.phone) changes.phone = phone;
       if (birthday !== profile.birthday) changes.birthday = birthday;
-      setEditing(false);
       api
         .getProfile()
         .requestProfileChange(changes)
         .then(() => {
           setLoading(false);
+          setEditing(false);
+          showToast('As alterações foram solcitadas com sucesso!', 'success');
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          handlError(error);
         });
     }
   };
@@ -119,7 +128,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
   const title = 'Dados pessoais';
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
-    <View style={{ flex: 1, padding: paddings.lg }}>
+    <View style={{ ...screens.default, padding: paddings.lg }}>
       <DefaultText size="lg">
         {profileState.includes('approved') ? 'Seus dados pessoais' : 'Preencha seus dados pessoais'}
       </DefaultText>

@@ -1,5 +1,6 @@
 import { ApiProvider } from '@/api/ApiContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
+import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -49,7 +50,9 @@ export default function RootLayout() {
       <ActionSheetProvider>
         <ApiProvider>
           <AuthProvider>
-            <Slot />
+            <ToastProvider>
+              <Slot />
+            </ToastProvider>
           </AuthProvider>
         </ApiProvider>
       </ActionSheetProvider>

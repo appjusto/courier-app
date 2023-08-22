@@ -10,6 +10,8 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
+import { useToast } from '@/common/components/views/toast/ToastContext';
+import { handleErrorMessage } from '@/common/firebase/errors';
 import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
@@ -41,6 +43,7 @@ interface Props {
 export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
+  const { showToast } = useToast();
   // refs
   const agencyRef = useRef<TextInput>(null);
   const accountRef = useRef<TextInput>(null);
@@ -124,6 +127,12 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   })();
   const canUpdateProfile = isBankAccountValid(updatedBank);
   // handlers
+  const handlError = (error: unknown) => {
+    const message = handleErrorMessage(error);
+    console.log(message);
+    showToast(message, 'error');
+    setLoading(false);
+  };
   const updateProfileHandler = () => {
     if (!profile?.id) return;
     if (!editing && !hasPendingChange && profileState.includes('approved')) {
@@ -149,8 +158,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
           if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          handlError(error);
         });
     } else {
       const bankChanges: Partial<BankAccount> = {};
@@ -176,16 +184,16 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
         bankChanges.accountFormatted = accountFormatted;
       }
       console.log(changes);
-      setEditing(false);
       api
         .getProfile()
         .requestProfileChange(changes)
         .then(() => {
+          setEditing(false);
           setLoading(false);
+          showToast('As alterações foram solcitadas com sucesso!', 'success');
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          handlError(error);
         });
     }
   };

@@ -1,5 +1,4 @@
 import ProfileBank from '@/common/screens/profile/bank';
-import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -10,7 +9,7 @@ export default function ProfileBankScreen() {
   // UI
   return (
     <KeyboardAwareScrollView
-      style={{ ...screens.default, padding: paddings.lg }}
+      style={{ ...screens.default }}
       enableOnAndroid
       enableAutomaticScroll
       keyboardOpeningTime={0}

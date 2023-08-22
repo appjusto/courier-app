@@ -8,6 +8,8 @@ import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
+import { useToast } from '@/common/components/views/toast/ToastContext';
+import { handleErrorMessage } from '@/common/firebase/errors';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import paddings from '@/common/styles/paddings';
@@ -25,6 +27,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   const api = useContextApi();
   const profile = useProfile<CourierProfile>();
   const profileState = getProfileState(profile);
+  const { showToast } = useToast();
   // refs
   const nameRef = useRef<TextInput>(null);
   const cepRef = useRef<TextInput>(null);
@@ -89,6 +92,12 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     }
   }, [cep]);
   // handlers
+  const handlError = (error: unknown) => {
+    const message = handleErrorMessage(error);
+    console.log(message);
+    showToast(message, 'error');
+    setLoading(false);
+  };
   const updateProfileHandler = () => {
     if (!profile?.id) return;
     if (!editing && !hasPendingChange && profileState.includes('approved')) {
@@ -105,8 +114,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
           if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          handlError(error);
         });
     } else {
       const companyChanges: Partial<CourierCompany> = {};
@@ -125,16 +133,16 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
       if (Boolean(city) && city !== profile.company?.city) companyChanges.city = city;
       if (Boolean(state) && state !== profile.company?.state) companyChanges.state = state;
       console.log(changes);
-      setEditing(false);
       api
         .getProfile()
         .requestProfileChange(changes)
         .then(() => {
+          setEditing(false);
           setLoading(false);
+          showToast('As alterações foram solcitadas com sucesso!', 'success');
         })
         .catch((error) => {
-          console.error(error);
-          setLoading(false);
+          handlError(error);
         });
     }
   };

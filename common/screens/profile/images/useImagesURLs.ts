@@ -32,15 +32,6 @@ export const useImagesURLs = () => {
     }
   }, [api, courierId]);
   // side effects
-  // initial selfie fetch
-  // useEffect(() => {
-  //   fetchSelfie().then(setSelfieUrl);
-  // }, [fetchSelfie]);
-  // // initial document fetch
-  // useEffect(() => {
-  //   fetchDocument().then(setDocumentUrl);
-  // }, [fetchDocument]);
-  // selfie fetch after upload
   useEffect(() => {
     if (!checkSelfieTick) return;
     const timeout = setTimeout(async () => {
@@ -52,7 +43,6 @@ export const useImagesURLs = () => {
     }, 500);
     return () => clearTimeout(timeout);
   }, [checkSelfieTick, fetchSelfie]);
-  // selfie fetch after upload
   useEffect(() => {
     if (!checkDocumentTick) return;
     const timeout = setTimeout(async () => {

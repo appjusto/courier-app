@@ -47,7 +47,7 @@ export default class ProfileApi {
   }
   // update profile
   async updateProfile(id: string, changes: Partial<CourierProfile>, retry = 5) {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>((resolve, reject) => {
       (async () => {
         try {
           const appVersion = getAppVersion();
@@ -70,7 +70,8 @@ export default class ProfileApi {
           } else {
             console.error(error);
             // Sentry.Native.captureException(error);
-            resolve();
+            // resolve();
+            reject(error);
           }
         }
       })();

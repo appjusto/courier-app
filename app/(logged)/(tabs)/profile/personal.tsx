@@ -1,5 +1,4 @@
 import ProfilePersonalData from '@/common/screens/profile/personal';
-import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -8,7 +7,7 @@ export default function ProfilePersonalDataScreen() {
   // UI
   return (
     <KeyboardAwareScrollView
-      style={{ ...screens.default, padding: paddings.lg }}
+      style={{ ...screens.default }}
       enableOnAndroid
       enableAutomaticScroll
       keyboardOpeningTime={0}
