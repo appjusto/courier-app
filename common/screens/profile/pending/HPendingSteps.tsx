@@ -13,7 +13,7 @@ interface Props extends ViewProps {
 
 type Measure = { x: number; y: number; width: number; height: number };
 
-export const VPendingSteps = ({ steps, index, style, ...props }: Props) => {
+export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
   // refs
   const stepsRefs = useRefs<View>().slice(0, steps.length);
   const [measures, setMeasures] = useState<Measure[]>([]);
@@ -39,7 +39,7 @@ export const VPendingSteps = ({ steps, index, style, ...props }: Props) => {
         ...values,
         {
           x: measures[i].x + measures[i].width * 0.5,
-          y: 15,
+          y: 13,
           width: measures[i + 1].x - measures[i].x,
           height: 2,
         },
@@ -60,7 +60,7 @@ export const VPendingSteps = ({ steps, index, style, ...props }: Props) => {
               left: measure.x,
               width: measure.width,
               height: measure.height,
-              backgroundColor: i < index ? colors.success900 : colors.black,
+              backgroundColor: i < index ? colors.success900 : colors.neutral200,
             }}
           />
         ))}

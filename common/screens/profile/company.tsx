@@ -58,18 +58,19 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     city: (city ?? '').trim(),
     state: (state ?? '').trim(),
   };
-  const canUpdateProfile = isCompanyValid(profile?.company) || isCompanyValid(updatedCompany);
+  const canUpdateProfile = isCompanyValid(updatedCompany);
   // effects
   useEffect(() => {
     if (!profile) return;
-    if (profile.company?.cnpj && !cnpj) setCNPJ(profile.company.cnpj);
-    if (profile.company?.name && !name) setName(profile.company.name);
-    if (profile.company?.cep && !cep) setCEP(profile.company.cep);
-    if (profile.company?.address && !address) setAddress(profile.company.address);
-    if (profile.company?.number && !number) setNumber(profile.company.number);
-    if (profile.company?.additional && !additional) setAdditional(profile.company.additional);
-    if (profile.company?.city && !city) setCity(profile.company.city);
-    if (profile.company?.state && !state) setState(profile.company.state);
+    if (profile.company?.cnpj && cnpj === undefined) setCNPJ(profile.company.cnpj);
+    if (profile.company?.name && name === undefined) setName(profile.company.name);
+    if (profile.company?.cep && cep === undefined) setCEP(profile.company.cep);
+    if (profile.company?.address && address === undefined) setAddress(profile.company.address);
+    if (profile.company?.number && number === undefined) setNumber(profile.company.number);
+    if (profile.company?.additional && additional === undefined)
+      setAdditional(profile.company.additional);
+    if (profile.company?.city && city === undefined) setCity(profile.company.city);
+    if (profile.company?.state && state === undefined) setState(profile.company.state);
   }, [api, profile, cnpj, name, cep, address, number, additional, city, state]);
   useEffect(() => {
     if (cep?.length === 8 && cepRef.current?.isFocused()) {
@@ -276,9 +277,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
               : 'Atualizar dados'
             : 'Salvar e avançar'
         }
-        disabled={
-          isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
-        }
+        disabled={isLoading || hasPendingChange || !canUpdateProfile}
         onPress={updateProfileHandler}
       />
     </View>

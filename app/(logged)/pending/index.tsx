@@ -89,6 +89,14 @@ export default function PendingIndex() {
         necessárias.
       </MessageBox>
       <View style={{ flex: 1 }} />
+      {canSubmit ? (
+        <DefaultButton
+          style={{ marginBottom: paddings.lg }}
+          variant="outline"
+          title="Alterar cadastro"
+          onPress={() => router.push('/pending/pager')}
+        ></DefaultButton>
+      ) : null}
       <DefaultButton
         title={buttonTitle}
         disabled={!canAdvance}

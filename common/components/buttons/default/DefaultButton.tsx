@@ -26,6 +26,7 @@ export const DefaultButton = ({
     if (loading) return colors.neutral700;
     if (variant === 'primary') return pressed ? colors.neutral900 : colors.black;
     if (variant === 'destructive') return pressed ? colors.error900 : colors.error500;
+    if (variant === 'outline') return pressed ? colors.neutral100 : colors.white;
     return colors.black;
   };
   const borderColor = (pressed: boolean) => {
@@ -34,6 +35,7 @@ export const DefaultButton = ({
   };
   const textColor = () => {
     if (disabled) return colors.neutral700;
+    if (variant === 'outline') return colors.black;
     return colors.white;
   };
   return (

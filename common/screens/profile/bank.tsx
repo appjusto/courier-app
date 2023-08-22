@@ -65,7 +65,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   // initial
   useEffect(() => {
     if (!profile?.bankAccount) return;
-    if (profile.bankAccount.name && !bank) {
+    if (profile.bankAccount.name && bank === undefined) {
       const selectedBank = banks?.find((value) => value.name === profile.bankAccount?.name);
       if (selectedBank) setBank(selectedBank);
     }
@@ -315,11 +315,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
                   : 'Atualizar dados'
                 : 'Salvar e avançar'
             }
-            disabled={
-              isLoading ||
-              hasPendingChange ||
-              (!canUpdateProfile && !profileState.includes('approved'))
-            }
+            disabled={isLoading || hasPendingChange || !canUpdateProfile}
             onPress={updateProfileHandler}
           />
         </SafeAreaView>

@@ -56,7 +56,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
     birthday,
     countryCode,
   };
-  const canUpdateProfile = isProfileValid(profile) || isProfileValid(updatedUser);
+  const canUpdateProfile = isProfileValid(updatedUser);
   // effects
   useEffect(() => {
     if (!profile) {
@@ -229,9 +229,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
               : 'Atualizar dados'
             : 'Salvar e avançar'
         }
-        disabled={
-          isLoading || hasPendingChange || (!canUpdateProfile && !profileState.includes('approved'))
-        }
+        disabled={isLoading || hasPendingChange || !canUpdateProfile}
         onPress={updateProfileHandler}
       />
     </View>
