@@ -4,6 +4,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
+import { Stack, router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -53,6 +54,7 @@ export default function Welcome() {
   // UI
   return (
     <View style={{ ...screens.default }}>
+      <Stack.Screen options={{ headerShown: false }} />
       <PagerView
         ref={pagerViewRef}
         style={{ flex: 1 }}
@@ -98,7 +100,7 @@ export default function Welcome() {
               if (step + 1 < steps) {
                 pagerViewRef?.current?.setPage(step + 1);
               } else {
-                // TODO: ir para cadastro
+                router.back();
               }
             }}
           />
