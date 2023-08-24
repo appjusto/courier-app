@@ -54,17 +54,21 @@ export default function ProfileHome() {
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/images')}
         />
+
         <View style={{ flex: 1 }} />
         <SingleListItem
           title="Ajuda"
           leftView={<HelpCircle color={colors.neutral700} size={20} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
+          onPress={() => router.push('/profile/about/')}
         />
         <SingleListItem
           title="Configurações"
           leftView={<Settings color={colors.neutral700} size={20} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
+          onPress={() => router.push('/profile/settings')}
         />
+
         <Pressable>
           {({ pressed }) => (
             <View style={{ margin: paddings.lg, flexDirection: 'row' }}>

@@ -34,7 +34,7 @@ export default {
     // lineHeight: 28,
   },
   'lg': {
-    fontFamily: mediumFontFamily,
+    fontFamily: semiboldFontFamily,
     fontSize: 20,
     // lineHeight: 30,
   },
