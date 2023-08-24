@@ -8,34 +8,29 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { isPhoneValid } from '@/common/validators/phone';
-import { getEnv } from '@/extra';
 import { Stack, useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function SignIn() {
   // context
   const router = useRouter();
-  // refs
-  const phoneRef = useRef<TextInput>(null);
   // state
-  // const [phone, setPhone] = useState(getEnv() === 'dev' ? '11990085775' : '');
-  // const [phone, setPhone] = useState(getEnv() === 'dev' ? '85986971945' : '');
-  const [phone, setPhone] = useState(getEnv() === 'dev' ? '11999999999' : '');
-  const [termsAccepted, setTermsAccepted] = useState(getEnv() === 'dev');
-  console.log(phone);
+  const [phone, setPhone] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const canSubmit = termsAccepted && isPhoneValid(phone);
-  // side effects
-  useEffect(() => {
-    phoneRef?.current?.focus();
-  }, []);
 
   // UI
   return (
-    <View
-      style={{
-        ...screens.headless,
-      }}
+    <KeyboardAwareScrollView
+      style={{ ...screens.headless }}
+      enableOnAndroid
+      enableAutomaticScroll
+      keyboardOpeningTime={0}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1 }}
+      scrollIndicatorInsets={{ right: 1 }}
     >
       <Stack.Screen options={{ title: 'Entrar' }} />
       <View
@@ -54,7 +49,6 @@ export default function SignIn() {
           Acesse ou crie uma conta
         </DefaultText>
         <PatternInput
-          ref={phoneRef}
           pattern="phone"
           title="Celular"
           placeholder="Número com DDD"
@@ -84,19 +78,21 @@ export default function SignIn() {
         />
 
         <View style={{ flex: 1 }} />
-        <DefaultButton
-          title="Entrar"
-          disabled={!canSubmit}
-          style={{ marginBottom: paddings.sm }}
-          onPress={() => {
-            router.push({
-              pathname: `/phone-verification`,
-              // @ts-ignore
-              params: { phone, countryCode: 55 },
-            });
-          }}
-        />
+        <SafeAreaView>
+          <DefaultButton
+            title="Entrar"
+            disabled={!canSubmit}
+            style={{ marginBottom: paddings.sm }}
+            onPress={() => {
+              router.push({
+                pathname: `/phone-verification`,
+                // @ts-ignore
+                params: { phone, countryCode: 55 },
+              });
+            }}
+          />
+        </SafeAreaView>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }

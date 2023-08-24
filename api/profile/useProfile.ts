@@ -13,16 +13,16 @@ export const useProfile = <T extends UserProfile>() => {
   // when uid changes
   React.useEffect(() => {
     if (user === null) {
-      setProfile(null);
+      setProfile(undefined);
     }
     if (!user?.uid) return;
     return api.getProfile().observeProfile(user.uid, setProfile);
   }, [api, user]);
   // when profile changes
-  // console.log('profile', user?.uid, profile);
   React.useEffect(() => {
+    if (!user) return;
     if (profile === null) {
-      if (user?.uid) {
+      if (user.uid) {
         // create profile if non existent
         console.info('Criando perfil...');
         api
@@ -32,7 +32,9 @@ export const useProfile = <T extends UserProfile>() => {
           .catch(console.error); // TODO: report
       }
     }
-  }, [api, user?.uid, profile]);
+  }, [api, user, profile]);
   // result
+  // console.log('user', 'null?', user === null, 'undef?', user === undefined, user?.uid);
+  // console.log('profile', 'null?', profile === null, 'undef?', profile === undefined, profile?.id);
   return profile;
 };

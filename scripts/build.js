@@ -8,9 +8,13 @@ const eas = require('../eas.json');
 const { ENV, PLATFORM, CHANNEL, PROFILE } = process.env;
 
 // Usage:
+// devclient
 // ENV=dev PROFILE=devclient PLATFORM=ios npm run build
 // ENV=dev PROFILE=devclient npm run build
+// device
+// ENV=dev PLATFORM=ios PROFILE=store npm run build
 // ENV=dev npm run build
+// others
 // ENV=dev CHANNEL=v14 npm run build
 // ENV=live PROFILE=store npm run build
 
@@ -20,8 +24,8 @@ const run = async () => {
     process.exit(-1);
   }
   const platform = PLATFORM ?? 'android';
-  const channel = CHANNEL ?? `v${version.slice(0, version.indexOf('.'))}`;
   const profile = PROFILE ?? 'internal';
+  const channel = CHANNEL ?? `v${version.slice(0, version.indexOf('.'))}`;
   if (eas.build.base.channel !== channel) {
     const easCopy = { ...eas };
     easCopy.build.base.channel = channel;

@@ -11,6 +11,7 @@ import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
@@ -38,7 +39,7 @@ export default function PhoneVerification() {
   const [error, setError] = useState('');
   // helpers
   const signInWithPhoneNumber = useCallback(() => {
-    console.log('signInWithPhoneNumber', phone);
+    // console.log('signInWithPhoneNumber', phone);
     auth
       .signInWithPhoneNumber(phone, countryCode)
       .then((result) => {
@@ -48,6 +49,7 @@ export default function PhoneVerification() {
         console.log(JSON.stringify(error));
         setError(handleErrorMessage(error));
         setState('error');
+        crashlytics().recordError(error);
       });
   }, [auth, phone, countryCode]);
   // side effects
@@ -79,11 +81,11 @@ export default function PhoneVerification() {
         console.log(JSON.stringify(error));
         setError(handleErrorMessage(error));
         setState('error');
+        crashlytics().recordError(error);
       });
   };
   // UI
   if (!state) return <Loading />;
-  console.log('code.length', code.length);
   const canSubmit = code.trim().length === 6;
   return (
     <View

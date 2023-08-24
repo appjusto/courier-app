@@ -1,3 +1,4 @@
+import { useContextApi } from '@/api/ApiContext';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { SingleListItem } from '@/common/components/lists/SingleListItem';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -15,17 +16,27 @@ import {
   Settings,
   User2,
 } from 'lucide-react-native';
+import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import ProfileHeader from './header';
+import { LogoutModal } from './logout-modal';
 
 export default function ProfileHome() {
   // context
+  const api = useContextApi();
   const router = useRouter();
+  // state
+  const [logoutVisible, setLogoutVisible] = useState(false);
   // UI
   return (
     <View style={{ ...screens.headless, padding: paddings.lg }}>
+      <LogoutModal
+        visible={logoutVisible}
+        onConfirm={() => api.getAuth().signOut()}
+        onCancel={() => setLogoutVisible(false)}
+      />
       <ProfileHeader />
-      <View style={{ flex: 1, marginTop: paddings.xl }}>
+      <View style={{ flex: 1, marginTop: paddings.lg }}>
         <DefaultListItem
           title="Dados pessoais"
           subtitles={['Seu nome, e-mail, CPF, celular e data de nascimento']}
@@ -69,7 +80,7 @@ export default function ProfileHome() {
           onPress={() => router.push('/profile/settings')}
         />
 
-        <Pressable>
+        <Pressable onPress={() => setLogoutVisible(true)}>
           {({ pressed }) => (
             <View style={{ margin: paddings.lg, flexDirection: 'row' }}>
               <DefaultText color={pressed ? 'error500' : 'error900'}>Sair</DefaultText>

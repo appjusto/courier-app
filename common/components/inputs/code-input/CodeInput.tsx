@@ -21,6 +21,10 @@ export const CodeInput = ({ value, onChange, length = 3, style, ...props }: Prop
     nextInputRef?: React.RefObject<TextInput>,
     previousInputRef?: React.RefObject<TextInput>
   ) => {
+    if (!char && values[index] === ' ') {
+      previousInputRef?.current?.focus();
+      return;
+    }
     onChange([...values.slice(0, index), char ? char : ' ', ...values.slice(index + 1)].join(''));
     if (char) {
       if (nextInputRef?.current) nextInputRef.current.focus();
