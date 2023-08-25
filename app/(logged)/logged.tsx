@@ -1,4 +1,4 @@
-import { useProfile } from '@/api/profile/useProfile';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { Loading } from '@/common/components/views/Loading';
 import { Stack, router } from 'expo-router';
 import { useEffect } from 'react';
@@ -7,12 +7,16 @@ import { View } from 'react-native';
 export default function LoggedIndex() {
   // context
   // state
-  const profile = useProfile();
-  const situation = profile?.situation;
+  const profile = useContextProfile();
+  // const situation = profile?.situation;
   // side effects
   useEffect(() => {
+    if (profile === undefined) return;
+    if (profile === null) {
+      return;
+    }
     // console.log('situation', situation);
-    if (!situation) return;
+    const situation = profile.situation;
     if (situation === 'approved') {
       router.replace('/home');
     } else if (situation === 'pending') {
@@ -20,7 +24,7 @@ export default function LoggedIndex() {
     } else if (situation === 'submitted' || situation === 'verified') {
       router.replace('/submitted');
     }
-  }, [situation]);
+  }, [profile]);
   // UI
   return (
     <View style={{ flex: 1 }}>

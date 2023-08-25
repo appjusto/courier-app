@@ -1,24 +1,49 @@
+import { useContextApi } from '@/api/ApiContext';
 import { useProtectedRoute } from '@/common/auth/useProtectedRoute';
+import { CourierProfile, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from './useUser';
 
-const AuthContext = React.createContext<FirebaseAuthTypes.User | null | undefined>(undefined);
+const AuthContext = React.createContext<Value | undefined>(undefined);
+
+interface Value {
+  user: FirebaseAuthTypes.User | null | undefined;
+  userId: string | undefined;
+  profile: WithId<CourierProfile> | undefined | null;
+}
 
 interface Props {
-  user?: FirebaseAuthTypes.User;
   children: React.ReactNode;
 }
 
 export const AuthProvider = (props: Props) => {
+  // context
+  const api = useContextApi();
   // state
   const user = useUser();
-  useProtectedRoute(user);
+  const userId = user?.uid;
+  const [profile, setProfile] = useState<WithId<CourierProfile> | null>();
   // side effects
+  useProtectedRoute(user);
+  useEffect(() => {
+    if (user === undefined) return;
+    if (user === null) setProfile(null);
+    else return api.getProfile().observeProfile<CourierProfile>(user.uid, setProfile);
+  }, [api, user]);
   // result
-  return <AuthContext.Provider value={user}>{props.children}</AuthContext.Provider>;
+  const value: Value = { user, userId, profile };
+  return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 };
 
 export const useContextUser = () => {
-  return React.useContext(AuthContext);
+  return React.useContext(AuthContext)?.user;
+};
+
+export const useContextUserId = () => {
+  return React.useContext(AuthContext)?.userId;
+};
+
+export const useContextProfile = () => {
+  return React.useContext(AuthContext)?.profile;
 };

@@ -1,7 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import useBanks from '@/api/platform/useBanks';
-import { useProfile } from '@/api/profile/useProfile';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -23,7 +23,6 @@ import {
   BankAccount,
   BankAccountPersonType,
   BankAccountType,
-  CourierProfile,
   ProfileChange,
   WithId,
 } from '@appjusto/types';
@@ -50,7 +49,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   const agencyRef = useRef<TextInput>(null);
   const accountRef = useRef<TextInput>(null);
   // state
-  const profile = useProfile<CourierProfile>();
+  const profile = useContextProfile();
   const profileState = getProfileState(profile);
   const banks = useBanks();
   const pendingChange = useRequestedProfileChanges(profile?.id);

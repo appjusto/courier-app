@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useProfile } from '@/api/profile/useProfile';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
@@ -7,11 +7,11 @@ import { MessageBox } from '@/common/components/views/MessageBox';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import { isProfileValid } from '@/common/profile/isProfileValid';
+import { LogoutModal } from '@/common/screens/profile/home/logout-modal';
 import { useImagesURLs } from '@/common/screens/profile/images/useImagesURLs';
 import { PendingSteps } from '@/common/screens/profile/pending/PendingSteps';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { CourierProfile } from '@appjusto/types';
 import { Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -36,10 +36,13 @@ export default function PendingIndex() {
   const api = useContextApi();
   const router = useRouter();
   // state
-  const profile = useProfile<CourierProfile>();
+  const profile = useContextProfile();
   const [stepIndex, setStepIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { selfieUrl, documentUrl, checkSelfieTick, checkDocumentTick } = useImagesURLs();
+  const { selfieUrl, documentUrl, checkSelfieTick, checkDocumentTick } = useImagesURLs(
+    stepIndex === 3
+  );
+  const [logoutVisible, setLogoutVisible] = useState(false);
   // side effects
   useEffect(() => {
     if (!profile) return;
@@ -79,6 +82,11 @@ export default function PendingIndex() {
   return (
     <View style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Cadastro', headerBackVisible: false }} />
+      <LogoutModal
+        visible={logoutVisible}
+        onConfirm={() => api.getAuth().signOut()}
+        onCancel={() => setLogoutVisible(false)}
+      />
       <DefaultText size="xl" style={{ marginVertical: paddings.xl }}>
         Vamos começar o seu processo de cadastro no AppJusto
       </DefaultText>
@@ -96,6 +104,12 @@ export default function PendingIndex() {
           onPress={() => router.push('/pending/pager')}
         ></DefaultButton>
       ) : null}
+      <DefaultButton
+        style={{ marginBottom: paddings.lg }}
+        variant="outline"
+        title="Sair"
+        onPress={() => setLogoutVisible(true)}
+      ></DefaultButton>
       <DefaultButton
         title={buttonTitle}
         disabled={!canAdvance}

@@ -1,17 +1,21 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useProfile } from '@/api/profile/useProfile';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 
-export const useImagesURLs = () => {
+export const useImagesURLs = (autoCheck = true) => {
   // context
   const api = useContextApi();
   // state
-  const courier = useProfile();
-  const courierId = courier?.id;
+  const profile = useContextProfile();
+  const courierId = profile?.id;
   const [selfieUrl, setSelfieUrl] = useState<string | null>();
   const [documentUrl, setDocumentUrl] = useState<string | null>();
-  const [checkSelfieTick, setCheckSelfieTick] = useState<number | undefined>(1);
-  const [checkDocumentTick, setCheckDocumentTick] = useState<number | undefined>(1);
+  const [checkSelfieTick, setCheckSelfieTick] = useState<number | undefined>(
+    autoCheck ? 1 : undefined
+  );
+  const [checkDocumentTick, setCheckDocumentTick] = useState<number | undefined>(
+    autoCheck ? 1 : undefined
+  );
   // helpers
   const fetchSelfie = useCallback(async () => {
     if (!courierId) return;

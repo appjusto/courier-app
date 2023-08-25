@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useProfile } from '@/api/profile/useProfile';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { CircledView } from '@/common/components/containers/CircledView';
 import { Loading } from '@/common/components/views/Loading';
 import { useCallback, useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ interface Props {
 export default function Selfie({ size = 60 }: Props) {
   // context
   const api = useContextApi();
-  const profile = useProfile();
+  const profile = useContextProfile();
   const courierId = profile?.id;
   // state
   const [selfieUrl, setSelfieUrl] = useState<string | null>();

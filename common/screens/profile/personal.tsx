@@ -1,6 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useProfile } from '@/api/profile/useProfile';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
@@ -14,7 +14,7 @@ import { getProfileState } from '@/common/profile/getProfileState';
 import { isProfileValid } from '@/common/profile/isProfileValid';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { CourierProfile, ProfileChange, UserProfile } from '@appjusto/types';
+import { ProfileChange, UserProfile } from '@appjusto/types';
 import { isEmpty, omit } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
@@ -26,7 +26,7 @@ interface Props {
 export default function ProfilePersonalData({ onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
-  const profile = useProfile<CourierProfile>();
+  const profile = useContextProfile();
   const profileState = getProfileState(profile);
   const { showToast } = useToast();
   // refs

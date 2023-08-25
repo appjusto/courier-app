@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useProfile } from '@/api/profile/useProfile';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -16,7 +16,7 @@ export default function ProfileNotifications() {
   // context
   const api = useContextApi();
   // state
-  const profile = useProfile();
+  const profile = useContextProfile();
   // handlers
   const toggleNotificationPreference = (channel: NotificationChannel) => {
     if (!profile?.id) return;

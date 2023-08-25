@@ -1,6 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { PickImageFrom, pickImage } from '@/api/files/pickImage';
-import { useProfile } from '@/api/profile/useProfile';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -24,8 +24,10 @@ interface Props {
 export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
-  const profile = useProfile();
+  const profile = useContextProfile();
   const courierId = profile?.id;
+  const approved = profile?.situation === 'approved';
+  const canUploadImages = !approved;
   const { showActionSheetWithOptions } = useActionSheet();
   // state
   const {
@@ -35,9 +37,9 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
     setCheckSelfieTick,
     checkDocumentTick,
     setCheckDocumentTick,
-  } = useImagesURLs();
+  } = useImagesURLs(approved);
   // helpers
-  const canUploadImages = profile?.situation !== 'approved';
+
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
   // handlers
   const pickAndUpload = async (from: PickImageFrom, type: ImageType, aspect: [number, number]) => {
