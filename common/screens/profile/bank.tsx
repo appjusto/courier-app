@@ -305,7 +305,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
             ? hasPendingChange
               ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
               : 'Possíveis alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
-            : 'Se seu CNPJ for de uma MEI, cadastre uma conta no seu nome. Caso contrário, você precisará cadastrar uma conta corrente no nome da sua PJ.'}
+            : 'Se sua empresa for MEI, você pode usar sua conta bancária de pessoa física. Caso não seja MEI, a conta bancária deverá ser em nome da empresa.'}
         </MessageBox>
         <View style={{ flex: 1 }} />
         <SafeAreaView>

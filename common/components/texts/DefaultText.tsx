@@ -8,7 +8,7 @@ export function DefaultText({ style, color, size, bold, ...props }: DefaultTextP
     <Text
       style={[
         { ...typography[size ?? 'sm'], color: color ? colors[color] : colors.neutral900 },
-        bold ? { fontFamily: semiboldFontFamily } : {},
+        bold ? { fontFamily: semiboldFontFamily, fontWeight: 'bold' } : {},
         style,
       ]}
       {...props}

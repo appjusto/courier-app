@@ -2,6 +2,7 @@ const colors = {
   primary900: '#1C7B34',
   primary500: '#4AD66D',
   primary300: '#A2EBB4',
+  primary100: '#EBFBEF',
   white: '#FFFFFF',
   neutral50: '#F5F5F5',
   neutral100: '#EEEEEE',

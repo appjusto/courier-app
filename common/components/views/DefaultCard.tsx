@@ -26,10 +26,12 @@ export default function DefaultCard({ title, subtitle, icon }: Props) {
     >
       {icon}
       <View style={{ marginLeft: paddings.lg, width: '75%' }}>
-        <DefaultText size="sm">{title}</DefaultText>
+        <DefaultText size="sm" color="black">
+          {title}
+        </DefaultText>
         <DefaultText
           size="xs"
-          color="neutral700"
+          color="neutral800"
           style={{
             flexWrap: 'wrap',
             width: '95%',

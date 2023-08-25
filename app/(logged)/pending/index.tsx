@@ -85,8 +85,7 @@ export default function PendingIndex() {
       {/* <ProfilePersonalData /> */}
       <PendingSteps steps={steps} index={stepIndex} />
       <MessageBox style={{ marginVertical: paddings.xl }}>
-        Inicie o processo em um momento tranquilo para que você possa finalizar todas as etapas
-        necessárias.
+        O tempo estimado pra finalizar é de 10 minutos. Foca que é rapidinho ;)
       </MessageBox>
       <View style={{ flex: 1 }} />
       {canSubmit ? (
