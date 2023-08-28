@@ -1,7 +1,8 @@
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { ActivityIndicator, Image, Pressable, View, ViewProps } from 'react-native';
+import { Image } from 'expo-image';
+import { ActivityIndicator, Pressable, View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
   size?: number;
@@ -37,7 +38,7 @@ export const RoundedImageBox = ({
         {...props}
       >
         {url ? (
-          <Image style={{ width: size, height: size }} resizeMode="cover" source={{ uri: url }} />
+          <Image style={{ width: size, height: size }} contentFit="cover" source={{ uri: url }} />
         ) : null}
         {!url && !loading ? children : null}
         {!url && loading ? <ActivityIndicator size="small" /> : null}

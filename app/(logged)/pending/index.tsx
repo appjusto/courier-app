@@ -73,6 +73,7 @@ export default function PendingIndex() {
           // TODO: toast
         });
     } else {
+      // @ts-expect-error
       router.push({ pathname: `/pending/pager`, params: { initialPage: stepIndex } });
     }
   };

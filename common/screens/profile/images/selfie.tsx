@@ -2,8 +2,9 @@ import { useContextApi } from '@/api/ApiContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { CircledView } from '@/common/components/containers/CircledView';
 import { Loading } from '@/common/components/views/Loading';
+import { Image } from 'expo-image';
 import { useCallback, useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 
 interface Props {
   size?: number;
@@ -41,8 +42,8 @@ export default function Selfie({ size = 60 }: Props) {
         {selfieUrl ? (
           <Image
             style={{ width: size, height: size }}
-            resizeMode="cover"
             source={{ uri: selfieUrl }}
+            contentFit="cover"
           />
         ) : (
           <Loading size="small" />

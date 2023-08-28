@@ -29,7 +29,7 @@ export default function PendingPager() {
   const router = useRouter();
   // params
   // @ts-expect-error
-  const search = useLocalSearchParams<{ bankId: string; initialPage: number }>();
+  const search = useLocalSearchParams<{ bankId?: string; initialPage?: number }>();
   let initialPage = parseInt(search.initialPage, 10);
   initialPage = isNaN(initialPage) ? 0 : initialPage;
   // refs
