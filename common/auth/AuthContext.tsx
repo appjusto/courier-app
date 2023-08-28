@@ -24,6 +24,8 @@ export const AuthProvider = (props: Props) => {
   const user = useUser();
   const userId = user?.uid;
   const [profile, setProfile] = useState<WithId<CourierProfile> | null>();
+  // console.log('userId', userId);
+  // console.log('profile', profile);
   // side effects
   useProtectedRoute(user);
   useEffect(() => {
