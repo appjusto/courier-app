@@ -8,7 +8,7 @@ import { ImageApprovalProcess } from './image';
 export default function ApprovalProcess() {
   return (
     <DefaultView style={{ padding: paddings.lg }}>
-      <DefaultText size="2xl">Funcionamento da aprovação de cadastro</DefaultText>
+      <DefaultText size="lg">Funcionamento da aprovação de cadastro</DefaultText>
       <DefaultText
         size="sm"
         color="neutral700"

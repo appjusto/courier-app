@@ -22,7 +22,7 @@ export default function ProfileNotifications() {
     if (!profile?.id) return;
     const { notificationPreferences = [] } = profile;
     api
-      .getProfile()
+      .profile()
       .updateProfile(profile.id, {
         notificationPreferences: notificationPreferences.includes(channel)
           ? without(notificationPreferences, channel)
@@ -38,9 +38,10 @@ export default function ProfileNotifications() {
   return (
     <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title }} />
-      <DefaultText size="2xl">Escolha as notificações que recebe do AppJusto</DefaultText>
-      <DefaultText style={{ marginTop: paddings.sm }} size="sm" color="neutral700">
-        Para garantir a melhor experiência, as mensagens durante o pedido sempre são enviadas.
+      <DefaultText size="lg">Configure suas notificações</DefaultText>
+      <DefaultText style={{ marginTop: paddings.lg }} color="neutral700">
+        Para garantia de qualidade da operação, as notificações relacionadas aos pedidos sempre vão
+        aparecer, ok?
       </DefaultText>
       <View style={{ marginTop: paddings.xl }}>
         {optionalChannels.map(({ id, name, description }) => (
@@ -50,7 +51,7 @@ export default function ProfileNotifications() {
               title={name}
               onPress={() => toggleNotificationPreference(id)}
             />
-            <DefaultText size="xs" style={{ marginTop: paddings.xs }}>
+            <DefaultText size="xs" style={{ marginTop: paddings.sm, marginLeft: 27 }}>
               {description}
             </DefaultText>
           </View>

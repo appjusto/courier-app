@@ -1,7 +1,7 @@
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import HowAppJustoWorksContent, {
   HowAppJustoWorksContentType,
-} from '@/common/components/profile/howitworks';
+} from '@/common/screens/profile/howitworks';
 import { SituationHeader } from '@/common/screens/profile/situation-header';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';

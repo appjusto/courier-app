@@ -1,7 +1,7 @@
 import { hyphenFormatter } from '@/common/formatters/hyphen';
 import { Bank } from '@appjusto/types';
 import { useMemo } from 'react';
-import { numbersOnlyParser } from '../../inputs/pattern/patterns';
+import { numbersOnlyParser } from '../../../components/inputs/pattern/patterns';
 
 export const useBankPatterns = (bank?: Bank) => {
   const agencyParser = useMemo(

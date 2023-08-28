@@ -4,13 +4,22 @@ import {
   BadgeX,
   CircleDollarSign,
   HelpCircle,
+  MessageCircle,
   ShieldCheck,
   Smartphone,
   Users2,
 } from 'lucide-react-native';
 import { View } from 'react-native';
 
-type IconName = 'approval' | 'revenue' | 'fleets' | 'blocks' | 'safety' | 'help' | 'smartphone';
+type IconName =
+  | 'approval'
+  | 'revenue'
+  | 'fleets'
+  | 'blocks'
+  | 'safety'
+  | 'help'
+  | 'smartphone'
+  | 'chat';
 
 interface Props {
   iconName: IconName;
@@ -41,10 +50,13 @@ const getIcon = (name: IconName) => {
   if (name === 'smartphone') {
     return <Smartphone size={iconSize} color={colors.primary500} />;
   }
+  if (name === 'chat') {
+    return <MessageCircle size={iconSize} color={colors.primary500} />;
+  }
   return null;
 };
 
-export const HowItWorksIcon = ({ iconName }: Props) => {
+export const DefaultCardIcon = ({ iconName }: Props) => {
   return (
     <View
       style={{

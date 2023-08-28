@@ -61,7 +61,7 @@ export default function PendingIndex() {
     if (canSubmit) {
       setLoading(true);
       api
-        .getProfile()
+        .profile()
         .updateProfile(profile.id, { situation: 'submitted' })
         .then(() => {
           setLoading(false);
@@ -85,7 +85,7 @@ export default function PendingIndex() {
       <Stack.Screen options={{ title: 'Cadastro', headerBackVisible: false }} />
       <LogoutModal
         visible={logoutVisible}
-        onConfirm={() => api.getAuth().signOut()}
+        onConfirm={() => api.auth().signOut()}
         onCancel={() => setLogoutVisible(false)}
       />
       <DefaultText size="xl" style={{ marginVertical: paddings.xl }}>

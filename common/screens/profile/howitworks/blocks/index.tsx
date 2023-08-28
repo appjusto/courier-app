@@ -1,8 +1,8 @@
 import paddings from '@/common/styles/paddings';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Accordion } from '../../../containers/accordion/Accordion';
-import { DefaultText } from '../../../texts/DefaultText';
+import { Accordion } from '../../../../components/containers/accordion/Accordion';
+import { DefaultText } from '../../../../components/texts/DefaultText';
 
 interface Props {
   variant: 'how-it-works' | 'blocked';
@@ -16,7 +16,7 @@ export default function BlockProcess({ variant }: Props) {
     <View style={{ padding: paddings.lg }}>
       {variant === 'how-it-works' ? (
         <View>
-          <DefaultText size="2xl">Por que o AppJusto tem bloqueios?</DefaultText>
+          <DefaultText size="lg">Por que o AppJusto tem bloqueios?</DefaultText>
           <DefaultText
             size="sm"
             color="neutral700"

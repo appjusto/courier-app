@@ -3,7 +3,7 @@ import { formatDistance } from '@/common/formatters/distance';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { View } from 'react-native';
-import { DefaultText } from '../texts/DefaultText';
+import { DefaultText } from '../../../components/texts/DefaultText';
 
 type Props = {
   minimumFee: number;

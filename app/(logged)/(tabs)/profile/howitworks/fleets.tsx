@@ -1,4 +1,4 @@
-import FleetProcess from '@/common/components/profile/howitworks/fleets';
+import FleetProcess from '@/common/screens/profile/howitworks/fleets';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 

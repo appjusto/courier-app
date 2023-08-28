@@ -1,3 +1,7 @@
+import { getEnv } from '@/extra';
+
+export const getDomain = () => (getEnv() === 'live' ? '' : `${getEnv()}.`) + 'appjusto.com.br';
+
 export const URL_APPJUSTO_SITE = 'https://appjusto.com.br';
 export const URL_APPJUSTO_INSTAGRAM = 'https://www.instagram.com/appjusto/';
 export const URL_APPJUSTO_GITHUB = 'https://github.com/appjusto/courier-app';

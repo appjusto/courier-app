@@ -33,7 +33,7 @@ export default function ProfileHome() {
     <View style={{ ...screens.headless, padding: paddings.lg }}>
       <LogoutModal
         visible={logoutVisible}
-        onConfirm={() => api.getAuth().signOut()}
+        onConfirm={() => api.auth().signOut()}
         onCancel={() => setLogoutVisible(false)}
       />
       <ProfileHeader />

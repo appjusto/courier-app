@@ -28,7 +28,7 @@ export const useNotifications = () => {
     if (notificationToken === undefined) return;
     if (notificationToken === currentNotificationToken) return;
     api
-      .getProfile()
+      .profile()
       .updateProfile(userId, { notificationToken, updatedOn: serverTimestamp() })
       .catch(console.error);
   }, [api, currentNotificationToken, notificationToken, userId]);

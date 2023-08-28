@@ -1,4 +1,4 @@
-import ApprovalProcess from '@/common/components/profile/howitworks/approval';
+import ApprovalProcess from '@/common/screens/profile/howitworks/approval';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 

@@ -30,7 +30,7 @@ export const AuthProvider = (props: Props) => {
   useProtectedRoute(user);
   useEffect(() => {
     if (!userId) return;
-    return api.getProfile().observeProfile<CourierProfile>(userId, setProfile);
+    return api.profile().observeProfile<CourierProfile>(userId, setProfile);
   }, [api, userId]);
   useEffect(() => {
     if (user === null) setProfile(null);

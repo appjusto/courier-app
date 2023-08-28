@@ -11,7 +11,7 @@ export const useRequestedProfileChanges = (accountId: string | undefined) => {
   React.useEffect(() => {
     if (!accountId) return;
     (async () => {
-      return api.getProfile().observePendingChange(accountId, setProfileChanges);
+      return api.profile().observePendingChange(accountId, setProfileChanges);
     })();
   }, [accountId, api]);
   return profileChanges;

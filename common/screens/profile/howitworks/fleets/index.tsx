@@ -1,13 +1,17 @@
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
-import GainSimulator from '@/common/components/fleets/GainSimulator';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import GainSimulator from '@/common/screens/profile/fleets/GainSimulator';
 import paddings from '@/common/styles/paddings';
+import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 export default function FleetProcess() {
+  // context
+  const router = useRouter();
+  // UI
   return (
     <View style={{ padding: paddings.lg }}>
-      <DefaultText size="2xl">Funcionamento das frotas</DefaultText>
+      <DefaultText size="lg">Funcionamento das frotas</DefaultText>
       <DefaultText
         size="sm"
         color="neutral700"
@@ -28,7 +32,11 @@ export default function FleetProcess() {
       >
         Você pode também se juntar à uma frota já criada.
       </DefaultText>
-      <DefaultButton style={{ marginTop: paddings.lg }} title="Ver frotas" onPress={() => null} />
+      <DefaultButton
+        style={{ marginTop: paddings.lg }}
+        title="Ver frotas"
+        onPress={() => router.push('/profile/fleets/')}
+      />
       <DefaultText
         size="2xl"
         style={{

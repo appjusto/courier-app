@@ -63,8 +63,8 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
   useEffect(() => {
     if (!profile) {
       // initial info
-      setEmail(api.getAuth().getEmail() ?? '');
-      setPhone(api.getAuth().getPhoneNumber(true) ?? '');
+      setEmail(api.auth().getEmail() ?? '');
+      setPhone(api.auth().getPhoneNumber(true) ?? '');
       return;
     }
     if (profile.email && email === undefined) setEmail(profile.email);
@@ -95,7 +95,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
     setLoading(true);
     if (!editing) {
       api
-        .getProfile()
+        .profile()
         .updateProfile(profile.id, updatedUser)
         .then(() => {
           setLoading(false);
@@ -114,7 +114,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
       if (phone !== profile.phone) changes.phone = phone;
       if (birthday !== profile.birthday) changes.birthday = birthday;
       api
-        .getProfile()
+        .profile()
         .requestProfileChange(changes)
         .then(() => {
           setLoading(false);

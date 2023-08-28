@@ -20,7 +20,7 @@ export const useImagesURLs = (autoCheck = true) => {
   const fetchSelfie = useCallback(async () => {
     if (!courierId) return;
     try {
-      return await api.getProfile().getSelfieDownloadURL(courierId, '1024x1024');
+      return await api.profile().getSelfieDownloadURL(courierId, '1024x1024');
     } catch (error: any) {
       console.log(error);
       return null;
@@ -29,7 +29,7 @@ export const useImagesURLs = (autoCheck = true) => {
   const fetchDocument = useCallback(async () => {
     if (!courierId) return;
     try {
-      return await api.getProfile().getDocumentDownloadURL(courierId, '1024x1024');
+      return await api.profile().getDocumentDownloadURL(courierId, '1024x1024');
     } catch (error: any) {
       console.log(error);
       return null;

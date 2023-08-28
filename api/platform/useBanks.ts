@@ -10,7 +10,7 @@ export default function () {
   // side effects
   React.useEffect(() => {
     (async () => {
-      setBanks(await api.getPlatform().fetchBanks());
+      setBanks(await api.platform().fetchBanks());
     })();
   }, [api]);
   return banks;

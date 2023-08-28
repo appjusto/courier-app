@@ -1,4 +1,4 @@
-import SafetyProcess from '@/common/components/profile/howitworks/safety';
+import SafetyProcess from '@/common/screens/profile/howitworks/safety';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native-gesture-handler';
 

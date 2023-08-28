@@ -62,10 +62,10 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
       }
       if (type === 'selfie') {
         setCheckSelfieTick(1);
-        await api.getProfile().uploadSelfie(courierId, uri);
+        await api.profile().uploadSelfie(courierId, uri);
       } else if (type === 'document') {
         setCheckDocumentTick(1);
-        await api.getProfile().uploadDocument(courierId, uri);
+        await api.profile().uploadDocument(courierId, uri);
       }
     } catch (error) {
       handleError(error);

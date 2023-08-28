@@ -1,7 +1,7 @@
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
-import { HowItWorksIcon } from '@/common/components/profile/howitworks/icon';
-import DefaultCard from '@/common/components/views/DefaultCard';
+import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import {
   URL_APPJUSTO_GITHUB,
   URL_APPJUSTO_INSTAGRAM,
@@ -61,7 +61,7 @@ export default function ProfileAbout() {
       <View style={{ flex: 1 }} />
       <View style={{ padding: paddings.lg }}>
         <DefaultCard
-          icon={<HowItWorksIcon iconName="smartphone" />}
+          icon={<DefaultCardIcon iconName="smartphone" />}
           title={`Versão: ${getAppVersion()}`}
           subtitle={getDeviceVersion()}
         />

@@ -3,26 +3,31 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import React from 'react';
 import { View } from 'react-native';
-import { DefaultText } from '../texts/DefaultText';
+import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+import { DefaultText } from '../../texts/DefaultText';
 
-type Props = {
+interface Props extends ViewProps {
   title: string;
   subtitle: string;
   icon: React.ReactNode;
-};
+}
 
-export default function DefaultCard({ title, subtitle, icon }: Props) {
+export default function DefaultCard({ title, subtitle, icon, style, ...props }: Props) {
   return (
     <View
-      style={{
-        ...borders.default,
-        borderColor: colors.neutral50,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        backgroundColor: colors.white,
-        padding: paddings.lg,
-      }}
+      style={[
+        {
+          ...borders.default,
+          borderColor: colors.neutral50,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          backgroundColor: colors.white,
+          padding: paddings.lg,
+        },
+        style,
+      ]}
+      {...props}
     >
       {icon}
       <View style={{ marginLeft: paddings.lg, width: '75%' }}>

@@ -21,7 +21,7 @@ export default function Selfie({ size = 60 }: Props) {
   const fetchSelfie = useCallback(async () => {
     if (!courierId) return;
     try {
-      return await api.getProfile().getSelfieDownloadURL(courierId, '160x160');
+      return await api.profile().getSelfieDownloadURL(courierId, '160x160');
     } catch (error: any) {
       console.log(error);
       return null;

@@ -116,7 +116,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     setLoading(true);
     if (!editing) {
       api
-        .getProfile()
+        .profile()
         .updateProfile(profile.id, { company: updatedCompany })
         .then(() => {
           setLoading(false);
@@ -142,7 +142,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
       if (Boolean(city) && city !== profile.company?.city) companyChanges.city = city;
       if (Boolean(state) && state !== profile.company?.state) companyChanges.state = state;
       api
-        .getProfile()
+        .profile()
         .requestProfileChange(changes)
         .then(() => {
           setEditing(false);

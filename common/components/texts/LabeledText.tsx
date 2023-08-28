@@ -3,8 +3,13 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import typography from '@/common/styles/typography';
 import { Pressable, Text, View } from 'react-native';
-import { DefaultText } from './DefaultText';
-import { LabeledTextProps } from './types';
+import { DefaultText, DefaultTextProps } from './DefaultText';
+
+export type LabeledTextProps = DefaultTextProps & {
+  title: string;
+  value?: string;
+  placeholder?: string;
+};
 
 export function LabeledText({
   style,

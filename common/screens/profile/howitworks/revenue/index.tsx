@@ -1,12 +1,12 @@
-import { ImageRevenueProcess } from '@/common/components/profile/howitworks/revenue/image';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { ImageRevenueProcess } from '@/common/screens/profile/howitworks/revenue/image';
 import paddings from '@/common/styles/paddings';
 import { View } from 'react-native';
 
 export default function RevenueProcess() {
   return (
     <View style={{ padding: paddings.lg }}>
-      <DefaultText size="2xl">Funcionamento do recebimento</DefaultText>
+      <DefaultText size="lg">Funcionamento do recebimento</DefaultText>
       <DefaultText
         size="sm"
         color="neutral700"

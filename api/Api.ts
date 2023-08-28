@@ -6,15 +6,17 @@ import storage from '@react-native-firebase/storage';
 import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
 import { getServerTime } from './firebase/refs/functions';
+import FleetsApi from './fleets/FleetsApi';
 import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
 
 const extra = getManifestExtra();
 
 export default class Api {
-  private auth: AuthApi;
-  private profile: ProfileApi;
-  private platform: PlatformApi;
+  private _auth: AuthApi;
+  private _profile: ProfileApi;
+  private _platform: PlatformApi;
+  private _fleets: FleetsApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -28,26 +30,31 @@ export default class Api {
       storage().useEmulator(host, 9199);
       // TODO: firebase.app().storage('gs://default-bucket')
     }
-    this.auth = new AuthApi();
-    this.profile = new ProfileApi(this.auth);
-    this.platform = new PlatformApi();
+    this._auth = new AuthApi();
+    this._profile = new ProfileApi(this._auth);
+    this._platform = new PlatformApi();
+    this._fleets = new FleetsApi();
   }
 
-  getAuth() {
-    return this.auth;
+  auth() {
+    return this._auth;
   }
 
-  getProfile() {
-    return this.profile;
+  profile() {
+    return this._profile;
   }
 
-  getPlatform() {
-    return this.platform;
+  platform() {
+    return this._platform;
+  }
+
+  fleets() {
+    return this._fleets;
   }
 
   async getServerTime(): Promise<number> {
     try {
-      if (this.auth.getUserId()) {
+      if (this._auth.getUserId()) {
         const result = await getServerTime()();
         return (result.data as any).time;
       }

@@ -14,6 +14,7 @@ export default function LoggedIndex() {
     if (!situation) return;
     if (situation === 'approved') {
       router.replace('/home');
+      // router.replace('/f/appjusto');
     } else if (situation === 'pending') {
       router.replace('/pending');
     } else if (situation === 'submitted' || situation === 'verified') {

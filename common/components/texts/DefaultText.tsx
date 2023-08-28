@@ -1,7 +1,12 @@
-import colors from '@/common/styles/colors';
+import colors, { ColorName } from '@/common/styles/colors';
 import typography, { semiboldFontFamily } from '@/common/styles/typography';
 import { Text } from 'react-native';
-import { DefaultTextProps } from './types';
+
+export type DefaultTextProps = Text['props'] & {
+  size?: keyof typeof typography;
+  color?: ColorName;
+  bold?: boolean;
+};
 
 export function DefaultText({ style, color, size, bold, ...props }: DefaultTextProps) {
   return (

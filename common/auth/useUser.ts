@@ -10,7 +10,7 @@ export const useUser = () => {
   // side effects
   // once
   React.useEffect(() => {
-    return api.getAuth().observeAuthState(setUser);
+    return api.auth().observeAuthState(setUser);
   }, [api]);
   // result
   return user;

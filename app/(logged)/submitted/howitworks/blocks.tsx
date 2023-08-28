@@ -1,4 +1,4 @@
-import BlockProcess from '@/common/components/profile/howitworks/blocks';
+import BlockProcess from '@/common/screens/profile/howitworks/blocks';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 

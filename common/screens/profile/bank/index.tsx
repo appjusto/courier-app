@@ -6,7 +6,6 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
-import { useBankPatterns } from '@/common/components/profile/banks/useBankPatterns';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
 import { Loading } from '@/common/components/views/Loading';
@@ -16,6 +15,7 @@ import { handleErrorMessage } from '@/common/firebase/errors';
 import { bankFormatter, getCEFAccountCode } from '@/common/formatters/bank';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
+import { useBankPatterns } from '@/common/screens/profile/bank/useBankPatterns';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import {
@@ -152,7 +152,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
     setLoading(true);
     if (!editing) {
       api
-        .getProfile()
+        .profile()
         .updateProfile(profile.id, { bankAccount: updatedBank as BankAccount })
         .then(() => {
           setLoading(false);
@@ -185,7 +185,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
         bankChanges.accountFormatted = accountFormatted;
       }
       api
-        .getProfile()
+        .profile()
         .requestProfileChange(changes)
         .then(() => {
           setEditing(false);

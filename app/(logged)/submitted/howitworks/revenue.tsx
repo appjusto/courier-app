@@ -1,4 +1,4 @@
-import RevenueProcess from '@/common/components/profile/howitworks/revenue';
+import RevenueProcess from '@/common/screens/profile/howitworks/revenue';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 

@@ -20,7 +20,7 @@ type ScreenState = 'phone-verified' | 'verifying-code' | 'code-verified' | 'erro
 
 export default function PhoneVerification() {
   // context
-  const auth = useContextApi().getAuth();
+  const auth = useContextApi().auth();
   const user = useContextUser();
   const router = useRouter();
   // params

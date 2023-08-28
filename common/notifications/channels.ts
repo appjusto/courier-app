@@ -22,7 +22,7 @@ export const optionalChannels = [
   {
     id: 'marketing' as NotificationChannel,
     name: 'Promoções e ofertas',
-    description: 'Para avisar quando houver alguma promoção ou oferta disponível para você',
+    description: 'Para saber sobre atualizações do App e questões operacionais',
     sound: undefined,
     bypassDnd: false,
   },
@@ -76,7 +76,7 @@ export const setupChannels = async () => {
           bypassDnd,
           enableVibrate: true,
           vibrationPattern: [0, 250, 250, 250],
-          lightColor: colors.green100,
+          lightColor: colors.primary100,
           importance: Notifications.AndroidImportance.MAX,
           lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
         };
