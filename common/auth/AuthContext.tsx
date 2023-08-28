@@ -27,10 +27,12 @@ export const AuthProvider = (props: Props) => {
   // side effects
   useProtectedRoute(user);
   useEffect(() => {
-    if (user === undefined) return;
+    if (!userId) return;
+    return api.getProfile().observeProfile<CourierProfile>(userId, setProfile);
+  }, [api, userId]);
+  useEffect(() => {
     if (user === null) setProfile(null);
-    else return api.getProfile().observeProfile<CourierProfile>(user.uid, setProfile);
-  }, [api, user]);
+  }, [user]);
   // result
   const value: Value = { user, userId, profile };
   return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;

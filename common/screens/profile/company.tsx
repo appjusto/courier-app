@@ -16,8 +16,9 @@ import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { CourierCompany, ProfileChange } from '@appjusto/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 interface Props {
@@ -62,6 +63,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   };
   const canUpdateProfile = isCompanyValid(updatedCompany);
   // effects
+  // inital data load
   useEffect(() => {
     if (!profile) return;
     if (profile.company?.cnpj && cnpj === undefined) setCNPJ(profile.company.cnpj);
@@ -74,33 +76,37 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     if (profile.company?.city && city === undefined) setCity(profile.company.city);
     if (profile.company?.state && state === undefined) setState(profile.company.state);
   }, [api, profile, cnpj, name, cep, address, number, additional, city, state]);
+  // cep
+  const handleError = useCallback(
+    (error: unknown) => {
+      if (error instanceof Error) crashlytics().recordError(error);
+      const message = handleErrorMessage(error);
+      showToast(message, 'error');
+      setLoading(false);
+    },
+    [showToast]
+  );
   useEffect(() => {
     if (cep?.length === 8 && cepRef.current?.isFocused()) {
       setLoading(true);
       fetchPostalDetails(cep)
         .then((result) => {
-          console.log(result);
           setLoading(false);
           if (!result.error) {
             setAddress(result.logradouro);
             setCity(result.localidade);
             setState(result.uf);
             numberRef.current?.focus();
+          } else {
+            handleError(new Error('CEP inválido. Verifique e tente novamente.'));
           }
         })
-        .catch((error) => {
-          setLoading(false);
-          console.error(error);
+        .catch(() => {
+          handleError(new Error('Erro ao consultar CEP. Tente novamente.'));
         });
     }
-  }, [cep]);
+  }, [cep, handleError]);
   // handlers
-  const handlError = (error: unknown) => {
-    const message = handleErrorMessage(error);
-    console.log(message);
-    showToast(message, 'error');
-    setLoading(false);
-  };
   const updateProfileHandler = () => {
     if (!profile?.id) return;
     if (!editing && !hasPendingChange && profileState.includes('approved')) {
@@ -117,7 +123,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
           if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
-          handlError(error);
+          handleError(error);
         });
     } else {
       const companyChanges: Partial<CourierCompany> = {};
@@ -135,7 +141,6 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
         companyChanges.additional = additional;
       if (Boolean(city) && city !== profile.company?.city) companyChanges.city = city;
       if (Boolean(state) && state !== profile.company?.state) companyChanges.state = state;
-      console.log(changes);
       api
         .getProfile()
         .requestProfileChange(changes)
@@ -145,7 +150,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
           showToast('As alterações foram solcitadas com sucesso!', 'success');
         })
         .catch((error) => {
-          handlError(error);
+          handleError(error);
         });
     }
   };

@@ -2,7 +2,7 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import typography from '@/common/styles/typography';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { Pressable, StyleProp, TextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 import { ThemeProps } from '../../themes';
@@ -25,13 +25,23 @@ export const DefaultInput = forwardRef(
       containerStyle,
       inputStyle,
       size,
+      value,
       onPress,
       ...props
     }: DefaultInputProps,
     forwardedRef
   ) => {
+    // refs
     const internalRef = useRef<TextInput>(null);
     const ref = (forwardedRef as React.RefObject<TextInput>) ?? internalRef;
+    // state
+    const [focused, setFocused] = useState(false);
+    // UI
+    const borderColor = () => {
+      if (focused) return colors.black;
+      if (!value) return colors.neutral200;
+      return colors.neutral700;
+    };
     return (
       <View style={style}>
         <Pressable
@@ -48,6 +58,7 @@ export const DefaultInput = forwardRef(
                 ...borders.default,
                 padding: paddings.md,
                 backgroundColor: colors.white,
+                borderColor: borderColor(),
               },
               containerStyle,
             ]}
@@ -65,6 +76,9 @@ export const DefaultInput = forwardRef(
               onPressOut={() => {
                 if (onPress) onPress();
               }}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              value={value}
               {...props}
             />
           </View>

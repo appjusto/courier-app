@@ -6,10 +6,13 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { RoundedImageBox } from '@/common/components/views/images/rounded/RoundedImageBox';
+import { useToast } from '@/common/components/views/toast/ToastContext';
+import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { Upload } from 'lucide-react-native';
 import { View } from 'react-native';
 import { PendingStep } from '../pending/PendingStep';
@@ -24,6 +27,7 @@ interface Props {
 export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
+  const { showToast } = useToast();
   const profile = useContextProfile();
   const courierId = profile?.id;
   const approved = profile?.situation === 'approved';
@@ -42,13 +46,18 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
 
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
   // handlers
+  const handleError = (error: unknown) => {
+    if (error instanceof Error) crashlytics().recordError(error);
+    const message = handleErrorMessage(error);
+    showToast(message, 'error');
+  };
   const pickAndUpload = async (from: PickImageFrom, type: ImageType, aspect: [number, number]) => {
     if (!courierId) return;
     try {
       const uri = await pickImage(from, aspect);
       if (uri === null) return;
       if (uri === undefined) {
-        // TODO: mostrar alerta de erro
+        handleError(new Error('Não foi possível obter a imagem. Verifique as permissões.'));
         return;
       }
       if (type === 'selfie') {
@@ -59,7 +68,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
         await api.getProfile().uploadDocument(courierId, uri);
       }
     } catch (error) {
-      console.error(error);
+      handleError(error);
     }
   };
   const actionSheetHandler = (type: ImageType, aspect: [number, number]) => {

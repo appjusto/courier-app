@@ -25,7 +25,6 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
         (ref) =>
           new Promise<Measure>((resolve) => {
             ref.current?.measure((x, y, width, height) => {
-              console.log({ x, y, width, height });
               resolve({ x, y, width, height });
             });
           })

@@ -73,7 +73,7 @@ export default function PendingIndex() {
           // TODO: toast
         });
     } else {
-      router.push('/pending/pager');
+      router.push({ pathname: `/pending/pager`, params: { initialPage: stepIndex } });
     }
   };
   // UI

@@ -15,6 +15,7 @@ import { isProfileValid } from '@/common/profile/isProfileValid';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { ProfileChange, UserProfile } from '@appjusto/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty, omit } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
@@ -74,9 +75,9 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
     if (profile.phone && phone === undefined) setPhone(profile.phone);
   }, [api, profile, email, name, surname, cpf, birthday, phone]);
   // handlers
-  const handlError = (error: unknown) => {
+  const handleError = (error: unknown) => {
+    if (error instanceof Error) crashlytics().recordError(error);
     const message = handleErrorMessage(error);
-    console.log(message);
     showToast(message, 'error');
     setLoading(false);
   };
@@ -101,7 +102,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
           if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
-          handlError(error);
+          handleError(error);
         });
     } else {
       const changes: Partial<ProfileChange> = {
@@ -121,7 +122,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
           showToast('As alterações foram solcitadas com sucesso!', 'success');
         })
         .catch((error) => {
-          handlError(error);
+          handleError(error);
         });
     }
   };

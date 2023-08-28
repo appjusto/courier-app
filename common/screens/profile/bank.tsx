@@ -26,6 +26,7 @@ import {
   ProfileChange,
   WithId,
 } from '@appjusto/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { SafeAreaView, TextInput, View } from 'react-native';
@@ -128,9 +129,9 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   })();
   const canUpdateProfile = isBankAccountValid(updatedBank);
   // handlers
-  const handlError = (error: unknown) => {
+  const handleError = (error: unknown) => {
+    if (error instanceof Error) crashlytics().recordError(error);
     const message = handleErrorMessage(error);
-    console.log(message);
     showToast(message, 'error');
     setLoading(false);
   };
@@ -140,7 +141,6 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
       setEditing(true);
       return;
     }
-    console.log('canUpdateProfile', canUpdateProfile);
     if (!bank) {
       return;
     }
@@ -159,7 +159,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
           if (onUpdateProfile) onUpdateProfile();
         })
         .catch((error) => {
-          handlError(error);
+          handleError(error);
         });
     } else {
       const bankChanges: Partial<BankAccount> = {};
@@ -184,7 +184,6 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
         bankChanges.account = account;
         bankChanges.accountFormatted = accountFormatted;
       }
-      console.log(changes);
       api
         .getProfile()
         .requestProfileChange(changes)
@@ -194,7 +193,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
           showToast('As alterações foram solcitadas com sucesso!', 'success');
         })
         .catch((error) => {
-          handlError(error);
+          handleError(error);
         });
     }
   };

@@ -29,11 +29,13 @@ export default function PendingPager() {
   const router = useRouter();
   // params
   // @ts-expect-error
-  const search = useLocalSearchParams<{ bankId: string }>();
+  const search = useLocalSearchParams<{ bankId: string; initialPage: number }>();
+  let initialPage = parseInt(search.initialPage, 10);
+  initialPage = isNaN(initialPage) ? 0 : initialPage;
   // refs
   const pagerViewRef = useRef<PagerView>(null);
   // state
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(initialPage);
   // handlers
   const nextHandler = () => {
     if (stepIndex + 1 < steps.length) {
@@ -49,6 +51,7 @@ export default function PendingPager() {
       <PagerView
         ref={pagerViewRef}
         style={{ flex: 1 }}
+        initialPage={initialPage}
         onPageScroll={(event) => {
           const { nativeEvent } = event;
           const { position } = nativeEvent;

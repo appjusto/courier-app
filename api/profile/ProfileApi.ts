@@ -16,6 +16,7 @@ export default class ProfileApi {
 
   // public API
   async createProfile(id: string) {
+    // console.log('createProfile', id);
     await getProfile(id).set(
       {
         situation: 'pending',
@@ -31,22 +32,20 @@ export default class ProfileApi {
     id: string,
     resultHandler: (profile: WithId<T> | null) => void
   ) {
-    return getProfile(id).onSnapshot(
-      (snapshot) => {
-        if (!snapshot.exists) {
-          resultHandler(null);
-        } else {
-          resultHandler(documentAs<T>(snapshot));
-        }
-      },
-      (error) => {
-        console.error(error);
-        // Sentry.Native.captureException(error);
+    // console.log('observeProfile', id);
+    return getProfile(id).onSnapshot(async (snapshot) => {
+      // console.log('profile.exists', snapshot.exists);
+      if (!snapshot.exists) {
+        await this.createProfile(id);
+        // resultHandler(null);
+      } else {
+        resultHandler(documentAs<T>(snapshot));
       }
-    );
+    });
   }
   // update profile
   async updateProfile(id: string, changes: Partial<CourierProfile>, retry = 5) {
+    // console.log('updateProfile', id);
     return new Promise<void>((resolve, reject) => {
       (async () => {
         try {
