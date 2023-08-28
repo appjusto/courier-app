@@ -131,6 +131,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       projectId,
     },
+    algolia: {
+      appId: process.env.EXPO_PUBLIC_ALGOLIA_APPID,
+      apiKey: process.env.EXPO_PUBLIC_ALGOLIA_APIKEY,
+    },
   } as Extra,
 });
 

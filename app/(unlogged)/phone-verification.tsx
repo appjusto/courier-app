@@ -1,5 +1,4 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useContextUser } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -21,7 +20,6 @@ type ScreenState = 'phone-verified' | 'verifying-code' | 'code-verified' | 'erro
 export default function PhoneVerification() {
   // context
   const auth = useContextApi().auth();
-  const user = useContextUser();
   const router = useRouter();
   // params
   // @ts-ignore

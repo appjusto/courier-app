@@ -12,7 +12,7 @@ export default function Index() {
   // side effects
   useEffect(() => {
     if (!mounted) return;
-    console.log('mounted', mounted, user);
+    // console.log('mounted', mounted, user);
     if (user === undefined) return;
     // if (user === null) router.replace('/welcome');
     // else router.replace('/logged');

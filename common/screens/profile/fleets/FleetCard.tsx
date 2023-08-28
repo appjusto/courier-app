@@ -44,35 +44,19 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
       <DefaultText size="xs" style={{ marginTop: paddings.lg }}>
         {fleet.description}
       </DefaultText>
+      <FleetCardParam text="Pagamento mínimo" value={minimumFee} />
+      <FleetCardParam text="Distância inicial mínima" value={distanceThreshold} />
+      <FleetCardParam text="Valor adicional por km rodado" value={additionalPerKmAfterThreshold} />
+      <FleetCardParam text="Distância máxima para entrega" value={maxDistance} />
       <FleetCardParam
-        text="Pagamento mínimo"
-        value={minimumFee}
-        style={{ marginTop: paddings.lg }}
-      />
-      <FleetCardParam
-        text="Distância inicial mínima"
-        value={distanceThreshold}
-        style={{ marginTop: paddings.lg }}
-      />
-      <FleetCardParam
-        text="Valor adicional por km rodado"
-        value={additionalPerKmAfterThreshold}
-        style={{ marginTop: paddings.lg }}
-      />
-      <FleetCardParam
-        text="Distância máxima para entrega"
-        value={maxDistance}
-        style={{ marginTop: paddings.lg }}
-      />
-      <FleetCardParam
+        style={{ borderBottomWidth: 0 }}
         text="Distância máxima até a coleta"
         value={maxDistanceToOrigin}
-        style={{ marginTop: paddings.lg, borderBottomWidth: 0 }}
       />
       <Pressable onPress={handleShareFleet}>
         {({ pressed }) => (
           <DefaultCard
-            style={{ marginTop: paddings.lg }}
+            style={{ marginTop: paddings.md }}
             icon={<DefaultCardIcon iconName="chat" />}
             title="Compartilhar frota"
             subtitle="Convide seus amigos para participar dessa frota"

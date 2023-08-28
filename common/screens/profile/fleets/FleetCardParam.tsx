@@ -18,7 +18,7 @@ export const FleetCardParam = ({ text, value, style, ...props }: Props) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: paddings.sm,
+          padding: paddings.md,
           borderBottomWidth: 1,
           borderColor: colors.neutral200,
         },

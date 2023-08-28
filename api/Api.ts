@@ -9,6 +9,7 @@ import { getServerTime } from './firebase/refs/functions';
 import FleetsApi from './fleets/FleetsApi';
 import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
+import SearchApi from './search/SearchApi';
 
 const extra = getManifestExtra();
 
@@ -17,6 +18,7 @@ export default class Api {
   private _profile: ProfileApi;
   private _platform: PlatformApi;
   private _fleets: FleetsApi;
+  private _search: SearchApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -34,6 +36,7 @@ export default class Api {
     this._profile = new ProfileApi(this._auth);
     this._platform = new PlatformApi();
     this._fleets = new FleetsApi();
+    this._search = new SearchApi(extra.algolia, extra.env);
   }
 
   auth() {
@@ -50,6 +53,10 @@ export default class Api {
 
   fleets() {
     return this._fleets;
+  }
+
+  search() {
+    return this._search;
   }
 
   async getServerTime(): Promise<number> {

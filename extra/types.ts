@@ -1,5 +1,9 @@
 import { Environment } from '@appjusto/types';
 
+export interface AlgoliaConfig {
+  appId: string;
+  apiKey: string;
+}
 export interface Extra {
   env: Environment;
   firebase: {
@@ -8,6 +12,7 @@ export interface Extra {
       host?: string;
     };
   };
+  algolia: AlgoliaConfig;
   eas: {
     projectId: string;
   };
