@@ -8,8 +8,8 @@ export default {
     text: colors.black,
     background: colors.white,
     tint: primaryLightColor,
-    tabIconDefault: '#ccc',
-    tabIconSelected: primaryLightColor,
+    tabIconDefault: colors.neutral800,
+    tabIconSelected: colors.black,
   },
   dark: {
     text: colors.white,

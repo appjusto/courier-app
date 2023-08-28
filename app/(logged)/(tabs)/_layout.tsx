@@ -1,26 +1,31 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import { Pressable, View, useColorScheme } from 'react-native';
 
+import colors from '@/common/styles/colors';
 import Colors from '@/common/styles/themes';
-import { OrdersTabIcon } from '@/common/tabs/icons/orders-tab-icon';
-import { ProfileTabIcon } from '@/common/tabs/icons/profile-tab-icon';
-import { HomeTabIcon } from '../../../common/tabs/icons/home-tab-icon';
+import { Home, Receipt, Users2 } from 'lucide-react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const activeColor = Colors[colorScheme ?? 'light'].tabIconSelected;
+  const inactiveColor = Colors[colorScheme ?? 'light'].tabIconDefault;
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: activeColor,
+        tabBarInactiveTintColor: inactiveColor,
       }}
     >
       <Tabs.Screen
         name="home"
         options={{
           title: 'Início',
-          tabBarIcon: ({ focused }) => <HomeTabIcon />,
+          tabBarIcon: ({ focused }) => (
+            <View style={{ backgroundColor: focused ? colors.neutral100 : undefined }}>
+              <Home size={24} color={focused ? activeColor : inactiveColor} />
+            </View>
+          ),
           headerRight: () => (
             <Link href="/matching" asChild>
               <Pressable>
@@ -41,7 +46,11 @@ export default function TabLayout() {
         name="deliveries"
         options={{
           title: 'Suas corridas',
-          tabBarIcon: ({ focused }) => <OrdersTabIcon />,
+          tabBarIcon: ({ focused }) => (
+            <View style={{ backgroundColor: focused ? colors.neutral100 : undefined }}>
+              <Receipt size={24} color={focused ? activeColor : inactiveColor} />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
@@ -49,7 +58,13 @@ export default function TabLayout() {
         options={{
           title: 'Sua conta',
           headerShown: false,
-          tabBarIcon: ({ focused }) => <ProfileTabIcon />,
+          // tabBarActiveBackgroundColor: colors.neutral100,
+          // tabBarBackground: () => <View style={{ backgroundColor: colors.neutral100 }} />,
+          tabBarIcon: ({ focused }) => (
+            <View style={{ backgroundColor: focused ? colors.neutral100 : undefined }}>
+              <Users2 size={24} color={focused ? activeColor : inactiveColor} />
+            </View>
+          ),
         }}
       />
     </Tabs>
