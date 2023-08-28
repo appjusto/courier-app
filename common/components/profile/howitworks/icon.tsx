@@ -5,11 +5,12 @@ import {
   CircleDollarSign,
   HelpCircle,
   ShieldCheck,
+  Smartphone,
   Users2,
 } from 'lucide-react-native';
 import { View } from 'react-native';
 
-type IconName = 'approval' | 'revenue' | 'fleets' | 'blocks' | 'safety' | 'help';
+type IconName = 'approval' | 'revenue' | 'fleets' | 'blocks' | 'safety' | 'help' | 'smartphone';
 
 interface Props {
   iconName: IconName;
@@ -36,6 +37,9 @@ const getIcon = (name: IconName) => {
   }
   if (name === 'help') {
     return <HelpCircle size={iconSize} color={colors.primary500} />;
+  }
+  if (name === 'smartphone') {
+    return <Smartphone size={iconSize} color={colors.primary500} />;
   }
   return null;
 };

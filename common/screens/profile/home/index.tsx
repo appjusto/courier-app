@@ -11,6 +11,7 @@ import {
   Building2,
   ChevronRight,
   CircleDollarSign,
+  FileText,
   HelpCircle,
   LogOut,
   Settings,
@@ -54,14 +55,14 @@ export default function ProfileHome() {
         <DefaultListItem
           title="Dados bancários"
           subtitles={['Banco, agência e conta corrente da sua PJ']}
-          leftView={<BookMinus size={20} color={colors.black} />}
+          leftView={<CircleDollarSign size={20} color={colors.black} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/bank')}
         />
         <DefaultListItem
           title="Selfie e documento"
           subtitles={['Sua selfie e a imagem do seu documento']}
-          leftView={<CircleDollarSign size={20} color={colors.black} />}
+          leftView={<BookMinus size={20} color={colors.black} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/images')}
         />
@@ -71,13 +72,19 @@ export default function ProfileHome() {
           title="Ajuda"
           leftView={<HelpCircle color={colors.neutral700} size={20} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
-          onPress={() => router.push('/profile/about/')}
+          onPress={() => router.push('/profile/help/')}
         />
         <SingleListItem
           title="Configurações"
           leftView={<Settings color={colors.neutral700} size={20} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/settings')}
+        />
+        <SingleListItem
+          title="Sobre o AppJusto"
+          leftView={<FileText color={colors.neutral700} size={20} />}
+          rightView={<ChevronRight size={16} color={colors.neutral800} />}
+          onPress={() => router.push('/profile/about/')}
         />
 
         <Pressable onPress={() => setLogoutVisible(true)}>
