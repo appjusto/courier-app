@@ -1,6 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { SingleListItem } from '@/common/components/lists/SingleListItem';
+import { ConfirmModal } from '@/common/components/modals/confirm-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -20,21 +21,25 @@ import {
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import ProfileHeader from './header';
-import { LogoutModal } from './logout-modal';
 
 export default function ProfileHome() {
   // context
   const api = useContextApi();
   const router = useRouter();
   // state
-  const [logoutVisible, setLogoutVisible] = useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   // UI
   return (
     <View style={{ ...screens.headless, padding: paddings.lg }}>
-      <LogoutModal
-        visible={logoutVisible}
-        onConfirm={() => api.auth().signOut()}
-        onCancel={() => setLogoutVisible(false)}
+      <ConfirmModal
+        visible={logoutModalVisible}
+        text="Tem certeza que deseja sair?"
+        cancelButtonLabel="Não, quero continuar logado"
+        onConfirm={() => {
+          setLogoutModalVisible(false);
+          api.auth().signOut();
+        }}
+        onCancel={() => setLogoutModalVisible(false)}
       />
       <ProfileHeader />
       <View style={{ flex: 1, marginTop: paddings.lg }}>
@@ -78,7 +83,7 @@ export default function ProfileHome() {
           title="Configurações"
           leftView={<Settings color={colors.neutral700} size={20} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
-          onPress={() => router.push('/profile/settings')}
+          onPress={() => router.push('/profile/settings/')}
         />
         <SingleListItem
           title="Sobre o AppJusto"
@@ -87,7 +92,7 @@ export default function ProfileHome() {
           onPress={() => router.push('/profile/about/')}
         />
 
-        <Pressable onPress={() => setLogoutVisible(true)}>
+        <Pressable onPress={() => setLogoutModalVisible(true)}>
           {({ pressed }) => (
             <View style={{ margin: paddings.lg, flexDirection: 'row' }}>
               <DefaultText color={pressed ? 'error500' : 'error900'}>Sair</DefaultText>

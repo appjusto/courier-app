@@ -4,6 +4,7 @@ import { Pressable, View, ViewProps, useColorScheme } from 'react-native';
 
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
+import paddings from '@/common/styles/paddings';
 import Colors from '@/common/styles/themes';
 import { Home, Receipt, Users2 } from 'lucide-react-native';
 
@@ -19,6 +20,8 @@ const TabIcon = ({ focused, children, ...props }: TabIconProps) => (
       borderColor: focused ? colors.neutral100 : colors.white,
       backgroundColor: focused ? colors.neutral100 : colors.white,
       alignItems: 'center',
+      padding: paddings.xs,
+      // marginTop: 20,
     }}
     {...props}
   >
@@ -33,6 +36,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarStyle: { height: '10%' },
         tabBarActiveTintColor: activeColor,
         tabBarInactiveTintColor: inactiveColor,
       }}

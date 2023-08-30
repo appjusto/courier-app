@@ -1,13 +1,13 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { ConfirmModal } from '@/common/components/modals/confirm-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import { isProfileValid } from '@/common/profile/isProfileValid';
-import { LogoutModal } from '@/common/screens/profile/home/logout-modal';
 import { useImagesURLs } from '@/common/screens/profile/images/useImagesURLs';
 import { PendingSteps } from '@/common/screens/profile/pending/PendingSteps';
 import paddings from '@/common/styles/paddings';
@@ -42,7 +42,7 @@ export default function PendingIndex() {
   const { selfieUrl, documentUrl, checkSelfieTick, checkDocumentTick } = useImagesURLs(
     stepIndex === 3
   );
-  const [logoutVisible, setLogoutVisible] = useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   // side effects
   useEffect(() => {
     if (!profile) return;
@@ -83,10 +83,15 @@ export default function PendingIndex() {
   return (
     <View style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Cadastro', headerBackVisible: false }} />
-      <LogoutModal
-        visible={logoutVisible}
-        onConfirm={() => api.auth().signOut()}
-        onCancel={() => setLogoutVisible(false)}
+      <ConfirmModal
+        visible={logoutModalVisible}
+        text="Tem certeza que deseja sair?"
+        cancelButtonLabel="Não, quero continuar logado"
+        onConfirm={() => {
+          setLogoutModalVisible(false);
+          api.auth().signOut();
+        }}
+        onCancel={() => setLogoutModalVisible(false)}
       />
       <DefaultText size="xl" style={{ marginVertical: paddings.xl }}>
         Vamos começar o seu processo de cadastro no AppJusto
@@ -109,7 +114,7 @@ export default function PendingIndex() {
         style={{ marginBottom: paddings.lg }}
         variant="outline"
         title="Sair"
-        onPress={() => setLogoutVisible(true)}
+        onPress={() => setLogoutModalVisible(true)}
       ></DefaultButton>
       <DefaultButton
         title={buttonTitle}
