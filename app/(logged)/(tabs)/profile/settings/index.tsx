@@ -1,4 +1,3 @@
-import { useContextApi } from '@/api/ApiContext';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { ConfirmModal } from '@/common/components/modals/confirm-modal';
 import colors from '@/common/styles/colors';
@@ -11,7 +10,7 @@ import { View } from 'react-native';
 
 export default function ProfileSettings() {
   // context
-  const api = useContextApi();
+  // const api = useContextApi();
   const router = useRouter();
   // state
   const [deleteAccountModalVisible, setDeleteAccountModalVisible] = useState(false);

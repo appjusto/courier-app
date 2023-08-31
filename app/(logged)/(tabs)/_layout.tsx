@@ -42,9 +42,10 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="home/index"
         options={{
           title: 'Início',
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused}>
               <Home size={24} color={focused ? activeColor : inactiveColor} />
@@ -82,8 +83,6 @@ export default function TabLayout() {
         options={{
           title: 'Sua conta',
           headerShown: false,
-          // tabBarActiveBackgroundColor: colors.neutral100,
-          // tabBarBackground: () => <View style={{ backgroundColor: colors.neutral100 }} />,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused}>
               <Users2 size={24} color={focused ? activeColor : inactiveColor} />

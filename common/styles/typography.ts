@@ -7,6 +7,12 @@ export const semiboldFontFamily = 'HankenGrotesk-SemiBold';
 type T = object & StyleProp<TextStyle>;
 
 export default {
+  'xxs': {
+    fontFamily: regularFontFamily,
+    fontSize: 10,
+    fontWeight: '400',
+    // lineHeight: 16,
+  } as T,
   'xs': {
     fontFamily: regularFontFamily,
     fontSize: 12,
