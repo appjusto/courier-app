@@ -9,9 +9,9 @@ import { Fleet, WithId } from '@appjusto/types';
 
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+import { shareFleet } from '../../../../api/fleets/shareFleet';
 import { DefaultCardIcon } from '../../../components/views/cards/icon';
 import { FleetCardParam } from './FleetCardParam';
-import { shareFleet } from './shareFleet';
 
 interface Props extends ViewProps {
   fleet: WithId<Fleet>;

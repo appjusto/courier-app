@@ -16,8 +16,8 @@ import { MotiView, useDynamicAnimation } from 'moti';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+import { shareFleet } from '../../../../api/fleets/shareFleet';
 import { FleetCardParam } from '../../profile/fleets/FleetCardParam';
-import { shareFleet } from '../../profile/fleets/shareFleet';
 
 interface Props extends ViewProps {}
 
