@@ -8,9 +8,10 @@ import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 interface Props extends ViewProps {
   text: string;
   value: string;
+  variant?: 'default' | 'home';
 }
 
-export const FleetCardParam = ({ text, value, style, ...props }: Props) => {
+export const FleetCardParam = ({ text, value, variant = 'default', style, ...props }: Props) => {
   return (
     <View
       style={[
@@ -27,7 +28,12 @@ export const FleetCardParam = ({ text, value, style, ...props }: Props) => {
       {...props}
     >
       <DefaultText size="xs">{text}</DefaultText>
-      <RoundedText size="xs">{value}</RoundedText>
+      <RoundedText
+        size={variant === 'home' ? 'xxs' : 'xs'}
+        style={{ backgroundColor: colors.white }}
+      >
+        {value}
+      </RoundedText>
     </View>
   );
 };

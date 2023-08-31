@@ -7,6 +7,8 @@ import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
 import { getServerTime } from './firebase/refs/functions';
 import FleetsApi from './fleets/FleetsApi';
+import LedgerApi from './ledger/LedgerApi';
+import OrdersApi from './orders/OrdersApi';
 import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
 import SearchApi from './search/SearchApi';
@@ -19,6 +21,8 @@ export default class Api {
   private _platform: PlatformApi;
   private _fleets: FleetsApi;
   private _search: SearchApi;
+  private _orders: OrdersApi;
+  private _ledger: LedgerApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -36,6 +40,8 @@ export default class Api {
     this._profile = new ProfileApi(this._auth);
     this._platform = new PlatformApi();
     this._fleets = new FleetsApi();
+    this._orders = new OrdersApi();
+    this._ledger = new LedgerApi();
     this._search = new SearchApi(extra.algolia, extra.env);
   }
 
@@ -53,6 +59,14 @@ export default class Api {
 
   fleets() {
     return this._fleets;
+  }
+
+  orders() {
+    return this._orders;
+  }
+
+  ledger() {
+    return this._ledger;
   }
 
   search() {

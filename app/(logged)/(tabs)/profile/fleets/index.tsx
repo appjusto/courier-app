@@ -14,6 +14,7 @@ export default function FleetsScreen() {
   // context
   const router = useRouter();
   const profile = useContextProfile();
+  // state
   const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
   // UI
   const title = 'Frota';

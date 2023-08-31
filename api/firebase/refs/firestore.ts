@@ -4,6 +4,12 @@ import firestore from '@react-native-firebase/firestore';
 export const getProfileRef = (id: string) => firestore().collection('couriers').doc(id);
 // fleets
 export const getFleetRef = (id: string) => firestore().collection('fleets').doc(id);
+// orders
+export const getOrdersRef = () => firestore().collection('orders');
+export const getOrderRef = (id: string) => getOrdersRef().doc(id);
+// orders
+export const getLedgerRef = () => firestore().collection('ledger');
+export const getLedgerEntryRef = (id: string) => getLedgerRef().doc(id);
 // users
 export const getUsersCollection = () => firestore().collection('users');
 export const getUsersSubcollectionsRef = () => getUsersCollection().doc('subcollections');

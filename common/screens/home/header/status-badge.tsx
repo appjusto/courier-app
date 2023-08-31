@@ -36,7 +36,6 @@ export const StatusBadge = ({ style, ...props }: Props) => {
     if (status === 'unavailable') return 'Indisponível';
     return 'Disponível';
   };
-  console.log(textColor(), text());
   return (
     <View
       style={[
