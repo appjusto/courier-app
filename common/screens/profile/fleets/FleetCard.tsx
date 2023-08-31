@@ -6,7 +6,7 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Fleet, WithId } from '@appjusto/types';
-import crashlytics from '@react-native-firebase/crashlytics';
+
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { DefaultCardIcon } from '../../../components/views/cards/icon';
@@ -18,12 +18,6 @@ interface Props extends ViewProps {
 }
 
 export const FleetCard = ({ fleet, style, ...props }: Props) => {
-  // handlers
-  const handleShareFleet = () => {
-    shareFleet(fleet).catch((error: unknown) => {
-      if (error instanceof Error) crashlytics().recordError(error);
-    });
-  };
   // UI
   const minimumFee = formatCurrency(fleet.minimumFee);
   const distanceThreshold = formatDistance(fleet.distanceThreshold);
@@ -53,7 +47,7 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
         text="Distância máxima até a coleta"
         value={maxDistanceToOrigin}
       />
-      <Pressable onPress={handleShareFleet}>
+      <Pressable onPress={() => shareFleet(fleet)}>
         {({ pressed }) => (
           <DefaultCard
             style={{ marginTop: paddings.md }}

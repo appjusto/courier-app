@@ -16,7 +16,6 @@ export default class OrdersApi {
     resultHandler: (orders: WithId<Order>[]) => void
   ) {
     const { courierId, from, to } = options;
-    console.log('from', from);
     let query = getOrdersRef()
       .where('courier.id', '==', courierId)
       .where('status', '==', 'delivered' as OrderStatus)

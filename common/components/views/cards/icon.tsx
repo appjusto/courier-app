@@ -23,52 +23,54 @@ type IconName =
 
 interface Props {
   iconName: IconName;
+  variant?: 'lighter' | 'darker';
 }
 
 const size = 50;
 const iconSize = 24;
 
-const getIcon = (name: IconName) => {
+const getIcon = (name: IconName, variant?: 'lighter' | 'darker') => {
+  const color = variant === 'lighter' ? colors.primary500 : colors.primary900;
   if (name === 'approval') {
-    return <BadgeCheck size={iconSize} color={colors.primary500} />;
+    return <BadgeCheck size={iconSize} color={color} />;
   }
   if (name === 'revenue') {
-    return <CircleDollarSign size={iconSize} color={colors.primary500} />;
+    return <CircleDollarSign size={iconSize} color={color} />;
   }
   if (name === 'fleets') {
-    return <Users2 size={iconSize} color={colors.primary500} />;
+    return <Users2 size={iconSize} color={color} />;
   }
   if (name === 'blocks') {
-    return <BadgeX size={iconSize} color={colors.primary500} />;
+    return <BadgeX size={iconSize} color={color} />;
   }
   if (name === 'safety') {
-    return <ShieldCheck size={iconSize} color={colors.primary500} />;
+    return <ShieldCheck size={iconSize} color={color} />;
   }
   if (name === 'help') {
-    return <HelpCircle size={iconSize} color={colors.primary500} />;
+    return <HelpCircle size={iconSize} color={color} />;
   }
   if (name === 'smartphone') {
-    return <Smartphone size={iconSize} color={colors.primary500} />;
+    return <Smartphone size={iconSize} color={color} />;
   }
   if (name === 'chat') {
-    return <MessageCircle size={iconSize} color={colors.primary500} />;
+    return <MessageCircle size={iconSize} color={color} />;
   }
   return null;
 };
 
-export const DefaultCardIcon = ({ iconName }: Props) => {
+export const DefaultCardIcon = ({ iconName, variant = 'lighter' }: Props) => {
   return (
     <View
       style={{
         width: size,
         height: size,
         borderRadius: size / 2,
-        backgroundColor: colors.primary100,
+        backgroundColor: variant === 'lighter' ? colors.primary100 : colors.primary300,
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      {getIcon(iconName)}
+      {getIcon(iconName, variant)}
     </View>
   );
 };

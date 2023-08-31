@@ -1,24 +1,30 @@
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
+import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import { useRouter } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { FleetCardParam } from '../../profile/fleets/FleetCardParam';
+import { shareFleet } from '../../profile/fleets/shareFleet';
 
 interface Props extends ViewProps {}
 
 export const HomeFleet = ({ style, ...props }: Props) => {
   // context
   const profile = useContextProfile();
+  const router = useRouter();
   // state
   const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
   const [opened, setOpened] = useState(false);
@@ -28,7 +34,6 @@ export const HomeFleet = ({ style, ...props }: Props) => {
   }));
   // side effects
   useEffect(() => {
-    console.log('animation');
     animation.animateTo({
       rotate: opened ? '0deg' : '180deg',
     });
@@ -91,6 +96,41 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                 value={additionalPerKmAfterThreshold}
                 style={{ borderBottomWidth: 0, paddingBottom: 0 }}
               />
+              <Pressable
+                onPress={() => {
+                  if (fleet) shareFleet(fleet);
+                }}
+              >
+                {({ pressed }) => (
+                  <DefaultCard
+                    style={{ marginTop: paddings.md }}
+                    icon={<DefaultCardIcon iconName="chat" variant="darker" />}
+                    title="Compartilhar frota"
+                    subtitle="Convide seus colegas para participar dessa frota"
+                  />
+                )}
+              </Pressable>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: paddings.lg,
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <DefaultButton
+                    title="Trocar de frota"
+                    variant="outline"
+                    onPress={() => router.push('/profile/fleets/search')}
+                  />
+                </View>
+                <View style={{ flex: 1, marginLeft: paddings.lg }}>
+                  <DefaultButton
+                    title="Ver detalhes"
+                    onPress={() => router.push('/profile/fleets/')}
+                  />
+                </View>
+              </View>
             </View>
           ) : null}
         </View>
