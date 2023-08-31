@@ -7,8 +7,9 @@ import { formatDistance } from '@/common/formatters/distance';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { ChevronDown, ChevronUp } from 'lucide-react-native';
-import { useState } from 'react';
+import { ChevronUp } from 'lucide-react-native';
+import { MotiView, useDynamicAnimation } from 'moti';
+import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { FleetCardParam } from '../../profile/fleets/FleetCardParam';
@@ -21,6 +22,17 @@ export const HomeFleet = ({ style, ...props }: Props) => {
   // state
   const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
   const [opened, setOpened] = useState(false);
+  // animation
+  const animation = useDynamicAnimation(() => ({
+    rotate: '0deg',
+  }));
+  // side effects
+  useEffect(() => {
+    console.log('animation');
+    animation.animateTo({
+      rotate: opened ? '0deg' : '180deg',
+    });
+  }, [opened, animation]);
   // UI
   const fleetName = fleet ? 'Frota ' + fleet.name : '-';
   const minimumFee = fleet ? formatCurrency(fleet.minimumFee) : '-';
@@ -61,11 +73,9 @@ export const HomeFleet = ({ style, ...props }: Props) => {
               >
                 {minimumFee}
               </RoundedText>
-              {opened ? (
+              <MotiView state={animation} transition={{ duration: 1000 }}>
                 <ChevronUp size={24} color={colors.neutral900} />
-              ) : (
-                <ChevronDown size={24} color={colors.neutral900} />
-              )}
+              </MotiView>
             </View>
           </View>
           {opened ? (

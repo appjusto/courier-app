@@ -9,6 +9,8 @@ import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
 
 export { ErrorBoundary } from 'expo-router';
 
