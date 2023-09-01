@@ -42,7 +42,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home/index"
+        name="home"
         options={{
           title: 'Início',
           headerShown: false,
@@ -71,6 +71,7 @@ export default function TabLayout() {
         name="deliveries"
         options={{
           title: 'Suas corridas',
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused}>
               <Receipt size={24} color={focused ? activeColor : inactiveColor} />

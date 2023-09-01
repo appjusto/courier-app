@@ -34,7 +34,7 @@ export const HomeActivity = ({ style, ...props }: Props) => {
       ]}
       {...props}
     >
-      <DefaultText size="lg">Sua atividade hoje</DefaultText>
+      <DefaultText size="lg">Corridas nas últimas 24h</DefaultText>
       <View style={{ marginTop: paddings.lg, flexDirection: 'row' }}>
         <View>
           <DefaultText size="xs" style={{ minWidth: 100 }}>

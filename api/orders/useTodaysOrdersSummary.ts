@@ -1,5 +1,5 @@
-import { totalOrderDistance } from './totalOrderDistance';
-import { totalOrderTime } from './totalOrderTime';
+import { totalOrderDistance } from './distance/totalOrderDistance';
+import { totalOrderTime } from './timestamp/totalOrderTime';
 import { useObserveDeliveredOrdersToday } from './useObserveDeliveredOrdersToday';
 
 export const useTodaysOrdersSummary = () => {

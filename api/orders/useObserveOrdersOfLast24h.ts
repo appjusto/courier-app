@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
 import { ObserveDeliveredOrdersOptions } from './OrdersApi';
 
-export const useObserveDeliveredOrdersToday = () => {
+export const useObserveOrdersOfLast24h = () => {
   // context
   const api = useContextApi();
   const profile = useContextProfile();
@@ -18,8 +18,7 @@ export const useObserveDeliveredOrdersToday = () => {
     if (!courierId) return;
     setOptions({
       courierId,
-      from: Dayjs().startOf('day').toDate(),
-      statuses: ['delivered'],
+      from: Dayjs().subtract(1, 'day').toDate(),
     });
   }, [courierId]);
   useEffect(() => {

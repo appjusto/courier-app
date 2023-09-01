@@ -1,11 +1,10 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
-import { Dayjs } from '@appjusto/dates';
 import { Order, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
 import { ObserveDeliveredOrdersOptions } from './OrdersApi';
 
-export const useObserveDeliveredOrdersToday = () => {
+export const useObserveOrdersFromPeriod = (from: Date | undefined, to: Date | undefined) => {
   // context
   const api = useContextApi();
   const profile = useContextProfile();
@@ -16,12 +15,14 @@ export const useObserveDeliveredOrdersToday = () => {
   // side effects
   useEffect(() => {
     if (!courierId) return;
+    if (!from) return;
+    if (!to) return;
     setOptions({
       courierId,
-      from: Dayjs().startOf('day').toDate(),
-      statuses: ['delivered'],
+      from,
+      to,
     });
-  }, [courierId]);
+  }, [courierId, from, to]);
   useEffect(() => {
     if (!options) return;
     return api.orders().observeOrders(options, setOrders);

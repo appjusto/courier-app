@@ -4,6 +4,6 @@ export const unstable_settings = {
   initialRouteName: '/',
 };
 
-export default function DeliveriesLayout() {
+export default function HomeLayout() {
   return <Stack screenOptions={{ headerShown: false }} />;
 }

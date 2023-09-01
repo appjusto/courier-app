@@ -1,33 +1,36 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { Order, OrderStatus, WithId } from '@appjusto/types';
-import firestore from '@react-native-firebase/firestore';
 import { getOrdersRef } from '../firebase/refs/firestore';
+import { fromDate } from '../firebase/timestamp';
 
 export type ObserveDeliveredOrdersOptions = {
   courierId: string;
+  statuses?: OrderStatus[];
   from?: Date;
   to?: Date;
 };
 
 export default class OrdersApi {
   // observe orders
-  observeDeliveredOrders(
+  observeOrders(
     options: ObserveDeliveredOrdersOptions,
     resultHandler: (orders: WithId<Order>[]) => void
   ) {
-    const { courierId, from, to } = options;
-    let query = getOrdersRef()
-      .where('courier.id', '==', courierId)
-      .where('status', '==', 'delivered' as OrderStatus)
-      .orderBy('createdOn', 'desc');
+    console.log('observeOrders', options);
+    const { courierId, statuses, from, to } = options;
+    let query = getOrdersRef().where('courier.id', '==', courierId).orderBy('createdOn', 'desc');
+    if (statuses) {
+      query = query.where('status', 'in', statuses);
+    }
     if (from) {
-      query = query.where('createdOn', '>', firestore.Timestamp.fromDate(from));
+      query = query.where('createdOn', '>', fromDate(from));
     }
     if (to) {
-      query = query.where('createdOn', '<', firestore.Timestamp.fromDate(to));
+      query = query.where('createdOn', '<', fromDate(to));
     }
     return query.onSnapshot(
       async (snapshot) => {
+        console.log('snapshot', snapshot.size);
         resultHandler(snapshot.empty ? [] : documentsAs<Order>(snapshot.docs));
       },
       (error) => {
