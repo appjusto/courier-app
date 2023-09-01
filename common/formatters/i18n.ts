@@ -1,4 +1,3 @@
-import * as Localization from 'expo-localization';
 import { I18n } from 'i18n-js';
 
 const pt = {
@@ -64,10 +63,11 @@ export const i18n = new I18n();
 
 i18n.defaultLocale = 'pt-BR';
 i18n.locale = 'pt-BR';
+i18n.enableFallback = false;
 i18n.translations = { pt };
 
 export const translations = ['pt'];
-const language = Localization.getLocales()[0].languageCode;
-const isDeviceLocaleSupported = translations.includes(language);
-
-i18n.locale = isDeviceLocaleSupported ? language : i18n.defaultLocale;
+i18n.locale = 'pt';
+// const language = Localization.getLocales()[0].languageCode;
+// const isDeviceLocaleSupported = translations.includes(language);
+// i18n.locale = isDeviceLocaleSupported ? language : i18n.defaultLocale;

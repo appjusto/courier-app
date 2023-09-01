@@ -1,5 +1,6 @@
 import { ApiProvider } from '@/api/ApiContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
+import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -31,6 +32,7 @@ export default function RootLayout() {
     HankenGroteskSemiBold: require('../assets/fonts/HankenGrotesk-SemiBold.ttf'),
     ...FontAwesome.font,
   });
+  const splashScreenShown = useSplashScreen();
   const colorScheme = useColorScheme();
   // side effects
   // error handling
@@ -39,10 +41,10 @@ export default function RootLayout() {
   }, [error]);
   // splash
   useEffect(() => {
-    if (loaded) {
+    if (loaded && !splashScreenShown) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, splashScreenShown]);
   // UI
   if (!loaded) {
     return null;

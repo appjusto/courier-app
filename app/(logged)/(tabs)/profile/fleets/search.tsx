@@ -47,7 +47,7 @@ export default function FleetsSearch() {
         }}
         keyExtractor={(item) => item.id}
         estimatedItemSize={460}
-        ListFooterComponent={<View style={{ height: 100 }} />}
+        ListFooterComponent={<View style={{ height: paddings.xl }} />}
       />
     </DefaultScrollView>
   );
