@@ -9,7 +9,7 @@ import screens from '@/common/styles/screens';
 import { FlashList } from '@shopify/flash-list';
 import { Stack } from 'expo-router';
 import { useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 export default function FleetsSearch() {
   // state
@@ -47,6 +47,7 @@ export default function FleetsSearch() {
         }}
         keyExtractor={(item) => item.id}
         estimatedItemSize={460}
+        ListFooterComponent={<View style={{ height: 100 }} />}
       />
     </DefaultScrollView>
   );

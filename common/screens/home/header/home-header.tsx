@@ -46,9 +46,10 @@ export const HomeHeader = () => {
       <Selfie />
       <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
         <DefaultText size="md">{profile.name}</DefaultText>
-        <DefaultText size="xxs" color="neutral700">{`ID #${
-          profile.code
-        } V${getAppVersion()}`}</DefaultText>
+        <View>
+          <DefaultText size="xxs" color="neutral700">{`ID #${profile.code}`}</DefaultText>
+          <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText>
+        </View>
       </View>
       <View style={{ flex: 1 }} />
       <Switch

@@ -31,7 +31,7 @@ export default function FleetsScreen() {
         onPress={() => router.push('/profile/fleets/search')}
       />
       <DefaultButton
-        style={{ marginTop: paddings.lg }}
+        style={{ marginVertical: paddings.lg }}
         variant="outline"
         title="Criar nova frota"
         onPress={() => null}
