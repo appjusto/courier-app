@@ -2,6 +2,8 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { useState } from 'react';
 import { Modal, ModalProps, Pressable, View } from 'react-native';
 import { Period } from './period-control';
 
@@ -21,9 +23,23 @@ const PeriodItem = ({ text }: PeriodItemProps) => (
 
 interface Props extends ModalProps {
   onConfirm: (period: Period) => void;
+  onSelectDate: (date: Date) => void;
   onCancel: () => void;
 }
-export const PeriodModal = ({ onConfirm, onCancel, ...props }: Props) => {
+export const PeriodModal = ({ onConfirm, onCancel, onSelectDate, ...props }: Props) => {
+  // state
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  // handlers
+  const changeHandler = (event: DateTimePickerEvent, date: Date) => {
+    const {
+      type,
+      nativeEvent: { timestamp },
+    } = event;
+    if (type === 'set' && timestamp) {
+      setSelectedDate(new Date(timestamp));
+    }
+  };
+  // UI
   return (
     <Modal animationType="slide" {...props}>
       <Pressable style={{ flex: 1 }} onPress={onCancel}>
@@ -51,7 +67,22 @@ export const PeriodModal = ({ onConfirm, onCancel, ...props }: Props) => {
               <Pressable onPress={() => onConfirm('month')}>
                 {({ pressed }) => <PeriodItem text="Mês" />}
               </Pressable>
-              <DefaultButton variant="destructive" title="Escolher data" onPress={() => null} />
+              <View style={{ margin: paddings.lg }}>
+                <DateTimePicker
+                  value={selectedDate}
+                  mode="date"
+                  display="inline"
+                  maximumDate={new Date()}
+                  onChange={changeHandler}
+                />
+              </View>
+              <DefaultButton
+                title="Escolher dia inicial"
+                disabled={!Boolean(selectedDate)}
+                onPress={() => {
+                  if (selectedDate) onSelectDate(selectedDate);
+                }}
+              />
             </View>
           </View>
         )}

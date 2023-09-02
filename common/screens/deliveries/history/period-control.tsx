@@ -1,5 +1,13 @@
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import {
+  getEndOfDay,
+  getEndOfMonth,
+  getEndOfWeek,
+  getStartOfDay,
+  getStartOfMonth,
+  getStartOfWeek,
+} from '@/common/date';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -19,29 +27,28 @@ interface Props extends ViewProps {
 export const PeriodControl = ({ onChange }: Props) => {
   // state
   const [period, setPeriod] = useState<Period>('day');
-  const [from, setFrom] = useState<Date>(new Date());
+  const [from, setFrom] = useState<Date>(getStartOfDay());
   const [to, setTo] = useState<Date>();
   const [modalVisible, setModalVisible] = useState(false);
   // side effects
   // update from according with period
   useEffect(() => {
-    const today = Dayjs().startOf('day').toDate();
     if (period === 'day') {
-      setFrom(today);
+      setFrom(getStartOfDay());
     } else if (period === 'week') {
-      setFrom(Dayjs(today).startOf('week').toDate());
+      setFrom(getStartOfWeek());
     } else if (period === 'month') {
-      setTo(Dayjs(today).endOf('month').toDate());
+      setFrom(getStartOfMonth());
     }
   }, [period]);
   // update to according with from
   useEffect(() => {
     if (period === 'day') {
-      setTo(from);
+      setTo(getEndOfDay());
     } else if (period === 'week') {
-      setTo(Dayjs(from).endOf('week').toDate());
+      setTo(getEndOfWeek(from));
     } else if (period === 'month') {
-      setTo(Dayjs(from).endOf('month').toDate());
+      setTo(getEndOfMonth(from));
     }
   }, [period, from]);
   // handler
@@ -67,8 +74,7 @@ export const PeriodControl = ({ onChange }: Props) => {
   };
   // UI
   const periodAsText = () => {
-    console.log(from, to, Dayjs(to).isSame(from));
-    if (Dayjs(to).isSame(from))
+    if (Dayjs(to).isSame(from, 'day'))
       return Dayjs(from).calendar(new Date(), {
         lastDay: '[Ontem]',
         sameDay: '[Hoje]',
@@ -85,6 +91,11 @@ export const PeriodControl = ({ onChange }: Props) => {
           onConfirm={(period) => {
             setModalVisible(false);
             setPeriod(period);
+          }}
+          onSelectDate={(date) => {
+            setFrom(date);
+            setModalVisible(false);
+            // setPeriod('month')
           }}
           onCancel={() => setModalVisible(false)}
         />
