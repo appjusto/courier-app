@@ -1,5 +1,4 @@
 import { getOrderRevenue } from '@/api/orders/revenue/getOrderRevenue';
-import { getStatusAsText } from '@/api/orders/status/getStatusAsText';
 import { getOrderTime } from '@/api/orders/timestamp/getOrderTime';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { formatCurrency } from '@/common/formatters/currency';
@@ -9,6 +8,7 @@ import { Dayjs } from '@appjusto/dates';
 import { Order, WithId } from '@appjusto/types';
 import { Bike, ChevronRight, Utensils } from 'lucide-react-native';
 import { View, ViewProps } from 'react-native';
+import { OrderStatusBadge } from './history/order-status-badge';
 
 interface Props extends ViewProps {
   order: WithId<Order>;
@@ -17,9 +17,6 @@ interface Props extends ViewProps {
 export const DeliveryItem = ({ order, style, ...props }: Props) => {
   const time = Dayjs(getOrderTime(order)).format('DD/MM • HH:mm');
   const { status } = order;
-  let statusBackground = colors.info900;
-  if (status === 'delivered') statusBackground = colors.success900;
-  else if (status === 'canceled') statusBackground = colors.error900;
   // UI
   return (
     <View
@@ -42,24 +39,16 @@ export const DeliveryItem = ({ order, style, ...props }: Props) => {
       )}
       <View style={{ marginLeft: paddings.lg }}>
         <DefaultText>{order.type === 'food' ? order.business?.name : 'Entrega rápida'}</DefaultText>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: paddings.xs }}>
           <DefaultText size="xs" color="neutral800">
             {time}
           </DefaultText>
-          <View
-            style={{
-              backgroundColor: statusBackground,
-              paddingHorizontal: paddings.xs,
-              paddingVertical: paddings['2xs'],
-            }}
-          >
-            <DefaultText>{getStatusAsText(status)}</DefaultText>
-          </View>
+          <OrderStatusBadge status={status} style={{ marginLeft: paddings.lg }} />
         </View>
-        <View style={{ flex: 1 }} />
-        <DefaultText color="black">{formatCurrency(getOrderRevenue(order))}</DefaultText>
-        <ChevronRight size={16} style={{ marginLeft: paddings.lg }} />
       </View>
+      <View style={{ flex: 1 }} />
+      <DefaultText color="black">{formatCurrency(getOrderRevenue(order))}</DefaultText>
+      <ChevronRight size={16} color={colors.neutral800} style={{ marginLeft: paddings.sm }} />
     </View>
   );
 };

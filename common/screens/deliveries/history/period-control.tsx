@@ -26,52 +26,55 @@ interface Props extends ViewProps {
 
 export const PeriodControl = ({ onChange }: Props) => {
   // state
-  const [period, setPeriod] = useState<Period>('day');
-  const [from, setFrom] = useState<Date>(getStartOfDay());
-  const [to, setTo] = useState<Date>();
+  const [period, setPeriod] = useState<Period>('month');
+  const [from, setFrom] = useState(getStartOfDay().getTime());
+  const [to, setTo] = useState<number>();
   const [modalVisible, setModalVisible] = useState(false);
   // side effects
   // update from according with period
   useEffect(() => {
+    // console.log('effect peridod', period);
     if (period === 'day') {
-      setFrom(getStartOfDay());
+      setFrom(getStartOfDay().getTime());
     } else if (period === 'week') {
-      setFrom(getStartOfWeek());
+      setFrom(getStartOfWeek().getTime());
     } else if (period === 'month') {
-      setFrom(getStartOfMonth());
+      setFrom(getStartOfMonth().getTime());
     }
   }, [period]);
   // update to according with from
   useEffect(() => {
+    // console.log('effect peridod/from', period, from);
     if (period === 'day') {
-      setTo(getEndOfDay());
+      setTo(getEndOfDay().getTime());
     } else if (period === 'week') {
-      setTo(getEndOfWeek(from));
+      setTo(getEndOfWeek(new Date(from)).getTime());
     } else if (period === 'month') {
-      setTo(getEndOfMonth(from));
+      setTo(getEndOfMonth(new Date(from)).getTime());
     }
   }, [period, from]);
   // handler
   useEffect(() => {
     if (!from || !to) return;
-    onChange(from, to);
+    onChange(new Date(from), new Date(to));
   }, [from, to, onChange]);
   if (!from || !to) return;
   const nextEnabled = Dayjs(to).isBefore(new Date());
   // handlers
   const previousPeriod = () => {
     if (period !== 'custom') {
-      setFrom(Dayjs(from).subtract(1, period).toDate());
-      setTo(Dayjs(to).subtract(1, period).toDate());
+      setFrom(Dayjs(from).subtract(1, period).toDate().getTime());
+      setTo(Dayjs(to).subtract(1, period).toDate().getTime());
     }
   };
   const nextPeriod = () => {
     if (!nextEnabled) return;
     if (period !== 'custom') {
-      setFrom(Dayjs(from).add(1, period).toDate());
-      setTo(Dayjs(to).add(1, period).toDate());
+      setFrom(Dayjs(from).add(1, period).toDate().getTime());
+      setTo(Dayjs(to).add(1, period).toDate().getTime());
     }
   };
+  console.log(period, from, to);
   // UI
   const periodAsText = () => {
     if (Dayjs(to).isSame(from, 'day'))
@@ -93,7 +96,7 @@ export const PeriodControl = ({ onChange }: Props) => {
             setPeriod(period);
           }}
           onSelectDate={(date) => {
-            setFrom(date);
+            setFrom(getStartOfDay(date).getTime());
             setModalVisible(false);
             // setPeriod('month')
           }}

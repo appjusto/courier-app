@@ -30,7 +30,7 @@ export const PeriodModal = ({ onConfirm, onCancel, onSelectDate, ...props }: Pro
   // state
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   // handlers
-  const changeHandler = (event: DateTimePickerEvent, date: Date) => {
+  const changeHandler = (event: DateTimePickerEvent, date?: Date) => {
     const {
       type,
       nativeEvent: { timestamp },

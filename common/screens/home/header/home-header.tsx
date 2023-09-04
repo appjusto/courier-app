@@ -10,7 +10,7 @@ import { CourierStatus } from '@appjusto/types';
 import Constants from 'expo-constants';
 import { Switch, View } from 'react-native';
 import Selfie from '../../profile/images/selfie';
-import { StatusBadge } from './status-badge';
+import { ProfileStatusBadge } from './status-badge';
 
 export const HomeHeader = () => {
   // context
@@ -59,7 +59,7 @@ export const HomeHeader = () => {
         onValueChange={toggleWorking}
         value={working}
       />
-      <StatusBadge style={{ marginLeft: paddings.xs }} />
+      <ProfileStatusBadge style={{ marginLeft: paddings.xs }} />
     </View>
   );
 };

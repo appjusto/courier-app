@@ -4,6 +4,7 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DeliveryList } from '@/common/screens/deliveries/delivery-list';
 import { PeriodControl } from '@/common/screens/deliveries/history/period-control';
+import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -36,9 +37,9 @@ export default function DeliveriesHistory() {
 
   return (
     <DefaultScrollView style={{ ...screens.default }}>
-      <DefaultView style={screens.headless}>
+      <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
         <PeriodControl onChange={changeHandler} />
-        <DeliveryList orders={orders ?? []} />
+        <DeliveryList style={{ marginTop: paddings.lg }} orders={orders ?? []} />
       </DefaultView>
     </DefaultScrollView>
   );

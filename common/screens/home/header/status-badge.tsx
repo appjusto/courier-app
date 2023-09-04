@@ -8,7 +8,7 @@ import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 interface Props extends ViewProps {}
 
-export const StatusBadge = ({ style, ...props }: Props) => {
+export const ProfileStatusBadge = ({ style, ...props }: Props) => {
   // context
   const profile = useContextProfile();
   // UI
