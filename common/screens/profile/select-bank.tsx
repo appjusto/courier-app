@@ -1,4 +1,4 @@
-import useBanks from '@/api/platform/useBanks';
+import { useFetchBanks } from '@/api/platform/banks/useFetchBanks';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
@@ -16,7 +16,7 @@ interface Props {
 
 export default function ProfileSelectBank({ onSelectBank }: Props) {
   // state
-  const banks = useBanks();
+  const banks = useFetchBanks();
   const [filteredBanks, setFilteredBanks] = useState<WithId<Bank>[]>([]);
   const [name, setName] = useState('');
   // side effects

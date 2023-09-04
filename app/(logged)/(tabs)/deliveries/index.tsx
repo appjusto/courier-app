@@ -5,10 +5,11 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { Loading } from '@/common/components/views/Loading';
 import { DeliveryList } from '@/common/screens/deliveries/delivery-list';
+import { AccountSummary } from '@/common/screens/deliveries/history/account/account-summary';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { View } from 'react-native';
 
 export default function DeliveriesIndex() {
   // context
@@ -16,23 +17,14 @@ export default function DeliveriesIndex() {
   const router = useRouter();
   // state
   const orders = useObserveOrdersOfLast24h();
-  // side effects
-  useEffect(() => {
-    api
-      .getServerTime()
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [api]);
   // UI
   if (!orders) return <Loading />;
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
+        <AccountSummary />
         <DeliveryList orders={orders} />
+        <View style={{ flex: 1 }} />
         <DefaultButton
           variant="outline"
           title="Ver histórico de corridas"

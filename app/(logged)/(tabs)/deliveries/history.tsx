@@ -25,6 +25,7 @@ export default function DeliveriesHistory() {
   // side effects
   useEffect(() => {
     api
+      .platform()
       .getServerTime()
       .then((result) => {
         console.log(result);

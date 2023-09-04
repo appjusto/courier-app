@@ -1,8 +1,8 @@
 import { Bank, WithId } from '@appjusto/types';
 import React from 'react';
-import { useContextApi } from '../ApiContext';
+import { useContextApi } from '../../ApiContext';
 
-export default function () {
+export const useFetchBanks = () => {
   // context
   const api = useContextApi();
   // state
@@ -14,4 +14,4 @@ export default function () {
     })();
   }, [api]);
   return banks;
-}
+};

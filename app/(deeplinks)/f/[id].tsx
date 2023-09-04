@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 
 export default function FleetDeeplinkScreen() {
   // params
-  // @ts-expect-error
   const params = useLocalSearchParams<{ id: string }>();
   const fleetId = params.id;
   console.log('FleetDeeplinkScreen', fleetId);

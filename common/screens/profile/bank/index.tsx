@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import useBanks from '@/api/platform/useBanks';
+import { useFetchBanks } from '@/api/platform/banks/useFetchBanks';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -52,7 +52,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   // state
   const profile = useContextProfile();
   const profileState = getProfileState(profile);
-  const banks = useBanks();
+  const banks = useFetchBanks();
   const pendingChange = useRequestedProfileChanges(profile?.id);
   const hasPendingChange = !isEmpty(pendingChange?.bankAccount);
   const [bank, setBank] = useState<WithId<Bank>>();
