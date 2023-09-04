@@ -1,10 +1,10 @@
 import { getOrderRevenue } from '@/api/orders/revenue/getOrderRevenue';
-import { getOrderTime } from '@/api/orders/timestamp/getOrderTime';
+import { getOrderTimestamp } from '@/api/orders/timestamp/getOrderTime';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { formatCurrency } from '@/common/formatters/currency';
+import { formatTimestamp } from '@/common/formatters/timestamp';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { Dayjs } from '@appjusto/dates';
 import { Order, WithId } from '@appjusto/types';
 import { Bike, ChevronRight, Utensils } from 'lucide-react-native';
 import { View, ViewProps } from 'react-native';
@@ -15,7 +15,7 @@ interface Props extends ViewProps {
 }
 
 export const DeliveryItem = ({ order, style, ...props }: Props) => {
-  const time = Dayjs(getOrderTime(order)).format('DD/MM • HH:mm');
+  const time = formatTimestamp(getOrderTimestamp(order));
   const { status } = order;
   // UI
   return (

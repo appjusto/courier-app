@@ -8,16 +8,20 @@ import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
 import { putFile } from '../files/putFile';
-import { getProfileRef, getUsersChangesRef } from '../firebase/refs/firestore';
 import { getDocumentPath, getSelfiePath } from '../firebase/refs/storage';
 
+// firestore
+const profileRef = (id: string) => firestore().collection('couriers').doc(id);
+const usersRef = () => firestore().collection('users');
+const usersSubcollectionsRef = () => usersRef().doc('subcollections');
+const usersChangesRef = () => usersSubcollectionsRef().collection('changes');
 export default class ProfileApi {
   constructor(private auth: AuthApi) {}
 
   // public API
   async createProfile(id: string) {
     // console.log('createProfile', id);
-    await getProfileRef(id).set(
+    await profileRef(id).set(
       {
         situation: 'pending',
         email: this.auth.getEmail() ?? null,
@@ -33,7 +37,7 @@ export default class ProfileApi {
     resultHandler: (profile: WithId<T> | null) => void
   ) {
     // console.log('observeProfile', id);
-    return getProfileRef(id).onSnapshot(async (snapshot) => {
+    return profileRef(id).onSnapshot(async (snapshot) => {
       // console.log('profile.exists', snapshot.exists);
       if (!snapshot.exists) {
         await this.createProfile(id);
@@ -60,7 +64,7 @@ export default class ProfileApi {
             platform: Platform.OS,
             updatedOn: serverTimestamp(),
           };
-          await getProfileRef(id).set(update, { merge: true });
+          await profileRef(id).set(update, { merge: true });
 
           resolve();
         } catch (error) {
@@ -93,7 +97,7 @@ export default class ProfileApi {
   }
 
   async requestProfileChange(changes: Partial<ProfileChange>) {
-    await getUsersChangesRef().add({
+    await usersChangesRef().add({
       userType: 'courier',
       situation: 'pending',
       createdOn: serverTimestamp(),
@@ -105,7 +109,7 @@ export default class ProfileApi {
     id: string,
     resultHandler: (profile: WithId<ProfileChange> | null) => void
   ) {
-    const query = getUsersChangesRef()
+    const query = usersChangesRef()
       .where('accountId', '==', id)
       .where('situation', '==', 'pending')
       .limit(1);

@@ -1,15 +1,19 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { Order, OrderStatus, WithId } from '@appjusto/types';
-import { getOrdersRef } from '../firebase/refs/firestore';
+import firestore from '@react-native-firebase/firestore';
 import { fromDate } from '../firebase/timestamp';
 
+// firestore
+const ordersRef = () => firestore().collection('orders');
+// const getOrderRef = (id: string) => ordersRef().doc(id);
+
+// API
 export type ObserveDeliveredOrdersOptions = {
   courierId: string;
   statuses?: OrderStatus[];
   from?: Date;
   to?: Date;
 };
-
 export default class OrdersApi {
   // observe orders
   observeOrders(
@@ -18,7 +22,7 @@ export default class OrdersApi {
   ) {
     console.log('observeOrders', options);
     const { courierId, statuses, from, to } = options;
-    let query = getOrdersRef().where('courier.id', '==', courierId).orderBy('createdOn', 'desc');
+    let query = ordersRef().where('courier.id', '==', courierId).orderBy('createdOn', 'desc');
     if (statuses) {
       query = query.where('status', 'in', statuses);
     }

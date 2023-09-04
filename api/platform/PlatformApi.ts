@@ -2,17 +2,24 @@ import { documentsAs } from '@/common/firebase/documentAs';
 import { getFirebaseRegion } from '@/extra';
 import { Bank, PlatformAccess, PlatformParams } from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 import AuthApi from '../auth/AuthApi';
-import {
-  getBanksCollection,
-  getPlatformAccessDoc,
-  getPlatformParamsDoc,
-} from '../firebase/refs/firestore';
 
+// functions
 const region = getFirebaseRegion();
-
 export const getServerTime = firebase.app().functions(region).httpsCallable('getServerTime');
 
+// firestore
+export const platformRef = () => firestore().collection('platform');
+export const platformParamsRef = () => platformRef().doc('params');
+export const platformAccessRef = () => platformRef().doc('access');
+// platform data
+export const platformDataRef = () => platformRef().doc('data');
+export const banksRef = () => platformDataRef().collection('banks');
+// platform logs
+export const platformLogsRef = () => platformRef().doc('logs');
+
+// API
 export default class PlatformApi {
   constructor(private auth: AuthApi) {}
   async getServerTime(): Promise<number> {
@@ -29,17 +36,17 @@ export default class PlatformApi {
   }
 
   async fetchPlatformParams() {
-    const snapshot = await getPlatformParamsDoc().get();
+    const snapshot = await platformParamsRef().get();
     return snapshot.data() as PlatformParams;
   }
 
   async fetchPlatformAccess() {
-    const snapshot = await getPlatformAccessDoc().get();
+    const snapshot = await platformAccessRef().get();
     return snapshot.data() as PlatformAccess;
   }
 
   async fetchBanks() {
-    const snapshot = await getBanksCollection().orderBy('order', 'asc').get();
+    const snapshot = await banksRef().orderBy('order', 'asc').get();
     return documentsAs<Bank>(snapshot.docs);
   }
 }

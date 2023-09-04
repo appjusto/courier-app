@@ -1,6 +1,6 @@
 import { OrderStatus } from '@appjusto/types';
 
-export const getStatusAsText = (status: OrderStatus) => {
+export const getOrderStatusAsText = (status: OrderStatus) => {
   if (status === 'quote') return 'Cotação';
   if (status === 'confirming') return 'Confirmando';
   if (status === 'declined') return 'Recusado';

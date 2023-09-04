@@ -1,6 +1,6 @@
 import { useToast } from '@/common/components/views/toast/ToastContext';
 import { useFocusEffect } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
 
 export const useFetchAccountBalance = () => {
@@ -19,14 +19,14 @@ export const useFetchAccountBalance = () => {
         const value = parseInt(info.balance_available_for_withdraw.replace(/[^0-9]/g, ''), 10);
         setBalance(value);
       })
-      .catch((error: unknown) => {
-        console.info(error);
+      .catch((error: Error) => {
         setBalance(0);
-        showToast('Não foi possível obter seu saldo. Tente novamente mais tarde.', 'error');
+        showToast(error.message, 'error');
       });
   }, [api, showToast]);
   // side effects
   useFocusEffect(fetchBalance);
+  useEffect(fetchBalance, [fetchBalance]);
   // result
   return balance;
 };

@@ -1,4 +1,3 @@
-import { useContextApi } from '@/api/ApiContext';
 import { useObserveOrdersOfLast24h } from '@/api/orders/useObserveOrdersOfLast24h';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -13,7 +12,6 @@ import { View } from 'react-native';
 
 export default function DeliveriesIndex() {
   // context
-  const api = useContextApi();
   const router = useRouter();
   // state
   const orders = useObserveOrdersOfLast24h();

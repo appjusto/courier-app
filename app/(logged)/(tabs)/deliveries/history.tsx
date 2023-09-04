@@ -38,7 +38,7 @@ export default function DeliveriesHistory() {
 
   return (
     <DefaultScrollView style={{ ...screens.default }}>
-      <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
+      <DefaultView style={{ padding: paddings.lg }}>
         <PeriodControl onChange={changeHandler} />
         <DeliveryList style={{ marginTop: paddings.lg }} orders={orders ?? []} />
       </DefaultView>

@@ -20,11 +20,12 @@
   },
   "dependencies": {
     "@appjusto/dates": "^1.0.1",
-    "@appjusto/types": "^23.5.3",
+    "@appjusto/types": "^23.7.2",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@fnando/cnpj": "^1.0.2",
     "@fnando/cpf": "^1.0.2",
+    "@react-native-community/datetimepicker": "7.2.0",
     "@react-native-firebase/analytics": "^18.2.0",
     "@react-native-firebase/app": "^18.2.0",
     "@react-native-firebase/auth": "^18.2.0",
@@ -73,8 +74,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "react-native-webview": "13.2.2",
-    "@react-native-community/datetimepicker": "7.2.0"
+    "react-native-webview": "13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

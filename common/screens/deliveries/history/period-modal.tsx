@@ -22,12 +22,13 @@ const PeriodItem = ({ text }: PeriodItemProps) => (
 );
 
 interface Props extends ModalProps {
-  onConfirm: (period: Period) => void;
+  onSelectPeriod: (period: Period) => void;
   onSelectDate: (date: Date) => void;
   onCancel: () => void;
 }
-export const PeriodModal = ({ onConfirm, onCancel, onSelectDate, ...props }: Props) => {
+export const PeriodModal = ({ onSelectPeriod, onCancel, onSelectDate, ...props }: Props) => {
   // state
+  const [mode, setMode] = useState<'custom' | 'period'>('period');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   // handlers
   const changeHandler = (event: DateTimePickerEvent, date?: Date) => {
@@ -36,7 +37,9 @@ export const PeriodModal = ({ onConfirm, onCancel, onSelectDate, ...props }: Pro
       nativeEvent: { timestamp },
     } = event;
     if (type === 'set' && timestamp) {
-      setSelectedDate(new Date(timestamp));
+      const date = new Date(timestamp);
+      setSelectedDate(date);
+      onSelectDate(date);
     }
   };
   // UI
@@ -52,36 +55,38 @@ export const PeriodModal = ({ onConfirm, onCancel, onSelectDate, ...props }: Pro
             }}
           >
             <View style={{ padding: paddings.lg, backgroundColor: colors.white }}>
-              <DefaultText
-                style={{ marginVertical: paddings['2xl'], textAlign: 'center' }}
-                size="lg"
-              >
-                Visualizar por
-              </DefaultText>
-              <Pressable onPress={() => onConfirm('day')}>
-                {({ pressed }) => <PeriodItem text="Dia" />}
-              </Pressable>
-              <Pressable onPress={() => onConfirm('week')}>
-                {({ pressed }) => <PeriodItem text="Semana" />}
-              </Pressable>
-              <Pressable onPress={() => onConfirm('month')}>
-                {({ pressed }) => <PeriodItem text="Mês" />}
-              </Pressable>
-              <View style={{ margin: paddings.lg }}>
-                <DateTimePicker
-                  value={selectedDate}
-                  mode="date"
-                  display="inline"
-                  maximumDate={new Date()}
-                  onChange={changeHandler}
-                />
-              </View>
+              {mode === 'period' ? (
+                <View>
+                  <DefaultText
+                    style={{ marginVertical: paddings['2xl'], textAlign: 'center' }}
+                    size="lg"
+                  >
+                    Visualizar por
+                  </DefaultText>
+                  <Pressable onPress={() => onSelectPeriod('day')}>
+                    {({ pressed }) => <PeriodItem text="Dia" />}
+                  </Pressable>
+                  <Pressable onPress={() => onSelectPeriod('week')}>
+                    {({ pressed }) => <PeriodItem text="Semana" />}
+                  </Pressable>
+                  <Pressable onPress={() => onSelectPeriod('month')}>
+                    {({ pressed }) => <PeriodItem text="Mês" />}
+                  </Pressable>
+                </View>
+              ) : (
+                <View style={{ margin: paddings.xl }}>
+                  <DateTimePicker
+                    value={selectedDate}
+                    mode="date"
+                    display="inline"
+                    maximumDate={new Date()}
+                    onChange={changeHandler}
+                  />
+                </View>
+              )}
               <DefaultButton
-                title="Escolher dia inicial"
-                disabled={!Boolean(selectedDate)}
-                onPress={() => {
-                  if (selectedDate) onSelectDate(selectedDate);
-                }}
+                title={mode === 'custom' ? 'Escolher período' : 'Escolher data inicial'}
+                onPress={() => setMode((value) => (value === 'custom' ? 'period' : 'custom'))}
               />
             </View>
           </View>

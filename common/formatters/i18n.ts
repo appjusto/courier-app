@@ -1,4 +1,17 @@
+import { Dayjs } from '@appjusto/dates';
 import { I18n } from 'i18n-js';
+
+Dayjs.updateLocale('pt', {
+  weekStart: 1,
+  calendar: {
+    lastDay: '[Ontem]',
+    sameDay: '[Hoje]',
+    nextDay: '[Amanhã]',
+    lastWeek: 'dddd',
+    nextWeek: 'dddd',
+    sameElse: 'DD [de] MMMM',
+  },
+});
 
 const pt = {
   number: {

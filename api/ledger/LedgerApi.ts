@@ -1,7 +1,12 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { LedgerEntry, LedgerEntryStatus, WithId } from '@appjusto/types';
-import { getLedgerRef } from '../firebase/refs/firestore';
+import firestore from '@react-native-firebase/firestore';
 
+// firestore
+const getLedgerRef = () => firestore().collection('ledger');
+// const getLedgerEntryRef = (id: string) => getLedgerRef().doc(id);
+
+// API
 export default class LedgerApi {
   // observe orders
   observeApprovedEntries(

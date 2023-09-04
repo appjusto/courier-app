@@ -6,11 +6,14 @@ import { formatCurrency } from '@/common/formatters/currency';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { View, ViewProps } from 'react-native';
+import { useRouter } from 'expo-router';
+import { ActivityIndicator, View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {}
 
 export const AccountSummary = ({ style, ...props }: Props) => {
+  // context
+  const router = useRouter();
   // state
   const balance = useFetchAccountBalance();
   const platformParams = useFetchPlatformParams();
@@ -35,9 +38,15 @@ export const AccountSummary = ({ style, ...props }: Props) => {
       <DefaultText
         style={{ marginTop: paddings.xs }}
       >{`Valor mínimo de ${minWithdrawValue} para transferência`}</DefaultText>
-      <DefaultText style={{ marginTop: paddings.lg }} size="lg" color="black">
-        {balance !== undefined ? formatCurrency(balance) : '-'}
-      </DefaultText>
+      {balance !== undefined ? (
+        <DefaultText style={{ marginTop: paddings.lg }} size="lg" color="black">
+          {formatCurrency(balance)}
+        </DefaultText>
+      ) : (
+        <View style={{ marginTop: paddings.lg }}>
+          <ActivityIndicator color={colors.black} />
+        </View>
+      )}
       <DefaultButton
         style={{ marginTop: paddings.lg }}
         title="Transferir para conta"
@@ -47,7 +56,7 @@ export const AccountSummary = ({ style, ...props }: Props) => {
         style={{ marginTop: paddings.lg }}
         variant="outline"
         title="Ver histórico de transferências"
-        onPress={() => null}
+        onPress={() => router.push('/deliveries/withdraws')}
       />
     </View>
   );

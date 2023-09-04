@@ -1,24 +1,24 @@
-import { getOrderStatusAsText } from '@/api/orders/status/getOrderStatusAsText';
+import { getWithdrawStatusAsText } from '@/api/couriers/withdraws/getWithdrawStatusAsText';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors, { ColorName } from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { OrderStatus } from '@appjusto/types';
+import { WithdrawStatus } from '@appjusto/types';
 import { View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
 interface Props extends ViewProps {
-  status: OrderStatus;
+  status: WithdrawStatus;
 }
 
-export const OrderStatusBadge = ({ status, style, ...props }: Props) => {
+export const WithdrawStatusBadge = ({ status, style, ...props }: Props) => {
   const backgroundColor = () => {
-    if (status === 'delivered') return colors.success100;
-    else if (status === 'canceled') return colors.error100;
+    if (status === 'accepted') return colors.success100;
+    else if (status === 'rejected') return colors.error100;
     return colors.info100;
   };
   const textColor = (): ColorName => {
-    if (status === 'delivered') return 'success900';
-    else if (status === 'canceled') return 'error900';
+    if (status === 'accepted') return 'success900';
+    else if (status === 'rejected') return 'error900';
     return 'info900';
   };
   return (
@@ -33,7 +33,7 @@ export const OrderStatusBadge = ({ status, style, ...props }: Props) => {
       ]}
       {...props}
     >
-      <DefaultText color={textColor()}>{getOrderStatusAsText(status)}</DefaultText>
+      <DefaultText color={textColor()}>{getWithdrawStatusAsText(status)}</DefaultText>
     </View>
   );
 };

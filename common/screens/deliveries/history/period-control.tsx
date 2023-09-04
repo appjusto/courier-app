@@ -12,6 +12,7 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Dayjs } from '@appjusto/dates';
+import { capitalize } from 'lodash';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -26,7 +27,7 @@ interface Props extends ViewProps {
 
 export const PeriodControl = ({ onChange }: Props) => {
   // state
-  const [period, setPeriod] = useState<Period>('month');
+  const [period, setPeriod] = useState<Period>('day');
   const [from, setFrom] = useState(getStartOfDay().getTime());
   const [to, setTo] = useState<number>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,7 +47,7 @@ export const PeriodControl = ({ onChange }: Props) => {
   useEffect(() => {
     // console.log('effect peridod/from', period, from);
     if (period === 'day') {
-      setTo(getEndOfDay().getTime());
+      setTo(getEndOfDay(new Date(from)).getTime());
     } else if (period === 'week') {
       setTo(getEndOfWeek(new Date(from)).getTime());
     } else if (period === 'month') {
@@ -58,7 +59,8 @@ export const PeriodControl = ({ onChange }: Props) => {
     if (!from || !to) return;
     onChange(new Date(from), new Date(to));
   }, [from, to, onChange]);
-  if (!from || !to) return;
+  console.log('period control', from, to);
+  if (!from || !to) return null;
   const nextEnabled = Dayjs(to).isBefore(new Date());
   // handlers
   const previousPeriod = () => {
@@ -78,12 +80,14 @@ export const PeriodControl = ({ onChange }: Props) => {
   // UI
   const periodAsText = () => {
     if (Dayjs(to).isSame(from, 'day'))
-      return Dayjs(from).calendar(new Date(), {
-        lastDay: '[Ontem]',
-        sameDay: '[Hoje]',
-        lastWeek: '[Última] dddd',
-        sameElse: 'DD [de] MMMM',
-      });
+      return capitalize(
+        Dayjs(from).calendar(new Date(), {
+          lastDay: '[Ontem]',
+          sameDay: '[Hoje]',
+          lastWeek: 'dddd',
+          sameElse: 'DD [de] MMMM',
+        })
+      );
     return `${Dayjs(from).format('DD [de] MMMM')} a ${Dayjs(to).format('DD [de] MMMM')}`;
   };
   return (
@@ -91,7 +95,7 @@ export const PeriodControl = ({ onChange }: Props) => {
       <View style={{ flexDirection: 'row' }}>
         <PeriodModal
           visible={modalVisible}
-          onConfirm={(period) => {
+          onSelectPeriod={(period) => {
             setModalVisible(false);
             setPeriod(period);
           }}

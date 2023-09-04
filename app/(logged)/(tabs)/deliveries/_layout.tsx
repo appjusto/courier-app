@@ -5,5 +5,15 @@ export const unstable_settings = {
 };
 
 export default function DeliveriesLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="history" options={{ title: 'Histórico de corridas' }} />
+      <Stack.Screen name="withdraws/index" options={{ title: 'Transferências' }} />
+      <Stack.Screen
+        name="withdraws/[id]"
+        options={{ title: 'Detalhe', headerBackTitleVisible: false }}
+      />
+    </Stack>
+  );
 }
