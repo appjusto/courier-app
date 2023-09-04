@@ -59,7 +59,7 @@ export const PeriodControl = ({ onChange }: Props) => {
     if (!from || !to) return;
     onChange(new Date(from), new Date(to));
   }, [from, to, onChange]);
-  console.log('period control', from, to);
+  // console.log('period control', from, to);
   if (!from || !to) return null;
   const nextEnabled = Dayjs(to).isBefore(new Date());
   // handlers
@@ -76,7 +76,7 @@ export const PeriodControl = ({ onChange }: Props) => {
       setTo(Dayjs(to).add(1, period).toDate().getTime());
     }
   };
-  console.log(period, from, to);
+  // console.log(period, from, to);
   // UI
   const periodAsText = () => {
     if (Dayjs(to).isSame(from, 'day'))

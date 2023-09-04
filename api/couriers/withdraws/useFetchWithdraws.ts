@@ -11,17 +11,17 @@ export const useFetchWithdraws = (from: Date | undefined, to: Date | undefined) 
   const [withdraws, setWithdraws] = useState<WithId<AccountWithdraw>[] | null>();
   // side effects
   useEffect(() => {
-    console.log('useFetchWithdraws', from, to);
+    // console.log('useFetchWithdraws', from, to);
     if (!from || !to) return;
     api
       .couriers()
       .fetchWithdraws(from, to)
       .then((result) => {
-        console.log('fetchWithdraws', result);
+        // console.log('fetchWithdraws', result);
         setWithdraws(result);
       })
       .catch((error: Error) => {
-        console.log('fetchWithdraws', error);
+        // console.log('fetchWithdraws', error);
         setWithdraws(null);
         showToast(error.message, 'error');
       });

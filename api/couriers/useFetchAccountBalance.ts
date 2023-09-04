@@ -11,7 +11,7 @@ export const useFetchAccountBalance = () => {
   const [balance, setBalance] = useState<number>();
   // callbacks
   const fetchBalance = useCallback(() => {
-    console.log('fetchBalance');
+    // console.log('fetchBalance');
     api
       .couriers()
       .fetchAccountInformation()

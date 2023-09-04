@@ -18,11 +18,11 @@ export default function WithdrawsScreen() {
   const withdraws = useFetchWithdraws(from, to);
   // handlers
   const changeHandler = useCallback((from: Date, to: Date) => {
-    console.log('onChange', from, to);
+    // console.log('onChange', from, to);
     setFrom(from);
     setTo(to);
   }, []);
-  console.log('withdraws', withdraws);
+  // console.log('withdraws', withdraws);
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>

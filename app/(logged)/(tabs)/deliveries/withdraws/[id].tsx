@@ -36,7 +36,7 @@ export default function WithdrawDetailScreen() {
       });
   }, [api, withdrawId, showToast]);
   // UI
-  console.log('withdraw', withdrawId, withdraw);
+  // console.log('withdraw', withdrawId, withdraw);
   if (withdraw === undefined) return <Loading />;
   return (
     <DefaultScrollView style={{ ...screens.default }}>

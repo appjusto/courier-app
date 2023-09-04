@@ -6,7 +6,7 @@ export default function FleetDeeplinkScreen() {
   // params
   const params = useLocalSearchParams<{ id: string }>();
   const fleetId = params.id;
-  console.log('FleetDeeplinkScreen', fleetId);
+  // console.log('FleetDeeplinkScreen', fleetId);
 
   // UI
   // useFocusEffect(

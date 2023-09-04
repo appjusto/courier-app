@@ -17,7 +17,7 @@ export default function DeliveriesHistory() {
   const orders = useObserveOrdersFromPeriod(from, to);
   // handlers
   const changeHandler = useCallback((from: Date, to: Date) => {
-    console.log('onChange', from, to);
+    // console.log('onChange', from, to);
     setFrom(from);
     setTo(to);
   }, []);
