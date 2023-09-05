@@ -1,3 +1,4 @@
+import { useLocation } from '@/api/location/useLocation';
 import { shareAppJusto } from '@/api/platform/shareAppJusto';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -15,6 +16,8 @@ import { Pressable, View } from 'react-native';
 export default function HomeScreen() {
   // context
   const router = useRouter();
+  // side effects
+  useLocation();
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>

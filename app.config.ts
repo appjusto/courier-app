@@ -143,12 +143,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
       region: 'southamerica-east1',
     },
-    eas: {
-      projectId,
-    },
     algolia: {
       appId: process.env.EXPO_PUBLIC_ALGOLIA_APPID,
       apiKey: process.env.EXPO_PUBLIC_ALGOLIA_APIKEY,
+    },
+    eas: {
+      projectId,
+    },
+    router: {
+      origin: false,
     },
   } as Extra,
 });

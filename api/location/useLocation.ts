@@ -1,64 +1,68 @@
-import crashlytics from '@react-native-firebase/crashlytics';
+import { useContextProfile, useContextUserId } from '@/common/auth/AuthContext';
+import firebase from '@react-native-firebase/app';
 import { useEffect, useState } from 'react';
-import { Platform, ToastAndroid } from 'react-native';
-import { BackgroundGeolocation, Subscription } from 'react-native-background-geolocation';
+import BackgroundGeolocation, { Location } from 'react-native-background-geolocation';
+import { useContextApi } from '../ApiContext';
 
 export const useLocation = () => {
+  // context
+  const api = useContextApi();
+  const profile = useContextProfile();
+  const courierId = useContextUserId();
+  const status = profile?.status;
+  const working = status === 'available' || status === 'dispatching';
   // state
-  const [enabled, setEnabled] = useState<boolean>();
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState<Location>();
   // side effects
-  //
+  // event handlers
   useEffect(() => {
-    try {
-      // handlers
-      const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-        console.log('[onLocation]', location);
-        setLocation(JSON.stringify(location, null, 2));
-      });
-      // setup
-      BackgroundGeolocation.ready({
-        desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-        distanceFilter: 10,
-        debug: true,
-        stopOnTerminate: false,
-        startOnBoot: true,
-        // enableHeadless: true,
-      }).then((state) => {
-        console.log('[ready] BackgroundGeolocation is configured and ready to use');
-        console.log(state);
-        setEnabled(true);
-      });
-      return () => {
-        onLocation.remove();
-      };
-    } catch (error: unknown) {
-      if (error instanceof Error) crashlytics().recordError(error);
-    }
+    const onLocation = BackgroundGeolocation.onLocation((location) => {
+      console.log('[onLocation]', location);
+      setLocation(location);
+    });
+
+    const onMotionChange = BackgroundGeolocation.onMotionChange((event) => {
+      console.log('[onMotionChange]', event);
+    });
+
+    const onActivityChange = BackgroundGeolocation.onActivityChange((event) => {
+      console.log('[onActivityChange]', event);
+    });
+
+    const onProviderChange = BackgroundGeolocation.onProviderChange((event) => {
+      console.log('[onProviderChange]', event);
+    });
+
+    return () => {
+      // Remove BackgroundGeolocation event-subscribers when the View is removed or refreshed
+      // during development live-reload.  Without this, event-listeners will accumulate with
+      // each refresh during live-reload.
+      onLocation.remove();
+      onMotionChange.remove();
+      onActivityChange.remove();
+      onProviderChange.remove();
+    };
   }, []);
-  // side effects
-  // start / stop
   useEffect(() => {
-    console.log(enabled);
-    try {
-      if (enabled === undefined) return;
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('enabled: ' + enabled, 1000);
-      }
-      if (enabled) {
-        BackgroundGeolocation.start();
-      } else {
-        BackgroundGeolocation.stop();
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) crashlytics().recordError(error);
+    console.log('useEffect working', working);
+    if (working) {
+      BackgroundGeolocation.start();
+    } else {
+      BackgroundGeolocation.stop();
+      setLocation(undefined);
     }
-  }, [enabled]);
-  // show location on toast
+  }, [working]);
   useEffect(() => {
+    if (!courierId) return;
+    if (!working) return;
     if (!location) return;
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(JSON.stringify(location, null, 2), 1000);
-    }
-  }, [location]);
+    const { latitude, longitude } = location.coords;
+    const coordinates = new firebase.firestore.GeoPoint(latitude, longitude);
+    api
+      .profile()
+      .updateLocation(courierId, coordinates)
+      .then(() => {
+        console.log('updated!');
+      });
+  }, [api, courierId, working, location]);
 };

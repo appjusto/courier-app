@@ -1,5 +1,5 @@
 import { ApiProvider } from '@/api/ApiContext';
-import { useLocation } from '@/api/location/useLocation';
+import { useConfigLocation } from '@/api/location/useConfigLocation';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
@@ -39,7 +39,8 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   // side effects
   // location
-  useLocation();
+  const locationReady = useConfigLocation();
+  // const locationReady = true;
   // error handling
   useEffect(() => {
     if (error) throw error;
@@ -56,7 +57,7 @@ export default function RootLayout() {
     }
   }, []);
   // UI
-  if (!loaded) {
+  if (!loaded || !locationReady) {
     return null;
   }
   return (
