@@ -18,6 +18,13 @@
       "extends": "base",
       "distribution": "internal"
     },
+    "debug": {
+      "extends": "base",
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      }
+    },
     "store": {
       "extends": "base",
       "distribution": "store"

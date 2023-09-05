@@ -34,13 +34,19 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PLIST,
     associatedDomains: [`applinks:${domain}`, 'appjusto.ngrok.io'],
     infoPlist: {
-      UIBackgroundModes: ['remote-notification', 'location', 'audio'],
+      UIBackgroundModes: ['remote-notification', 'location', 'audio', 'fetch', 'processing'],
+      BGTaskSchedulerPermittedIdentifiers: [
+        'com.transistorsoft.fetch',
+        'com.transistorsoft.customtask',
+      ],
       NSUserTrackingUsageDescription:
         'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
       NSLocationWhenInUseUsageDescription:
         'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
       NSLocationAlwaysAndWhenInUseUsageDescription:
         'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
+      NSMotionUsageDescription:
+        'Usamos detecção de movimentos para identificar seu meio de locomoção.',
     },
   },
   android: {
@@ -98,6 +104,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         sounds: ['./assets/sounds/order_request.wav'],
       },
     ],
+    'react-native-background-geolocation',
+    [
+      'expo-gradle-ext-vars',
+      {
+        googlePlayServicesLocationVersion: '20.0.0',
+        appCompatVersion: '1.4.2',
+      },
+    ],
+    'react-native-background-fetch',
     [
       'expo-build-properties',
       {
