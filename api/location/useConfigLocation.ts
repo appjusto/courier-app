@@ -1,34 +1,60 @@
+import { useContextProfile } from '@/common/auth/AuthContext';
+import { getEnv, getFirebaseRegion, getManifestExtra } from '@/extra';
 import { useEffect, useState } from 'react';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 
 export const useConfigLocation = () => {
+  // context
+  const profile = useContextProfile();
+  const userId = profile?.id;
+  const userToken = profile?.notificationPreferencesToken;
+  // state
   const [ready, setReady] = useState(false);
+  // side effects
   useEffect(() => {
-    BackgroundGeolocation.ready({
-      // Geolocation Config
+    BackgroundGeolocation.reset({
+      backgroundPermissionRationale: {
+        title: 'Permitir acesso à sua localização em background',
+        message:
+          'Para obter sua localização com precisão, por favor permita que o App obtenha sua localização o tempo todo.',
+        positiveAction: 'Configurar',
+        negativeAction: 'Cancelar',
+      },
+      locationAuthorizationAlert: {
+        titleWhenOff: 'Localização indisponível',
+        titleWhenNotEnabled: 'Localização em background indisponível',
+        instructions:
+          'Para obter sua localização com precisão, por favor permita que o App obtenha sua localização o tempo todo.',
+        settingsButton: 'Configurar',
+        cancelButton: 'Cancelar',
+      },
+      notification: {
+        title: 'Acompanhando sua localização',
+        text: 'Acompanhamos sua localização para enviar corridas próximas e monitorar a entrega.',
+      },
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 10,
-      // Activity Recognition
       stopTimeout: 5,
-      // Application config
-      debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+      debug: getEnv() !== 'live',
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-      stopOnTerminate: false, // <-- Allow the background-service to continue tracking when user closes the app.
-      startOnBoot: true, // <-- Auto start tracking when device is powered-up.
-      // HTTP / SQLite config
-      // url: 'http://yourserver.com/locations',
-      // batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
-      // autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
-      // headers: {              // <-- Optional HTTP headers
-      //   "X-FOO": "bar"
-      // },
-      // params: {               // <-- Optional HTTP params
-      //   "auth_token": "maybe_your_server_authenticates_via_token_YES?"
-      // }
+      enableHeadless: true,
+      startOnBoot: true,
+      stopOnTerminate: false,
+      heartbeatInterval: 60,
+      // triggerActivities: 'in_vehicle, on_bicycle',
+      // preventSuspend: true,
+      url: `https://${getFirebaseRegion()}-app-justo-${getEnv()}.cloudfunctions.net/onLocationUpdate`,
+      headers: {
+        authorization: getManifestExtra().location.secret,
+      },
+      params: {
+        userId,
+        userToken,
+      },
     }).then((state) => {
       // console.log('useConfigLocation', JSON.stringify(state));
       setReady(true);
     });
-  }, []);
+  }, [userId, userToken]);
   return ready;
 };

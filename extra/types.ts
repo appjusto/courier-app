@@ -16,4 +16,7 @@ export interface Extra {
   eas: {
     projectId: string;
   };
+  location: {
+    secret: string;
+  };
 }

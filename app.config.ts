@@ -46,7 +46,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       NSLocationAlwaysAndWhenInUseUsageDescription:
         'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
       NSMotionUsageDescription:
-        'Usamos detecção de movimentos para identificar seu meio de locomoção.',
+        'Usamos detecção de movimentos para diminuir o uso de bateria e enviar sua localização apenas quando em movimento.',
     },
   },
   android: {
@@ -152,6 +152,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     router: {
       origin: false,
+    },
+    location: {
+      secret: process.env.EXPO_PUBLIC_BACKGROUND_GEOLOCATION_SECRET,
     },
   } as Extra,
 });

@@ -1,4 +1,5 @@
 import { ApiProvider } from '@/api/ApiContext';
+import { LocationProvider } from '@/api/location/LocationContext';
 import { useConfigLocation } from '@/api/location/useConfigLocation';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
@@ -40,7 +41,6 @@ export default function RootLayout() {
   // side effects
   // location
   const locationReady = useConfigLocation();
-  // const locationReady = true;
   // error handling
   useEffect(() => {
     if (error) throw error;
@@ -65,9 +65,11 @@ export default function RootLayout() {
       <ActionSheetProvider>
         <ApiProvider>
           <AuthProvider>
-            <ToastProvider>
-              <Slot />
-            </ToastProvider>
+            <LocationProvider>
+              <ToastProvider>
+                <Slot />
+              </ToastProvider>
+            </LocationProvider>
           </AuthProvider>
         </ApiProvider>
       </ActionSheetProvider>

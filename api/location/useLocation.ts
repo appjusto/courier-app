@@ -1,24 +1,30 @@
-import { useContextProfile, useContextUserId } from '@/common/auth/AuthContext';
+import { useContextUserId } from '@/common/auth/AuthContext';
 import firebase from '@react-native-firebase/app';
 import { useEffect, useState } from 'react';
 import BackgroundGeolocation, { Location } from 'react-native-background-geolocation';
 import { useContextApi } from '../ApiContext';
 
-export const useLocation = () => {
+export const useLocation = (enabled: boolean) => {
   // context
   const api = useContextApi();
-  const profile = useContextProfile();
   const courierId = useContextUserId();
-  const status = profile?.status;
-  const working = status === 'available' || status === 'dispatching';
   // state
   const [location, setLocation] = useState<Location>();
   // side effects
-  // event handlers
+  // registering handlers
   useEffect(() => {
     const onLocation = BackgroundGeolocation.onLocation((location) => {
       console.log('[onLocation]', location);
       setLocation(location);
+    });
+    const onHeartbeat = BackgroundGeolocation.onHeartbeat((event) => {
+      console.log('[onHeartbeat]', event);
+      BackgroundGeolocation.getCurrentPosition({
+        samples: 1,
+        persist: true,
+      }).then((location) => {
+        console.log('[getCurrentPosition] ', location);
+      });
     });
 
     const onMotionChange = BackgroundGeolocation.onMotionChange((event) => {
@@ -26,6 +32,11 @@ export const useLocation = () => {
     });
 
     const onActivityChange = BackgroundGeolocation.onActivityChange((event) => {
+      if (event.activity === 'in_vehicle') {
+      } else if (event.activity === 'on_bicycle') {
+      } else if (event.activity === 'on_foot') {
+      } else if (event.activity === 'walking') {
+      }
       console.log('[onActivityChange]', event);
     });
 
@@ -38,23 +49,26 @@ export const useLocation = () => {
       // during development live-reload.  Without this, event-listeners will accumulate with
       // each refresh during live-reload.
       onLocation.remove();
+      onHeartbeat.remove();
       onMotionChange.remove();
       onActivityChange.remove();
       onProviderChange.remove();
     };
   }, []);
+  // start/stop background geoloaction
   useEffect(() => {
-    console.log('useEffect working', working);
-    if (working) {
+    console.log('useEffect working', enabled);
+    if (enabled) {
       BackgroundGeolocation.start();
     } else {
       BackgroundGeolocation.stop();
       setLocation(undefined);
     }
-  }, [working]);
+  }, [enabled]);
+  // update location
   useEffect(() => {
     if (!courierId) return;
-    if (!working) return;
+    if (!enabled) return;
     if (!location) return;
     const { latitude, longitude } = location.coords;
     const coordinates = new firebase.firestore.GeoPoint(latitude, longitude);
@@ -64,5 +78,7 @@ export const useLocation = () => {
       .then(() => {
         console.log('updated!');
       });
-  }, [api, courierId, working, location]);
+  }, [api, courierId, enabled, location]);
+  // result
+  return location;
 };
