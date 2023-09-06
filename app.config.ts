@@ -104,7 +104,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         sounds: ['./assets/sounds/order_request.wav'],
       },
     ],
-    'react-native-background-geolocation',
+    [
+      'react-native-background-geolocation',
+      {
+        license: process.env.EXPO_PUBLIC_BACKGROUND_GEOLOCATION_LICENSE,
+      },
+    ],
     [
       'expo-gradle-ext-vars',
       {
