@@ -7,7 +7,7 @@ export default function Index() {
   // context
   const router = useRouter();
   // state
-  const mounted = Boolean(useRootNavigationState().key);
+  const mounted = Boolean(useRootNavigationState()?.key);
   const user = useContextUser();
   // side effects
   useEffect(() => {

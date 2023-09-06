@@ -50,6 +50,7 @@ export const useConfigLocation = () => {
       params: {
         userId,
         userToken,
+        flavor: 'courier',
       },
     }).then((state) => {
       // console.log('useConfigLocation', JSON.stringify(state));

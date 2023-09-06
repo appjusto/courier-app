@@ -1,6 +1,7 @@
 import { useContextUserId } from '@/common/auth/AuthContext';
 import firebase from '@react-native-firebase/app';
 import { useEffect, useState } from 'react';
+import { Platform, ToastAndroid } from 'react-native';
 import BackgroundGeolocation, { Location } from 'react-native-background-geolocation';
 import { useContextApi } from '../ApiContext';
 
@@ -24,11 +25,15 @@ export const useLocation = (enabled: boolean) => {
         persist: true,
       }).then((location) => {
         console.log('[getCurrentPosition] ', location);
+        if (Platform.OS === 'android') {
+          ToastAndroid.show('heartbeat: ' + location.activity.type, 1000);
+        }
       });
     });
 
     const onMotionChange = BackgroundGeolocation.onMotionChange((event) => {
       console.log('[onMotionChange]', event);
+      ToastAndroid.show('motion: ' + event.location.activity.type, 1000);
     });
 
     const onActivityChange = BackgroundGeolocation.onActivityChange((event) => {
@@ -38,6 +43,7 @@ export const useLocation = (enabled: boolean) => {
       } else if (event.activity === 'walking') {
       }
       console.log('[onActivityChange]', event);
+      ToastAndroid.show('activity: ' + event.activity, 1000);
     });
 
     const onProviderChange = BackgroundGeolocation.onProviderChange((event) => {

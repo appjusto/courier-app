@@ -1,5 +1,6 @@
 import { ApiProvider } from '@/api/ApiContext';
 import { LocationProvider } from '@/api/location/LocationContext';
+import '@/api/location/registerLoationHeadlessTask';
 import { useConfigLocation } from '@/api/location/useConfigLocation';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
