@@ -1,14 +1,8 @@
-import { useContextUserId } from '@/common/auth/AuthContext';
-import firebase from '@react-native-firebase/app';
 import { useEffect, useState } from 'react';
 import { Platform, ToastAndroid } from 'react-native';
 import BackgroundGeolocation, { Location } from 'react-native-background-geolocation';
-import { useContextApi } from '../ApiContext';
 
 export const useLocation = (enabled: boolean) => {
-  // context
-  const api = useContextApi();
-  const courierId = useContextUserId();
   // state
   const [location, setLocation] = useState<Location>();
   // side effects
@@ -71,20 +65,6 @@ export const useLocation = (enabled: boolean) => {
       setLocation(undefined);
     }
   }, [enabled]);
-  // update location
-  useEffect(() => {
-    if (!courierId) return;
-    if (!enabled) return;
-    if (!location) return;
-    const { latitude, longitude } = location.coords;
-    const coordinates = new firebase.firestore.GeoPoint(latitude, longitude);
-    api
-      .profile()
-      .updateLocation(courierId, coordinates)
-      .then(() => {
-        console.log('updated!');
-      });
-  }, [api, courierId, enabled, location]);
   // result
   return location;
 };

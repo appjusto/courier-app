@@ -8,6 +8,8 @@ export const useConfigLocation = () => {
   const profile = useContextProfile();
   const userId = profile?.id;
   const userToken = profile?.notificationPreferencesToken;
+  // TODO: get from context
+  const orderId = null;
   // state
   const [ready, setReady] = useState(false);
   // side effects
@@ -35,7 +37,7 @@ export const useConfigLocation = () => {
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 10,
       stopTimeout: 5,
-      debug: getEnv() !== 'live',
+      debug: false,
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
       enableHeadless: true,
       startOnBoot: true,
@@ -50,7 +52,8 @@ export const useConfigLocation = () => {
       params: {
         userId,
         userToken,
-        flavor: 'courier',
+        userFlavor: 'courier',
+        orderId,
       },
     }).then((state) => {
       // console.log('useConfigLocation', JSON.stringify(state));
