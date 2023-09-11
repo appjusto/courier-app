@@ -1,7 +1,7 @@
 {
   "name": "app-sdk49",
   "main": "expo-router/entry",
-  "version": "1.0.1",
+  "version": "13.0.2",
   "scripts": {
     "start": "env-cmd -f .env.${ENV:-dev}.local expo start --dev-client",
     "start:dev": "ENV=dev npm run start",
@@ -13,6 +13,8 @@
     "update-channel:dev": "ENV=dev npm run update-channel",
     "republish": "env-cmd -f .env.${ENV:-dev}.local eas update:republish --group $GROUP",
     "credentials": "env-cmd -f .env.dev.local eas credentials",
+    "version": "node ./scripts/version-inc && git add version.json",
+    "postversion": "git push && git push --tags && git fetch",
     "test": "jest --watchAll",
     "lint": "eslint ."
   },
