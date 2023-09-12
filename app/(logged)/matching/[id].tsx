@@ -75,7 +75,15 @@ export default function MatchingScreen() {
       <View style={{ paddingVertical: paddings.xl, paddingHorizontal: paddings.lg }}>
         {/* tags */}
         <View style={{ flexDirection: 'row' }}>
-          <RoundedView style={{ backgroundColor: colors.neutral50 }}>
+          <RoundedView
+            style={{
+              marginBottom: paddings.lg,
+              paddingHorizontal: paddings.sm,
+              paddingVertical: paddings.xs,
+              backgroundColor: colors.neutral50,
+              borderColor: colors.neutral50,
+            }}
+          >
             <DefaultText color="black" size="xs">
               {readyAt ? `Pronto às ${formatTimestamp(readyAt, 'HH:mm')}` : 'Pronto para coleta'}
             </DefaultText>

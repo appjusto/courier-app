@@ -137,6 +137,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         },
       },
     ],
+    './plugins/react-native-maps-plugin',
   ],
   experiments: {
     tsconfigPaths: true,

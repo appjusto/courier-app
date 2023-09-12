@@ -71,7 +71,7 @@ export default function SignIn() {
           <LinkButton onPress={() => router.push('/(unlogged)/terms')}>Ler termos</LinkButton>
         </View>
         <CheckButton
-          title="Acesse ou crie uma conta"
+          title="Li e aceito os termos"
           checked={termsAccepted}
           style={{ marginVertical: paddings.lg }}
           onPress={() => setTermsAccepted((value) => !value)}
