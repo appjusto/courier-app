@@ -64,15 +64,15 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <ActionSheetProvider>
-        <ApiProvider>
-          <AuthProvider>
-            <LocationProvider>
-              <ToastProvider>
+        <ToastProvider>
+          <ApiProvider>
+            <AuthProvider>
+              <LocationProvider>
                 <Slot />
-              </ToastProvider>
-            </LocationProvider>
-          </AuthProvider>
-        </ApiProvider>
+              </LocationProvider>
+            </AuthProvider>
+          </ApiProvider>
+        </ToastProvider>
       </ActionSheetProvider>
     </ThemeProvider>
   );

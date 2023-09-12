@@ -1,4 +1,4 @@
-import { useFetchAccountBalance } from '@/api/couriers/useFetchAccountBalance';
+import { useFetchAccountBalance } from '@/api/couriers/account/useFetchAccountBalance';
 import { useFetchPlatformParams } from '@/api/platform/params/useFetchPlatformParams';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';

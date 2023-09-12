@@ -1,7 +1,7 @@
 import { useToast } from '@/common/components/views/toast/ToastContext';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { useContextApi } from '../ApiContext';
+import { useContextApi } from '../../ApiContext';
 
 export const useFetchAccountBalance = () => {
   // context

@@ -9,6 +9,7 @@ import AuthApi from './auth/AuthApi';
 import CouriersApi from './couriers/CouriersApi';
 import FleetsApi from './fleets/FleetsApi';
 import LedgerApi from './ledger/LedgerApi';
+import MapsApi from './maps/MapsApi';
 import OrdersApi from './orders/OrdersApi';
 import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
@@ -25,6 +26,7 @@ export default class Api {
   private _search: SearchApi;
   private _orders: OrdersApi;
   private _ledger: LedgerApi;
+  private _maps: MapsApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -45,6 +47,7 @@ export default class Api {
     this._fleets = new FleetsApi();
     this._orders = new OrdersApi();
     this._ledger = new LedgerApi();
+    this._maps = new MapsApi();
     this._search = new SearchApi(extra.algolia, extra.env);
   }
 
@@ -74,6 +77,10 @@ export default class Api {
 
   ledger() {
     return this._ledger;
+  }
+
+  maps() {
+    return this._maps;
   }
 
   search() {

@@ -1,7 +1,13 @@
 import { documentAs, documentsAs } from '@/common/firebase/documentAs';
 import { getAppVersion } from '@/common/version';
 import { getFirebaseRegion } from '@/extra';
-import { AccountWithdraw, FetchAccountInformationResponse } from '@appjusto/types';
+import {
+  AccountWithdraw,
+  CourierOrderRequest,
+  CourierOrderRequestSituation,
+  FetchAccountInformationResponse,
+  WithId,
+} from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
 import crashlytics from '@react-native-firebase/crashlytics';
 import firestore from '@react-native-firebase/firestore';
@@ -16,11 +22,60 @@ const fetchAccountInformation = firebase
   .httpsCallable('fetchAccountInformation');
 
 // firestore
+const courierRequestsRef = () => firestore().collection('courier-requests');
+const courierRequestRef = (id: string) => courierRequestsRef().doc(id);
 const withdrawsRef = () => firestore().collection('withdraws');
 const withdrawRef = (id: string) => firestore().collection('withdraws').doc(id);
 export default class CouriersApi {
   constructor(private auth: AuthApi) {}
 
+  // orders
+  observeOrderRequests(
+    orderId: string,
+    resultHandler: (requests: WithId<CourierOrderRequest>[]) => void
+  ) {
+    const query = courierRequestsRef()
+      .where('courierId', '==', this.auth.getUserId())
+      .where('orderId', '==', orderId)
+      .orderBy('createdOn', 'desc');
+    return query.onSnapshot(
+      async (snapshot) => {
+        if (snapshot.empty) {
+          resultHandler([]);
+        } else {
+          resultHandler(documentsAs<CourierOrderRequest>(snapshot.docs));
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  observeActiveRequests(resultHandler: (requests: WithId<CourierOrderRequest>[]) => void) {
+    const query = courierRequestsRef()
+      .where('courierId', '==', this.auth.getUserId())
+      .where('situation', 'in', ['pending', 'viewed'] as CourierOrderRequestSituation[])
+      .orderBy('createdOn', 'desc');
+    return query.onSnapshot(
+      async (snapshot) => {
+        if (snapshot.empty) {
+          resultHandler([]);
+        } else {
+          resultHandler(documentsAs<CourierOrderRequest>(snapshot.docs));
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  async viewOrderRequest(requestId: string) {
+    await courierRequestRef(requestId).update({ viewed: true } as CourierOrderRequest);
+  }
+
+  // account
   async fetchAccountInformation() {
     try {
       return (

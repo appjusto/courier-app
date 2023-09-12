@@ -1,4 +1,5 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { LatLng } from '@appjusto/types';
 import React from 'react';
 import { Location } from 'react-native-background-geolocation';
 import { useConfigLocation } from './useConfigLocation';
@@ -29,5 +30,7 @@ export const LocationProvider = (props: Props) => {
 export const useContextLocation = () => {
   const value = React.useContext(LocationContext);
   if (!value) throw new Error('Api fora de contexto.');
-  return value.location;
+  if (!value.location?.coords) return null;
+  const { latitude, longitude } = value.location.coords;
+  return { latitude, longitude } as LatLng;
 };

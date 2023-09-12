@@ -1,10 +1,10 @@
-import { useLocation } from '@/api/location/useLocation';
 import { shareAppJusto } from '@/api/platform/shareAppJusto';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { HomeActivity } from '@/common/screens/home/activity/home-activity';
+import { AvailableOrderCard } from '@/common/screens/home/cards/available-order-card';
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
 import { HomeHeader } from '@/common/screens/home/header/home-header';
 import colors from '@/common/styles/colors';
@@ -17,7 +17,6 @@ export default function HomeScreen() {
   // context
   const router = useRouter();
   // side effects
-  useLocation();
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>
@@ -28,6 +27,7 @@ export default function HomeScreen() {
           <HomeActivity style={{ marginTop: paddings.lg }} />
         </View>
         <View style={{ flex: 1, padding: paddings.lg, backgroundColor: colors.neutral50 }}>
+          <AvailableOrderCard style={{ marginBottom: paddings.lg }} />
           <Pressable onPress={() => router.push('/profile/howitworks/')}>
             <DefaultCard
               icon={<DefaultCardIcon iconName="file" />}

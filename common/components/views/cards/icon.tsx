@@ -5,6 +5,7 @@ import {
   BadgeX,
   CircleDollarSign,
   FileText,
+  HardHat,
   HelpCircle,
   MessageCircle,
   ShieldCheck,
@@ -23,9 +24,10 @@ type IconName =
   | 'smartphone'
   | 'file'
   | 'chat'
+  | 'helmet'
   | 'alert';
 
-type Variant = 'lighter' | 'darker' | 'warning';
+type Variant = 'lighter' | 'darker' | 'dark' | 'warning';
 interface Props {
   iconName: IconName;
   variant?: Variant;
@@ -37,6 +39,7 @@ const iconSize = 24;
 const getIcon = (name: IconName, variant?: Variant) => {
   let color = colors.primary500;
   if (variant === 'darker') color = colors.primary900;
+  else if (variant === 'dark') color = colors.black;
   else if (variant === 'warning') color = colors.warning500;
 
   if (name === 'approval') {
@@ -69,6 +72,9 @@ const getIcon = (name: IconName, variant?: Variant) => {
   if (name === 'alert') {
     return <AlertOctagon size={iconSize} color={color} />;
   }
+  if (name === 'helmet') {
+    return <HardHat size={iconSize} color={color} />;
+  }
   return null;
 };
 
@@ -76,6 +82,7 @@ export const DefaultCardIcon = ({ iconName, variant = 'lighter' }: Props) => {
   // UI
   let backgroundColor = colors.primary100;
   if (variant === 'darker') backgroundColor = colors.primary300;
+  else if (variant === 'dark') backgroundColor = colors.primary300;
   else if (variant === 'warning') backgroundColor = colors.warning100;
   return (
     <View

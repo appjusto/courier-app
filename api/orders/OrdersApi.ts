@@ -1,7 +1,14 @@
 import { documentsAs } from '@/common/firebase/documentAs';
-import { Order, OrderStatus, WithId } from '@appjusto/types';
+import { getAppVersion } from '@/common/version';
+import { getFirebaseRegion } from '@/extra';
+import { MatchOrderPayload, Order, OrderStatus, WithId } from '@appjusto/types';
+import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import { fromDate } from '../firebase/timestamp';
+
+// functions
+const region = getFirebaseRegion();
+const matchOrder = firebase.app().functions(region).httpsCallable('matchOrder');
 
 // firestore
 const ordersRef = () => firestore().collection('orders');
@@ -41,5 +48,14 @@ export default class OrdersApi {
         console.error(error);
       }
     );
+  }
+
+  async matchOrder(orderId: string, distanceToOrigin: number | undefined) {
+    const payload: MatchOrderPayload = {
+      orderId,
+      distanceToOrigin,
+      meta: { version: getAppVersion() },
+    };
+    await matchOrder(payload);
   }
 }

@@ -32,6 +32,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     buildNumber: `${versionCode}`,
     supportsTablet: false,
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_PLIST,
+    config: {
+      googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+    },
     associatedDomains: [`applinks:${domain}`, 'appjusto.ngrok.io'],
     infoPlist: {
       UIBackgroundModes: ['remote-notification', 'location', 'audio', 'fetch', 'processing'],
@@ -57,6 +60,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#ffffff',
     },
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_JSON,
+    config: {
+      googleMaps: {
+        apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
+      },
+    },
     intentFilters: [
       {
         action: 'VIEW',

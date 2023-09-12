@@ -10,20 +10,28 @@ interface Props extends ViewProps {
   title: string;
   subtitle: string;
   icon: React.ReactNode;
+  variant?: 'default' | 'dark';
 }
 
-export default function DefaultCard({ title, subtitle, icon, style, ...props }: Props) {
+export default function DefaultCard({
+  title,
+  subtitle,
+  icon,
+  variant = 'default',
+  style,
+  ...props
+}: Props) {
   return (
     <View
       style={[
         {
-          ...borders.default,
-          borderColor: colors.neutral50,
           flexDirection: 'row',
-          alignItems: 'center',
           justifyContent: 'flex-start',
-          backgroundColor: colors.white,
+          alignItems: 'center',
           padding: paddings.lg,
+          ...borders.default,
+          borderColor: variant === 'default' ? colors.neutral100 : colors.neutral600,
+          backgroundColor: variant === 'default' ? colors.white : colors.black,
         },
         style,
       ]}
@@ -31,12 +39,12 @@ export default function DefaultCard({ title, subtitle, icon, style, ...props }: 
     >
       {icon}
       <View style={{ marginLeft: paddings.lg, width: '75%' }}>
-        <DefaultText size="sm" color="black">
+        <DefaultText size="sm" color={variant === 'default' ? 'black' : 'white'}>
           {title}
         </DefaultText>
         <DefaultText
           size="xs"
-          color="neutral800"
+          color={variant === 'default' ? 'neutral800' : 'white'}
           style={{
             flexWrap: 'wrap',
             width: '95%',

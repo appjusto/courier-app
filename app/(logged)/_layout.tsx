@@ -11,7 +11,6 @@ export default function LoggedLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="matching" options={{ presentation: 'modal' }} />
     </Stack>
   );
 }
