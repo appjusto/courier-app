@@ -4,7 +4,7 @@ import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { HomeActivity } from '@/common/screens/home/activity/home-activity';
-import { AvailableOrderCard } from '@/common/screens/home/cards/available-order-card';
+import { AvailableOrdersCards } from '@/common/screens/home/cards/available-orders-card';
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
 import { HomeHeader } from '@/common/screens/home/header/home-header';
 import colors from '@/common/styles/colors';
@@ -27,7 +27,7 @@ export default function HomeScreen() {
           <HomeActivity style={{ marginTop: paddings.lg }} />
         </View>
         <View style={{ flex: 1, padding: paddings.lg, backgroundColor: colors.neutral50 }}>
-          <AvailableOrderCard style={{ marginBottom: paddings.lg }} />
+          <AvailableOrdersCards />
           <Pressable onPress={() => router.push('/profile/howitworks/')}>
             <DefaultCard
               icon={<DefaultCardIcon iconName="file" />}

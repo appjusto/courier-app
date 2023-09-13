@@ -1,6 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useContextLocation } from '@/api/location/context/LocationContext';
-import { useContextProfile } from '@/common/auth/AuthContext';
+import { useContextProfile, useContextProfileLocation } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { useToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
@@ -17,7 +16,7 @@ export const HomeHeader = () => {
   // context
   const api = useContextApi();
   const profile = useContextProfile();
-  const location = useContextLocation();
+  const location = useContextProfileLocation();
   const status = profile?.status;
   const working = status === 'available' || status === 'dispatching';
   const { showToast } = useToast();

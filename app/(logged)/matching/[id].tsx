@@ -4,6 +4,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { useObserveOrderRequests } from '@/api/couriers/requests/useObserveOrderRequests';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { RoundedView } from '@/common/components/containers/RoundedView';
 import { DefaultMap } from '@/common/components/map/DefaultMap';
@@ -58,9 +59,9 @@ export default function MatchingScreen() {
     distanceToOrigin,
   } = request;
   const routeDistanceToOrigin = route?.distance ?? distanceToOrigin;
-  const totalDistance = (distance + routeDistanceToOrigin) / 1000;
+  const totalDistance = distance + routeDistanceToOrigin;
   const fee = netValue + locationFee;
-  const feePerKm = round(fee / 100 / totalDistance, 2);
+  const feePerKm = round(fee / (totalDistance / 1000), 2);
   // handlers
   const matchOrder = () => {
     api
@@ -134,10 +135,19 @@ export default function MatchingScreen() {
           </View>
         </View>
         {/* button */}
+        <ConfirmButton
+          style={{ marginTop: paddings.lg }}
+          text="Arrastar"
+          trackText="Arraste para aceitar"
+          color="black"
+          // onConfirm={matchOrder}
+          onConfirm={() => null}
+        />
         <DefaultButton
-          style={{ marginTop: paddings['2xl'] }}
-          title="Aceitar corrida"
-          onPress={matchOrder}
+          style={{ marginTop: paddings.lg }}
+          variant="outline"
+          title="Passar"
+          onPress={() => null}
         />
       </View>
     </DefaultView>

@@ -10,6 +10,8 @@ type DefaultButtonProps = ViewProps & {
   variant?: 'primary' | 'destructive' | 'outline';
   disabled?: boolean;
   loading?: boolean;
+  leftView?: React.ReactNode;
+  rightView?: React.ReactNode;
   onPress: () => void;
 };
 
@@ -19,6 +21,8 @@ export const DefaultButton = ({
   style,
   disabled,
   loading,
+  leftView,
+  rightView,
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (pressed: boolean) => {
@@ -54,15 +58,17 @@ export const DefaultButton = ({
               },
             ]}
           >
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {loading ? (
-                <ActivityIndicator
-                  size="small"
-                  color={textColor()}
-                  style={{ marginRight: paddings.lg }}
-                />
+                <ActivityIndicator size="small" color={textColor()} style={{ flex: 1 }} />
               ) : (
-                <DefaultText style={{ ...typography.md, color: textColor() }}>{title}</DefaultText>
+                <>
+                  {leftView}
+                  <DefaultText style={{ ...typography.md, color: textColor() }}>
+                    {title}
+                  </DefaultText>
+                  {rightView}
+                </>
               )}
             </View>
           </View>
