@@ -3,7 +3,7 @@ import polyline from '@mapbox/polyline';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 export const decodeRoutePolyline = (value?: string) => {
-  if (!value) return null;
+  if (!value) return [];
   try {
     return polyline.decode(value).map((pair) => {
       return { latitude: pair[0], longitude: pair[1] } as LatLng;
@@ -11,5 +11,5 @@ export const decodeRoutePolyline = (value?: string) => {
   } catch (error: unknown) {
     if (error instanceof Error) crashlytics().recordError(error);
   }
-  return null;
+  return [];
 };
