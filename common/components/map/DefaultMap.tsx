@@ -1,3 +1,4 @@
+import { useContextInitialLocation } from '@/api/location/context/useContextInitialLocation';
 import { LatLng, RouteDetails } from '@appjusto/types';
 import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
@@ -15,34 +16,50 @@ interface Props extends MapViewProps {
 export const DefaultMap = forwardRef(
   ({ origin, destination, route, style, children, ...props }: Props, externalRef) => {
     // context
+    const location = useContextInitialLocation();
     // refs
     const internalRef = useRef<MapView>(null);
     const ref = (externalRef as RefObject<MapView>) || internalRef;
     // state
     const [mapReady, setMapReady] = useState(false);
-    const [coordinates, setCoordinates] = useState<LatLng[] | null>();
+    const [coordinates, setCoordinates] = useState<LatLng[]>();
     // side effects
     useEffect(() => {
       setCoordinates(decodeRoutePolyline(route?.polyline));
     }, [mapReady, route]);
     useEffect(() => {
-      if (!coordinates) return;
-      ref.current?.fitToCoordinates(coordinates, {
+      if (!mapReady) return;
+      // const coordinates = decodeRoutePolyline(route?.polyline);
+      // const coords = coordinates.concat(origin ?? []).concat(destination ?? []);
+      const coords = ([] as LatLng[])
+        .concat(origin ?? [])
+        .concat(destination ?? [])
+        .concat(location ?? []);
+      ref.current?.fitToCoordinates(coords, {
         edgePadding: {
-          top: 150,
+          top: 50,
           right: 50,
           bottom: 50,
           left: 50,
         },
       });
-    }, [coordinates, ref]);
+    }, [ref, origin, destination, mapReady, location]);
     // UI
     return (
       <MapView
         ref={ref}
-        provider={PROVIDER_GOOGLE}
-        onMapReady={() => setMapReady(true)}
         style={[{ flex: 1 }, style]}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={
+          origin
+            ? {
+                ...origin,
+                latitudeDelta: 0.03,
+                longitudeDelta: 0.03,
+              }
+            : undefined
+        }
+        onMapReady={() => setMapReady(true)}
         {...props}
       >
         {children}
@@ -58,7 +75,7 @@ export const DefaultMap = forwardRef(
           </Marker>
         ) : null}
         {coordinates && Platform.OS === 'android' ? (
-          <Polyline coordinates={coordinates} lineDashPattern={[1]} />
+          <Polyline coordinates={coordinates} lineCap="square" lineDashPattern={[1]} />
         ) : null}
         {coordinates && Platform.OS === 'ios' ? <Polyline coordinates={coordinates} /> : null}
       </MapView>

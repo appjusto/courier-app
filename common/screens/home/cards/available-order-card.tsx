@@ -14,6 +14,7 @@ export const AvailableOrderCard = ({ style, ...props }: Props) => {
   const request = requests?.find(() => true);
   // UI
   if (!request) return null;
+  // console.log(request.orderId);
   return (
     <View style={[{}, style]} {...props}>
       <Pressable

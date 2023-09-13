@@ -31,19 +31,21 @@ export default function MatchingScreen() {
   // state
   const requests = useObserveOrderRequests(orderId);
   const request = requests?.find(() => true);
+  const requestId = request?.id;
   const route = useMapRoute(request?.origin);
-  console.log('orderId', orderId);
-  console.log('request', request);
+  // console.log('orderId', orderId);
+  // console.log('request', request);
+  // console.log('route', route);
   // side effects
   useEffect(() => {
-    if (!request) return;
+    if (!requestId) return;
     api
       .couriers()
-      .viewOrderRequest(request.id)
+      .viewOrderRequest(requestId)
       .catch((error: unknown) => {
         console.error(error);
       });
-  }, [api, request]);
+  }, [api, requestId]);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
   const {
@@ -68,6 +70,7 @@ export default function MatchingScreen() {
         if (error instanceof Error) showToast(error.message, 'error');
       });
   };
+  // UI
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />

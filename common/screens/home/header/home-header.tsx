@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useContextLocation } from '@/api/location/LocationContext';
+import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { useToast } from '@/common/components/views/toast/ToastContext';
@@ -52,7 +52,9 @@ export const HomeHeader = () => {
           <DefaultText size="xxs" color="neutral700">{`ID #${profile.code}`}</DefaultText>
           <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText>
           <DefaultText size="xxs" color="neutral700">
-            {location ? `${location.latitude},${location.longitude}` : 'sem localização'}
+            {location
+              ? `${location.latitude.toFixed(6)},${location.longitude.toFixed(6)}`
+              : 'sem localização'}
           </DefaultText>
         </View>
       </View>

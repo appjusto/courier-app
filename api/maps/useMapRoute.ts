@@ -2,14 +2,14 @@ import { useToast } from '@/common/components/views/toast/ToastContext';
 import { LatLng, RouteDetails } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
-import { useContextLocation } from '../location/LocationContext';
+import { useContextInitialLocation } from '../location/context/useContextInitialLocation';
 
 export const useMapRoute = (to?: LatLng) => {
   // context
   const api = useContextApi();
-  const location = useContextLocation();
   const { showToast } = useToast();
   // state
+  const location = useContextInitialLocation();
   const [route, setRoute] = useState<RouteDetails | null>();
   // side effects
   useEffect(() => {

@@ -72,7 +72,7 @@ export default class MapsApi {
       mode,
       meta: { version: getAppVersion() },
     };
-    console.warn('MapsApi.googleDirections: ', origin, destination);
+    console.info('MapsApi.googleDirections: ', origin, destination);
     try {
       const result = await queryGoogleMaps(payload);
       return result.data as RouteDetails;

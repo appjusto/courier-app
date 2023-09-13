@@ -1,12 +1,12 @@
 import { ApiProvider } from '@/api/ApiContext';
-import { LocationProvider } from '@/api/location/LocationContext';
-import '@/api/location/registerLoationHeadlessTask';
-import { useConfigLocation } from '@/api/location/useConfigLocation';
+import '@/api/location/background/registerLoationHeadlessTask';
+import { LocationProvider } from '@/api/location/context/LocationContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { getAppVersion } from '@/common/version';
+import { getEnv } from '@/extra';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
@@ -40,8 +40,6 @@ export default function RootLayout() {
   const splashScreenShown = useSplashScreen();
   const colorScheme = useColorScheme();
   // side effects
-  // location
-  const locationReady = useConfigLocation();
   // error handling
   useEffect(() => {
     if (error) throw error;
@@ -53,12 +51,12 @@ export default function RootLayout() {
     }
   }, [loaded, splashScreenShown]);
   useEffect(() => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === 'android' && getEnv() !== 'live') {
       ToastAndroid.show(getAppVersion(), 1500);
     }
   }, []);
   // UI
-  if (!loaded || !locationReady) {
+  if (!loaded) {
     return null;
   }
   return (

@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { ToastAndroid } from 'react-native';
+import { Platform, ToastAndroid } from 'react-native';
 
 const defaultImageOptions: ImagePicker.ImagePickerOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -26,7 +26,9 @@ export const pickImage = async (from: PickImageFrom, aspect: [number, number]) =
     return pendingResult.assets[0].uri;
   } else {
     console.error(JSON.stringify(pendingResult));
-    ToastAndroid.show(JSON.stringify(pendingResult), 5000);
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(JSON.stringify(pendingResult), 5000);
+    }
     return undefined;
   }
 };

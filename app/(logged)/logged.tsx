@@ -9,6 +9,7 @@ export default function LoggedIndex() {
   // state
   const profile = useContextProfile();
   const situation = profile?.situation;
+  // console.log(situation);
   // side effects
   useEffect(() => {
     if (!situation) return;

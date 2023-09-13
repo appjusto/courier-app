@@ -1,16 +1,14 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { LatLng } from '@appjusto/types';
 import React from 'react';
-import { Location } from 'react-native-background-geolocation';
-import { useConfigLocation } from './useConfigLocation';
-import { useLocation } from './useLocation';
+import { useBackgroundLocation } from '../background/useBackgroundLocation';
 
 interface Props {
   children: React.ReactNode;
 }
 
 interface Value {
-  location?: Location;
+  location?: LatLng;
 }
 
 const LocationContext = React.createContext<Value>({});
@@ -21,8 +19,7 @@ export const LocationProvider = (props: Props) => {
   const status = profile?.status;
   const working = status === 'available' || status === 'dispatching';
   // state
-  const ready = useConfigLocation();
-  const location = useLocation(ready && working);
+  const location = useBackgroundLocation(working);
   // result
   return <LocationContext.Provider value={{ location }}>{props.children}</LocationContext.Provider>;
 };
@@ -30,7 +27,5 @@ export const LocationProvider = (props: Props) => {
 export const useContextLocation = () => {
   const value = React.useContext(LocationContext);
   if (!value) throw new Error('Api fora de contexto.');
-  if (!value.location?.coords) return null;
-  const { latitude, longitude } = value.location.coords;
-  return { latitude, longitude } as LatLng;
+  return value.location;
 };
