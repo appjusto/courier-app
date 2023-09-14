@@ -137,9 +137,8 @@ export default function MatchingScreen() {
         {/* button */}
         <ConfirmButton
           style={{ marginTop: paddings.lg }}
-          text="Arrastar"
+          text="Aceitar"
           trackText="Arraste para aceitar"
-          color="black"
           // onConfirm={matchOrder}
           onConfirm={() => null}
         />

@@ -12,6 +12,7 @@ type DefaultButtonProps = ViewProps & {
   loading?: boolean;
   leftView?: React.ReactNode;
   rightView?: React.ReactNode;
+  height?: number;
   onPress: () => void;
 };
 
@@ -23,6 +24,7 @@ export const DefaultButton = ({
   loading,
   leftView,
   rightView,
+  height,
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (pressed: boolean) => {
@@ -54,7 +56,8 @@ export const DefaultButton = ({
                 backgroundColor: backgroundColor(pressed),
                 borderColor: borderColor(pressed),
                 alignItems: 'center',
-                height: 42,
+                justifyContent: 'center',
+                height,
               },
             ]}
           >

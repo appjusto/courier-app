@@ -2,8 +2,8 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { ArrowRight } from 'lucide-react-native';
-import React, { useState } from 'react';
-import { Animated, Dimensions, LayoutAnimation, View, ViewProps } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Animated, LayoutAnimation, View, ViewProps } from 'react-native';
 import {
   GestureEvent,
   PanGestureHandler,
@@ -16,21 +16,20 @@ interface Props extends ViewProps {
   text: string;
   trackText?: string;
   disabled?: boolean;
-  isLoading?: boolean;
-  color: string;
+  loading?: boolean;
+  threshold?: number;
+  dragThreshold?: number;
   onConfirm: () => void;
 }
-
-const { width } = Dimensions.get('window');
-const threshold = 0.7;
 
 export const ConfirmButton = ({
   text,
   trackText,
   disabled,
-  isLoading = false,
+  loading,
+  threshold = 0.7,
+  dragThreshold = 0.9,
   onConfirm,
-  color,
   style,
   ...props
 }: Props) => {
@@ -38,16 +37,26 @@ export const ConfirmButton = ({
   const [translateX, setTranslateX] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
   const [buttonWidth, setButtonWidth] = useState<number>();
-  const [rightmost, setRightmost] = useState(width);
+  const [rightmost, setRightmost] = useState(0);
+  const maxX = rightmost - (buttonWidth ?? 0);
+  const translateM = translateX > 0 ? translateX / maxX : 0;
+  // side effects
+  useEffect(() => {
+    const shouldConfirm = translateM > dragThreshold;
+    if (shouldConfirm) {
+      setConfirmed(true);
+      setTranslateX(maxX);
+    }
+  }, [maxX, translateM, dragThreshold]);
+  useEffect(() => {
+    if (confirmed) onConfirm();
+  }, [confirmed, onConfirm]);
   // UI handlers
   const onGestureEvent = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     if (disabled || confirmed) return;
     const { translationX } = event.nativeEvent;
     if (translationX > 0 && translationX <= rightmost) setTranslateX(translationX);
   };
-  const maxX = rightmost - (buttonWidth ?? 0);
-  const translateM = translateX > 0 ? translateX / maxX : 0;
-  // console.log(translateX, translateM);
   const onGestureEnded = () => {
     if (!buttonWidth) return;
     const shouldConfirm = translateM > threshold;
@@ -55,7 +64,6 @@ export const ConfirmButton = ({
     if (shouldConfirm) {
       setConfirmed(true);
       setTranslateX(maxX);
-      onConfirm();
     } else {
       setTranslateX(0);
     }
@@ -92,8 +100,9 @@ export const ConfirmButton = ({
         >
           <DefaultButton
             style={{ width: buttonWidth }}
+            height={50}
             title={text}
-            loading={isLoading || confirmed}
+            loading={loading || confirmed}
             disabled={disabled}
             rightView={
               <ArrowRight style={{ marginLeft: paddings.xs }} size={16} color={colors.white} />
@@ -108,7 +117,7 @@ export const ConfirmButton = ({
 
       {/* track */}
       <View>
-        {!isLoading && trackText ? (
+        {!loading && trackText ? (
           <View>
             <Animated.View
               style={{
