@@ -1,7 +1,7 @@
 import colors from '@/common/styles/colors';
 import { CircledView } from '../containers/CircledView';
 
-export const OriginMarker = () => {
+export const CourierMarker = () => {
   return (
     <CircledView
       size={24}

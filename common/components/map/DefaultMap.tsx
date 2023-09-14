@@ -1,11 +1,12 @@
-import { useContextInitialLocation } from '@/api/location/context/useContextInitialLocation';
+import { useContextProfileLocation } from '@/common/auth/AuthContext';
 import { LatLng, RouteDetails } from '@appjusto/types';
 import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import MapView, { MapViewProps, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
+import { CourierMarker } from './courier-marker';
 import { decodeRoutePolyline } from './decodeRoutePolyline';
 import { DestinationMarker } from './destination-marker';
-import { OriginMarker } from './origin-marker';
+import { PackageMarker } from './package-marker';
 
 interface Props extends MapViewProps {
   origin?: LatLng;
@@ -16,7 +17,7 @@ interface Props extends MapViewProps {
 export const DefaultMap = forwardRef(
   ({ origin, destination, route, style, children, ...props }: Props, externalRef) => {
     // context
-    const location = useContextInitialLocation();
+    const location = useContextProfileLocation();
     // refs
     const internalRef = useRef<MapView>(null);
     const ref = (externalRef as RefObject<MapView>) || internalRef;
@@ -64,9 +65,14 @@ export const DefaultMap = forwardRef(
       >
         {children}
         {/* https://github.com/react-native-maps/react-native-maps/issues/3823 */}
+        {location ? (
+          <Marker key="location" coordinate={location} tracksViewChanges={false}>
+            <CourierMarker />
+          </Marker>
+        ) : null}
         {origin ? (
           <Marker key="origin" coordinate={origin} tracksViewChanges={false}>
-            <OriginMarker />
+            <PackageMarker />
           </Marker>
         ) : null}
         {destination ? (
