@@ -1,4 +1,4 @@
-import { useContextProfileLocation } from '@/common/auth/AuthContext';
+import { useContextLocation } from '@/api/location/context/LocationContext';
 import { LatLng, RouteDetails } from '@appjusto/types';
 import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
@@ -17,7 +17,7 @@ interface Props extends MapViewProps {
 export const DefaultMap = forwardRef(
   ({ origin, destination, route, style, children, ...props }: Props, externalRef) => {
     // context
-    const location = useContextProfileLocation();
+    const location = useContextLocation();
     // refs
     const internalRef = useRef<MapView>(null);
     const ref = (externalRef as RefObject<MapView>) || internalRef;

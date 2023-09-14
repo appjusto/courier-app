@@ -65,6 +65,7 @@ export default function RootLayout() {
         <ToastProvider>
           <ApiProvider>
             <AuthProvider>
+              {/* ordersprovider */}
               <LocationProvider>
                 <Slot />
               </LocationProvider>

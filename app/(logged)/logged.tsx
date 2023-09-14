@@ -1,18 +1,21 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { Loading } from '@/common/components/views/Loading';
 import { Stack, router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 export default function LoggedIndex() {
   // context
-  // state
   const profile = useContextProfile();
-  const situation = profile?.situation;
-  // console.log(situation);
+  // state
+  const [situation, setSituation] = useState(profile?.situation);
   // side effects
   useEffect(() => {
+    if (profile?.situation !== situation) setSituation(profile?.situation);
+  }, [profile, situation]);
+  useEffect(() => {
     if (!situation) return;
+    console.log('router replace:', situation);
     if (situation === 'approved') {
       router.replace('/home');
       // router.replace('/f/appjusto');

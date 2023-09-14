@@ -1,6 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useProtectedRoute } from '@/common/auth/useProtectedRoute';
-import { CourierProfile, LatLng, WithId } from '@appjusto/types';
+import { CourierProfile, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useUser } from './useUser';
@@ -52,8 +52,8 @@ export const useContextProfile = () => {
   return React.useContext(AuthContext)?.profile;
 };
 
-export const useContextProfileLocation = () => {
-  const coordinates = React.useContext(AuthContext)?.profile?.coordinates;
-  if (coordinates)
-    return { latitude: coordinates.latitude, longitude: coordinates.longitude } as LatLng;
-};
+// export const useContextProfileLocation = () => {
+//   const coordinates = React.useContext(AuthContext)?.profile?.coordinates;
+//   if (coordinates)
+//     return { latitude: coordinates.latitude, longitude: coordinates.longitude } as LatLng;
+// };

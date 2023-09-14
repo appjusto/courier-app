@@ -1,10 +1,10 @@
-import { useContextProfileLocation } from '@/common/auth/AuthContext';
 import { LatLng } from '@appjusto/types';
 import { useEffect, useState } from 'react';
+import { useContextLocation } from './LocationContext';
 
 export const useContextInitialLocation = () => {
   // context
-  const location = useContextProfileLocation();
+  const location = useContextLocation();
   // state
   const [initialLocation, setInitialLocation] = useState<LatLng>();
   // side effects
