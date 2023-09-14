@@ -1,13 +1,12 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useContextProfile } from '@/common/auth/AuthContext';
+import { useContextUserId } from '@/common/auth/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useImagesURLs = (autoCheck = true) => {
   // context
   const api = useContextApi();
+  const courierId = useContextUserId();
   // state
-  const profile = useContextProfile();
-  const courierId = profile?.id;
   const [selfieUrl, setSelfieUrl] = useState<string | null>();
   const [documentUrl, setDocumentUrl] = useState<string | null>();
   const [checkSelfieTick, setCheckSelfieTick] = useState<number | undefined>(

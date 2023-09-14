@@ -2,16 +2,17 @@ import { useContextApi } from '@/api/ApiContext';
 import { CourierOrderRequest, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 
-export const useObserveOrderRequests = (orderId: string) => {
+export const useObserveOrderRequest = (requestId: string) => {
   // context
   const api = useContextApi();
   // state
-  const [requests, setRequests] = useState<WithId<CourierOrderRequest>[]>();
+  const [request, setRequest] = useState<WithId<CourierOrderRequest> | null>();
   // side effects
   // observe order requests
   useEffect(() => {
-    return api.couriers().observeOrderRequests(orderId, setRequests);
-  }, [api, orderId]);
+    if (!requestId) return;
+    return api.couriers().observeRequest(requestId, setRequest);
+  }, [api, requestId]);
   // result
-  return requests;
+  return request;
 };

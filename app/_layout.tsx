@@ -1,6 +1,7 @@
 import { ApiProvider } from '@/api/ApiContext';
 import '@/api/location/background/registerLoationHeadlessTask';
 import { LocationProvider } from '@/api/location/context/LocationContext';
+import { PlatformProvider } from '@/api/platform/context/PlatformContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
@@ -65,10 +66,11 @@ export default function RootLayout() {
         <ToastProvider>
           <ApiProvider>
             <AuthProvider>
-              {/* ordersprovider */}
-              <LocationProvider>
-                <Slot />
-              </LocationProvider>
+              <PlatformProvider>
+                <LocationProvider>
+                  <Slot />
+                </LocationProvider>
+              </PlatformProvider>
             </AuthProvider>
           </ApiProvider>
         </ToastProvider>

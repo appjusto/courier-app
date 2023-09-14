@@ -1,6 +1,6 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { getFirebaseRegion } from '@/extra';
-import { Bank, PlatformAccess, PlatformParams } from '@appjusto/types';
+import { Bank, PlatformAccess, PlatformFees, PlatformParams } from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import AuthApi from '../auth/AuthApi';
@@ -13,6 +13,7 @@ export const getServerTime = firebase.app().functions(region).httpsCallable('get
 export const platformRef = () => firestore().collection('platform');
 export const platformParamsRef = () => platformRef().doc('params');
 export const platformAccessRef = () => platformRef().doc('access');
+export const platformFeesRef = () => platformRef().doc('fees');
 // platform data
 export const platformDataRef = () => platformRef().doc('data');
 export const banksRef = () => platformDataRef().collection('banks');
@@ -43,6 +44,11 @@ export default class PlatformApi {
   async fetchPlatformAccess() {
     const snapshot = await platformAccessRef().get();
     return snapshot.data() as PlatformAccess;
+  }
+
+  async fetchPlatformFees() {
+    const snapshot = await platformFeesRef().get();
+    return snapshot.data() as PlatformFees;
   }
 
   async fetchBanks() {

@@ -1,11 +1,11 @@
 import { useContextUserId } from '@/common/auth/AuthContext';
-import { Dayjs } from '@appjusto/dates';
 import { Order, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
 import { ObserveDeliveredOrdersOptions } from './OrdersApi';
+import { OngoingOrdersStatuses } from './status';
 
-export const useObserveOrdersOfLast24h = () => {
+export const useObserveOngoingOrders = (enabled = true) => {
   // context
   const api = useContextApi();
   const courierId = useContextUserId();
@@ -17,13 +17,14 @@ export const useObserveOrdersOfLast24h = () => {
     if (!courierId) return;
     setOptions({
       courierId,
-      from: Dayjs().subtract(1, 'day').toDate(),
+      statuses: OngoingOrdersStatuses,
     });
   }, [courierId]);
   useEffect(() => {
+    if (!enabled) return;
     if (!options) return;
     return api.orders().observeOrders(options, setOrders);
-  }, [api, options]);
+  }, [api, options, enabled]);
   // result
   return orders;
 };

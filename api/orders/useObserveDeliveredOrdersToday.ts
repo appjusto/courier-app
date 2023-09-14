@@ -1,4 +1,4 @@
-import { useContextProfile } from '@/common/auth/AuthContext';
+import { useContextUserId } from '@/common/auth/AuthContext';
 import { Dayjs } from '@appjusto/dates';
 import { Order, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
@@ -8,8 +8,7 @@ import { ObserveDeliveredOrdersOptions } from './OrdersApi';
 export const useObserveDeliveredOrdersToday = () => {
   // context
   const api = useContextApi();
-  const profile = useContextProfile();
-  const courierId = profile?.id;
+  const courierId = useContextUserId();
   // state
   const [options, setOptions] = useState<ObserveDeliveredOrdersOptions>();
   const [orders, setOrders] = useState<WithId<Order>[]>();

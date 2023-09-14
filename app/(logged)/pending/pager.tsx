@@ -30,6 +30,7 @@ export default function PendingPager() {
   // params
   // @ts-expect-error
   const search = useLocalSearchParams<{ bankId?: string; initialPage?: number }>();
+  // @ts-expect-error
   let initialPage = parseInt(search.initialPage, 10);
   initialPage = isNaN(initialPage) ? 0 : initialPage;
   // refs

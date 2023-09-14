@@ -1,4 +1,5 @@
-import { useObserveActiveRequests } from '@/api/couriers/requests/useObserveActiveRequests';
+import { getOrderStatusAsText } from '@/api/orders/status/getOrderStatusAsText';
+import { useObserveOngoingOrders } from '@/api/orders/useObserveOngoingOrders';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import paddings from '@/common/styles/paddings';
@@ -7,29 +8,30 @@ import { Pressable, View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {}
 
-export const AvailableOrdersCards = ({ style, ...props }: Props) => {
+export const OngoingOrdersCards = ({ style, ...props }: Props) => {
   // context
   const router = useRouter();
   // state
-  const requests = useObserveActiveRequests();
+  const orders = useObserveOngoingOrders();
   // UI
-  if (!requests?.length) return null;
+  if (!orders?.length) return null;
   // console.log(request.orderId);
   return (
     <View style={[{}, style]} {...props}>
-      {requests.map((request) => (
+      {orders.map((order) => (
         <Pressable
-          key={request.id}
+          key={order.id}
           style={{ marginBottom: paddings.lg }}
-          onPress={() =>
-            router.push({ pathname: '/matching/[id]', params: { id: request.orderId } })
-          }
+          onPress={() => {
+            // @ts-expect-error
+            router.push({ pathname: '/order/[id]', params: { id: order.id } });
+          }}
         >
           <DefaultCard
             variant="dark"
             icon={<DefaultCardIcon iconName="helmet" variant="dark" />}
-            title="Corrida disponível"
-            subtitle="Clique aqui para visualizar a corrida"
+            title={`#${order.code} Pedido ${getOrderStatusAsText(order.status)}`}
+            subtitle="Aguardando..."
           />
         </Pressable>
       ))}

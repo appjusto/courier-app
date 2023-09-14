@@ -1,5 +1,5 @@
 import { useContextLocation } from '@/api/location/context/LocationContext';
-import { LatLng, RouteDetails } from '@appjusto/types';
+import { LatLng } from '@appjusto/types';
 import { RefObject, forwardRef, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import MapView, { MapViewProps, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
@@ -9,13 +9,13 @@ import { DestinationMarker } from './destination-marker';
 import { PackageMarker } from './package-marker';
 
 interface Props extends MapViewProps {
-  origin?: LatLng;
-  destination?: LatLng;
-  route?: RouteDetails;
+  origin?: LatLng | null;
+  destination?: LatLng | null;
+  polyline?: string;
 }
 
 export const DefaultMap = forwardRef(
-  ({ origin, destination, route, style, children, ...props }: Props, externalRef) => {
+  ({ origin, destination, polyline, style, children, ...props }: Props, externalRef) => {
     // context
     const location = useContextLocation();
     // refs
@@ -26,8 +26,8 @@ export const DefaultMap = forwardRef(
     const [coordinates, setCoordinates] = useState<LatLng[]>();
     // side effects
     useEffect(() => {
-      setCoordinates(decodeRoutePolyline(route?.polyline));
-    }, [mapReady, route]);
+      setCoordinates(decodeRoutePolyline(polyline));
+    }, [mapReady, polyline]);
     useEffect(() => {
       if (!mapReady) return;
       // const coordinates = decodeRoutePolyline(route?.polyline);

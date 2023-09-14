@@ -1,8 +1,9 @@
 import { View } from 'react-native';
 
 import { useContextApi } from '@/api/ApiContext';
-import { useObserveOrderRequests } from '@/api/couriers/requests/useObserveOrderRequests';
+import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
+import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -14,13 +15,14 @@ import { useToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { formatTimestamp } from '@/common/formatters/timestamp';
+import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
 import { Zap } from 'lucide-react-native';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function MatchingScreen() {
   // context
@@ -28,16 +30,18 @@ export default function MatchingScreen() {
   const { showToast } = useToast();
   // params
   const params = useLocalSearchParams<{ id: string }>();
-  const orderId = params.id;
+  const requestId = params.id;
   // state
-  const requests = useObserveOrderRequests(orderId);
-  const request = requests?.find(() => true);
-  const requestId = request?.id;
+  const request = useObserveOrderRequest(requestId);
   const route = useMapRoute(request?.origin);
+  const [confirmed, setConfirmed] = useState(false);
+  const order = useObserveOrder(request?.orderId, confirmed);
+  console.log('requestId', requestId);
   // console.log('orderId', orderId);
-  // console.log('request', request);
+  console.log('request', request);
   // console.log('route', route);
   // side effects
+  useRouterAccordingOrderStatus(request?.orderId, order?.status);
   useEffect(() => {
     if (!requestId) return;
     api
@@ -47,6 +51,17 @@ export default function MatchingScreen() {
         console.error(error);
       });
   }, [api, requestId]);
+  // handlers
+  const matchOrder = useCallback(() => {
+    if (!request?.orderId) return;
+    api
+      .orders()
+      .matchOrder(request.orderId, route?.distance)
+      .then(() => setConfirmed(true))
+      .catch((error: unknown) => {
+        if (error instanceof Error) showToast(error.message, 'error');
+      });
+  }, [api, request?.orderId, route?.distance, showToast]);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
   const {
@@ -62,20 +77,10 @@ export default function MatchingScreen() {
   const totalDistance = distance + routeDistanceToOrigin;
   const fee = netValue + locationFee;
   const feePerKm = round(fee / (totalDistance / 1000), 2);
-  // handlers
-  const matchOrder = () => {
-    api
-      .orders()
-      .matchOrder(orderId, route?.distance)
-      .catch((error: unknown) => {
-        if (error instanceof Error) showToast(error.message, 'error');
-      });
-  };
-  // UI
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
-      <DefaultMap origin={origin} destination={destination} route={route ?? undefined} />
+      <DefaultMap origin={origin} destination={destination} polyline={route?.polyline} />
       <View style={{ paddingVertical: paddings.xl, paddingHorizontal: paddings.lg }}>
         {/* tags */}
         <View style={{ flexDirection: 'row' }}>
@@ -140,7 +145,6 @@ export default function MatchingScreen() {
           text="Aceitar"
           trackText="Arraste para aceitar"
           onConfirm={matchOrder}
-          // onConfirm={() => null}
         />
         <DefaultButton
           style={{ marginTop: paddings.lg }}

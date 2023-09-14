@@ -30,13 +30,11 @@ export default class CouriersApi {
   constructor(private auth: AuthApi) {}
 
   // orders
-  observeOrderRequests(
-    orderId: string,
-    resultHandler: (requests: WithId<CourierOrderRequest>[]) => void
-  ) {
+
+  observeActiveRequests(resultHandler: (requests: WithId<CourierOrderRequest>[]) => void) {
     const query = courierRequestsRef()
       .where('courierId', '==', this.auth.getUserId())
-      .where('orderId', '==', orderId)
+      .where('situation', 'in', ['pending', 'viewed'] as CourierOrderRequestSituation[])
       .orderBy('createdOn', 'desc');
     return query.onSnapshot(
       async (snapshot) => {
@@ -52,18 +50,14 @@ export default class CouriersApi {
     );
   }
 
-  observeActiveRequests(resultHandler: (requests: WithId<CourierOrderRequest>[]) => void) {
-    const query = courierRequestsRef()
-      .where('courierId', '==', this.auth.getUserId())
-      .where('situation', 'in', ['pending', 'viewed'] as CourierOrderRequestSituation[])
-      .orderBy('createdOn', 'desc');
+  observeRequest(
+    requestId: string,
+    resultHandler: (orders: WithId<CourierOrderRequest> | null) => void
+  ) {
+    const query = courierRequestRef(requestId);
     return query.onSnapshot(
       async (snapshot) => {
-        if (snapshot.empty) {
-          resultHandler([]);
-        } else {
-          resultHandler(documentsAs<CourierOrderRequest>(snapshot.docs));
-        }
+        resultHandler(snapshot.exists ? documentAs<CourierOrderRequest>(snapshot) : null);
       },
       (error) => {
         console.error(error);

@@ -36,6 +36,7 @@ export const ConfirmButton = ({
   // state
   const [translateX, setTranslateX] = useState(0);
   const [confirmed, setConfirmed] = useState(false);
+  const [handled, setHandled] = useState(false);
   const [buttonWidth, setButtonWidth] = useState<number>();
   const [rightmost, setRightmost] = useState(0);
   const maxX = rightmost - (buttonWidth ?? 0);
@@ -49,8 +50,11 @@ export const ConfirmButton = ({
     }
   }, [maxX, translateM, dragThreshold]);
   useEffect(() => {
-    if (confirmed) onConfirm();
-  }, [confirmed, onConfirm]);
+    if (confirmed && !handled) {
+      setHandled(true);
+      onConfirm();
+    }
+  }, [confirmed, handled, onConfirm]);
   // UI handlers
   const onGestureEvent = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     if (disabled || confirmed) return;
