@@ -4,41 +4,23 @@ import colors from '@/common/styles/colors';
 import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { Check, Search, X } from 'lucide-react-native';
-import { View } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
-interface Props {
+interface Props extends ViewProps {
+  title: string;
+  text: string[];
   variant: 'success' | 'warning' | 'error';
 }
 
-export const SituationHeader = ({ variant }: Props) => {
+export const FeedbackHeader = ({ variant, title, text, children, style, ...props }: Props) => {
   const backgroundColor = () => {
     if (variant === 'success') return colors.success500;
     if (variant === 'warning') return colors.warning500;
     if (variant === 'error') return colors.error500;
     return colors.white;
   };
-  const title = () => {
-    if (variant === 'success') return 'Cadastro enviado com sucesso';
-    if (variant === 'warning') return 'O seu cadastro está em análise';
-    if (variant === 'error') return 'O seu cadastro foi recusado';
-    return '';
-  };
-  const text = () => {
-    if (variant === 'success')
-      return ['Enquanto seu cadastro não é aprovado, conheça mais sobre o Appjusto.'];
-    if (variant === 'warning')
-      return [
-        'Falta pouco para você começar a entregar com o AppJusto! Enquanto isso, conheça mais sobre a nossa proposta.',
-      ];
-    if (variant === 'error')
-      return [
-        'Infelizmente não foi possível realizar seu cadastro para entregador do AppJusto.',
-        'Qualquer dúvida, entre em contato com o nosso time de atendimento.',
-      ];
-    return [];
-  };
   return (
-    <View>
+    <View style={[{}, style]} {...props}>
       <View>
         <View style={{ height: 120, backgroundColor: backgroundColor() }}></View>
         <View
@@ -68,13 +50,14 @@ export const SituationHeader = ({ variant }: Props) => {
         style={{ paddingHorizontal: paddings.lg, justifyContent: 'center', alignItems: 'center' }}
       >
         <DefaultText size="lg" style={{ marginBottom: paddings.lg }}>
-          {title()}
+          {title}
         </DefaultText>
-        {text().map((value) => (
+        {text.map((value) => (
           <DefaultText key={value} size="md" style={{ ...lineHeight.md, textAlign: 'center' }}>
             {value}
           </DefaultText>
         ))}
+        {children}
       </View>
     </View>
   );

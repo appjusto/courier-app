@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 
-import { isOrderOngoing } from '@/api/orders/status';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -9,10 +8,10 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
+import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
 
 export default function OngoingOrderScreen() {
   // params
@@ -24,13 +23,7 @@ export default function OngoingOrderScreen() {
   console.log('orderId', orderId);
   console.log('orderStatus', orderStatus);
   // side effects
-  useEffect(() => {
-    if (!orderStatus) return;
-    if (isOrderOngoing(orderStatus)) {
-      // router.replace()
-    }
-  }, [orderStatus]);
-
+  useRouterAccordingOrderStatus(orderId, orderStatus);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   const origin = order.origin?.location;
