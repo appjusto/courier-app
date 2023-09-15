@@ -10,10 +10,11 @@ import { getAppVersion } from '@/common/version';
 import { getEnv } from '@/extra';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, ToastAndroid, useColorScheme } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
@@ -38,14 +39,18 @@ export default function RootLayout() {
     HankenGroteskSemiBold: require('../assets/fonts/HankenGrotesk-SemiBold.ttf'),
     ...FontAwesome.font,
   });
-  const splashScreenShown = useSplashScreen();
   const colorScheme = useColorScheme();
+  const splashScreenShown = useSplashScreen();
+  const [inAppSuppressed, setInAppSuppressed] = useState(false);
   // side effects
   // error handling
   useEffect(() => {
     if (error) throw error;
   }, [error]);
   // splash
+  inAppMessaging()
+    .setMessagesDisplaySuppressed(true)
+    .then(() => setInAppSuppressed(true));
   useEffect(() => {
     if (loaded && !splashScreenShown) {
       SplashScreen.hideAsync();
@@ -57,7 +62,7 @@ export default function RootLayout() {
     }
   }, []);
   // UI
-  if (!loaded) {
+  if (!loaded || splashScreenShown || !inAppSuppressed) {
     return null;
   }
   return (

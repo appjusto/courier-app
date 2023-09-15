@@ -2,6 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { useProtectedRoute } from '@/common/auth/useProtectedRoute';
 import { CourierProfile, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import React, { useEffect, useState } from 'react';
 import { useUser } from './useUser';
 
@@ -33,7 +34,13 @@ export const AuthProvider = (props: Props) => {
     return api.profile().observeProfile<CourierProfile>(userId, setProfile);
   }, [api, userId]);
   useEffect(() => {
-    if (user === null) setProfile(null);
+    if (user === null) {
+      setProfile(null);
+    } else if (user) {
+      inAppMessaging()
+        .setMessagesDisplaySuppressed(false)
+        .then(() => null);
+    }
   }, [user]);
   // result
   const value: Value = { user, userId, profile };

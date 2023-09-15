@@ -10,6 +10,7 @@ import { formatDistance } from '@/common/formatters/distance';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { useRouter } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
@@ -46,7 +47,14 @@ export const HomeFleet = ({ style, ...props }: Props) => {
     ? formatCurrency(fleet.additionalPerKmAfterThreshold)
     : '-';
   return (
-    <Pressable onPress={() => setOpened((opened) => !opened)}>
+    <Pressable
+      onPress={() => {
+        setOpened((opened) => !opened);
+        inAppMessaging()
+          .triggerEvent('purchase')
+          .then(() => null);
+      }}
+    >
       {({ pressed }) => (
         <View
           style={[
