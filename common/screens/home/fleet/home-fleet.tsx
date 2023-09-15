@@ -15,7 +15,7 @@ import { useRouter } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
 import { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Platform, Pressable, ToastAndroid, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { shareFleet } from '../../../../api/fleets/shareFleet';
 import { FleetCardParam } from '../../profile/fleets/FleetCardParam';
@@ -52,7 +52,14 @@ export const HomeFleet = ({ style, ...props }: Props) => {
         setOpened((opened) => !opened);
         inAppMessaging()
           .triggerEvent('purchase')
-          .then(() => null);
+          .then(() => {
+            if (Platform.OS === 'android') {
+              ToastAndroid.show('triggered!', 1000);
+            }
+          })
+          .catch((error) => {
+            ToastAndroid.show(JSON.stringify(error), 1000);
+          });
       }}
     >
       {({ pressed }) => (

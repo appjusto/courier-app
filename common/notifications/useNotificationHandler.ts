@@ -15,9 +15,11 @@ export const useNotificationHandler = () => {
     if (!notification) return;
     const message = notification.request.content.data as PushMessageData;
     if (message.action === 'navigate') {
+      // @ts-expect-error
       router.push(message.url);
     } else if (message.action === 'order-request') {
-      router.push('/matching');
+      // @ts-expect-error
+      router.push(message.url);
       stopOrderRequestSound().then(null).catch(console.error);
     }
   }, [notification, mounted]);

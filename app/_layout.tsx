@@ -48,18 +48,20 @@ export default function RootLayout() {
     if (error) throw error;
   }, [error]);
   // splash
-  inAppMessaging()
-    .setMessagesDisplaySuppressed(true)
-    .then(() => setInAppSuppressed(true));
   useEffect(() => {
     if (loaded && !splashScreenShown) {
       SplashScreen.hideAsync();
     }
   }, [loaded, splashScreenShown]);
   useEffect(() => {
+    // version toast
     if (Platform.OS === 'android' && getEnv() !== 'live') {
       ToastAndroid.show(getAppVersion(), 1500);
     }
+    // in-app messaging config
+    inAppMessaging()
+      .setMessagesDisplaySuppressed(true)
+      .then(() => setInAppSuppressed(true));
   }, []);
   // UI
   if (!loaded || splashScreenShown || !inAppSuppressed) {
