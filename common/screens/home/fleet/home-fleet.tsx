@@ -3,6 +3,7 @@ import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
+import { ShowToast } from '@/common/components/toast/Toast';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { formatCurrency } from '@/common/formatters/currency';
@@ -15,7 +16,7 @@ import { useRouter } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
 import { useEffect, useState } from 'react';
-import { Platform, Pressable, ToastAndroid, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { shareFleet } from '../../../../api/fleets/shareFleet';
 import { FleetCardParam } from '../../profile/fleets/FleetCardParam';
@@ -53,12 +54,10 @@ export const HomeFleet = ({ style, ...props }: Props) => {
         inAppMessaging()
           .triggerEvent('purchase')
           .then(() => {
-            if (Platform.OS === 'android') {
-              ToastAndroid.show('triggered!', 1000);
-            }
+            ShowToast('triggered!');
           })
           .catch((error) => {
-            ToastAndroid.show(JSON.stringify(error), 1000);
+            ShowToast(JSON.stringify(error));
           });
       }}
     >

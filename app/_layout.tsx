@@ -4,6 +4,7 @@ import { LocationProvider } from '@/api/location/context/LocationContext';
 import { PlatformProvider } from '@/api/platform/context/PlatformContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { getAppVersion } from '@/common/version';
@@ -15,7 +16,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Platform, ToastAndroid, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
@@ -55,8 +56,8 @@ export default function RootLayout() {
   }, [loaded, splashScreenShown]);
   useEffect(() => {
     // version toast
-    if (Platform.OS === 'android' && getEnv() !== 'live') {
-      ToastAndroid.show(getAppVersion(), 1500);
+    if (getEnv() !== 'live') {
+      ShowToast(getAppVersion());
     }
     // in-app messaging config
     inAppMessaging()

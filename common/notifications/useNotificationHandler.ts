@@ -2,6 +2,7 @@ import { PushMessageData } from '@appjusto/types';
 import * as Notifications from 'expo-notifications';
 import { router, useRootNavigationState } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { ShowToast } from '../components/toast/Toast';
 import { stopOrderRequestSound } from './sound';
 
 export const useNotificationHandler = () => {
@@ -20,6 +21,7 @@ export const useNotificationHandler = () => {
     } else if (message.action === 'order-request') {
       // @ts-expect-error
       router.push(message.url);
+      ShowToast(message.url);
       stopOrderRequestSound().then(null).catch(console.error);
     }
   }, [notification, mounted]);
@@ -27,6 +29,7 @@ export const useNotificationHandler = () => {
   useEffect(() => {
     let isMounted = true;
     Notifications.getLastNotificationResponseAsync().then((response) => {
+      ShowToast('last async' + response?.notification?.request?.content?.body);
       if (!isMounted || !response?.notification) {
         return;
       }

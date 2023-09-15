@@ -1,8 +1,8 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { getEnv, getFirebaseRegion, getManifestExtra } from '@/extra';
 import { CourierMode, LatLng } from '@appjusto/types';
 import { useEffect, useState } from 'react';
-import { Platform, ToastAndroid } from 'react-native';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { latlngFromLocation } from '../latlngFromLocation';
 
@@ -21,22 +21,18 @@ export const useBackgroundLocation = (enabled: boolean) => {
   useEffect(() => {
     // console.log('configuring callbacks', userId, userToken);
     const onLocation = BackgroundGeolocation.onLocation((value) => {
-      console.log('[onLocation]', value);
+      // console.log('[onLocation]', value);
       setLocation(latlngFromLocation(value));
     });
 
     const onHeartbeat = BackgroundGeolocation.onHeartbeat((event) => {
-      console.log('[onHeartbeat]', event);
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('heartbeat', 1000);
-      }
+      // console.log('[onHeartbeat]', event);
+      ShowToast('heartbeat');
     });
 
     const onMotionChange = BackgroundGeolocation.onMotionChange((event) => {
-      console.log('[onMotionChange]', event);
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('motion: ' + event.location.activity.type, 1000);
-      }
+      // console.log('[onMotionChange]', event);
+      ShowToast('motion: ' + event.location.activity.type);
     });
 
     const onActivityChange = BackgroundGeolocation.onActivityChange((event) => {
@@ -49,10 +45,8 @@ export const useBackgroundLocation = (enabled: boolean) => {
         // } else if (event.activity === 'walking') {
         //   setMode('walking');
       }
-      console.log('[onActivityChange]', event);
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('activity: ' + event.activity, 1000);
-      }
+      // console.log('[onActivityChange]', event);
+      ShowToast('activity: ' + event.activity);
     });
     BackgroundGeolocation.reset().then(() => {
       BackgroundGeolocation.ready({
@@ -115,9 +109,7 @@ export const useBackgroundLocation = (enabled: boolean) => {
   useEffect(() => {
     // console.log('effect; ready:', ready, '; enabled:', enabled);
     if (!enabled) return;
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('ready:' + ready, 1000);
-    }
+    ShowToast('ready:' + ready);
     if (ready) {
       // console.log('starting...');
       BackgroundGeolocation.start()
@@ -127,7 +119,7 @@ export const useBackgroundLocation = (enabled: boolean) => {
             persist: false,
           })
             .then((value) => {
-              console.log('value', value);
+              // console.log('value', value);
               setLocation(latlngFromLocation(value));
             })
             .catch((error: unknown) => {
