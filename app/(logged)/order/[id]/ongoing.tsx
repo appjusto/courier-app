@@ -23,7 +23,7 @@ export default function OngoingOrderScreen() {
   console.log('orderId', orderId);
   console.log('orderStatus', orderStatus);
   // side effects
-  useRouterAccordingOrderStatus(orderId, orderStatus);
+  useRouterAccordingOrderStatus(orderId);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   const origin = order.origin?.location;

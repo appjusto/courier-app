@@ -1,30 +1,32 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { Loading } from '@/common/components/views/Loading';
-import { Stack, router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { Stack, router, useSegments } from 'expo-router';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 
 export default function LoggedIndex() {
   // context
   const profile = useContextProfile();
-  // state
-  const [situation, setSituation] = useState(profile?.situation);
+  const situation = profile?.situation;
+  const segments = useSegments();
   // side effects
   useEffect(() => {
-    if (profile?.situation !== situation) setSituation(profile?.situation);
-  }, [profile, situation]);
-  useEffect(() => {
     if (!situation) return;
-    console.log('router replace:', situation);
+    if (!segments) return;
+    // console.log('useEffect situation', situation, segments);
+
     if (situation === 'approved') {
-      router.replace('/home');
+      if (segments[1] === 'logged') {
+        // console.log('replace home');
+        router.replace('/home');
+      }
       // router.replace('/f/appjusto');
     } else if (situation === 'pending') {
       router.replace('/pending');
     } else if (situation === 'submitted' || situation === 'verified') {
       router.replace('/submitted');
     }
-  }, [situation]);
+  }, [situation, segments]);
   // UI
   return (
     <View style={{ flex: 1 }}>

@@ -29,7 +29,7 @@ export const useNotificationHandler = () => {
   useEffect(() => {
     let isMounted = true;
     Notifications.getLastNotificationResponseAsync().then((response) => {
-      ShowToast('last async' + response?.notification?.request?.content?.body);
+      ShowToast('last async ' + response?.notification?.request?.content?.body);
       if (!isMounted || !response?.notification) {
         return;
       }

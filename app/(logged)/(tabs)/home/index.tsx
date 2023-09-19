@@ -17,7 +17,6 @@ import { Pressable, View } from 'react-native';
 export default function HomeScreen() {
   // context
   const router = useRouter();
-  // side effects
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>

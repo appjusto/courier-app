@@ -55,7 +55,7 @@ export default class OrdersApi {
     }
     return query.onSnapshot(
       async (snapshot) => {
-        console.log('snapshot', snapshot.size);
+        console.log('observeOrders snapshot', snapshot.size);
         resultHandler(snapshot.empty ? [] : documentsAs<Order>(snapshot.docs));
       },
       (error) => {
