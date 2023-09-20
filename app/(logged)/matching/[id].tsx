@@ -1,5 +1,3 @@
-import { View } from 'react-native';
-
 import { useContextApi } from '@/api/ApiContext';
 import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
@@ -24,6 +22,7 @@ import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
 import { Zap } from 'lucide-react-native';
 import { useCallback, useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 export default function MatchingScreen() {
   // context
