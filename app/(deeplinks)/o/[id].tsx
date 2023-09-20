@@ -1,4 +1,5 @@
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { Loading } from '@/common/components/views/Loading';
 import { replaceRouteAccordingOrderStatus } from '@/common/screens/orders/replaceRouteAccordingOrderStatus';
 import { useLocalSearchParams } from 'expo-router';
@@ -12,7 +13,7 @@ export default function OrderDeeplinkScreen() {
   const status = order?.status;
   // UI
   useEffect(() => {
-    // ShowToast('/o/' + orderId + '; status: ' + status);
+    ShowToast('/o/' + orderId + '; status: ' + status);
     if (!status) return;
     replaceRouteAccordingOrderStatus(orderId, status);
   }, [orderId, status]);

@@ -14,7 +14,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { useURL } from 'expo-linking';
 import { Slot, SplashScreen } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
@@ -56,18 +55,27 @@ export default function RootLayout() {
     }
   }, [loaded, splashScreenShown]);
   // deeplinking
-  const url = useURL();
+  // const mounted = Boolean(useRootNavigationState()?.key);
+  // const [url, setURL] = useState<string | null>(null);
+  // useEffect(() => {
+  // if (!mounted) return;
+  // const subscription = Linking.addEventListener('url', (event) => {
+  //   ShowToast('listener: ' + event.url);
+  //   setURL(event.url);
+  // });
+  // return () => subscription.remove();
+  // }, [mounted]);
   // config
   useEffect(() => {
     // version toast
     if (getEnv() !== 'live') {
-      ShowToast(getAppVersion());
+      ShowToast('1' + getAppVersion());
     }
     // in-app messaging config
     inAppMessaging()
       .setMessagesDisplaySuppressed(true)
       .then(() => setInAppSuppressed(true));
-  }, [url]);
+  }, []);
   // UI
   if (!loaded || splashScreenShown || !inAppSuppressed) {
     return null;
@@ -76,7 +84,7 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <ActionSheetProvider>
         <ToastProvider>
-          <ApiProvider url={url}>
+          <ApiProvider url={null}>
             <AuthProvider>
               <PlatformProvider>
                 <LocationProvider>
