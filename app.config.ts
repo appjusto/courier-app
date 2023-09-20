@@ -78,18 +78,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         ],
         category: ['BROWSABLE', 'DEFAULT'],
       },
-      {
-        action: 'VIEW',
-        autoVerify: true,
-        data: [
-          {
-            scheme: 'https',
-            host: 'appjusto.ngrok.io',
-            pathPrefix: '/',
-          },
-        ],
-        category: ['BROWSABLE', 'DEFAULT'],
-      },
     ],
   },
   plugins: [
