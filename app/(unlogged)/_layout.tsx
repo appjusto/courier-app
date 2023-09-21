@@ -1,4 +1,3 @@
-import { useNotificationHandler } from '@/common/notifications/useNotificationHandler';
 import { useNotifications } from '@/common/notifications/useNotifications';
 import { Stack } from 'expo-router';
 
@@ -10,7 +9,7 @@ export default function UnloggedLayout() {
   // side effects
   // notifications
   useNotifications();
-  useNotificationHandler();
+  // useNotificationHandler();
   // UI
   return (
     <Stack>

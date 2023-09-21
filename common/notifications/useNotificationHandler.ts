@@ -1,43 +1,50 @@
 import { PushMessageData } from '@appjusto/types';
 import * as Notifications from 'expo-notifications';
-import { router, useRootNavigationState } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ShowToast } from '../components/toast/Toast';
-import { stopOrderRequestSound } from './sound';
 
 export const useNotificationHandler = () => {
   // state
   // https://github.com/expo/router/issues/740
-  const mounted = Boolean(useRootNavigationState()?.key);
-  const [notification, setNotification] = useState<Notifications.Notification>();
+  // const router = useRouter();
+  // const mounted = Boolean(useRootNavigationState()?.key);
+  // const [notification, setNotification] = useState<Notifications.Notification>();
   // side effects
-  useEffect(() => {
-    if (!mounted) return;
-    if (!notification) return;
-    const message = notification.request.content.data as PushMessageData;
-    if (message.action === 'navigate') {
-      // @ts-expect-error
-      router.push(message.url);
-    } else if (message.action === 'order-request') {
-      // @ts-expect-error
-      router.push(message.url);
-      ShowToast(message.url);
-      stopOrderRequestSound().then(null).catch(console.error);
-    }
-  }, [notification, mounted]);
+  // useEffect(() => {
+  //   // if (!mounted) return;
+  //   if (!notification) return;
+  //   const message = notification.request.content.data as PushMessageData;
+  //   if (message.action === 'navigate') {
+  //     ShowToast(message.url);
+  //     // router.push(message.url);
+  //   } else if (message.action === 'order-request') {
+  //     // router.push(message.url);
+  //     ShowToast(message.url);
+  //     stopOrderRequestSound().then(null).catch(console.error);
+  //   }
+  // }, [notification, mounted]);
   // handle notifications
   useEffect(() => {
     let isMounted = true;
     Notifications.getLastNotificationResponseAsync().then((response) => {
-      ShowToast('last async ' + response?.notification?.request?.content?.body);
       if (!isMounted || !response?.notification) {
         return;
       }
-      setNotification(response.notification);
+      const message = response.notification.request.content.data as PushMessageData;
+      ShowToast('last async: ' + message.url);
+      // router.push(message.url);
+      // setNotification(response.notification);
     });
 
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      setNotification(response.notification);
+      const message = response.notification.request.content.data as PushMessageData;
+      if (message.action === 'navigate') {
+        // router.push(message.url);
+        ShowToast(message.url);
+        // ShowToast(router);
+        // router.push(message.url);
+      }
+      // setNotification(response.notification);
     });
 
     return () => {
