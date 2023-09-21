@@ -11,7 +11,7 @@ export function useProtectedRoute(user: FirebaseAuthTypes.User | null | undefine
     const restricted = segments[0] === '(logged)';
 
     if (restricted) {
-      if (!user) router.replace('/sign-in');
+      if (user === null) router.replace('/sign-in');
     }
   }, [user, segments]);
 }
