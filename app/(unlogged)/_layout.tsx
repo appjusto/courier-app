@@ -9,7 +9,6 @@ export default function UnloggedLayout() {
   // side effects
   // notifications
   useNotifications();
-  // useNotificationHandler();
   // UI
   return (
     <Stack>

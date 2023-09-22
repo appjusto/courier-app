@@ -1,28 +1,21 @@
 import { PushMessageData } from '@appjusto/types';
 import * as Notifications from 'expo-notifications';
-import { useEffect } from 'react';
-import { ShowToast } from '../components/toast/Toast';
+import { useEffect, useState } from 'react';
+import { stopOrderRequestSound } from './sound';
 
 export const useNotificationHandler = () => {
   // state
-  // https://github.com/expo/router/issues/740
-  // const router = useRouter();
-  // const mounted = Boolean(useRootNavigationState()?.key);
-  // const [notification, setNotification] = useState<Notifications.Notification>();
+  const [notification, setNotification] = useState<Notifications.Notification>();
   // side effects
-  // useEffect(() => {
-  //   // if (!mounted) return;
-  //   if (!notification) return;
-  //   const message = notification.request.content.data as PushMessageData;
-  //   if (message.action === 'navigate') {
-  //     ShowToast(message.url);
-  //     // router.push(message.url);
-  //   } else if (message.action === 'order-request') {
-  //     // router.push(message.url);
-  //     ShowToast(message.url);
-  //     stopOrderRequestSound().then(null).catch(console.error);
-  //   }
-  // }, [notification, mounted]);
+  useEffect(() => {
+    if (!notification) return;
+    const message = notification.request.content.data as PushMessageData;
+    if (message.action === 'navigate') {
+      //
+    } else if (message.action === 'order-request') {
+      stopOrderRequestSound().then(null).catch(console.error);
+    }
+  }, [notification]);
   // handle notifications
   useEffect(() => {
     let isMounted = true;
@@ -30,21 +23,11 @@ export const useNotificationHandler = () => {
       if (!isMounted || !response?.notification) {
         return;
       }
-      const message = response.notification.request.content.data as PushMessageData;
-      ShowToast('last async: ' + message.url);
-      // router.push(message.url);
-      // setNotification(response.notification);
+      setNotification(response.notification);
     });
 
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      const message = response.notification.request.content.data as PushMessageData;
-      if (message.action === 'navigate') {
-        // router.push(message.url);
-        ShowToast(message.url);
-        // ShowToast(router);
-        // router.push(message.url);
-      }
-      // setNotification(response.notification);
+      setNotification(response.notification);
     });
 
     return () => {
@@ -52,4 +35,6 @@ export const useNotificationHandler = () => {
       subscription.remove();
     };
   }, []);
+
+  return notification;
 };

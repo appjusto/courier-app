@@ -9,16 +9,4 @@ export default function ProfileScreen() {
       <ProfileHome />
     </DefaultScrollView>
   );
-
-  //     {/* <DefaultListItem
-  //       title="Nome do restaurante"
-  //       subtitles={['Rua Teodoro Sampaio, 40', '10/07/2023']}
-  //       leftView={<FoodIcon />}
-  //       rightView={<ArrowRightIcon />}
-  //       bottomView={
-  //         <View style={{ flexDirection: 'row' }}>
-  //           <DefaultBadge title="Cancelar" backgroundColor="white" color="red" borderColor="red" />
-  //         </View>
-  //       }
-  //     /> */}
 }
