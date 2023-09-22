@@ -1,4 +1,5 @@
 import { getEnv, getFirebaseRegion, getManifestExtra } from '@/extra';
+import crashlytics from '@react-native-firebase/crashlytics';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 
 export const configBackgroundGeolocation = async (params?: object) => {
@@ -27,7 +28,7 @@ export const configBackgroundGeolocation = async (params?: object) => {
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 10,
       stopTimeout: 5,
-      debug: false,
+      debug: true,
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
       enableHeadless: true,
       startOnBoot: true,
@@ -43,6 +44,6 @@ export const configBackgroundGeolocation = async (params?: object) => {
     });
     return state;
   } catch (error: unknown) {
-    console.error(error);
+    if (error instanceof Error) crashlytics().recordError(error);
   }
 };

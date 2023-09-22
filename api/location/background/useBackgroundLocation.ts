@@ -1,5 +1,7 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { CourierMode, LatLng } from '@appjusto/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { useEffect, useState } from 'react';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 import { latlngFromLocation } from '../latlngFromLocation';
@@ -27,12 +29,12 @@ export const useBackgroundLocation = (enabled: boolean) => {
 
     const onHeartbeat = BackgroundGeolocation.onHeartbeat((event) => {
       // console.log('[onHeartbeat]', event);
-      // ShowToast('heartbeat');
+      ShowToast('heartbeat');
     });
 
     const onMotionChange = BackgroundGeolocation.onMotionChange((event) => {
       // console.log('[onMotionChange]', event);
-      // ShowToast('motion: ' + event.location.activity.type);
+      ShowToast('motion: ' + event.location.activity.type);
     });
 
     const onActivityChange = BackgroundGeolocation.onActivityChange((event) => {
@@ -46,7 +48,7 @@ export const useBackgroundLocation = (enabled: boolean) => {
         //   setMode('walking');
       }
       // console.log('[onActivityChange]', event);
-      // ShowToast('activity: ' + event.activity);
+      ShowToast('activity: ' + event.activity);
     });
     configBackgroundGeolocation({
       userId,
@@ -75,18 +77,16 @@ export const useBackgroundLocation = (enabled: boolean) => {
       // console.log('starting...');
       startBackgroundGeolocation()
         .then((value) => {
-          setLocation(latlngFromLocation(value));
+          if (value) setLocation(latlngFromLocation(value));
         })
         .catch((error: unknown) => {
-          // TODO: crashalytics
-          console.error(error);
+          if (error instanceof Error) crashlytics().recordError(error);
         });
     } else {
       BackgroundGeolocation.stop()
         .then((state) => {})
         .catch((error: unknown) => {
-          // TODO: crashalytics
-          console.error(error);
+          if (error instanceof Error) crashlytics().recordError(error);
         });
     }
   }, [enabled, ready]);
