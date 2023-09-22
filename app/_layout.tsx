@@ -6,6 +6,7 @@ import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ShowToast } from '@/common/components/toast/Toast';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
+import { NotificationProvider } from '@/common/notifications/context/NotificationContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { getAppVersion } from '@/common/version';
 import { getEnv } from '@/extra';
@@ -54,22 +55,11 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded, splashScreenShown]);
-  // deeplinking
-  // const mounted = Boolean(useRootNavigationState()?.key);
-  // const [url, setURL] = useState<string | null>(null);
-  // useEffect(() => {
-  // if (!mounted) return;
-  // const subscription = Linking.addEventListener('url', (event) => {
-  //   ShowToast('listener: ' + event.url);
-  //   setURL(event.url);
-  // });
-  // return () => subscription.remove();
-  // }, [mounted]);
   // config
   useEffect(() => {
     // version toast
     if (getEnv() !== 'live') {
-      ShowToast('1' + getAppVersion());
+      ShowToast('2' + getAppVersion());
     }
     // in-app messaging config
     inAppMessaging()
@@ -87,9 +77,11 @@ export default function RootLayout() {
           <ApiProvider url={null}>
             <AuthProvider>
               <PlatformProvider>
-                <LocationProvider>
-                  <Slot />
-                </LocationProvider>
+                <NotificationProvider>
+                  <LocationProvider>
+                    <Slot />
+                  </LocationProvider>
+                </NotificationProvider>
               </PlatformProvider>
             </AuthProvider>
           </ApiProvider>
