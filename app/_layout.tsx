@@ -62,7 +62,7 @@ export default function RootLayout() {
   useEffect(() => {
     // version toast
     if (getEnv() !== 'live') {
-      ShowToast('2' + getAppVersion());
+      ShowToast('__' + getAppVersion());
     }
     // in-app messaging config
     inAppMessaging()
