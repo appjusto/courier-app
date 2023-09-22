@@ -21,8 +21,7 @@ export const OngoingOrdersCards = ({ style, ...props }: Props) => {
           key={order.id}
           style={{ marginBottom: paddings.lg }}
           onPress={() => {
-            // using deeplink instead of /order/[id] due issue with navigators
-            router.push({ pathname: '/(deeplinks)/o/[id]', params: { id: order.id } });
+            router.push({ pathname: '/(logged)/order/[id]/ongoing', params: { id: order.id } });
           }}
         >
           <DefaultCard

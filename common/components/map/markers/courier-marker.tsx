@@ -1,5 +1,5 @@
 import colors from '@/common/styles/colors';
-import { CircledView } from '../containers/CircledView';
+import { CircledView } from '../../containers/CircledView';
 
 export const CourierMarker = () => {
   return (
