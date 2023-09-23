@@ -70,10 +70,8 @@ export const useBackgroundLocation = (enabled: boolean) => {
     };
   }, [userId, userToken]);
   useEffect(() => {
-    // console.log('effect; ready:', ready, '; enabled:', enabled);
-    if (!enabled) return;
-    // ShowToast('ready:' + ready);
-    if (ready) {
+    if (!ready) return;
+    if (enabled) {
       // console.log('starting...');
       startBackgroundGeolocation()
         .then((value) => {
