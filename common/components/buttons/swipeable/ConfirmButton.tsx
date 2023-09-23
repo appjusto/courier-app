@@ -19,6 +19,7 @@ interface Props extends ViewProps {
   loading?: boolean;
   threshold?: number;
   dragThreshold?: number;
+  confirmDelay?: number;
   onConfirm: () => void;
 }
 
@@ -29,6 +30,7 @@ export const ConfirmButton = ({
   loading,
   threshold = 0.7,
   dragThreshold = 0.9,
+  confirmDelay = 0,
   onConfirm,
   style,
   ...props
@@ -52,9 +54,11 @@ export const ConfirmButton = ({
   useEffect(() => {
     if (confirmed && !handled) {
       setHandled(true);
-      onConfirm();
+      setTimeout(() => {
+        if (onConfirm) onConfirm();
+      }, confirmDelay);
     }
-  }, [confirmed, handled, onConfirm]);
+  }, [confirmed, handled, onConfirm, confirmDelay]);
   // UI handlers
   const onGestureEvent = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     if (disabled || confirmed) return;

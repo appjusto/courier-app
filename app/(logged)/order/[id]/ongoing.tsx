@@ -35,8 +35,7 @@ export default function OngoingOrderScreen() {
   const origin = order.origin?.location;
   const destination = order.destination?.location;
   const polyline =
-    (dispatchingState === 'going-pickup' || dispatchingState === 'arrived-pickup') &&
-    request?.routePolylineToOrigin
+    dispatchingState === 'going-pickup' && request?.routePolylineToOrigin
       ? request.routePolylineToOrigin
       : order.route?.polyline;
   const navigationTo =
