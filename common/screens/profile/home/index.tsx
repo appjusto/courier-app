@@ -74,7 +74,7 @@ export default function ProfileHome() {
 
         <View style={{ flex: 1 }} />
         <SingleListItem
-          title="Ajuda"
+          title="Suporte"
           leftView={<HelpCircle color={colors.neutral700} size={20} />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/help/')}

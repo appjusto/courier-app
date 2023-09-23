@@ -1,10 +1,15 @@
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
-import { URL_APPJUSTO_FRESHDESK_COURIERS, URL_APPJUSTO_WHATSAPP } from '@/common/constants/urls';
+import {
+  URL_APPJUSTO_FAIRWORK_SITE,
+  URL_APPJUSTO_FRESHDESK_COURIERS,
+  URL_APPJUSTO_WHATSAPP,
+} from '@/common/constants/urls';
+import { HelmetIcon } from '@/common/icons/helmet';
 import colors from '@/common/styles/colors';
 import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
-import { ChevronRight, HardHat, HelpCircle, MessageCircle } from 'lucide-react-native';
+import { ChevronRight, HelpCircle, Laptop, MessageCircle } from 'lucide-react-native';
 import { Linking } from 'react-native';
 
 export default function HelpScreen() {
@@ -19,9 +24,16 @@ export default function HelpScreen() {
         subtitles={[
           'Aprovação, pagamento, frotas, bloqueios, segurança e tudo mais que você precisa saber',
         ]}
-        leftView={<HardHat color={colors.black} size={20} />}
+        leftView={<HelmetIcon />}
         rightView={<ChevronRight size={16} color={colors.neutral800} />}
         onPress={() => router.push('/profile/howitworks/')}
+      />
+      <DefaultListItem
+        title="Trabalho decente"
+        subtitles={['Veja nossas iniciativas em prol do trabalho decente']}
+        leftView={<Laptop color={colors.black} size={20} />}
+        rightView={<ChevronRight size={16} color={colors.neutral800} />}
+        onPress={() => Linking.openURL(URL_APPJUSTO_FAIRWORK_SITE)}
       />
       <DefaultListItem
         title="Central de Ajuda"

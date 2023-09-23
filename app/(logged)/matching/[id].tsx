@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
+import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -32,7 +32,7 @@ export default function MatchingScreen() {
   const params = useLocalSearchParams<{ id: string }>();
   const requestId = params.id;
   // state
-  const request = useObserveOrderRequest(requestId);
+  const request = useObserveRequest(requestId);
   const situation = request?.situation;
   const route = useMapRoute(request?.origin);
   const [confirmed, setConfirmed] = useState(false);
@@ -40,19 +40,20 @@ export default function MatchingScreen() {
   const order = useObserveOrder(request?.orderId, confirmed);
   console.log('requestId', requestId);
   // console.log('orderId', orderId);
-  console.log('request', request);
+  // console.log('request', request);
   // console.log('route', route);
   // side effects
   useRouterAccordingOrderStatus(request?.orderId, order?.status);
+  // update request to viewed
   useEffect(() => {
     if (!requestId) return;
-    api
-      .couriers()
-      .viewOrderRequest(requestId)
-      .catch((error: unknown) => {
-        console.error(error);
-      });
+    api.couriers().viewOrderRequest(requestId).catch(console.error);
   }, [api, requestId]);
+  useEffect(() => {
+    if (!route) return;
+    api.couriers().updateRoutePolylineToOrigin(requestId, route.polyline).catch(console.error);
+  }, [route, requestId, api]);
+  // modal
   useEffect(() => {
     if (!situation) return;
     if (situation === 'expired') {
@@ -94,6 +95,7 @@ export default function MatchingScreen() {
         text="Este pedido já foi aceito por outro entregador"
         visible={modalShown}
         onDismiss={() => {
+          setModalShown(false);
           router.back();
         }}
       />

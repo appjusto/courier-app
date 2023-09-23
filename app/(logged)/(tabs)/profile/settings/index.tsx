@@ -1,10 +1,11 @@
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { ConfirmModal } from '@/common/components/modals/confirm-modal';
+import { HelmetIcon } from '@/common/icons/helmet';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
-import { Bell, ChevronRight, HardHat, XCircle } from 'lucide-react-native';
+import { Bell, ChevronRight, XCircle } from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -33,7 +34,7 @@ export default function ProfileSettings() {
         <DefaultListItem
           title="Escolha sua frota"
           subtitles={['Na frota é onde as condições de participação são definidas']}
-          leftView={<HardHat color={colors.black} size={20} />}
+          leftView={<HelmetIcon />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/fleets/')}
         />

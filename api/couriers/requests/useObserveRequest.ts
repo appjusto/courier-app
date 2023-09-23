@@ -2,7 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { CourierOrderRequest, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 
-export const useObserveOrderRequest = (orderId: string) => {
+export const useObserveRequest = (requestId: string) => {
   // context
   const api = useContextApi();
   // state
@@ -10,9 +10,9 @@ export const useObserveOrderRequest = (orderId: string) => {
   // side effects
   // observe order requests
   useEffect(() => {
-    if (!orderId) return;
-    return api.couriers().observeOrderRequest(orderId, setRequest);
-  }, [api, orderId]);
+    if (!requestId) return;
+    return api.couriers().observeRequest(requestId, setRequest);
+  }, [api, requestId]);
   // result
   return request;
 };
