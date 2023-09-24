@@ -12,7 +12,7 @@ import { DispatchingStateControl } from '@/common/screens/orders/dispatching-sta
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
 
 export default function OngoingOrderScreen() {
   // params
@@ -64,7 +64,16 @@ export default function OngoingOrderScreen() {
           {/* controls */}
           <View style={{ flex: 1 }} />
           <View style={{ flexDirection: 'row' }}>
-            <DefaultButton title="Iniciar chat" variant="outline" onPress={() => null} />
+            <DefaultButton
+              title="Iniciar chat"
+              variant="outline"
+              onPress={() => {
+                router.push({
+                  pathname: '/(logged)/order/[id]/chat/[counterpart]',
+                  params: { id: orderId, counterpart: order.consumer.id },
+                });
+              }}
+            />
             <DefaultButton
               style={{ marginLeft: paddings.sm }}
               title="Ajuda"

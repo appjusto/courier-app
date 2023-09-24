@@ -6,6 +6,7 @@ import storage from '@react-native-firebase/storage';
 
 import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
+import ChatsApi from './chats/ChatsApi';
 import CouriersApi from './couriers/CouriersApi';
 import FleetsApi from './fleets/FleetsApi';
 import LedgerApi from './ledger/LedgerApi';
@@ -27,6 +28,7 @@ export default class Api {
   private _orders: OrdersApi;
   private _ledger: LedgerApi;
   private _maps: MapsApi;
+  private _chat: ChatsApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -49,6 +51,7 @@ export default class Api {
     this._ledger = new LedgerApi();
     this._maps = new MapsApi();
     this._search = new SearchApi(extra.algolia, extra.env);
+    this._chat = new ChatsApi(this._auth);
   }
 
   auth() {
@@ -81,6 +84,10 @@ export default class Api {
 
   maps() {
     return this._maps;
+  }
+
+  chat() {
+    return this._chat;
   }
 
   search() {

@@ -37,7 +37,7 @@ export default function Selfie({ size = 60 }: Props) {
   // UI
   return (
     <View style={{ flexDirection: 'row' }}>
-      <CircledView size={60} style={{ borderWidth: 0 }}>
+      <CircledView size={size} style={{ borderWidth: 0 }}>
         {selfieUrl ? (
           <Image
             style={{ width: size, height: size }}
