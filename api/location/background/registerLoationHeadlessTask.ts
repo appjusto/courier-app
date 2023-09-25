@@ -1,8 +1,8 @@
+import { onSimulator } from '@/common/version/device';
 import crashlytics from '@react-native-firebase/crashlytics';
-import Constants from 'expo-constants';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 
-if (Constants.appOwnership !== 'expo') {
+if (!onSimulator()) {
   BackgroundGeolocation.registerHeadlessTask(async (event: any) => {
     try {
       console.log('[BackgroundGeolocation HeadlessTask] -', JSON.stringify(event));

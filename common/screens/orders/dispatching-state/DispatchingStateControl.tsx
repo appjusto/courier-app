@@ -1,9 +1,11 @@
 import { useContextApi } from '@/api/ApiContext';
 import { getNextDispatchingState } from '@/api/orders/dispatching-state/getNextDispatchingState';
 import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButton';
+import { useToast } from '@/common/components/views/toast/ToastContext';
+import paddings from '@/common/styles/paddings';
 import { Order, WithId } from '@appjusto/types';
 import { useCallback } from 'react';
-import { ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
 import { useDispatchingStateControlDisabled } from './useDispatchingStateControlDisabled';
 
 interface Props extends ViewProps {
@@ -11,35 +13,45 @@ interface Props extends ViewProps {
 }
 
 export const DispatchingStateControl = ({ order, style, ...props }: Props) => {
-  const { dispatchingState } = order;
-  const orderId = order.id;
-  const nextDispatchingState = getNextDispatchingState(order);
   // context
   const api = useContextApi();
+  const { showToast } = useToast();
+  // params
+  const { dispatchingState } = order;
+  const orderId = order.id;
   // state
+  const nextDispatchingState = getNextDispatchingState(order);
   const disabled = useDispatchingStateControlDisabled(order);
+
   // handlers
-  const confirmHandler = useCallback(() => {
-    if (nextDispatchingState) {
-      api.orders().updateOrder(orderId, { dispatchingState: nextDispatchingState });
-    } else {
-      // TODO:
-      api.orders().completeDelivery({ orderId, deliveredTo: 'me' });
-    }
-  }, [api, orderId, nextDispatchingState]);
+  const advanceHandler = useCallback(() => {
+    if (!nextDispatchingState) return;
+    api
+      .orders()
+      .updateOrder(orderId, { dispatchingState: nextDispatchingState })
+      .then(null)
+      .catch((error: unknown) => {
+        if (error instanceof Error) {
+          showToast(error.message, 'error');
+        }
+      });
+  }, [orderId, nextDispatchingState, api, showToast]);
   // UI
   const trackText = () => {
     if (!dispatchingState || dispatchingState === 'going-pickup') return 'Cheguei para retirada';
     if (dispatchingState === 'arrived-pickup') return 'Saí para entrega';
     return 'Cheguei para entrega';
   };
+  if (dispatchingState === 'arrived-destination') return null;
   return (
-    <ConfirmButton
-      text="Arrastar"
-      trackText={trackText()}
-      disabled={disabled}
-      confirmDelay={1000}
-      onConfirm={confirmHandler}
-    />
+    <View style={{ padding: paddings.lg }}>
+      <ConfirmButton
+        text="Arrastar"
+        trackText={trackText()}
+        disabled={disabled}
+        confirmDelay={1000}
+        onConfirm={advanceHandler}
+      />
+    </View>
   );
 };

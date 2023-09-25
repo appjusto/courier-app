@@ -14,6 +14,7 @@ import { useToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { formatTimestamp } from '@/common/formatters/timestamp';
+import { stopOrderRequestSound } from '@/common/notifications/sound';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -47,6 +48,7 @@ export default function MatchingScreen() {
   // update request to viewed
   useEffect(() => {
     if (!requestId) return;
+    stopOrderRequestSound().then(null).catch(null);
     api.couriers().viewOrderRequest(requestId).catch(console.error);
   }, [api, requestId]);
   useEffect(() => {

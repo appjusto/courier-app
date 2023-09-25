@@ -11,6 +11,7 @@ import {
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import { fromDate } from '../firebase/timestamp';
+import StorageApi from '../storage/StorageApi';
 
 // functions
 const region = getFirebaseRegion();
@@ -36,6 +37,7 @@ interface CompleteDeliveryOptions {
   comment?: string;
 }
 export default class OrdersApi {
+  constructor(private storage: StorageApi) {}
   // observe orders
   observeOrders(
     options: ObserveDeliveredOrdersOptions,
@@ -107,4 +109,24 @@ export default class OrdersApi {
     };
     await completeDelivery(payload);
   }
+
+  getOrderPODPackagePath(orderId: string, courierId: string) {
+    return `orders/${orderId}/${courierId}/package.jpg`;
+  }
+  getOrderPODFrontPath(orderId: string, courierId: string) {
+    return `orders/${orderId}/${courierId}/front.jpg`;
+  }
+  // proof of delivery images
+  // async getOrderPODPackageDownloadURL(orderId: string, courierId: string) {
+  //   return this.storage.getDownloadURL(getOrderPODPackagePath(orderId, courierId));
+  // }
+  // async uploadPODPackageImage(orderId: string, courierId: string, localPath: string) {
+  //   return this.storage.putFile(localPath, getOrderPODPackagePath(orderId, courierId));
+  // }
+  // async getOrderPODFrontDownloadURL(orderId: string, courierId: string) {
+  //   return this.storage.getDownloadURL(getOrderPODFrontPath(orderId, courierId));
+  // }
+  // async uploadPODFrontImage(orderId: string, courierId: string, localPath: string) {
+  //   return this.storage.putFile(localPath, getOrderPODFrontPath(orderId, courierId));
+  // }
 }

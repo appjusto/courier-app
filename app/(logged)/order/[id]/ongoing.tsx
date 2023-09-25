@@ -8,6 +8,7 @@ import { DefaultMap } from '@/common/components/map/DefaultMap';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
+import { ConfirmDelivery } from '@/common/screens/orders/confirmation/ConfirmDelivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import paddings from '@/common/styles/paddings';
@@ -27,9 +28,6 @@ export default function OngoingOrderScreen() {
   // console.log('orderStatus', orderStatus);
   // side effects
   useRouterAccordingOrderStatus(orderId, orderStatus, true);
-  // useEffect(() => {
-  //   replaceRouteAccordingOrderStatus(orderId, orderStatus);
-  // }, [orderId, orderStatus]);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   const origin = order.origin?.location;
@@ -45,15 +43,27 @@ export default function OngoingOrderScreen() {
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Pedido #${order.code}` }} />
-      <DefaultMap
-        origin={origin}
-        destination={destination}
-        polyline={polyline}
-        navigationTo={navigationTo}
-      />
-      <View style={{ padding: paddings.lg, marginTop: paddings.lg }}>
+      {dispatchingState !== 'arrived-destination' ? (
+        <DefaultMap
+          origin={origin}
+          destination={destination}
+          polyline={polyline}
+          navigationTo={navigationTo}
+        />
+      ) : null}
+      <View
+        style={{
+          flex: dispatchingState === 'arrived-destination' ? 1 : undefined,
+          marginTop: paddings.lg,
+        }}
+      >
         {/* header */}
-        <View style={{ flexDirection: 'row' }}>
+        <View
+          style={{
+            padding: paddings.lg,
+            flexDirection: 'row',
+          }}
+        >
           {/* consumer name */}
           <View>
             <DefaultText size="xs">Pedido de</DefaultText>
@@ -84,8 +94,10 @@ export default function OngoingOrderScreen() {
         </View>
         <HR style={{ marginTop: paddings.lg }} />
         {/* address */}
-        {/* control */}
+        {/* controls */}
+        {/* <View style={{ flex: 1 }} /> */}
         <DispatchingStateControl order={order} key={order.dispatchingState} />
+        <ConfirmDelivery order={order} />
       </View>
     </DefaultView>
   );

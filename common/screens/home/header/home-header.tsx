@@ -7,8 +7,8 @@ import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { getAppVersion } from '@/common/version';
+import { onSimulator } from '@/common/version/device';
 import { CourierStatus } from '@appjusto/types';
-import Constants from 'expo-constants';
 import { Switch, View } from 'react-native';
 import Selfie from '../../profile/images/selfie';
 import { ProfileStatusBadge } from './status-badge';
@@ -37,7 +37,7 @@ export const HomeHeader = () => {
         const message = handleErrorMessage(error);
         showToast(message, 'error');
       });
-    if (Constants.appOwnership !== 'expo' && !profile.notificationToken) {
+    if (!onSimulator() && !profile.notificationToken) {
       // TODO: notificar
     }
   };

@@ -1,7 +1,12 @@
 import { getAppVersion } from '@/common/version';
+import { getFirebaseRegion } from '@/extra';
 import { DeleteAccountPayload } from '@appjusto/types';
+import firebase from '@react-native-firebase/app';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { getDeleteAccount } from '../firebase/refs/functions';
+
+// functions
+const region = getFirebaseRegion();
+export const deleteAccount = firebase.app().functions(region).httpsCallable('deleteAccount');
 
 export default class AuthApi {
   observeAuthState(handler: (a: FirebaseAuthTypes.User | null) => unknown) {
@@ -51,7 +56,7 @@ export default class AuthApi {
 
   // firebase functions
   deleteAccount(payload: Partial<DeleteAccountPayload>) {
-    return getDeleteAccount()({
+    return deleteAccount({
       ...payload,
       meta: { version: getAppVersion() },
     });

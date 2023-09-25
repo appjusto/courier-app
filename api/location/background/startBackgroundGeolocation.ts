@@ -1,10 +1,10 @@
+import { onSimulator } from '@/common/version/device';
 import crashlytics from '@react-native-firebase/crashlytics';
-import Constants from 'expo-constants';
 import BackgroundGeolocation from 'react-native-background-geolocation';
 
 export const startBackgroundGeolocation = async () => {
   try {
-    if (Constants.appOwnership === 'expo') return;
+    if (onSimulator()) return;
     const state = await BackgroundGeolocation.getState();
     if (!state.enabled) {
       await BackgroundGeolocation.start();

@@ -3,20 +3,29 @@ import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
 import { CourierProfile, ProfileChange, UserProfile, WithId } from '@appjusto/types';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
-import { putFile } from '../files/putFile';
-import { getDocumentPath, getSelfiePath } from '../firebase/refs/storage';
+import StorageApi from '../storage/StorageApi';
 
 // firestore
 const profileRef = (id: string) => firestore().collection('couriers').doc(id);
 const usersRef = () => firestore().collection('users');
 const usersSubcollectionsRef = () => usersRef().doc('subcollections');
 const usersChangesRef = () => usersSubcollectionsRef().collection('changes');
+
+// storage
+const getSelfiePath = (id: string, size?: string) => {
+  return `couriers/${id}/selfie${size ? `_${size}` : ''}.jpg`;
+};
+const getDocumentPath = (id: string, size?: string) => {
+  return `couriers/${id}/document${size ? `_${size}` : ''}.jpg`;
+};
 export default class ProfileApi {
-  constructor(private auth: AuthApi) {}
+  constructor(
+    private auth: AuthApi,
+    private storage: StorageApi
+  ) {}
 
   // public API
   async createProfile(id: string) {
@@ -129,15 +138,15 @@ export default class ProfileApi {
   }
 
   async getSelfieDownloadURL(id: string, size?: string) {
-    return storage().ref(getSelfiePath(id, size)).getDownloadURL();
+    return this.storage.getDownloadURL(getSelfiePath(id, size));
   }
   async getDocumentDownloadURL(id: string, size?: string) {
-    return storage().ref(getDocumentPath(id, size)).getDownloadURL();
+    return this.storage.getDownloadURL(getDocumentPath(id, size));
   }
   async uploadSelfie(id: string, localPath: string) {
-    return putFile(localPath, getSelfiePath(id));
+    return this.storage.putFile(localPath, getSelfiePath(id));
   }
   async uploadDocument(id: string, localPath: string) {
-    return putFile(localPath, getDocumentPath(id));
+    return this.storage.putFile(localPath, getDocumentPath(id));
   }
 }
