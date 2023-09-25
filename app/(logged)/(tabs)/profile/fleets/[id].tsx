@@ -1,6 +1,5 @@
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
-import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { FleetCard } from '@/common/screens/profile/fleets/FleetCard';
 import paddings from '@/common/styles/paddings';
@@ -12,12 +11,10 @@ export default function FleetDetailScreen() {
   const params = useLocalSearchParams<{ id: string }>();
   const fleet = useObserveFleet(params.id);
   // UI
-  const title = 'Frota';
-  if (!fleet) return <Loading title={title} />;
+  if (!fleet) return <Loading />;
   return (
     <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
-      <Stack.Screen options={{ title }} />
-      <DefaultText size="lg">Sua frota atual</DefaultText>
+      <Stack.Screen options={{ title: `Frota ${fleet.name}` }} />
       <FleetCard style={{ marginTop: paddings.xl }} fleet={fleet} />
     </DefaultScrollView>
   );
