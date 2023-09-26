@@ -2,10 +2,10 @@ import React from 'react';
 import { View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
-  size: number;
+  size?: number;
 }
 
-export function CircledView({ size, children, style, ...props }: Props) {
+export function CircledView({ size = 48, children, style, ...props }: Props) {
   return (
     <View
       style={[

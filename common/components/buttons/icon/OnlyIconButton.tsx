@@ -31,6 +31,7 @@ export const OnlyIconButton = ({
                 height: size,
                 ...borders.default,
                 borderColor: colors.neutral200,
+                borderRadius: variant === 'circle' ? size / 2 : size / 6,
                 backgroundColor: pressed ? colors.neutral100 : colors.white,
                 justifyContent: 'center',
                 alignItems: 'center',

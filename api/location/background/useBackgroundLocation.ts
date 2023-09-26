@@ -42,10 +42,10 @@ export const useBackgroundLocation = (enabled: boolean) => {
         setMode('motorcycle');
       } else if (event.activity === 'on_bicycle') {
         setMode('bicycling');
-      } else if (event.activity === 'on_foot') {
-        setMode('walking');
-      } else if (event.activity === 'walking') {
-        setMode('walking');
+        // } else if (event.activity === 'on_foot') {
+        //   setMode('walking');
+        // } else if (event.activity === 'walking') {
+        //   setMode('walking');
       }
       // console.log('[onActivityChange]', event);
       ShowToast('activity: ' + event.activity);

@@ -50,7 +50,7 @@ export default class Api {
     this._profile = new ProfileApi(this._auth, this._storage);
     this._couriers = new CouriersApi(this._auth);
     this._fleets = new FleetsApi();
-    this._orders = new OrdersApi(this._storage);
+    this._orders = new OrdersApi(this._auth, this._storage);
     this._ledger = new LedgerApi();
     this._maps = new MapsApi();
     this._search = new SearchApi(extra.algolia, extra.env);
