@@ -1,0 +1,65 @@
+diff --git a/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt b/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
+index 5afa8b1..98bbfbf 100644
+--- a/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
++++ b/node_modules/expo-image-picker/android/src/main/java/expo/modules/imagepicker/ImagePickerModule.kt
+@@ -29,6 +29,7 @@ import kotlinx.coroutines.withContext
+ import java.io.File
+ import kotlin.coroutines.resume
+ import kotlin.coroutines.resumeWithException
++import java.lang.IllegalStateException
+ 
+ // TODO(@bbarthec): rename to ExpoImagePicker
+ private const val moduleName = "ExponentImagePicker"
+@@ -65,12 +66,29 @@ class ImagePickerModule : Module() {
+       val uri = mediaFile.toContentUri(context)
+       val contractOptions = options.toCameraContractOptions(uri)
+ 
+-      launchContract({ cameraLauncher.launch(contractOptions) }, options)
++      try {
++        launchContract({ cameraLauncher.launch(contractOptions) }, options)
++      } catch (e: IllegalStateException) {
++        cameraLauncher = appContext.registerForActivityResult(
++          CameraContract(this@ImagePickerModule),
++        ) { input, result -> handleResultUponActivityDestruction(result, input.options) }
++
++        launchContract({ cameraLauncher.launch(contractOptions) }, options)
++      }
+     }
+ 
+     AsyncFunction("launchImageLibraryAsync") Coroutine { options: ImagePickerOptions ->
+       val contractOptions = options.toImageLibraryContractOptions()
+-      launchContract({ imageLibraryLauncher.launch(contractOptions) }, options)
++
++      try {
++        launchContract({ imageLibraryLauncher.launch(contractOptions) }, options)
++      } catch (e: IllegalStateException) {
++        imageLibraryLauncher = appContext.registerForActivityResult(
++          ImageLibraryContract(this@ImagePickerModule),
++        ) { input, result -> handleResultUponActivityDestruction(result, input.options) }
++
++        launchContract({ imageLibraryLauncher.launch(contractOptions) }, options)
++      }
+     }
+ 
+     AsyncFunction("getPendingResultAsync") Coroutine { ->
+@@ -137,8 +155,18 @@ class ImagePickerModule : Module() {
+         result.data.size == 1 &&
+         result.data[0].first == MediaType.IMAGE
+       ) {
+-        result = launchPicker {
+-          cropImageLauncher.launch(CropImageContractOptions(result.data[0].second, options))
++        try {
++          result = launchPicker {
++           cropImageLauncher.launch(CropImageContractOptions(result.data[0].second, options))
++          }
++        } catch (e: IllegalStateException) {
++          cropImageLauncher = appContext.registerForActivityResult(
++            CropImageContract(this@ImagePickerModule),
++          ) { input, result -> handleResultUponActivityDestruction(result, input.options) }
++
++          result = launchPicker {
++            cropImageLauncher.launch(CropImageContractOptions(result.data[0].second, options))
++          }
+         }
+       }
+       mediaHandler.readExtras(result.data, options)
