@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { Loading } from '@/common/components/views/Loading';
 import { useSafeRouter } from '@/common/deeplink/useSafeRouter';
@@ -9,6 +10,7 @@ export default function Index() {
   // state
   const user = useContextProfile();
   // side effects
+  useTrackScreenView('Index');
   // routing
   useEffect(() => {
     if (!router) return;
