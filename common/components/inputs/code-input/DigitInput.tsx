@@ -1,4 +1,5 @@
 import colors from '@/common/styles/colors';
+import { isLargeScreen, percentOfWidth } from '@/common/version/device';
 import React from 'react';
 import { TextInput, TextInputProps } from 'react-native';
 import { DefaultInput } from '../default/DefaultInput';
@@ -14,8 +15,8 @@ export const DigitInput = React.forwardRef(
     return (
       <DefaultInput
         ref={externalRef ? (externalRef as React.RefObject<TextInput>) : null}
-        size="2xl"
-        style={{ width: 60 }}
+        size={isLargeScreen() ? '2xl' : 'xl'}
+        style={{ width: percentOfWidth(12) }}
         inputStyle={[
           {
             textAlign: 'center',
