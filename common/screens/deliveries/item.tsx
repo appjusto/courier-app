@@ -6,7 +6,7 @@ import { formatTimestamp } from '@/common/formatters/timestamp';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Order, WithId } from '@appjusto/types';
-import { Bike, ChevronRight, Utensils } from 'lucide-react-native';
+import { ChevronRight, Package, Utensils } from 'lucide-react-native';
 import { View, ViewProps } from 'react-native';
 import { OrderStatusBadge } from './history/order-status-badge';
 
@@ -15,7 +15,9 @@ interface Props extends ViewProps {
 }
 
 export const DeliveryItem = ({ order, style, ...props }: Props) => {
-  const time = formatTimestamp(getOrderTimestamp(order));
+  const subtitle = `${formatCurrency(getOrderRevenue(order))} • ${formatTimestamp(
+    getOrderTimestamp(order)
+  )}`;
   const { status } = order;
   // UI
   return (
@@ -35,19 +37,26 @@ export const DeliveryItem = ({ order, style, ...props }: Props) => {
       {order.type === 'food' ? (
         <Utensils size={20} color={colors.neutral800} />
       ) : (
-        <Bike size={20} color={colors.neutral800} />
+        <Package size={20} color={colors.neutral800} />
       )}
       <View style={{ marginLeft: paddings.lg }}>
-        <DefaultText>{order.type === 'food' ? order.business?.name : 'Entrega rápida'}</DefaultText>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: paddings.xs }}>
-          <DefaultText size="xs" color="neutral800">
-            {time}
+        {/* title */}
+        <View style={{ flexDirection: 'row' }}>
+          <DefaultText>
+            {order.type === 'food' ? order.business?.name : 'Entrega rápida'}
           </DefaultText>
-          <OrderStatusBadge status={status} style={{ marginLeft: paddings.lg }} />
+          <OrderStatusBadge status={status} style={{ marginLeft: paddings.sm }} />
         </View>
+        {/* subtitle */}
+        <DefaultText style={{ marginTop: paddings.xs }} size="xs" color="neutral800">
+          {subtitle}
+        </DefaultText>
+        {/* order code */}
+        <DefaultText style={{ marginTop: paddings.xs }} size="xs" color="neutral800">
+          {`#${order.code}`}
+        </DefaultText>
       </View>
-      <View style={{ flex: 1 }} />
-      <DefaultText color="black">{formatCurrency(getOrderRevenue(order))}</DefaultText>
+      <View style={{ flex: 1, marginTop: paddings.xs }} />
       <ChevronRight size={16} color={colors.neutral800} style={{ marginLeft: paddings.sm }} />
     </View>
   );
