@@ -36,6 +36,12 @@ export const useImagesURLs = (autoCheck = true) => {
   }, [api, courierId]);
   // side effects
   useEffect(() => {
+    if (!autoCheck) {
+      fetchSelfie().then(setSelfieUrl);
+      fetchDocument().then(setDocumentUrl);
+    }
+  }, [fetchSelfie, fetchDocument, autoCheck]);
+  useEffect(() => {
     if (!checkSelfieTick) return;
     const timeout = setTimeout(async () => {
       const selfie = await fetchSelfie();
