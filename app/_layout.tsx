@@ -7,7 +7,7 @@ import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ShowToast } from '@/common/components/toast/Toast';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
-import { ignoreWarnings } from '@/common/errors/ignore';
+import '@/common/errors/ignore';
 import { NotificationProvider } from '@/common/notifications/context/NotificationContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { getAppVersion } from '@/common/version';
@@ -29,8 +29,6 @@ export const unstable_settings = {
   initialRouteName: '/',
 };
 
-// ignore warnings
-ignoreWarnings();
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 // setup notification channels and background notification task
