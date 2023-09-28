@@ -41,7 +41,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
     setCheckSelfieTick,
     checkDocumentTick,
     setCheckDocumentTick,
-  } = useImagesURLs(approved);
+  } = useImagesURLs(true);
   // helpers
 
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';

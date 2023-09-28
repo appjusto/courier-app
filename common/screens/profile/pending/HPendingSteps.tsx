@@ -72,6 +72,7 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
             variant={i < index ? 'past' : i > index ? 'next' : 'current'}
             style={{ marginLeft: i > 0 ? paddings.xl : 0 }}
             icon="check"
+            collapsable={false}
             flexDirection="column"
           />
         ))}
