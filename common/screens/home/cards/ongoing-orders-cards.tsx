@@ -3,14 +3,12 @@ import { useObserveOngoingOrders } from '@/api/orders/useObserveOngoingOrders';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import paddings from '@/common/styles/paddings';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { Pressable, View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {}
 
 export const OngoingOrdersCards = ({ style, ...props }: Props) => {
-  // context
-  const router = useRouter();
   // state
   const orders = useObserveOngoingOrders();
   // UI
@@ -23,8 +21,8 @@ export const OngoingOrdersCards = ({ style, ...props }: Props) => {
           key={order.id}
           style={{ marginBottom: paddings.lg }}
           onPress={() => {
-            // @ts-expect-error
-            router.push({ pathname: '/order/[id]', params: { id: order.id } });
+            // using deeplink instead of /order/[id] due issue with navigators
+            router.push({ pathname: '/(deeplinks)/o/[id]', params: { id: order.id } });
           }}
         >
           <DefaultCard

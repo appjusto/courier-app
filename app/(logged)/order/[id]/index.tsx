@@ -10,11 +10,21 @@ export default function OrderScreen() {
   // state
   const order = useObserveOrder(orderId);
   const orderStatus = order?.status;
-  console.log('orderId', orderId);
-  console.log('orderStatus', orderStatus);
+  console.log('OrderScreen orderId', orderId);
+  console.log('OrderScreen orderStatus', orderStatus);
   // side effects
   useRouterAccordingOrderStatus(orderId, orderStatus);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   return null;
+  // return (
+  //   <View style={{ ...screens.default, justifyContent: 'center', alignItems: 'center' }}>
+  //     <DefaultButton
+  //       title="Andamento"
+  //       onPress={() =>
+  //         router.replace({ pathname: '/(logged)/order/[id]/ongoing', params: { id: orderId } })
+  //       }
+  //     />
+  //   </View>
+  // );
 }

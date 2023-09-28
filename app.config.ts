@@ -78,18 +78,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         ],
         category: ['BROWSABLE', 'DEFAULT'],
       },
-      {
-        action: 'VIEW',
-        autoVerify: true,
-        data: [
-          {
-            scheme: 'https',
-            host: 'appjusto.ngrok.io',
-            pathPrefix: '/',
-          },
-        ],
-        category: ['BROWSABLE', 'DEFAULT'],
-      },
     ],
   },
   plugins: [
@@ -138,6 +126,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     './plugins/react-native-maps-plugin',
+    // './plugins/withAndroidVerifiedLinksWorkaround',
   ],
   experiments: {
     tsconfigPaths: true,
@@ -145,6 +134,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   updates: {
     url: `https://u.expo.dev/${projectId}`,
+    fallbackToCacheTimeout: 10 * 1000,
   },
   runtimeVersion: {
     policy: 'sdkVersion',

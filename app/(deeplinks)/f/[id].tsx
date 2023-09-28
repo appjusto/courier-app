@@ -6,16 +6,11 @@ export default function FleetDeeplinkScreen() {
   // params
   const params = useLocalSearchParams<{ id: string }>();
   const fleetId = params.id;
-  // console.log('FleetDeeplinkScreen', fleetId);
-
-  // UI
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     router.replace({ pathname: '/profile/fleets/[id]', params: { id: fleetId } });
-  //   }, [fleetId])
-  // );
+  // side effects
   useEffect(() => {
+    if (!router) return;
     router.replace({ pathname: '/profile/fleets/[id]', params: { id: fleetId } });
   }, [fleetId]);
+  // UI
   return <Loading />;
 }

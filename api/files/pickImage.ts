@@ -1,5 +1,5 @@
+import { ShowToast } from '@/common/components/toast/Toast';
 import * as ImagePicker from 'expo-image-picker';
-import { Platform, ToastAndroid } from 'react-native';
 
 const defaultImageOptions: ImagePicker.ImagePickerOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -18,7 +18,7 @@ export const pickImage = async (from: PickImageFrom, aspect: [number, number]) =
   // https://docs.expo.dev/versions/latest/sdk/imagepicker/#imagepickergetpendingresultasync
   // const pendingResult = (await ImagePicker.getPendingResultAsync()).find(() => true) ?? result;
   const pendingResult = result;
-  // ToastAndroid.show(JSON.stringify(pendingResult), 5000);
+  // ShowToast((JSON.stringify(pendingResult));
   if ('canceled' in pendingResult) {
     if (pendingResult.canceled) {
       return null;
@@ -26,9 +26,7 @@ export const pickImage = async (from: PickImageFrom, aspect: [number, number]) =
     return pendingResult.assets[0].uri;
   } else {
     console.error(JSON.stringify(pendingResult));
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(JSON.stringify(pendingResult), 5000);
-    }
+    ShowToast(JSON.stringify(pendingResult));
     return undefined;
   }
 };

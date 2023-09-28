@@ -4,6 +4,7 @@ import { LocationProvider } from '@/api/location/context/LocationContext';
 import { PlatformProvider } from '@/api/platform/context/PlatformContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { getAppVersion } from '@/common/version';
@@ -15,7 +16,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Platform, ToastAndroid, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
@@ -53,10 +54,22 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded, splashScreenShown]);
+  // deeplinking
+  // const mounted = Boolean(useRootNavigationState()?.key);
+  // const [url, setURL] = useState<string | null>(null);
+  // useEffect(() => {
+  // if (!mounted) return;
+  // const subscription = Linking.addEventListener('url', (event) => {
+  //   ShowToast('listener: ' + event.url);
+  //   setURL(event.url);
+  // });
+  // return () => subscription.remove();
+  // }, [mounted]);
+  // config
   useEffect(() => {
     // version toast
-    if (Platform.OS === 'android' && getEnv() !== 'live') {
-      ToastAndroid.show(getAppVersion(), 1500);
+    if (getEnv() !== 'live') {
+      ShowToast('1' + getAppVersion());
     }
     // in-app messaging config
     inAppMessaging()
@@ -71,7 +84,7 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <ActionSheetProvider>
         <ToastProvider>
-          <ApiProvider>
+          <ApiProvider url={null}>
             <AuthProvider>
               <PlatformProvider>
                 <LocationProvider>

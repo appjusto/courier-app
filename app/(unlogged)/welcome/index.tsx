@@ -1,6 +1,9 @@
-import { BulletsSteps } from '@/app/(unlogged)/welcome/BulletsSteps';
 import { ArrowRightIconButton } from '@/common/components/buttons/icon/ArrowRightIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { BulletsSteps } from '@/common/screens/unlogged/welcome/BulletsSteps';
+import { Page1Icon } from '@/common/screens/unlogged/welcome/page-1-icon';
+import { Page2Icon } from '@/common/screens/unlogged/welcome/page-2-icon';
+import { Page3Icon } from '@/common/screens/unlogged/welcome/page-3-icon';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
@@ -9,9 +12,6 @@ import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
-import { Page1Icon } from './page-1-icon';
-import { Page2Icon } from './page-2-icon';
-import { Page3Icon } from './page-3-icon';
 
 interface PageProps extends ViewProps {
   icon: React.ReactNode;

@@ -1,5 +1,3 @@
-import { View } from 'react-native';
-
 import { useContextApi } from '@/api/ApiContext';
 import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
@@ -9,6 +7,7 @@ import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButt
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { RoundedView } from '@/common/components/containers/RoundedView';
 import { DefaultMap } from '@/common/components/map/DefaultMap';
+import { ErrorModal } from '@/common/components/modals/error/error-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { useToast } from '@/common/components/views/toast/ToastContext';
@@ -19,10 +18,11 @@ import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouter
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
 import { Zap } from 'lucide-react-native';
 import { useCallback, useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 export default function MatchingScreen() {
   // context
@@ -33,8 +33,10 @@ export default function MatchingScreen() {
   const requestId = params.id;
   // state
   const request = useObserveOrderRequest(requestId);
+  const situation = request?.situation;
   const route = useMapRoute(request?.origin);
   const [confirmed, setConfirmed] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
   const order = useObserveOrder(request?.orderId, confirmed);
   console.log('requestId', requestId);
   // console.log('orderId', orderId);
@@ -51,6 +53,12 @@ export default function MatchingScreen() {
         console.error(error);
       });
   }, [api, requestId]);
+  useEffect(() => {
+    if (!situation) return;
+    if (situation === 'expired') {
+      setModalShown(true);
+    }
+  }, [situation]);
   // handlers
   const matchOrder = useCallback(() => {
     if (!request?.orderId) return;
@@ -81,6 +89,14 @@ export default function MatchingScreen() {
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
       <DefaultMap origin={origin} destination={destination} polyline={route?.polyline} />
+      <ErrorModal
+        title="Ooops! :("
+        text="Este pedido já foi aceito por outro entregador"
+        visible={modalShown}
+        onDismiss={() => {
+          router.back();
+        }}
+      />
       <View style={{ paddingVertical: paddings.xl, paddingHorizontal: paddings.lg }}>
         {/* tags */}
         <View style={{ flexDirection: 'row' }}>

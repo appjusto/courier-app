@@ -9,7 +9,6 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 
 export default function FleetDetailScreen() {
   // context
-  // @ts-expect-error
   const params = useLocalSearchParams<{ id: string }>();
   const fleet = useObserveFleet(params.id);
   // UI

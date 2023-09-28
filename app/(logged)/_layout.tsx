@@ -2,6 +2,11 @@ import { useNotificationHandler } from '@/common/notifications/useNotificationHa
 import { useNotifications } from '@/common/notifications/useNotifications';
 import { Stack } from 'expo-router';
 
+export const unstable_settings = {
+  // Ensure any route can link back to `/`
+  initialRouteName: '(tabs)/home',
+};
+
 export default function LoggedLayout() {
   // side effects
   // notifications
