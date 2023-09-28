@@ -38,6 +38,7 @@ export const DispatchingStateControl = ({ order, style, ...props }: Props) => {
       text="Arrastar"
       trackText={trackText()}
       disabled={disabled}
+      confirmDelay={1000}
       onConfirm={confirmHandler}
     />
   );
