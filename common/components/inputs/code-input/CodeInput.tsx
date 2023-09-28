@@ -1,4 +1,3 @@
-import paddings from '@/common/styles/paddings';
 import React from 'react';
 import { Keyboard, TextInput, View, ViewProps } from 'react-native';
 import { DigitInput } from './DigitInput';
@@ -41,18 +40,14 @@ export const CodeInput = ({ value, onChange, length = 3, style, ...props }: Prop
       style={[
         {
           flexDirection: 'row',
-          // alignItems: 'center',
           justifyContent: 'space-between',
-          // width: '100%',
-          // height: 60,
-          // borderWidth: 1,
         },
         style,
       ]}
       {...props}
     >
       {refs.map((ref, index) => (
-        <View style={{ flexDirection: 'row', marginRight: paddings.lg }} key={`input-${index}`}>
+        <View style={{ flexDirection: 'row' }} key={`input-${index}`}>
           <DigitInput
             ref={ref}
             value={value[index] === ' ' ? '' : value[index]}

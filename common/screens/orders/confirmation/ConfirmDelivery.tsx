@@ -1,7 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { pickImage } from '@/api/files/pickImage';
 import { getNextDispatchingState } from '@/api/orders/dispatching-state/getNextDispatchingState';
-import { useContextUserId } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
@@ -29,7 +28,6 @@ type ImageType = 'package' | 'front';
 export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
   // context
   const api = useContextApi();
-  const courierId = useContextUserId()!;
   const { showToast } = useToast();
   // params
   const orderId = order.id;
@@ -47,12 +45,12 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
     url: packageUrl,
     checkTick: checkingPackageUrl,
     setCheckTick: setCheckingPackageUrl,
-  } = useFetchDownloadURL(api.orders().getOrderPODPackagePath(orderId, courierId), false);
+  } = useFetchDownloadURL(api.orders().getOrderPODPackagePath(orderId), false);
   const {
     url: frontUrl,
     checkTick: checkingFrontUrl,
     setCheckTick: setCheckingFrontUrl,
-  } = useFetchDownloadURL(api.orders().getOrderPODFrontPath(orderId, courierId), false);
+  } = useFetchDownloadURL(api.orders().getOrderPODFrontPath(orderId), false);
   // handlers
   const confirmHandler = useCallback(() => {
     if (nextDispatchingState) return;
@@ -96,7 +94,6 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
     showToast(message, 'error');
   };
   const pickAndUpload = async (type: ImageType) => {
-    if (!courierId) return;
     try {
       if (onSimulator()) {
         if (!mediaPermissionStatus?.granted) {
@@ -123,10 +120,10 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
       }
       if (type === 'package') {
         setCheckingPackageUrl(1);
-        await api.storage().putFile(api.orders().getOrderPODPackagePath(orderId, courierId), uri);
+        await api.storage().putFile(api.orders().getOrderPODPackagePath(orderId), uri);
       } else if (type === 'front') {
         setCheckingFrontUrl(1);
-        await api.storage().putFile(api.orders().getOrderPODFrontPath(orderId, courierId), uri);
+        await api.storage().putFile(api.orders().getOrderPODFrontPath(orderId), uri);
       }
     } catch (error) {
       handleError(error);

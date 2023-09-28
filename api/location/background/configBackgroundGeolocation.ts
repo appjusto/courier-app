@@ -28,7 +28,7 @@ export const configBackgroundGeolocation = async (params?: object) => {
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 10,
       stopTimeout: 5,
-      debug: true,
+      debug: false,
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
       enableHeadless: true,
       startOnBoot: true,

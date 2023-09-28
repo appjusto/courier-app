@@ -29,7 +29,7 @@ export default function HomeScreen() {
         <View style={{ flex: 1, padding: paddings.lg, backgroundColor: colors.neutral50 }}>
           <OngoingOrdersCards />
           <ActiveRequestsCards />
-          <Pressable onPress={() => router.push('/profile/howitworks/')}>
+          <Pressable onPress={() => router.push('/(logged)/howitworks')}>
             <DefaultCard
               icon={<DefaultCardIcon iconName="file" />}
               title="Como funciona o AppJusto"

@@ -1,4 +1,5 @@
 import { ApiProvider } from '@/api/ApiContext';
+import { AnalyticsProvider } from '@/api/analytics/context/AnalyticsContext';
 import '@/api/location/background/registerLoationHeadlessTask';
 import { LocationProvider } from '@/api/location/context/LocationContext';
 import { PlatformProvider } from '@/api/platform/context/PlatformContext';
@@ -82,7 +83,9 @@ export default function RootLayout() {
               <PlatformProvider>
                 <NotificationProvider>
                   <LocationProvider>
-                    <Slot />
+                    <AnalyticsProvider>
+                      <Slot />
+                    </AnalyticsProvider>
                   </LocationProvider>
                 </NotificationProvider>
               </PlatformProvider>

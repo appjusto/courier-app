@@ -100,7 +100,7 @@ export default function Welcome() {
               if (step + 1 < steps) {
                 pagerViewRef?.current?.setPage(step + 1);
               } else {
-                router.back();
+                router.replace('/sign-in');
               }
             }}
           />

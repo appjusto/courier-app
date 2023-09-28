@@ -10,6 +10,7 @@ import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
 import { ConfirmDelivery } from '@/common/screens/orders/confirmation/ConfirmDelivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
+import { CurrentOrderPlace } from '@/common/screens/orders/place/CurrentOrderPlace';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
@@ -66,7 +67,7 @@ export default function OngoingOrderScreen() {
         >
           {/* consumer name */}
           <View>
-            <DefaultText size="xs">Pedido de</DefaultText>
+            <DefaultText size="xs">{`Pedido #${order.code} de`}</DefaultText>
             <DefaultText size="md" color="black">
               {order.consumer.name}
             </DefaultText>
@@ -94,6 +95,7 @@ export default function OngoingOrderScreen() {
         </View>
         <HR style={{ marginTop: paddings.lg }} />
         {/* address */}
+        <CurrentOrderPlace order={order} />
         {/* controls */}
         {/* <View style={{ flex: 1 }} /> */}
         <DispatchingStateControl order={order} key={order.dispatchingState} />

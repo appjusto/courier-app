@@ -21,7 +21,11 @@ export default function DeliveriesIndex() {
     <DefaultScrollView style={{ ...screens.default }}>
       <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
         <AccountSummary />
-        <DeliveryList orders={orders} />
+        <DeliveryList
+          style={{ marginTop: paddings.lg }}
+          orders={orders}
+          title="Corridas das últimas 24h"
+        />
         <View style={{ flex: 1 }} />
         <DefaultButton
           variant="outline"
