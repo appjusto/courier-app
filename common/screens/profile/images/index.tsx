@@ -1,5 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { PickImageFrom, pickImage } from '@/api/files/pickImage';
+import { useStorageFile } from '@/api/storage/useStorageFile';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -19,7 +20,6 @@ import { Upload } from 'lucide-react-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { PendingStep } from '../pending/PendingStep';
-import { useImagesURLs } from './useImagesURLs';
 
 type ImageType = 'selfie' | 'document';
 
@@ -40,10 +40,17 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   const [cameraPermissionStatus, requestCameraPermission] = useCameraPermissions();
   const [mediaPermissionStatus, requestMediaPermission] = useMediaLibraryPermissions();
   const [selfieBase64, setSelfieBase64] = useState('');
-  const [uploadingSelfie, setUploadingSelfie] = useState(false);
   const [documentBase64, setDocumentBase64] = useState('');
-  const [uploadingDocument, setUploadingDocument] = useState(false);
-  const { selfieUrl, documentUrl } = useImagesURLs(true);
+  const {
+    downloadURL: selfieUrl,
+    loading: loadingSelfie,
+    upload: uploadSelfie,
+  } = useStorageFile(courierId ? api.profile().getSelfiePath() : undefined);
+  const {
+    downloadURL: documentUrl,
+    loading: loadingDocument,
+    upload: uploadDocument,
+  } = useStorageFile(courierId ? api.profile().getDocumentPath() : undefined);
   // helpers
 
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
@@ -81,14 +88,10 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
       }
       if (type === 'selfie') {
         if (base64) setSelfieBase64(base64);
-        setUploadingSelfie(true);
-        await api.profile().uploadSelfie(courierId, uri);
-        setUploadingSelfie(false);
+        await uploadSelfie(uri);
       } else if (type === 'document') {
         if (base64) setDocumentBase64(base64);
-        setUploadingDocument(true);
-        await api.profile().uploadDocument(courierId, uri);
-        setUploadingDocument(false);
+        await uploadDocument(uri);
       }
     } catch (error) {
       handleError(error);
@@ -128,7 +131,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
         />
         <RoundedImageBox
           url={selfieBase64 ? `data:image/jpg;base64,${selfieBase64}` : selfieUrl}
-          loading={uploadingSelfie}
+          loading={loadingSelfie}
           onPress={() => actionSheetHandler('selfie', [1, 1])}
         >
           <Upload color={colors.neutral800} />
@@ -141,7 +144,7 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
         />
         <RoundedImageBox
           url={documentBase64 ? `data:image/jpg;base64,${documentBase64}` : documentUrl}
-          loading={uploadingDocument}
+          loading={loadingDocument}
           onPress={() => actionSheetHandler('document', [8.5, 12])}
         >
           <Upload color={colors.neutral800} />

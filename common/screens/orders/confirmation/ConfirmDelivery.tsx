@@ -1,7 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { pickImage } from '@/api/files/pickImage';
-import { putFile } from '@/api/files/putFile';
 import { getNextDispatchingState } from '@/api/orders/dispatching-state/getNextDispatchingState';
+import { useStorageFile } from '@/api/storage/useStorageFile';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
@@ -18,7 +18,6 @@ import { useCameraPermissions, useMediaLibraryPermissions } from 'expo-image-pic
 import { Upload } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { View, ViewProps } from 'react-native';
-import { useFetchDownloadURL } from '../../../../api/storage/useFetchDownloadURL';
 
 interface Props extends ViewProps {
   order: WithId<Order>;
@@ -44,12 +43,12 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
   const [loading, setLoading] = useState(false);
   const [packageBase64, setPackageBase64] = useState('');
   const [frontBase64, setFrontBase64] = useState('');
-  const [uploadingPackage, setUploadingPackage] = useState(false);
-  const { url: packageUrl } = useFetchDownloadURL(
-    api.orders().getOrderPODPackagePath(orderId),
-    false
+  const { downloadURL: frontUrl, upload: uploadFront } = useStorageFile(
+    api.orders().getOrderPODFrontPath(orderId)
   );
-  const { url: frontUrl } = useFetchDownloadURL(api.orders().getOrderPODFrontPath(orderId), false);
+  const { downloadURL: packageUrl, upload: uploadPackage } = useStorageFile(
+    api.orders().getOrderPODPackagePath(orderId)
+  );
   // handlers
   const confirmHandler = useCallback(() => {
     if (nextDispatchingState) return;
@@ -119,10 +118,10 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
       }
       if (type === 'package') {
         if (base64) setPackageBase64(base64);
-        await putFile(api.orders().getOrderPODPackagePath(orderId), uri);
+        await uploadPackage(uri);
       } else if (type === 'front') {
         if (base64) setFrontBase64(base64);
-        await putFile(api.orders().getOrderPODFrontPath(orderId), uri);
+        await uploadFront(uri);
       }
     } catch (error) {
       handleError(error);

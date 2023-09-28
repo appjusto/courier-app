@@ -1,5 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { useStorageFile } from '@/api/storage/useStorageFile';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { ConfirmModal } from '@/common/components/modals/confirm-modal';
@@ -9,7 +10,6 @@ import { MessageBox } from '@/common/components/views/MessageBox';
 import { isBankAccountValid } from '@/common/profile/isBankAccountValid';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
 import { isProfileValid } from '@/common/profile/isProfileValid';
-import { useImagesURLs } from '@/common/screens/profile/images/useImagesURLs';
 import { PendingSteps } from '@/common/screens/profile/pending/PendingSteps';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
@@ -40,8 +40,13 @@ export default function PendingIndex() {
   const profile = useContextProfile();
   const [stepIndex, setStepIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { selfieUrl, documentUrl, checkSelfieTick, checkDocumentTick } = useImagesURLs(
-    stepIndex === 3
+  // const { selfieUrl, fetchSelfie, documentUrl, fetchDocument, checkSelfieTick, checkDocumentTick } =
+  //   useImagesURLs(false);
+  const { downloadURL: selfieUrl, loading: loadingSelfie } = useStorageFile(
+    api.profile().getSelfiePath()
+  );
+  const { downloadURL: documentUrl, loading: loadingDocument } = useStorageFile(
+    api.profile().getDocumentPath()
   );
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   // tracking
@@ -58,7 +63,7 @@ export default function PendingIndex() {
   }, [profile, selfieUrl, documentUrl]);
   // handlers
   const canSubmit = stepIndex === steps.length;
-  const canAdvance = !loading && !checkSelfieTick && !checkDocumentTick;
+  const canAdvance = !loading && !loadingSelfie && !loadingDocument;
   const advanceHandler = () => {
     if (!profile) return;
     if (canSubmit) {

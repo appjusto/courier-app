@@ -2,6 +2,7 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Image } from 'expo-image';
+import { Upload } from 'lucide-react-native';
 import { ActivityIndicator, Pressable, View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
@@ -37,6 +38,17 @@ export const RoundedImageBox = ({
         ]}
         {...props}
       >
+        <View
+          style={{
+            position: 'absolute',
+            width: size,
+            height: size,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Upload size={24} color={colors.neutral800} />
+        </View>
         {url ? (
           <Image style={{ width: size, height: size }} contentFit="cover" source={{ uri: url }} />
         ) : null}

@@ -3,11 +3,9 @@ import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
 import { CourierProfile, ProfileChange, UserProfile, WithId } from '@appjusto/types';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
-import { putFile } from '../files/putFile';
 import StorageApi from '../storage/StorageApi';
 
 // firestore
@@ -17,12 +15,7 @@ const usersSubcollectionsRef = () => usersRef().doc('subcollections');
 const usersChangesRef = () => usersSubcollectionsRef().collection('changes');
 
 // storage
-const getSelfiePath = (id: string, size?: string) => {
-  return `couriers/${id}/selfie${size ? `_${size}` : ''}.jpg`;
-};
-const getDocumentPath = (id: string, size?: string) => {
-  return `couriers/${id}/document${size ? `_${size}` : ''}.jpg`;
-};
+
 export default class ProfileApi {
   constructor(
     private auth: AuthApi,
@@ -139,16 +132,14 @@ export default class ProfileApi {
     );
   }
 
-  async getSelfieDownloadURL(id: string, size?: string) {
-    return storage().ref(getSelfiePath(id, size)).getDownloadURL();
+  getSelfiePath(size?: string) {
+    const courierId = this.auth.getUserId();
+    if (!courierId) return null;
+    return `couriers/${courierId}/selfie${size ? `_${size}` : ''}.jpg`;
   }
-  async getDocumentDownloadURL(id: string, size?: string) {
-    return storage().ref(getDocumentPath(id, size)).getDownloadURL();
-  }
-  async uploadSelfie(id: string, localPath: string) {
-    return putFile(localPath, getSelfiePath(id));
-  }
-  async uploadDocument(id: string, localPath: string) {
-    return putFile(localPath, getDocumentPath(id));
+  getDocumentPath(size?: string) {
+    const courierId = this.auth.getUserId();
+    if (!courierId) return null;
+    return `couriers/${courierId}/document${size ? `_${size}` : ''}.jpg`;
   }
 }
