@@ -11,6 +11,7 @@ export default function LoggedIndex() {
   const segments = useSegments();
   // side effects
   useEffect(() => {
+    console.log(situation);
     if (!situation) return;
     if (!segments) return;
     // console.log('useEffect situation', situation, segments);
