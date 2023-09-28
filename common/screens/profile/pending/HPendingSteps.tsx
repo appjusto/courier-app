@@ -52,7 +52,7 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
     <View style={[{ padding: paddings.lg }, style]} {...props} onLayout={() => measure()}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {linesMeasures.map((measure, i) => {
-          console.log(measure);
+          // console.log(measure);
           return (
             <View
               key={`line-${i}`}

@@ -16,6 +16,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useCameraPermissions, useMediaLibraryPermissions } from 'expo-image-picker';
 import { Upload } from 'lucide-react-native';
+import { useState } from 'react';
 import { View } from 'react-native';
 import { PendingStep } from '../pending/PendingStep';
 import { useImagesURLs } from './useImagesURLs';
@@ -38,14 +39,11 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   // state
   const [cameraPermissionStatus, requestCameraPermission] = useCameraPermissions();
   const [mediaPermissionStatus, requestMediaPermission] = useMediaLibraryPermissions();
-  const {
-    selfieUrl,
-    documentUrl,
-    checkSelfieTick,
-    setCheckSelfieTick,
-    checkDocumentTick,
-    setCheckDocumentTick,
-  } = useImagesURLs(true);
+  const [selfieBase64, setSelfieBase64] = useState('');
+  const [uploadingSelfie, setUploadingSelfie] = useState(false);
+  const [documentBase64, setDocumentBase64] = useState('');
+  const [uploadingDocument, setUploadingDocument] = useState(false);
+  const { selfieUrl, documentUrl } = useImagesURLs(true);
   // helpers
 
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';
@@ -75,18 +73,22 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
           }
         }
       }
-      const uri = await pickImage(from, aspect);
+      const { uri, base64 } = await pickImage(from, aspect);
       if (uri === null) return;
       if (uri === undefined) {
         handleError(new Error('Não foi possível obter a imagem. Verifique as permissões.'));
         return;
       }
       if (type === 'selfie') {
-        setCheckSelfieTick(1);
+        if (base64) setSelfieBase64(base64);
+        setUploadingSelfie(true);
         await api.profile().uploadSelfie(courierId, uri);
+        setUploadingSelfie(false);
       } else if (type === 'document') {
-        setCheckDocumentTick(1);
+        if (base64) setDocumentBase64(base64);
+        setUploadingDocument(true);
         await api.profile().uploadDocument(courierId, uri);
+        setUploadingDocument(false);
       }
     } catch (error) {
       handleError(error);
@@ -125,8 +127,8 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
           icon="check"
         />
         <RoundedImageBox
-          url={selfieUrl}
-          loading={Boolean(checkSelfieTick)}
+          url={selfieBase64 ? `data:image/jpg;base64,${selfieBase64}` : selfieUrl}
+          loading={uploadingSelfie}
           onPress={() => actionSheetHandler('selfie', [1, 1])}
         >
           <Upload color={colors.neutral800} />
@@ -138,8 +140,8 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
           icon="check"
         />
         <RoundedImageBox
-          url={documentUrl}
-          loading={Boolean(checkDocumentTick)}
+          url={documentBase64 ? `data:image/jpg;base64,${documentBase64}` : documentUrl}
+          loading={uploadingDocument}
           onPress={() => actionSheetHandler('document', [8.5, 12])}
         >
           <Upload color={colors.neutral800} />

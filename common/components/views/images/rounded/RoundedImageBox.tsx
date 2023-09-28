@@ -40,8 +40,28 @@ export const RoundedImageBox = ({
         {url ? (
           <Image style={{ width: size, height: size }} contentFit="cover" source={{ uri: url }} />
         ) : null}
-        {!url && !loading ? children : null}
-        {!url && loading ? <ActivityIndicator size="small" /> : null}
+        {loading ? (
+          <View
+            style={{
+              position: 'absolute',
+              width: size,
+              height: size,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                width: size,
+                height: size,
+                backgroundColor: colors.white,
+                opacity: 0.5,
+              }}
+            />
+            <ActivityIndicator size="small" />
+          </View>
+        ) : null}
       </View>
     </Pressable>
   );

@@ -5,6 +5,7 @@ const defaultImageOptions: ImagePicker.ImagePickerOptions = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   allowsEditing: true,
   quality: 1,
+  base64: true,
 };
 
 export type PickImageFrom = 'gallery' | 'camera';
@@ -21,12 +22,13 @@ export const pickImage = async (from: PickImageFrom, aspect?: [number, number]) 
   // ShowToast((JSON.stringify(pendingResult));
   if ('canceled' in pendingResult) {
     if (pendingResult.canceled) {
-      return null;
+      return { uri: null };
     }
-    return pendingResult.assets[0].uri;
+    const { uri, base64 } = pendingResult.assets[0];
+    return { uri, base64 };
   } else {
     console.error(JSON.stringify(pendingResult));
     ShowToast(JSON.stringify(pendingResult));
-    return undefined;
+    return { uri: undefined };
   }
 };

@@ -42,16 +42,14 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
   const [deliveredTo, setDeliveredTo] = useState('');
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
-  const {
-    url: packageUrl,
-    checkTick: checkingPackageUrl,
-    setCheckTick: setCheckingPackageUrl,
-  } = useFetchDownloadURL(api.orders().getOrderPODPackagePath(orderId), false);
-  const {
-    url: frontUrl,
-    checkTick: checkingFrontUrl,
-    setCheckTick: setCheckingFrontUrl,
-  } = useFetchDownloadURL(api.orders().getOrderPODFrontPath(orderId), false);
+  const [packageBase64, setPackageBase64] = useState('');
+  const [frontBase64, setFrontBase64] = useState('');
+  const [uploadingPackage, setUploadingPackage] = useState(false);
+  const { url: packageUrl } = useFetchDownloadURL(
+    api.orders().getOrderPODPackagePath(orderId),
+    false
+  );
+  const { url: frontUrl } = useFetchDownloadURL(api.orders().getOrderPODFrontPath(orderId), false);
   // handlers
   const confirmHandler = useCallback(() => {
     if (nextDispatchingState) return;
@@ -113,17 +111,17 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
           }
         }
       }
-      const uri = await pickImage(onSimulator() ? 'gallery' : 'camera');
+      const { uri, base64 } = await pickImage(onSimulator() ? 'gallery' : 'camera');
       if (uri === null) return;
       if (uri === undefined) {
         handleError(new Error('Não foi possível obter a imagem. Verifique as permissões.'));
         return;
       }
       if (type === 'package') {
-        setCheckingPackageUrl(1);
+        if (base64) setPackageBase64(base64);
         await putFile(api.orders().getOrderPODPackagePath(orderId), uri);
       } else if (type === 'front') {
-        setCheckingFrontUrl(1);
+        if (base64) setFrontBase64(base64);
         await putFile(api.orders().getOrderPODFrontPath(orderId), uri);
       }
     } catch (error) {
@@ -190,17 +188,12 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
           Agora, tire uma foto da encomenda e da fachada do local de entrega:
         </DefaultText>
         <View style={{ flexDirection: 'row' }}>
-          <RoundedImageBox
-            url={packageUrl}
-            loading={Boolean(checkingPackageUrl)}
-            onPress={() => pickAndUpload('package').then(null)}
-          >
+          <RoundedImageBox url={packageBase64} onPress={() => pickAndUpload('package').then(null)}>
             <Upload color={colors.black} />
           </RoundedImageBox>
           <RoundedImageBox
             style={{ marginLeft: paddings.lg }}
-            url={frontUrl}
-            loading={Boolean(checkingFrontUrl)}
+            url={frontBase64}
             onPress={() => pickAndUpload('front').then(null)}
           >
             <Upload color={colors.black} />
