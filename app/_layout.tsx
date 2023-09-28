@@ -6,6 +6,8 @@ import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ShowToast } from '@/common/components/toast/Toast';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
+import { ignoreWarnings } from '@/common/errors/ignore';
+import { NotificationProvider } from '@/common/notifications/context/NotificationContext';
 import { setupNotifications } from '@/common/notifications/setup';
 import { getAppVersion } from '@/common/version';
 import { getEnv } from '@/extra';
@@ -26,6 +28,8 @@ export const unstable_settings = {
   initialRouteName: '/',
 };
 
+// ignore warnings
+ignoreWarnings();
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 // setup notification channels and background notification task
@@ -54,22 +58,11 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded, splashScreenShown]);
-  // deeplinking
-  // const mounted = Boolean(useRootNavigationState()?.key);
-  // const [url, setURL] = useState<string | null>(null);
-  // useEffect(() => {
-  // if (!mounted) return;
-  // const subscription = Linking.addEventListener('url', (event) => {
-  //   ShowToast('listener: ' + event.url);
-  //   setURL(event.url);
-  // });
-  // return () => subscription.remove();
-  // }, [mounted]);
   // config
   useEffect(() => {
     // version toast
     if (getEnv() !== 'live') {
-      ShowToast('1' + getAppVersion());
+      ShowToast('__' + getAppVersion());
     }
     // in-app messaging config
     inAppMessaging()
@@ -87,9 +80,11 @@ export default function RootLayout() {
           <ApiProvider url={null}>
             <AuthProvider>
               <PlatformProvider>
-                <LocationProvider>
-                  <Slot />
-                </LocationProvider>
+                <NotificationProvider>
+                  <LocationProvider>
+                    <Slot />
+                  </LocationProvider>
+                </NotificationProvider>
               </PlatformProvider>
             </AuthProvider>
           </ApiProvider>

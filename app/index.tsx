@@ -1,6 +1,5 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { Loading } from '@/common/components/views/Loading';
-import { useDeeplink } from '@/common/deeplink/useDeeplink';
 import { useSafeRouter } from '@/common/deeplink/useSafeRouter';
 import { useEffect } from 'react';
 
@@ -10,8 +9,6 @@ export default function Index() {
   // state
   const user = useContextProfile();
   // side effects
-  // deeplink
-  useDeeplink();
   // routing
   useEffect(() => {
     if (!router) return;

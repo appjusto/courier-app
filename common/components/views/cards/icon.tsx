@@ -1,3 +1,4 @@
+import { HelmetIcon } from '@/common/icons/helmet';
 import colors from '@/common/styles/colors';
 import {
   AlertOctagon,
@@ -5,7 +6,6 @@ import {
   BadgeX,
   CircleDollarSign,
   FileText,
-  HardHat,
   HelpCircle,
   MessageCircle,
   ShieldCheck,
@@ -73,7 +73,7 @@ const getIcon = (name: IconName, variant?: Variant) => {
     return <AlertOctagon size={iconSize} color={color} />;
   }
   if (name === 'helmet') {
-    return <HardHat size={iconSize} color={color} />;
+    return <HelmetIcon />;
   }
   return null;
 };

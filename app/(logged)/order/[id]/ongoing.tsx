@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 
+import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -19,20 +20,38 @@ export default function OngoingOrderScreen() {
   const orderId = params.id;
   // state
   const order = useObserveOrder(orderId);
+  const request = useObserveOrderRequest(orderId);
   const orderStatus = order?.status;
-  console.log('orderId', orderId);
-  console.log('orderStatus', orderStatus);
+  const dispatchingState = order?.dispatchingState;
+  // console.log('orderId', orderId);
+  // console.log('orderStatus', orderStatus);
   // side effects
-  useRouterAccordingOrderStatus(orderId);
+  useRouterAccordingOrderStatus(orderId, orderStatus, true);
+  // useEffect(() => {
+  //   replaceRouteAccordingOrderStatus(orderId, orderStatus);
+  // }, [orderId, orderStatus]);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   const origin = order.origin?.location;
   const destination = order.destination?.location;
-  const polyline = order.route?.polyline;
+  const polyline =
+    (dispatchingState === 'going-pickup' || dispatchingState === 'arrived-pickup') &&
+    request?.routePolylineToOrigin
+      ? request.routePolylineToOrigin
+      : order.route?.polyline;
+  const navigationTo =
+    dispatchingState === 'going-destination' || dispatchingState === 'arrived-destination'
+      ? order.destination?.location
+      : order.origin?.location;
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Pedido #${order.code}` }} />
-      <DefaultMap origin={origin} destination={destination} polyline={polyline} />
+      <DefaultMap
+        origin={origin}
+        destination={destination}
+        polyline={polyline}
+        navigationTo={navigationTo}
+      />
       <View style={{ padding: paddings.lg, marginTop: paddings.lg }}>
         {/* header */}
         <View style={{ flexDirection: 'row' }}>

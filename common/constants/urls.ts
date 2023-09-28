@@ -3,6 +3,7 @@ import { getEnv } from '@/extra';
 export const getDomain = () => (getEnv() === 'live' ? '' : `${getEnv()}.`) + 'appjusto.com.br';
 
 export const URL_APPJUSTO_SITE = 'https://appjusto.com.br';
+export const URL_APPJUSTO_FAIRWORK_SITE = 'https://appjusto.com.br/trabalho-decente';
 export const URL_APPJUSTO_INSTAGRAM = 'https://www.instagram.com/appjusto/';
 export const URL_APPJUSTO_GITHUB = 'https://github.com/appjusto/courier-app';
 export const URL_APPJUSTO_FRESHDESK_HOME = 'https://appjusto.freshdesk.com/support/home';

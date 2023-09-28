@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: '/',
+  initialRouteName: 'index',
 };
 
 export default function ProfileLayout() {

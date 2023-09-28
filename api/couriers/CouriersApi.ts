@@ -30,7 +30,6 @@ export default class CouriersApi {
   constructor(private auth: AuthApi) {}
 
   // orders
-
   observeActiveRequests(resultHandler: (requests: WithId<CourierOrderRequest>[]) => void) {
     const query = courierRequestsRef()
       .where('courierId', '==', this.auth.getUserId())
@@ -49,7 +48,6 @@ export default class CouriersApi {
       }
     );
   }
-
   observeRequest(
     requestId: string,
     resultHandler: (orders: WithId<CourierOrderRequest> | null) => void
@@ -64,9 +62,33 @@ export default class CouriersApi {
       }
     );
   }
-
+  observeOrderRequest(
+    orderId: string,
+    resultHandler: (requests: WithId<CourierOrderRequest> | null) => void
+  ) {
+    const query = courierRequestsRef()
+      .where('courierId', '==', this.auth.getUserId())
+      .where('orderId', '==', orderId)
+      .orderBy('createdOn', 'desc');
+    return query.onSnapshot(
+      async (snapshot) => {
+        if (snapshot.empty) {
+          resultHandler(null);
+        } else {
+          resultHandler(documentsAs<CourierOrderRequest>(snapshot.docs)[0]);
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
   async viewOrderRequest(requestId: string) {
     await courierRequestRef(requestId).update({ viewed: true } as CourierOrderRequest);
+  }
+
+  async updateRoutePolylineToOrigin(requestId: string, routePolylineToOrigin: string) {
+    await courierRequestRef(requestId).update({ routePolylineToOrigin } as CourierOrderRequest);
   }
 
   // account

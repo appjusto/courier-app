@@ -1,17 +1,28 @@
-import { useNotificationHandler } from '@/common/notifications/useNotificationHandler';
+import {
+  useContextDeeplink,
+  useContextSetDeeplink,
+} from '@/common/notifications/context/NotificationContext';
 import { useNotifications } from '@/common/notifications/useNotifications';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
+import { useEffect } from 'react';
 
 export const unstable_settings = {
-  // Ensure any route can link back to `/`
-  initialRouteName: '(tabs)/home',
+  initialRouteName: '(tabs)',
 };
 
 export default function LoggedLayout() {
+  // context
+  const deeplink = useContextDeeplink();
+  const setDeeplink = useContextSetDeeplink();
   // side effects
-  // notifications
+  useEffect(() => {
+    if (deeplink) {
+      // @ts-ignore
+      router.push(deeplink);
+      setDeeplink(undefined);
+    }
+  }, [deeplink, setDeeplink]);
   useNotifications();
-  useNotificationHandler();
   // UI
   return (
     <Stack>
