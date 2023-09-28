@@ -1,8 +1,8 @@
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
-import { FeedbackHeader } from '@/common/components/views/feedback-header';
 import HowAppJustoWorksContent, {
   HowAppJustoWorksContentType,
 } from '@/common/screens/profile/howitworks';
+import { FeedbackHeader } from '@/common/screens/profile/situation-header';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { View } from 'react-native';

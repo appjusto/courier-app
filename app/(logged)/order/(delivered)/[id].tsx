@@ -2,7 +2,7 @@ import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
-import { FeedbackHeader } from '@/common/components/views/feedback-header';
+import { FeedbackHeader } from '@/common/screens/profile/situation-header';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams } from 'expo-router';

@@ -1,7 +1,7 @@
 {
   "name": "app-sdk49",
   "main": "expo-router/entry",
-  "version": "13.0.6",
+  "version": "13.0.7",
   "scripts": {
     "start": "env-cmd -f .env.${ENV:-dev}.local expo start --dev-client",
     "start:dev": "ENV=dev npm run start",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@appjusto/dates": "^1.0.1",
-    "@appjusto/types": "^23.7.2",
+    "@appjusto/types": "^23.8.2",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@fnando/cnpj": "^1.0.2",
