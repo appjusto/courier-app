@@ -9,7 +9,7 @@ const defaultImageOptions: ImagePicker.ImagePickerOptions = {
 
 export type PickImageFrom = 'gallery' | 'camera';
 
-export const pickImage = async (from: PickImageFrom, aspect: [number, number]) => {
+export const pickImage = async (from: PickImageFrom, aspect?: [number, number]) => {
   const options = { ...defaultImageOptions, aspect };
   const result =
     from === 'gallery'

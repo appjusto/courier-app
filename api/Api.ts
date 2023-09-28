@@ -15,11 +15,13 @@ import OrdersApi from './orders/OrdersApi';
 import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
 import SearchApi from './search/SearchApi';
+import StorageApi from './storage/StorageApi';
 
 const extra = getManifestExtra();
 
 export default class Api {
   private _auth: AuthApi;
+  private _storage: StorageApi;
   private _platform: PlatformApi;
   private _profile: ProfileApi;
   private _couriers: CouriersApi;
@@ -43,11 +45,12 @@ export default class Api {
       // TODO: firebase.app().storage('gs://default-bucket')
     }
     this._auth = new AuthApi();
+    this._storage = new StorageApi();
     this._platform = new PlatformApi(this._auth);
-    this._profile = new ProfileApi(this._auth);
+    this._profile = new ProfileApi(this._auth, this._storage);
     this._couriers = new CouriersApi(this._auth);
     this._fleets = new FleetsApi();
-    this._orders = new OrdersApi();
+    this._orders = new OrdersApi(this._storage);
     this._ledger = new LedgerApi();
     this._maps = new MapsApi();
     this._search = new SearchApi(extra.algolia, extra.env);
@@ -56,6 +59,10 @@ export default class Api {
 
   auth() {
     return this._auth;
+  }
+
+  storage() {
+    return this._storage;
   }
 
   platform() {

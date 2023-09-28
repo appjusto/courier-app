@@ -11,8 +11,10 @@ import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
+import { onSimulator } from '@/common/version/device';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { useCameraPermissions, useMediaLibraryPermissions } from 'expo-image-picker';
 import { Upload } from 'lucide-react-native';
 import { View } from 'react-native';
 import { PendingStep } from '../pending/PendingStep';
@@ -34,6 +36,8 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   const canUploadImages = !approved;
   const { showActionSheetWithOptions } = useActionSheet();
   // state
+  const [cameraPermissionStatus, requestCameraPermission] = useCameraPermissions();
+  const [mediaPermissionStatus, requestMediaPermission] = useMediaLibraryPermissions();
   const {
     selfieUrl,
     documentUrl,
@@ -54,6 +58,23 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   const pickAndUpload = async (from: PickImageFrom, type: ImageType, aspect: [number, number]) => {
     if (!courierId) return;
     try {
+      if (onSimulator()) {
+        if (!mediaPermissionStatus?.granted) {
+          const status = await requestMediaPermission();
+          if (!status.granted) {
+            showToast('Você precisa permitir o acesso à suas mídias.', 'error');
+            return;
+          }
+        }
+      } else {
+        if (!cameraPermissionStatus?.granted) {
+          const status = await requestCameraPermission();
+          if (!status.granted) {
+            showToast('Você precisa permitir o acesso à câmera para tirar foto.', 'error');
+            return;
+          }
+        }
+      }
       const uri = await pickImage(from, aspect);
       if (uri === null) return;
       if (uri === undefined) {
