@@ -1,5 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { pickImage } from '@/api/files/pickImage';
+import { putFile } from '@/api/files/putFile';
 import { getNextDispatchingState } from '@/api/orders/dispatching-state/getNextDispatchingState';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
@@ -120,10 +121,10 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
       }
       if (type === 'package') {
         setCheckingPackageUrl(1);
-        await api.storage().putFile(api.orders().getOrderPODPackagePath(orderId), uri);
+        await putFile(api.orders().getOrderPODPackagePath(orderId), uri);
       } else if (type === 'front') {
         setCheckingFrontUrl(1);
-        await api.storage().putFile(api.orders().getOrderPODFrontPath(orderId), uri);
+        await putFile(api.orders().getOrderPODFrontPath(orderId), uri);
       }
     } catch (error) {
       handleError(error);

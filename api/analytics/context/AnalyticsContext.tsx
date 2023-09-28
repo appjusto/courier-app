@@ -1,3 +1,4 @@
+import { useInstallReferrer } from '@/common/version/useInstallReferrer';
 import analytics from '@react-native-firebase/analytics';
 import { useGlobalSearchParams, usePathname } from 'expo-router';
 import React, { useEffect } from 'react';
@@ -14,6 +15,8 @@ export const AnalyticsProvider = (props: Props) => {
   // context
   const pathname = usePathname();
   const params = useGlobalSearchParams();
+  // side effects
+  useInstallReferrer();
   useEffect(() => {
     analytics().logEvent('path_update', { pathname, params });
   }, [pathname, params]);

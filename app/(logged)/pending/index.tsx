@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { ConfirmModal } from '@/common/components/modals/confirm-modal';
@@ -43,6 +44,8 @@ export default function PendingIndex() {
     stepIndex === 3
   );
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+  // tracking
+  useTrackScreenView('Cadastro Checklist');
   // side effects
   useEffect(() => {
     if (!profile) return;
