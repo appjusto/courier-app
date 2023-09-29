@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, TextInput, View, ViewProps } from 'react-native';
+import { Keyboard, StyleProp, TextInput, TextStyle, View, ViewProps } from 'react-native';
 import { DigitInput } from './DigitInput';
 import { useRefs } from './useRefs';
 
@@ -7,9 +7,10 @@ interface Props extends ViewProps {
   value: string;
   onChange: (text: string) => void;
   length?: number;
+  digitStyle?: StyleProp<TextStyle>;
 }
 
-export const CodeInput = ({ value, onChange, length = 3, style, ...props }: Props) => {
+export const CodeInput = ({ value, length = 3, style, digitStyle, onChange, ...props }: Props) => {
   // state
   const values = value.split('');
   // refs
@@ -50,6 +51,7 @@ export const CodeInput = ({ value, onChange, length = 3, style, ...props }: Prop
         <View style={{ flexDirection: 'row' }} key={`input-${index}`}>
           <DigitInput
             ref={ref}
+            style={digitStyle}
             value={value[index] === ' ' ? '' : value[index]}
             blurOnSubmit={false}
             returnKeyType={index + 1 === refs.length ? 'done' : 'next'}

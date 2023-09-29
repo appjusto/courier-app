@@ -10,13 +10,13 @@ interface Props extends TextInputProps {
 }
 
 export const DigitInput = React.forwardRef(
-  ({ value, onChangeText, ...props }: Props, externalRef) => {
+  ({ value, style, onChangeText, ...props }: Props, externalRef) => {
     // UI
     return (
       <DefaultInput
         ref={externalRef ? (externalRef as React.RefObject<TextInput>) : null}
         size={isLargeScreen() ? '2xl' : 'xl'}
-        style={{ width: percentOfWidth(12) }}
+        style={[{ width: percentOfWidth(12) }, style]}
         inputStyle={[
           {
             textAlign: 'center',

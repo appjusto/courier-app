@@ -18,8 +18,6 @@ export default function Index() {
     if (situation === undefined) return;
     if (situation === null) router.replace('/welcome');
     else if (situation === 'approved') router.replace('/home');
-    // ShowToast('Index ' + user?.id);
-    // setTimeout(() => router.replace(user === null ? '/welcome' : '/logged'), 1);
   }, [situation, router]);
   // UI
   return <Loading />;

@@ -5,7 +5,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const { version } = require('../version.json');
 const eas = require('../eas.json');
-const { ENV, PLATFORM, CHANNEL, PROFILE } = process.env;
+const { ENV, PLATFORM, CHANNEL, PROFILE, REMOTE } = process.env;
 
 // Usage:
 // devclient
@@ -44,8 +44,7 @@ const run = async () => {
     profile,
     '--platform',
     platform,
-    '--clear-cache',
-    '--local',
+    ...(REMOTE !== 'true' ? [] : ['--clear-cache', '--local']),
   ];
   console.log(`Criando build ${profile} para ${platform} no ambiente ${ENV}: eas`, args.join(' '));
   spawn('env-cmd', args, { stdio: 'inherit' });

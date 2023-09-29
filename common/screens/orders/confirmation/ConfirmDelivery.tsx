@@ -142,6 +142,7 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
           </DefaultText>
           <CodeInput
             style={{ marginTop: paddings.lg, justifyContent: 'flex-start' }}
+            digitStyle={{ marginRight: paddings.lg }}
             value={code}
             onChange={setCode}
           />
