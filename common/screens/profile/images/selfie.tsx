@@ -1,5 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useContextUserId } from '@/common/auth/AuthContext';
+import { getDownloadURL } from '@/api/storage/getDownloadURL';
 import { CircledView } from '@/common/components/containers/CircledView';
 import { Loading } from '@/common/components/views/Loading';
 import { Image } from 'expo-image';
@@ -13,19 +13,19 @@ interface Props {
 export default function Selfie({ size = 60 }: Props) {
   // context
   const api = useContextApi();
-  const courierId = useContextUserId();
+  const path = api.profile().getSelfiePath('160');
   // state
   const [selfieUrl, setSelfieUrl] = useState<string | null>();
   // helpers
   const fetchSelfie = useCallback(async () => {
-    if (!courierId) return;
+    if (!path) return;
     try {
-      return await api.profile().getSelfieDownloadURL(courierId, '160x160');
+      return await getDownloadURL(path);
     } catch (error: any) {
       console.log(error);
       return null;
     }
-  }, [api, courierId]);
+  }, [path]);
   // side effects
   useEffect(() => {
     fetchSelfie()

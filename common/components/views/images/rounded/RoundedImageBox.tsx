@@ -58,8 +58,6 @@ export const RoundedImageBox = ({
               position: 'absolute',
               width: size,
               height: size,
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
           >
             <View
@@ -71,7 +69,17 @@ export const RoundedImageBox = ({
                 opacity: 0.5,
               }}
             />
-            <ActivityIndicator size="small" />
+            <View
+              style={{
+                position: 'absolute',
+                width: size,
+                height: size,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <ActivityIndicator size="small" />
+            </View>
           </View>
         ) : null}
       </View>

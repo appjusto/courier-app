@@ -10,6 +10,7 @@ import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import '@/common/errors/ignore';
 import { NotificationProvider } from '@/common/notifications/context/NotificationContext';
 import { setupNotifications } from '@/common/notifications/setup';
+import { RoutesProvider } from '@/common/routes/RoutesContext';
 import { getAppVersion } from '@/common/version';
 import { getEnv } from '@/extra';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -78,15 +79,17 @@ export default function RootLayout() {
         <ToastProvider>
           <ApiProvider url={null}>
             <AuthProvider>
-              <PlatformProvider>
-                <NotificationProvider>
-                  <LocationProvider>
-                    <AnalyticsProvider>
-                      <Slot />
-                    </AnalyticsProvider>
-                  </LocationProvider>
-                </NotificationProvider>
-              </PlatformProvider>
+              <RoutesProvider>
+                <PlatformProvider>
+                  <NotificationProvider>
+                    <LocationProvider>
+                      <AnalyticsProvider>
+                        <Slot />
+                      </AnalyticsProvider>
+                    </LocationProvider>
+                  </NotificationProvider>
+                </PlatformProvider>
+              </RoutesProvider>
             </AuthProvider>
           </ApiProvider>
         </ToastProvider>

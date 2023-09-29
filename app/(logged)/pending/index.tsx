@@ -70,10 +70,10 @@ export default function PendingIndex() {
       setLoading(true);
       api
         .profile()
-        .updateProfile(profile.id, { situation: 'submitted' })
+        .submitProfile()
         .then(() => {
           setLoading(false);
-          router.replace('/submitted/');
+          // router.replace('/submitted/');
         })
         .catch((error) => {
           setLoading(false);

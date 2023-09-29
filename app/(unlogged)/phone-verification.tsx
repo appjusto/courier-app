@@ -63,8 +63,6 @@ export default function PhoneVerification() {
   useEffect(() => {
     if (state === 'phone-verified') {
       codeRef?.current?.focus();
-    } else if (state === 'code-verified') {
-      router.replace('/logged');
     }
   }, [state, phone, signInWithPhoneNumber, router]);
   // handlers

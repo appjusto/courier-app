@@ -1,5 +1,6 @@
 import { documentAs, documentsAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
+import { getInstallationId } from '@/common/security/getInstallationId';
 import { getAppVersion } from '@/common/version';
 import { CourierProfile, ProfileChange, UserProfile, WithId } from '@appjusto/types';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
@@ -53,36 +54,33 @@ export default class ProfileApi {
   }
   // update profile
   async updateProfile(id: string, changes: Partial<CourierProfile>, retry = 5) {
-    // console.log('updateProfile', id);
-    return new Promise<void>((resolve, reject) => {
-      (async () => {
-        try {
-          const appVersion = getAppVersion();
-          // TODO: update
-          // const appVersion = getNativeAndManifestVersion();
-          // const appInstallationId = await getInstallationId();
-          const update: Partial<UserProfile> = {
-            ...changes,
-            appVersion,
-            appInstallationId: '',
-            platform: Platform.OS,
-            updatedOn: serverTimestamp(),
-          };
-          await profileRef(id).set(update, { merge: true });
+    const appVersion = getAppVersion();
+    const appInstallationId = await getInstallationId();
+    const update: Partial<UserProfile> = {
+      ...changes,
+      appVersion,
+      appInstallationId,
+      platform: Platform.OS,
+      updatedOn: serverTimestamp(),
+    };
+    try {
+      await profileRef(id).update(update);
+    } catch (error) {
+      if (retry > 0) {
+        setTimeout(() => this.updateProfile(id, changes, retry - 1), 2000);
+      } else {
+        throw error;
+      }
+    }
+  }
 
-          resolve();
-        } catch (error) {
-          if (retry > 0) {
-            setTimeout(() => resolve(this.updateProfile(id, changes, retry - 1)), 2000);
-          } else {
-            console.error(error);
-            // Sentry.Native.captureException(error);
-            // resolve();
-            reject(error);
-          }
-        }
-      })();
-    });
+  async submitProfile() {
+    const courierId = this.auth.getUserId();
+    if (!courierId) return;
+    await profileRef(courierId).update({
+      situation: 'submitted',
+      updatedOn: serverTimestamp(),
+    } as Partial<CourierProfile>);
   }
 
   async updateLocation(id: string, location: FirebaseFirestoreTypes.GeoPoint) {
@@ -135,11 +133,11 @@ export default class ProfileApi {
   getSelfiePath(size?: string) {
     const courierId = this.auth.getUserId();
     if (!courierId) return null;
-    return `couriers/${courierId}/selfie${size ? `_${size}` : ''}.jpg`;
+    return `couriers/${courierId}/selfie${size ? `_${size}x${size}` : ''}.jpg`;
   }
   getDocumentPath(size?: string) {
     const courierId = this.auth.getUserId();
     if (!courierId) return null;
-    return `couriers/${courierId}/document${size ? `_${size}` : ''}.jpg`;
+    return `couriers/${courierId}/document${size ? `_${size}x${size}` : ''}.jpg`;
   }
 }

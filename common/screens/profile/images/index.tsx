@@ -39,18 +39,19 @@ export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   // state
   const [cameraPermissionStatus, requestCameraPermission] = useCameraPermissions();
   const [mediaPermissionStatus, requestMediaPermission] = useMediaLibraryPermissions();
+  const size = approved ? '1024' : undefined;
   const [selfieBase64, setSelfieBase64] = useState('');
   const [documentBase64, setDocumentBase64] = useState('');
   const {
     downloadURL: selfieUrl,
     loading: loadingSelfie,
     upload: uploadSelfie,
-  } = useStorageFile(courierId ? api.profile().getSelfiePath() : undefined);
+  } = useStorageFile(courierId ? api.profile().getSelfiePath(size) : undefined);
   const {
     downloadURL: documentUrl,
     loading: loadingDocument,
     upload: uploadDocument,
-  } = useStorageFile(courierId ? api.profile().getDocumentPath() : undefined);
+  } = useStorageFile(courierId ? api.profile().getDocumentPath(size) : undefined);
   // helpers
 
   // const canUploadImages = getEnv() !== 'live' || courier?.situation !== 'approved';

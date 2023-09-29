@@ -1,5 +1,4 @@
 import { useContextApi } from '@/api/ApiContext';
-import { useProtectedRoute } from '@/common/auth/useProtectedRoute';
 import { CourierProfile, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
@@ -28,7 +27,6 @@ export const AuthProvider = (props: Props) => {
   // console.log('userId', userId);
   // console.log('profile', profile);
   // side effects
-  useProtectedRoute(user);
   useEffect(() => {
     if (!userId) return;
     return api.profile().observeProfile<CourierProfile>(userId, setProfile);

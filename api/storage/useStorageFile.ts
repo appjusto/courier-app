@@ -1,7 +1,7 @@
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { getDownloadURL } from '../files/getDownloadURL';
-import { putFile } from '../files/putFile';
+import { getDownloadURL } from './getDownloadURL';
+import { putFile } from './putFile';
 
 export const useStorageFile = (path?: string | null) => {
   // state

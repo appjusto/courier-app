@@ -8,18 +8,19 @@ export default function Index() {
   // context
   const router = useSafeRouter();
   // state
-  const user = useContextProfile();
+  const profile = useContextProfile();
+  const situation = profile === null ? null : profile?.situation;
   // side effects
   useTrackScreenView('Index');
   // routing
   useEffect(() => {
     if (!router) return;
-    if (user === undefined) return;
-    if (user === null) router.replace('/welcome');
-    else router.replace('/logged');
+    if (situation === undefined) return;
+    if (situation === null) router.replace('/welcome');
+    else if (situation === 'approved') router.replace('/home');
     // ShowToast('Index ' + user?.id);
     // setTimeout(() => router.replace(user === null ? '/welcome' : '/logged'), 1);
-  }, [user, router]);
+  }, [situation, router]);
   // UI
   return <Loading />;
 }
