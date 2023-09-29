@@ -60,9 +60,6 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
     api
       .orders()
       .completeDelivery({ orderId, handshakeResponse: code })
-      .then(() => {
-        setLoading(false);
-      })
       .catch((error: unknown) => {
         setLoading(false);
         if (error instanceof Error) {
@@ -76,9 +73,6 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
     api
       .orders()
       .completeDelivery({ orderId, deliveredTo, comment })
-      .then(() => {
-        setLoading(false);
-      })
       .catch((error: unknown) => {
         setLoading(false);
         if (error instanceof Error) {

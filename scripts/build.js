@@ -44,7 +44,7 @@ const run = async () => {
     profile,
     '--platform',
     platform,
-    ...(REMOTE !== 'true' ? [] : ['--clear-cache', '--local']),
+    ...(REMOTE === 'true' ? [] : ['--clear-cache', '--local']),
   ];
   console.log(`Criando build ${profile} para ${platform} no ambiente ${ENV}: eas`, args.join(' '));
   spawn('env-cmd', args, { stdio: 'inherit' });
