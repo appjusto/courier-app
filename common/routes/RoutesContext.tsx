@@ -23,8 +23,9 @@ export const RoutesProvider = (props: Props) => {
   // routing
   useEffect(() => {
     if (situation === undefined) return;
-    if (situation === null && restricted) router.replace('/welcome');
-    else if (situation === 'pending') {
+    if (situation === null) {
+      if (restricted) router.replace('/welcome');
+    } else if (situation === 'pending') {
       router.replace('/pending');
     } else if (situation === 'submitted') {
       router.replace('/submitted');
@@ -33,6 +34,7 @@ export const RoutesProvider = (props: Props) => {
         router.replace('/submitted');
       }
     } else if (situation === 'approved') {
+      if (!restricted) router.replace('/home');
     }
   }, [situation, restricted, api]);
   // result

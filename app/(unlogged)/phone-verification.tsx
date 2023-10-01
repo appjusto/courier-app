@@ -13,7 +13,7 @@ import screens from '@/common/styles/screens';
 import analytics from '@react-native-firebase/analytics';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 
@@ -22,7 +22,6 @@ type ScreenState = 'phone-verified' | 'verifying-code' | 'code-verified' | 'erro
 export default function PhoneVerification() {
   // context
   const auth = useContextApi().auth();
-  const router = useRouter();
   // params
   const search = useLocalSearchParams<{ countryCode: string; phone: string }>();
   const countryCode = search.countryCode ?? '55';
@@ -67,7 +66,7 @@ export default function PhoneVerification() {
     if (state === 'phone-verified') {
       codeRef?.current?.focus();
     }
-  }, [state, phone, signInWithPhoneNumber, router]);
+  }, [state, phone, signInWithPhoneNumber]);
   // handlers
   const verifyHandler = () => {
     setState('verifying-code');
@@ -75,7 +74,6 @@ export default function PhoneVerification() {
       ?.confirm(code)
       .then((result) => {
         setState('code-verified');
-        router.push('/home');
         analytics().logLogin({ method: 'Firebase Phone' }).catch(console.error);
       })
       .catch((error) => {
