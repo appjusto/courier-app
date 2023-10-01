@@ -11,6 +11,7 @@ export interface Extra {
     emulator: {
       host?: string;
     };
+    appCheckDebugToken?: string;
   };
   algolia: AlgoliaConfig;
   eas: {

@@ -34,6 +34,7 @@
     "@react-native-community/datetimepicker": "^7.6.0",
     "@react-native-firebase/analytics": "^18.4.0",
     "@react-native-firebase/app": "^18.4.0",
+    "@react-native-firebase/app-check": "^18.5.0",
     "@react-native-firebase/auth": "^18.4.0",
     "@react-native-firebase/crashlytics": "^18.4.0",
     "@react-native-firebase/firestore": "^18.4.0",

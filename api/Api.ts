@@ -1,10 +1,11 @@
 import firebase from '@react-native-firebase/app';
+import appCheck from '@react-native-firebase/app-check';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import functions, { FirebaseFunctionsTypes } from '@react-native-firebase/functions';
 import storage from '@react-native-firebase/storage';
 
-import { getManifestExtra } from '../extra';
+import { getManifestExtra, isLive } from '../extra';
 import AuthApi from './auth/AuthApi';
 import ChatsApi from './chats/ChatsApi';
 import CouriersApi from './couriers/CouriersApi';
@@ -35,6 +36,20 @@ export default class Api {
 
   constructor() {
     auth().languageCode = 'pt';
+    const provider = appCheck().newReactNativeFirebaseAppCheckProvider();
+    provider.configure({
+      android: {
+        // provider: __DEV__ ? 'debug' : 'playIntegrity',
+        provider: isLive() ? 'playIntegrity' : 'debug',
+        debugToken: extra.firebase.appCheckDebugToken,
+      },
+      apple: {
+        // provider: __DEV__ ? 'debug' : 'appAttestWithDeviceCheckFallback',
+        provider: isLive() ? 'appAttestWithDeviceCheckFallback' : 'debug',
+        debugToken: extra.firebase.appCheckDebugToken,
+      },
+    });
+    appCheck().initializeAppCheck({ provider, isTokenAutoRefreshEnabled: true });
     this.functions = firebase.app().functions(extra.firebase.region);
     if (extra.firebase.emulator.host) {
       const host = extra.firebase.emulator.host;
