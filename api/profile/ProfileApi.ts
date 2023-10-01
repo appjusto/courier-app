@@ -20,7 +20,8 @@ const usersChangesRef = () => usersSubcollectionsRef().collection('changes');
 export default class ProfileApi {
   constructor(
     private auth: AuthApi,
-    private storage: StorageApi
+    private storage: StorageApi,
+    public justSubmitted: boolean = false
   ) {}
 
   // public API
@@ -77,6 +78,7 @@ export default class ProfileApi {
   async submitProfile() {
     const courierId = this.auth.getUserId();
     if (!courierId) return;
+    this.justSubmitted = true;
     await profileRef(courierId).update({
       situation: 'submitted',
       updatedOn: serverTimestamp(),

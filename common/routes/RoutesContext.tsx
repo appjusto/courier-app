@@ -1,3 +1,4 @@
+import { useContextApi } from '@/api/ApiContext';
 import { router, useSegments } from 'expo-router';
 import React, { useEffect } from 'react';
 import { useContextProfile } from '../auth/AuthContext';
@@ -12,6 +13,7 @@ const RoutesContext = React.createContext<Value>({});
 
 export const RoutesProvider = (props: Props) => {
   // context
+  const api = useContextApi();
   const profile = useContextProfile();
   const segments = useSegments();
   const restricted = segments[0] === '(logged)';
@@ -21,19 +23,18 @@ export const RoutesProvider = (props: Props) => {
   // routing
   useEffect(() => {
     if (situation === undefined) return;
-    if (situation === null) router.replace('/welcome');
+    if (situation === null && restricted) router.replace('/welcome');
     else if (situation === 'pending') {
       router.replace('/pending');
-    } else if (situation === 'submitted' || situation === 'verified') {
+    } else if (situation === 'submitted') {
       router.replace('/submitted');
+    } else if (situation === 'verified') {
+      if (!api.profile().justSubmitted) {
+        router.replace('/submitted');
+      }
+    } else if (situation === 'approved') {
     }
-  }, [situation]);
-
-  useEffect(() => {
-    if (restricted) {
-      if (situation === null) router.replace('/sign-in');
-    }
-  }, [situation, restricted]);
+  }, [situation, restricted, api]);
   // result
   return <RoutesContext.Provider value={{}}>{props.children}</RoutesContext.Provider>;
 };

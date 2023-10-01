@@ -24,7 +24,6 @@ export default function PhoneVerification() {
   const auth = useContextApi().auth();
   const router = useRouter();
   // params
-  // @ts-ignore
   const search = useLocalSearchParams<{ countryCode: string; phone: string }>();
   const countryCode = search.countryCode ?? '55';
   const phone = search.phone;

@@ -1,3 +1,4 @@
+import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import HowAppJustoWorksContent, {
@@ -5,15 +6,15 @@ import HowAppJustoWorksContent, {
 } from '@/common/screens/profile/howitworks';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';
 import screens from '@/common/styles/screens';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 export default function SubmittedIndex() {
+  // context
+  const api = useContextApi();
   const router = useRouter();
-  // params
-  // @ts-expect-error
-  const search = useLocalSearchParams<{ justSubmitted: boolean }>();
-  const { justSubmitted } = search;
+  // state
+  const justSubmitted = api.profile().justSubmitted;
   // track
   useTrackScreenView('Cadastro enviado', { justSubmitted });
   // handler
@@ -44,7 +45,7 @@ export default function SubmittedIndex() {
         <FeedbackHeader
           title={title()}
           text={text()}
-          variant={search.justSubmitted ? 'success' : 'warning'}
+          variant={justSubmitted ? 'success' : 'warning'}
         />
         <HowAppJustoWorksContent onSelect={onSelectHandler} />
       </DefaultScrollView>

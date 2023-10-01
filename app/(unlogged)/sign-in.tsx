@@ -88,7 +88,6 @@ export default function SignIn() {
             onPress={() => {
               router.push({
                 pathname: `/phone-verification`,
-                // @ts-ignore
                 params: { phone, countryCode: 55 },
               });
             }}
