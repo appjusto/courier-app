@@ -1,7 +1,7 @@
 {
   "name": "app-sdk49",
   "main": "expo-router/entry",
-  "version": "13.0.13",
+  "version": "13.0.14",
   "scripts": {
     "start": "env-cmd -f .env.${ENV:-dev}.local expo start --dev-client",
     "start:dev": "ENV=dev npm run start",
