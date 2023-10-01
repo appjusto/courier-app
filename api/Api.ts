@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import functions, { FirebaseFunctionsTypes } from '@react-native-firebase/functions';
 import storage from '@react-native-firebase/storage';
 
-import { getManifestExtra, isLive } from '../extra';
+import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
 import ChatsApi from './chats/ChatsApi';
 import CouriersApi from './couriers/CouriersApi';
@@ -39,14 +39,12 @@ export default class Api {
     const provider = appCheck().newReactNativeFirebaseAppCheckProvider();
     provider.configure({
       android: {
-        // provider: __DEV__ ? 'debug' : 'playIntegrity',
-        provider: isLive() ? 'playIntegrity' : 'debug',
-        debugToken: extra.firebase.appCheckDebugToken,
+        provider: __DEV__ ? 'debug' : 'playIntegrity',
+        debugToken: extra.firebase.appCheckAndroidDebugToken,
       },
       apple: {
-        // provider: __DEV__ ? 'debug' : 'appAttestWithDeviceCheckFallback',
-        provider: isLive() ? 'appAttestWithDeviceCheckFallback' : 'debug',
-        debugToken: extra.firebase.appCheckDebugToken,
+        provider: __DEV__ ? 'debug' : 'appAttestWithDeviceCheckFallback',
+        debugToken: extra.firebase.appCheckIosDebugToken,
       },
     });
     appCheck().initializeAppCheck({ provider, isTokenAutoRefreshEnabled: true });

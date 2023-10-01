@@ -146,7 +146,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         host: process.env.EXPO_PUBLIC_FIREBASE_EMULATOR,
       },
       region: 'southamerica-east1',
-      appCheckDebugToken: process.env.EXPO_PUBLIC_FIREBASE_APP_CHECK_DEBUG_TOKEN,
+      appCheckAndroidDebugToken: process.env.EXPO_PUBLIC_FIREBASE_APP_CHECK_ANDROID_DEBUG_TOKEN,
+      appCheckIosDebugToken: process.env.EXPO_PUBLIC_FIREBASE_APP_CHECK_IOS_DEBUG_TOKEN,
     },
     algolia: {
       appId: process.env.EXPO_PUBLIC_ALGOLIA_APPID,

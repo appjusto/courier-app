@@ -34,9 +34,6 @@ export default class AuthApi {
 
   getUserId() {
     const id = this.getCurrentUser()?.uid;
-    if (!id) {
-      console.warn('getId', id);
-    }
     return id;
   }
 
