@@ -8,7 +8,7 @@
     "update": "node ./scripts/update",
     "update:dev": "ENV=dev npm run update",
     "build": "node ./scripts/build",
-    "build:local": "env-cmd -f .env.${ENV:-dev}.local eas build --platform ${PLATFORM:-android} --profile debug --local",
+    "prebuild": "env-cmd -f .env.${ENV:-dev}.local npx expo prebuild --clean",
     "update-channel": "env-cmd -f .env.${ENV:-dev}.local eas channel:edit $CHANNEL --branch main",
     "update-channel:dev": "ENV=dev npm run update-channel",
     "republish": "env-cmd -f .env.${ENV:-dev}.local eas update:republish --group $GROUP",
@@ -17,7 +17,9 @@
     "postversion": "git push && git push --tags && git fetch",
     "postinstall": "patch-package",
     "test": "jest --watchAll",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android": "expo run:android",
+    "ios": "env-cmd -f .env.${ENV:-dev}.local npx expo run:ios"
   },
   "jest": {
     "preset": "jest-expo"
