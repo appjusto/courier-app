@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
@@ -42,6 +43,8 @@ export default function ChatScreen() {
     if (counterpartId === order.consumer.id) return order.consumer.name;
     return order.business?.name;
   };
+  // tracking
+  useTrackScreenView('Chat');
   // handlers
   const sendMessage = () => {
     if (!courierId) return;

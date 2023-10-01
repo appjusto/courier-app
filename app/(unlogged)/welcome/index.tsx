@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { ArrowRightIconButton } from '@/common/components/buttons/icon/ArrowRightIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { BulletsSteps } from '@/common/screens/unlogged/welcome/BulletsSteps';
@@ -51,6 +52,8 @@ export default function Welcome() {
   // state
   const [step, setStep] = useState(0);
   const steps = 3;
+  // track
+  useTrackScreenView('Boas vindas');
   // UI
   return (
     <View style={{ ...screens.default }}>

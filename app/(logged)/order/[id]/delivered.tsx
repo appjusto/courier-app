@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { getOrderRevenue } from '@/api/orders/revenue/getOrderRevenue';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -32,6 +33,8 @@ export default function OngoingOrderScreen() {
   const [platformReview, setPlatformReview] = useState<ReviewType>();
   const [nps, setNPS] = useState<number>();
   const [loading, setLoading] = useState(false);
+  // tracking
+  useTrackScreenView('Pedido entregue');
   // handlers
   // update review
   const setReviewHandler = () => {

@@ -1,4 +1,4 @@
-import { getEnv } from '@/extra';
+import { isLive } from '@/extra';
 import { useEffect, useState } from 'react';
 
 export const useSplashScreen = (duration = 3000) => {
@@ -6,7 +6,7 @@ export const useSplashScreen = (duration = 3000) => {
   const [shown, setShown] = useState(true);
   // effects
   useEffect(() => {
-    const timeout = setTimeout(() => setShown(false), getEnv() === 'live' ? duration : 1);
+    const timeout = setTimeout(() => setShown(false), isLive() ? duration : 1);
     return () => clearTimeout(timeout);
   }, [duration]);
   // result

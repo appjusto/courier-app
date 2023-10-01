@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import ProfileBank from '@/common/screens/profile/bank';
 import ProfileCompany from '@/common/screens/profile/company';
 import ProfilePersonalImages from '@/common/screens/profile/images';
@@ -37,6 +38,8 @@ export default function PendingPager() {
   const pagerViewRef = useRef<PagerView>(null);
   // state
   const [stepIndex, setStepIndex] = useState(initialPage);
+  // tracking
+  useTrackScreenView('Cadastro');
   // handlers
   const nextHandler = () => {
     if (stepIndex + 1 < steps.length) {

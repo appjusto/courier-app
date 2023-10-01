@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -17,6 +18,8 @@ export default function ProfileNotifications() {
   const api = useContextApi();
   // state
   const profile = useContextProfile();
+  // tracking
+  useTrackScreenView('Sua conta: Notificações');
   // handlers
   const toggleNotificationPreference = (channel: NotificationChannel) => {
     if (!profile?.id) return;

@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { Loading } from '@/common/components/views/Loading';
@@ -10,6 +11,8 @@ export default function FleetDetailScreen() {
   // context
   const params = useLocalSearchParams<{ id: string }>();
   const fleet = useObserveFleet(params.id);
+  // tracking
+  useTrackScreenView('Sua frota', { fleetName: fleet?.name }, Boolean(fleet));
   // UI
   if (!fleet) return <Loading />;
   return (

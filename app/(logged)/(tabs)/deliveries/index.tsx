@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveOrdersOfLast24h } from '@/api/orders/useObserveOrdersOfLast24h';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -15,6 +16,8 @@ export default function DeliveriesIndex() {
   const router = useRouter();
   // state
   const orders = useObserveOrdersOfLast24h();
+  // tracking
+  useTrackScreenView('Suas corridas');
   // UI
   if (!orders) return <Loading />;
   return (

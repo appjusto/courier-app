@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useFetchWithdraws } from '@/api/couriers/withdraws/useFetchWithdraws';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -16,6 +17,8 @@ export default function WithdrawsScreen() {
   const [from, setFrom] = useState<Date>();
   const [to, setTo] = useState<Date>();
   const withdraws = useFetchWithdraws(from, to);
+  // tracking
+  useTrackScreenView('Transferências');
   // handlers
   const changeHandler = useCallback((from: Date, to: Date) => {
     // console.log('onChange', from, to);
@@ -35,7 +38,7 @@ export default function WithdrawsScreen() {
                 key={withdraw.id}
                 onPress={() => {
                   router.push({
-                    pathname: '/deliveries/withdraws/[id]',
+                    pathname: '/(logged)/(tabs)/deliveries/withdraws/[id]',
                     params: { id: withdraw.id },
                   });
                 }}

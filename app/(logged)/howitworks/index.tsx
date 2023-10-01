@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import HowAppJustoWorksContent, {
   HowAppJustoWorksContentType,
 } from '@/common/screens/profile/howitworks';
@@ -5,6 +6,8 @@ import { Stack, router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
 export default function HowAppJustoWorks() {
+  // tracking
+  useTrackScreenView('Como funciona');
   // handler
   const onSelectHandler = (screen: HowAppJustoWorksContentType) => {
     router.push(`/profile/howitworks/${screen}`);

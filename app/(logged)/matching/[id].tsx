@@ -1,4 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
+import { trackEvent } from '@/api/analytics/track';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
@@ -43,6 +45,8 @@ export default function MatchingScreen() {
   // console.log('orderId', orderId);
   // console.log('request', request);
   // console.log('route', route);
+  // tracking
+  useTrackScreenView('Matching');
   // side effects
   useRouterAccordingOrderStatus(request?.orderId, order?.status);
   // update request to viewed
@@ -68,11 +72,18 @@ export default function MatchingScreen() {
     api
       .orders()
       .matchOrder(request.orderId, route?.distance)
-      .then(() => setConfirmed(true))
+      .then(() => {
+        setConfirmed(true);
+        trackEvent('Corrida aceita');
+      })
       .catch((error: unknown) => {
         if (error instanceof Error) showToast(error.message, 'error');
       });
   }, [api, request?.orderId, route?.distance, showToast]);
+  const rejectOrder = () => {
+    trackEvent('Corrida recusada');
+    // TODO: abrir modal
+  };
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
   const {
@@ -170,7 +181,7 @@ export default function MatchingScreen() {
           style={{ marginTop: paddings.lg }}
           variant="outline"
           title="Passar"
-          onPress={() => null}
+          onPress={rejectOrder}
         />
       </View>
     </DefaultView>

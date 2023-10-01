@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { Loading } from '@/common/components/views/Loading';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
@@ -12,19 +13,11 @@ export default function OrderScreen() {
   const orderStatus = order?.status;
   console.log('OrderScreen orderId', orderId);
   console.log('OrderScreen orderStatus', orderStatus);
+  // tracking
+  useTrackScreenView('Pedido');
   // side effects
   useRouterAccordingOrderStatus(orderId, orderStatus);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   return null;
-  // return (
-  //   <View style={{ ...screens.default, justifyContent: 'center', alignItems: 'center' }}>
-  //     <DefaultButton
-  //       title="Andamento"
-  //       onPress={() =>
-  //         router.replace({ pathname: '/(logged)/order/[id]/ongoing', params: { id: orderId } })
-  //       }
-  //     />
-  //   </View>
-  // );
 }

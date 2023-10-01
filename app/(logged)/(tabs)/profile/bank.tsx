@@ -1,9 +1,12 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import ProfileBank from '@/common/screens/profile/bank';
 import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ProfileBankScreen() {
+  // tracking
+  useTrackScreenView('Sua conta: Dados bancários');
   // context
   const router = useRouter();
   // UI

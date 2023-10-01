@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
@@ -20,7 +21,8 @@ export default function SignIn() {
   const [phone, setPhone] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const canSubmit = termsAccepted && isPhoneValid(phone);
-
+  // track
+  useTrackScreenView('Login');
   // UI
   return (
     <KeyboardAwareScrollView

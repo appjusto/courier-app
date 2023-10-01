@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import {
@@ -15,6 +16,8 @@ import { Linking } from 'react-native';
 export default function HelpScreen() {
   // context
   const router = useRouter();
+  // tracking
+  useTrackScreenView('Ajuda');
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>

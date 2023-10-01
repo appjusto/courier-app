@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -24,6 +25,8 @@ export default function WithdrawDetailScreen() {
   const { showToast } = useToast();
   // state
   const [withdraw, setWithdraw] = useState<AccountWithdraw | null>();
+  // tracking
+  useTrackScreenView('Transferência');
   // side effects
   useEffect(() => {
     api

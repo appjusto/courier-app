@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import HowAppJustoWorksContent, {
   HowAppJustoWorksContentType,
@@ -12,20 +13,23 @@ export default function SubmittedIndex() {
   // params
   // @ts-expect-error
   const search = useLocalSearchParams<{ justSubmitted: boolean }>();
+  const { justSubmitted } = search;
+  // track
+  useTrackScreenView('Cadastro enviado', { justSubmitted });
   // handler
   const onSelectHandler = (screen: HowAppJustoWorksContentType) => {
     router.push(`/submitted/howitworks/${screen}`);
   };
   // UI
   const title = () => {
-    if (search.justSubmitted) {
+    if (justSubmitted) {
       return 'Cadastro enviado com sucesso';
     } else {
       return 'O seu cadastro está em análise';
     }
   };
   const text = () => {
-    if (search.justSubmitted) {
+    if (justSubmitted) {
       return ['Enquanto seu cadastro não é aprovado, conheça mais sobre o Appjusto.'];
     } else {
       return [

@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useSearchFleets } from '@/api/search/useSearchFleets';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
@@ -15,6 +16,8 @@ export default function FleetsSearch() {
   // state
   const [fleetName, setFleetName] = useState('');
   const { fleets } = useSearchFleets(fleetName);
+  // tracking
+  useTrackScreenView('Frotas disponíveis');
   // UI
   const title = 'Frotas disponíveis';
   if (!fleets) return <Loading title={title} />;

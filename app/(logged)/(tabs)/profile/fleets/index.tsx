@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -16,8 +17,10 @@ export default function FleetsScreen() {
   const profile = useContextProfile();
   // state
   const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
+  // tracking
+  useTrackScreenView('Sua frota');
   // UI
-  const title = 'Frota';
+  const title = 'Sua frota';
   if (!fleet) return <Loading title={title} />;
   return (
     <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>

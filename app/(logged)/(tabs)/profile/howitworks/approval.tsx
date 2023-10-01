@@ -1,8 +1,11 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import ApprovalProcess from '@/common/screens/profile/howitworks/approval';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 
 export default function ApprovalProcessScreen() {
+  // tracking
+  useTrackScreenView('Sua conta: Aprovação de cadastro');
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>

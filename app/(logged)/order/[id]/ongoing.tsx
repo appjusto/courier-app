@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -27,6 +28,8 @@ export default function OngoingOrderScreen() {
   const dispatchingState = order?.dispatchingState;
   // console.log('orderId', orderId);
   // console.log('orderStatus', orderStatus);
+  // tracking
+  useTrackScreenView('Pedido em andamento');
   // side effects
   useRouterAccordingOrderStatus(orderId, orderStatus, true);
   // UI

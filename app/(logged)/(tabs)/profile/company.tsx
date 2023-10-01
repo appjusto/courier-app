@@ -1,9 +1,12 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import ProfileCompany from '@/common/screens/profile/company';
 import screens from '@/common/styles/screens';
 import { Stack } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ProfileCompanyScreen() {
+  // tracking
+  useTrackScreenView('Sua conta: Dados da sua PJ');
   // UI
   return (
     <KeyboardAwareScrollView

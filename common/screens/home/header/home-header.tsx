@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { trackEvent } from '@/api/analytics/track';
 import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -30,6 +31,7 @@ export const HomeHeader = () => {
       return;
     }
     const newStatus: CourierStatus = status === 'available' ? 'unavailable' : 'available';
+    trackEvent('Disponibilidade', { status: newStatus });
     api
       .profile()
       .updateProfile(profile.id, { status: newStatus })

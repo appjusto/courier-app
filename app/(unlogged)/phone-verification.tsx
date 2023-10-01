@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -9,6 +10,7 @@ import { phoneFormatter } from '@/common/formatters/phone';
 import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
+import analytics from '@react-native-firebase/analytics';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
@@ -51,6 +53,8 @@ export default function PhoneVerification() {
       });
   }, [auth, phone, countryCode]);
   // side effects
+  // track
+  useTrackScreenView('Verificação de telefone');
   // sign in
   useEffect(() => {
     signInWithPhoneNumber();
@@ -72,6 +76,7 @@ export default function PhoneVerification() {
       ?.confirm(code)
       .then((result) => {
         setState('code-verified');
+        analytics().logLogin({ method: 'Firebase Phone' }).catch(console.error);
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
