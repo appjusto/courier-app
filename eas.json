@@ -10,10 +10,6 @@
       "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
-      "env": {
-        "EAS_BUILD_DISABLE_NPM_CACHE": "1",
-        "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1"
-      },
       "ios": {
         "simulator": true,
         "buildConfiguration": "Debug"
@@ -35,11 +31,7 @@
     },
     "store": {
       "extends": "base",
-      "distribution": "store",
-      "env": {
-        "EAS_BUILD_DISABLE_NPM_CACHE": "1",
-        "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1"
-      }
+      "distribution": "store"
     }
   },
   "submit": {
