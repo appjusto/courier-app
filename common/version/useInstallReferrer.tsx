@@ -4,8 +4,10 @@ import { fromDate } from '@/api/firebase/timestamp';
 import * as Application from 'expo-application';
 import queryString from 'query-string';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { useContextProfile } from '../auth/AuthContext';
 import { serverTimestamp } from '../firebase/serverTimestamp';
+import { onSimulator } from './device';
 
 export const useInstallReferrer = () => {
   // redux
@@ -17,7 +19,9 @@ export const useInstallReferrer = () => {
     let referrer = '';
     let time: Date | null = null;
     try {
-      referrer = await Application.getInstallReferrerAsync();
+      if (Platform.OS === 'android') {
+        referrer = await Application.getInstallReferrerAsync();
+      }
       time = await Application.getInstallationTimeAsync();
     } catch (error: unknown) {
       console.log(error);
@@ -26,6 +30,7 @@ export const useInstallReferrer = () => {
   };
   // side effects
   useEffect(() => {
+    if (onSimulator()) return;
     if (!courierId) return;
     if (installReferrer !== null) {
       getInstallationDetails()

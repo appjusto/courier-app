@@ -2,6 +2,7 @@ import { NotificationChannel, OrderMatchPushMessageData } from '@appjusto/types'
 import * as Linking from 'expo-linking';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
+import { ShowToast } from '../components/toast/Toast';
 import { getDomain } from '../constants/urls';
 import { playOrderRequestSound } from './sound';
 
@@ -13,7 +14,9 @@ TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionIn
   const { channelId, body } = (data as Payload).notification.data;
   console.log('channelId', channelId);
   if (channelId === 'order-request') {
-    playOrderRequestSound().then(null).catch(console.error);
+    playOrderRequestSound()
+      .then(null)
+      .catch((error) => ShowToast(JSON.stringify(error)));
     try {
       const { url } = JSON.parse(body) as OrderMatchPushMessageData;
       const link = `https://${getDomain()}${url}`;

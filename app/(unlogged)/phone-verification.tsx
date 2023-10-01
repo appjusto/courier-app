@@ -76,6 +76,7 @@ export default function PhoneVerification() {
       ?.confirm(code)
       .then((result) => {
         setState('code-verified');
+        router.push('/home');
         analytics().logLogin({ method: 'Firebase Phone' }).catch(console.error);
       })
       .catch((error) => {
