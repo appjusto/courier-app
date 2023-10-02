@@ -38,7 +38,7 @@ export default function ProfileSettings() {
           subtitles={['Na frota é onde as condições de participação são definidas']}
           leftView={<HelmetIcon />}
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
-          onPress={() => router.push('/profile/fleets/')}
+          onPress={() => router.push('/fleets/')}
         />
         <DefaultListItem
           title="Notificações"

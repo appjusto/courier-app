@@ -12,7 +12,7 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
 import { useEffect, useState } from 'react';
@@ -26,7 +26,6 @@ interface Props extends ViewProps {}
 export const HomeFleet = ({ style, ...props }: Props) => {
   // context
   const profile = useContextProfile();
-  const router = useRouter();
   // state
   const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
   const [opened, setOpened] = useState(false);
@@ -135,13 +134,16 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                   <DefaultButton
                     title="Trocar de frota"
                     variant="outline"
-                    onPress={() => router.push('/profile/fleets/search')}
+                    onPress={() => router.push('/fleets/search')}
                   />
                 </View>
                 <View style={{ flex: 1, marginLeft: paddings.lg }}>
                   <DefaultButton
                     title="Ver detalhes"
-                    onPress={() => router.push('/profile/fleets/')}
+                    onPress={() => {
+                      if (!fleet) return;
+                      router.push({ pathname: '/fleets/[id]', params: { id: fleet.id } });
+                    }}
                   />
                 </View>
               </View>
