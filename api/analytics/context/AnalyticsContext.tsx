@@ -6,7 +6,6 @@ import { useGlobalSearchParams, usePathname } from 'expo-router';
 import { pick } from 'lodash';
 import React, { useEffect } from 'react';
 import { trackEvent } from '../track';
-
 interface Props {
   children: React.ReactNode;
 }

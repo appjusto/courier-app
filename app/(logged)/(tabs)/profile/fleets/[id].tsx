@@ -12,7 +12,7 @@ export default function FleetDetailScreen() {
   const params = useLocalSearchParams<{ id: string }>();
   const fleet = useObserveFleet(params.id);
   // tracking
-  useTrackScreenView('Sua frota', { fleetName: fleet?.name }, Boolean(fleet));
+  useTrackScreenView('Frota', { fleetName: fleet?.name }, Boolean(fleet));
   // UI
   if (!fleet) return <Loading />;
   return (

@@ -14,7 +14,8 @@ export const useInstallReferrer = () => {
   const api = useContextApi();
   const profile = useContextProfile();
   const courierId = profile?.id;
-  const installReferrer = `${profile?.installReferrer?.utm_medium};${profile?.installReferrer?.utm_source}`;
+  const installReferrer = profile?.installReferrer;
+  // helpers
   const getInstallationDetails = async () => {
     let referrer = '';
     let time: Date | null = null;
@@ -37,7 +38,8 @@ export const useInstallReferrer = () => {
         .then(({ referrer, time }) => {
           try {
             const utm = queryString.parse(referrer);
-            if (utm && installReferrer === `${utm.utm_medium};${utm.utm_source}`) return;
+            const ir = `${installReferrer?.utm_medium};${installReferrer?.utm_source}`;
+            if (utm && ir === `${utm.utm_medium};${utm.utm_source}`) return;
             trackEvent('Instalação', { utm, time });
             api
               .profile()

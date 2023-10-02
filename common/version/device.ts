@@ -1,11 +1,10 @@
-import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import { Dimensions } from 'react-native';
 
 export const getDeviceVersion = () =>
   `${Device.brand ?? Device.manufacturer} (${Device.osName} ${Device.osVersion})`;
 
-export const onSimulator = () => Constants.appOwnership === 'expo';
+export const onSimulator = () => !Device.isDevice;
 
 export const isLargeScreen = () => {
   const { height } = Dimensions.get('window');
