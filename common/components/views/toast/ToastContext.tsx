@@ -39,3 +39,9 @@ export const useToast = () => {
   if (!value) throw new Error('Api fora de contexto.');
   return value;
 };
+
+export const useShowToast = () => {
+  const value = React.useContext(ToastContext);
+  if (!value) throw new Error('Api fora de contexto.');
+  return value.showToast;
+};

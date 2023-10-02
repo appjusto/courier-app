@@ -1,11 +1,15 @@
 import { useFetchAccountBalance } from '@/api/couriers/account/useFetchAccountBalance';
-import { useFetchPlatformParams } from '@/api/platform/params/useFetchPlatformParams';
+import {
+  useContextPlatformFees,
+  useContextPlatformParams,
+} from '@/api/platform/context/PlatformContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { formatCurrency } from '@/common/formatters/currency';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import { onSimulator } from '@/common/version/device';
 import { useRouter } from 'expo-router';
 import { ActivityIndicator, View, ViewProps } from 'react-native';
 
@@ -15,12 +19,14 @@ export const AccountSummary = ({ style, ...props }: Props) => {
   // context
   const router = useRouter();
   // state
+  const minWithdrawValue = useContextPlatformParams()?.marketplace.minWithdrawValue;
+  const withdrawFee = useContextPlatformFees()?.processing.iugu.withdraw;
   const balance = useFetchAccountBalance();
-  const platformParams = useFetchPlatformParams();
+  const withdrawValue =
+    balance !== undefined && withdrawFee !== undefined ? balance - withdrawFee : 0;
+  const canWithdraw =
+    onSimulator() || (withdrawFee && balance && minWithdrawValue && balance > minWithdrawValue);
   // UI
-  const minWithdrawValue = platformParams
-    ? formatCurrency(platformParams.marketplace.minWithdrawValue)
-    : '-';
   return (
     <View
       style={[
@@ -35,9 +41,11 @@ export const AccountSummary = ({ style, ...props }: Props) => {
       {...props}
     >
       <DefaultText size="lg">Disponível para transferência</DefaultText>
-      <DefaultText
-        style={{ marginTop: paddings.xs }}
-      >{`Valor mínimo de ${minWithdrawValue} para transferência`}</DefaultText>
+      {minWithdrawValue ? (
+        <DefaultText style={{ marginTop: paddings.xs }}>{`Valor mínimo de ${formatCurrency(
+          minWithdrawValue
+        )} para transferência`}</DefaultText>
+      ) : null}
       {balance !== undefined ? (
         <DefaultText style={{ marginTop: paddings.lg }} size="lg" color="black">
           {formatCurrency(balance)}
@@ -50,7 +58,17 @@ export const AccountSummary = ({ style, ...props }: Props) => {
       <DefaultButton
         style={{ marginTop: paddings.lg }}
         title="Transferir para conta"
-        onPress={() => null}
+        disabled={!canWithdraw}
+        onPress={() => {
+          router.push({
+            pathname: '/deliveries/withdraws/request',
+            params: {
+              balance: `${balance}`,
+              fee: `${withdrawFee}`,
+              value: `${withdrawValue}`,
+            },
+          });
+        }}
       />
       <DefaultButton
         style={{ marginTop: paddings.lg }}

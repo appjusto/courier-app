@@ -5,7 +5,9 @@ import {
   AccountWithdraw,
   CourierOrderRequest,
   CourierOrderRequestSituation,
+  FetchAccountInformationPayload,
   FetchAccountInformationResponse,
+  RequestWithdrawPayload,
   WithId,
 } from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
@@ -20,7 +22,7 @@ const fetchAccountInformation = firebase
   .app()
   .functions(region)
   .httpsCallable('fetchAccountInformation');
-
+const requestWithdraw = firebase.app().functions(region).httpsCallable('requestWithdraw');
 // firestore
 const courierRequestsRef = () => firestore().collection('courier-requests');
 const courierRequestRef = (id: string) => courierRequestsRef().doc(id);
@@ -93,14 +95,36 @@ export default class CouriersApi {
 
   // account
   async fetchAccountInformation() {
+    const accountId = this.auth.getUserId();
+    if (!accountId) {
+      return;
+    }
     try {
-      return (
-        await fetchAccountInformation({
-          accountType: 'courier',
-          accountId: this.auth.getUserId(),
-          meta: { version: getAppVersion() },
-        })
-      ).data as FetchAccountInformationResponse;
+      const payload: FetchAccountInformationPayload = {
+        accountType: 'courier',
+        accountId,
+        meta: { version: getAppVersion() },
+      };
+      const response = await fetchAccountInformation(payload);
+      return response.data as FetchAccountInformationResponse;
+    } catch (error: unknown) {
+      if (error instanceof Error) crashlytics().recordError(error);
+      throw new Error('Não foi possível obter seu saldo. Tente novamente mais tarde.');
+    }
+  }
+  async requestWithdraw(amount: number) {
+    const accountId = this.auth.getUserId();
+    if (!accountId) {
+      return;
+    }
+    try {
+      const payload: RequestWithdrawPayload = {
+        accountType: 'courier',
+        accountId,
+        amount,
+        meta: { version: getAppVersion() },
+      };
+      await requestWithdraw(payload);
     } catch (error: unknown) {
       if (error instanceof Error) crashlytics().recordError(error);
       throw new Error('Não foi possível obter seu saldo. Tente novamente mais tarde.');
