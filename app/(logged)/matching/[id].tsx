@@ -17,10 +17,12 @@ import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { formatTimestamp } from '@/common/formatters/timestamp';
 import { stopOrderRequestSound } from '@/common/notifications/sound';
+import { RejectOrderModal } from '@/common/screens/matching/reject-order-modal';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
+import { Issue } from '@appjusto/types';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
 import { Zap } from 'lucide-react-native';
@@ -39,7 +41,9 @@ export default function MatchingScreen() {
   const situation = request?.situation;
   const route = useMapRoute(request?.origin);
   const [confirmed, setConfirmed] = useState(false);
-  const [modalShown, setModalShown] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [expiredModalShown, setExpiredModalShown] = useState(false);
+  const [rejectModalShown, setRejectModalShown] = useState(false);
   const order = useObserveOrder(request?.orderId, confirmed);
   console.log('requestId', requestId);
   // console.log('orderId', orderId);
@@ -50,39 +54,54 @@ export default function MatchingScreen() {
   // side effects
   useRouterAccordingOrderStatus(request?.orderId, order?.status);
   // update request to viewed
+  // stop sound and update request as viewed
   useEffect(() => {
     if (!requestId) return;
     stopOrderRequestSound().then(null).catch(null);
     api.couriers().viewOrderRequest(requestId).catch(console.error);
   }, [api, requestId]);
+  // update route polyline
   useEffect(() => {
     if (!route) return;
     api.couriers().updateRoutePolylineToOrigin(requestId, route.polyline).catch(console.error);
   }, [route, requestId, api]);
-  // modal
+  // open modal if request expired
   useEffect(() => {
     if (!situation) return;
     if (situation === 'expired') {
-      setModalShown(true);
+      setExpiredModalShown(true);
     }
   }, [situation]);
   // handlers
   const matchOrder = useCallback(() => {
     if (!request?.orderId) return;
+    trackEvent('Corrida aceita');
     api
       .orders()
       .matchOrder(request.orderId, route?.distance)
       .then(() => {
         setConfirmed(true);
-        trackEvent('Corrida aceita');
       })
       .catch((error: unknown) => {
         if (error instanceof Error) showToast(error.message, 'error');
       });
   }, [api, request?.orderId, route?.distance, showToast]);
-  const rejectOrder = () => {
+  const rejectOrder = (issue: Issue) => {
+    if (!request?.orderId) return;
     trackEvent('Corrida recusada');
-    // TODO: abrir modal
+    setRejectModalShown(false);
+    setLoading(true);
+    api
+      .orders()
+      .rejectOrder(request.orderId, issue)
+      .then(() => {
+        setLoading(false);
+        router.back();
+      })
+      .catch((error: unknown) => {
+        setLoading(false);
+        if (error instanceof Error) showToast(error.message, 'error');
+      });
   };
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
@@ -106,11 +125,16 @@ export default function MatchingScreen() {
       <ErrorModal
         title="Ooops! :("
         text="Este pedido já foi aceito por outro entregador"
-        visible={modalShown}
+        visible={expiredModalShown}
         onDismiss={() => {
-          setModalShown(false);
+          setExpiredModalShown(false);
           router.back();
         }}
+      />
+      <RejectOrderModal
+        visible={rejectModalShown}
+        onConfirm={rejectOrder}
+        onDismiss={() => setRejectModalShown(false)}
       />
       <View style={{ paddingVertical: paddings.xl, paddingHorizontal: paddings.lg }}>
         {/* tags */}
@@ -181,7 +205,11 @@ export default function MatchingScreen() {
           style={{ marginTop: paddings.lg }}
           variant="outline"
           title="Passar"
-          onPress={rejectOrder}
+          loading={loading}
+          onPress={() => {
+            trackEvent('Passar corrida');
+            setRejectModalShown(true);
+          }}
         />
       </View>
     </DefaultView>

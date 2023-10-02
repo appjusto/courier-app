@@ -12,7 +12,8 @@ const getSound = async () => {
 
 export const playOrderRequestSound = async () => {
   const sound = await getSound();
-  await sound.playAsync();
+  await sound.setStatusAsync({ positionMillis: 0, shouldPlay: true });
+  // await sound.playAsync();
 };
 
 export const stopOrderRequestSound = async () => {

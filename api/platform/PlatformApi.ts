@@ -1,6 +1,13 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { getFirebaseRegion } from '@/extra';
-import { Bank, PlatformAccess, PlatformFees, PlatformParams } from '@appjusto/types';
+import {
+  Bank,
+  Issue,
+  IssueType,
+  PlatformAccess,
+  PlatformFees,
+  PlatformParams,
+} from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import AuthApi from '../auth/AuthApi';
@@ -17,6 +24,7 @@ export const platformFeesRef = () => platformRef().doc('fees');
 // platform data
 export const platformDataRef = () => platformRef().doc('data');
 export const banksRef = () => platformDataRef().collection('banks');
+export const issuesRef = () => platformDataRef().collection('issues');
 // platform logs
 export const platformLogsRef = () => platformRef().doc('logs');
 
@@ -55,5 +63,10 @@ export default class PlatformApi {
   async fetchBanks() {
     const snapshot = await banksRef().orderBy('order', 'asc').get();
     return documentsAs<Bank>(snapshot.docs);
+  }
+
+  async fetchIssues(type: IssueType) {
+    const snapshot = await issuesRef().where('type', '==', type).orderBy('order', 'asc').get();
+    return snapshot.docs.map((doc) => doc.data() as Issue);
   }
 }

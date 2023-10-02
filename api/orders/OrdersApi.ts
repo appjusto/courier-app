@@ -4,10 +4,12 @@ import { getAppVersion } from '@/common/version';
 import { getFirebaseRegion } from '@/extra';
 import {
   CompleteDeliveryPayload,
+  Issue,
   MatchOrderPayload,
   Order,
   OrderReview,
   OrderStatus,
+  RejectOrderPayload,
   WithId,
 } from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
@@ -20,6 +22,7 @@ import StorageApi from '../storage/StorageApi';
 // functions
 const region = getFirebaseRegion();
 const matchOrder = firebase.app().functions(region).httpsCallable('matchOrder');
+const rejectOrder = firebase.app().functions(region).httpsCallable('rejectOrder');
 const completeDelivery = firebase.app().functions(region).httpsCallable('completeDelivery');
 
 // firestore
@@ -101,6 +104,17 @@ export default class OrdersApi {
       meta: { version: getAppVersion() },
     };
     await matchOrder(payload);
+  }
+
+  async rejectOrder(orderId: string, issue: Issue, comment?: string) {
+    console.log('rejectOrder');
+    const payload: RejectOrderPayload = {
+      orderId,
+      issue,
+      comment,
+      meta: { version: getAppVersion() },
+    };
+    await rejectOrder(payload);
   }
 
   async completeDelivery({
