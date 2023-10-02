@@ -7,7 +7,7 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { RoundedImageBox } from '@/common/components/views/images/rounded/RoundedImageBox';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -30,7 +30,7 @@ interface Props {
 export default function ProfilePersonalImages({ onUpdateProfile }: Props) {
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   const profile = useContextProfile();
   const courierId = profile?.id;
   const approved = profile?.situation === 'approved';

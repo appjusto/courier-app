@@ -12,7 +12,7 @@ import { DefaultMap } from '@/common/components/map/DefaultMap';
 import { ErrorModal } from '@/common/components/modals/error/error-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { formatTimestamp } from '@/common/formatters/timestamp';
@@ -30,7 +30,7 @@ import { View } from 'react-native';
 export default function MatchingScreen() {
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // params
   const params = useLocalSearchParams<{ id: string }>();
   const requestId = params.id;

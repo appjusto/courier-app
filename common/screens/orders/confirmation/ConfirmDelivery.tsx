@@ -7,7 +7,7 @@ import { CodeInput } from '@/common/components/inputs/code-input/CodeInput';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedImageBox } from '@/common/components/views/images/rounded/RoundedImageBox';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -28,7 +28,7 @@ type ImageType = 'package' | 'front';
 export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // params
   const orderId = order.id;
   const { dispatchingState } = order;

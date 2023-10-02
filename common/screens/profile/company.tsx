@@ -9,7 +9,7 @@ import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import { getProfileState } from '@/common/profile/getProfileState';
 import { isCompanyValid } from '@/common/profile/isCompanyValid';
@@ -30,7 +30,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   const api = useContextApi();
   const profile = useContextProfile();
   const profileState = getProfileState(profile);
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // refs
   const nameRef = useRef<TextInput>(null);
   const cepRef = useRef<TextInput>(null);

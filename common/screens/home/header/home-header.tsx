@@ -3,7 +3,7 @@ import { trackEvent } from '@/api/analytics/track';
 import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -21,7 +21,7 @@ export const HomeHeader = () => {
   const location = useContextLocation();
   const status = profile?.status;
   const working = status === 'available' || status === 'dispatching';
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // handlers
   const toggleWorking = () => {
     if (!profile) return;

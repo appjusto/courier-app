@@ -1,4 +1,4 @@
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { AccountWithdraw, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../../ApiContext';
@@ -6,7 +6,7 @@ import { useContextApi } from '../../ApiContext';
 export const useFetchWithdraws = (from: Date | undefined, to: Date | undefined) => {
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // state
   const [withdraws, setWithdraws] = useState<WithId<AccountWithdraw>[] | null>();
   // side effects

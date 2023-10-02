@@ -5,7 +5,7 @@ import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatTimestamp } from '@/common/formatters/timestamp';
 import { WithdrawStatusBadge } from '@/common/screens/deliveries/withdraws/withdraw-status-badge';
 import paddings from '@/common/styles/paddings';
@@ -22,7 +22,7 @@ export default function WithdrawDetailScreen() {
   const withdrawId = params.id;
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // state
   const [withdraw, setWithdraw] = useState<AccountWithdraw | null>();
   // tracking

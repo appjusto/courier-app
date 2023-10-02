@@ -1,4 +1,4 @@
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { LatLng, RouteDetails } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
@@ -7,7 +7,7 @@ import { useContextInitialLocation } from '../location/context/useContextInitial
 export const useMapRoute = (to?: LatLng) => {
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // state
   const location = useContextInitialLocation();
   const [route, setRoute] = useState<RouteDetails | null>();

@@ -1,7 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { getNextDispatchingState } from '@/api/orders/dispatching-state/getNextDispatchingState';
 import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButton';
-import { useToast } from '@/common/components/views/toast/ToastContext';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import paddings from '@/common/styles/paddings';
 import { Order, WithId } from '@appjusto/types';
 import { useCallback } from 'react';
@@ -15,7 +15,7 @@ interface Props extends ViewProps {
 export const DispatchingStateControl = ({ order, style, ...props }: Props) => {
   // context
   const api = useContextApi();
-  const { showToast } = useToast();
+  const showToast = useShowToast();
   // params
   const { dispatchingState } = order;
   const orderId = order.id;
