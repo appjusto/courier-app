@@ -24,12 +24,11 @@ export const useNotifications = () => {
   // update profile with token
   useEffect(() => {
     if (!Device.isDevice) return;
-    if (!userId) return;
     if (notificationToken === undefined) return;
     if (notificationToken === currentNotificationToken) return;
     api
       .profile()
-      .updateProfile(userId, { notificationToken, updatedOn: serverTimestamp() })
+      .updateProfile({ notificationToken, updatedOn: serverTimestamp() })
       .catch(console.error);
-  }, [api, currentNotificationToken, notificationToken, userId]);
+  }, [api, currentNotificationToken, notificationToken]);
 };

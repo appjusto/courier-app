@@ -34,7 +34,7 @@ export const HomeHeader = () => {
     trackEvent('Disponibilidade', { status: newStatus });
     api
       .profile()
-      .updateProfile(profile.id, { status: newStatus })
+      .updateProfile({ status: newStatus })
       .catch((error) => {
         const message = handleErrorMessage(error);
         showToast(message, 'error');

@@ -153,7 +153,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
     if (!editing) {
       api
         .profile()
-        .updateProfile(profile.id, { bankAccount: updatedBank as BankAccount })
+        .updateProfile({ bankAccount: updatedBank as BankAccount })
         .then(() => {
           setLoading(false);
           if (onUpdateProfile) onUpdateProfile();

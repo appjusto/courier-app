@@ -96,7 +96,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
     if (!editing) {
       api
         .profile()
-        .updateProfile(profile.id, updatedUser)
+        .updateProfile(updatedUser)
         .then(() => {
           setLoading(false);
           if (onUpdateProfile) onUpdateProfile();

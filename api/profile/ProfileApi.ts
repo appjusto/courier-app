@@ -54,7 +54,9 @@ export default class ProfileApi {
     });
   }
   // update profile
-  async updateProfile(id: string, changes: Partial<CourierProfile>, retry = 5) {
+  async updateProfile(changes: Partial<CourierProfile>, retry = 5) {
+    const courierId = this.auth.getUserId();
+    if (!courierId) return null;
     const appVersion = getAppVersion();
     const appInstallationId = await getInstallationId();
     const update: Partial<UserProfile> = {
@@ -65,10 +67,10 @@ export default class ProfileApi {
       updatedOn: serverTimestamp(),
     };
     try {
-      await profileRef(id).update(update);
+      await profileRef(courierId).update(update);
     } catch (error) {
       if (retry > 0) {
-        setTimeout(() => this.updateProfile(id, changes, retry - 1), 2000);
+        setTimeout(() => this.updateProfile(changes, retry - 1), 2000);
       } else {
         throw error;
       }
@@ -85,7 +87,7 @@ export default class ProfileApi {
     } as Partial<CourierProfile>);
   }
 
-  async updateLocation(id: string, location: FirebaseFirestoreTypes.GeoPoint) {
+  async updateLocation(location: FirebaseFirestoreTypes.GeoPoint) {
     const update: Partial<UserProfile> = {
       coordinates: location,
       g: {
@@ -97,7 +99,7 @@ export default class ProfileApi {
       },
       updatedOn: serverTimestamp(),
     };
-    await this.updateProfile(id, update);
+    await this.updateProfile(update);
   }
 
   async requestProfileChange(changes: Partial<ProfileChange>) {

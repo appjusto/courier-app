@@ -22,11 +22,11 @@ export default function ProfileNotifications() {
   useTrackScreenView('Sua conta: Notificações');
   // handlers
   const toggleNotificationPreference = (channel: NotificationChannel) => {
-    if (!profile?.id) return;
+    if (!profile) return;
     const { notificationPreferences = [] } = profile;
     api
       .profile()
-      .updateProfile(profile.id, {
+      .updateProfile({
         notificationPreferences: notificationPreferences.includes(channel)
           ? without(notificationPreferences, channel)
           : [...notificationPreferences, channel],

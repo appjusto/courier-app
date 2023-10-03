@@ -117,7 +117,7 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
     if (!editing) {
       api
         .profile()
-        .updateProfile(profile.id, { company: updatedCompany })
+        .updateProfile({ company: updatedCompany })
         .then(() => {
           setLoading(false);
           if (onUpdateProfile) onUpdateProfile();

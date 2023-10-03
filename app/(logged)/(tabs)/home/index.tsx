@@ -1,10 +1,13 @@
+import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { shareAppJusto } from '@/api/platform/shareAppJusto';
+import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { HomeActivity } from '@/common/screens/home/activity/home-activity';
+import { AvailabilityModal } from '@/common/screens/home/availability-modal';
 import { ActiveRequestsCards } from '@/common/screens/home/cards/active-requests-cards';
 import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-cards';
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
@@ -12,17 +15,32 @@ import { HomeHeader } from '@/common/screens/home/header/home-header';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
+import { CourierMode } from '@appjusto/types';
 import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 export default function HomeScreen() {
   // context
+  const api = useContextApi();
   const router = useRouter();
   // tracking
   useTrackScreenView('Início');
+  // state
+  const { availabilityModalShown, setAvailabilityModalShown } = useContextAvailabilityModal();
+  // handlers
+  const updateMode = (mode: CourierMode) => {
+    setAvailabilityModalShown(false);
+    api.profile().updateProfile({ mode }).then(null);
+  };
+  console.log(availabilityModalShown);
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>
+      <AvailabilityModal
+        visible={availabilityModalShown}
+        onConfirm={updateMode}
+        onDismiss={() => setAvailabilityModalShown(false)}
+      />
       <DefaultView style={screens.headless}>
         <HomeHeader />
         <View style={{ padding: paddings.lg }}>

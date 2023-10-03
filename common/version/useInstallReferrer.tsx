@@ -13,7 +13,6 @@ export const useInstallReferrer = () => {
   // redux
   const api = useContextApi();
   const profile = useContextProfile();
-  const courierId = profile?.id;
   const installReferrer = profile?.installReferrer;
   // helpers
   const getInstallationDetails = async () => {
@@ -32,7 +31,6 @@ export const useInstallReferrer = () => {
   // side effects
   useEffect(() => {
     if (onSimulator()) return;
-    if (!courierId) return;
     if (installReferrer !== null) {
       getInstallationDetails()
         .then(({ referrer, time }) => {
@@ -43,7 +41,7 @@ export const useInstallReferrer = () => {
             trackEvent('Instalação', { utm, time });
             api
               .profile()
-              .updateProfile(courierId, {
+              .updateProfile({
                 installReferrer: {
                   ...(utm ?? {}),
                   updatedAt: serverTimestamp(),
@@ -57,5 +55,5 @@ export const useInstallReferrer = () => {
         })
         .catch(() => {});
     }
-  }, [courierId, installReferrer, api]);
+  }, [installReferrer, api]);
 };

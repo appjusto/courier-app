@@ -3,6 +3,7 @@ import { AnalyticsProvider } from '@/api/analytics/context/AnalyticsContext';
 import '@/api/location/background/registerLoationHeadlessTask';
 import { LocationProvider } from '@/api/location/context/LocationContext';
 import { PlatformProvider } from '@/api/platform/context/PlatformContext';
+import { PreferencesProvider } from '@/api/preferences/context/PreferencesContext';
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ShowToast } from '@/common/components/toast/Toast';
@@ -79,17 +80,19 @@ export default function RootLayout() {
         <ToastProvider>
           <ApiProvider url={null}>
             <AuthProvider>
-              <RoutesProvider>
-                <PlatformProvider>
-                  <NotificationProvider>
-                    <LocationProvider>
-                      <AnalyticsProvider>
-                        <Slot />
-                      </AnalyticsProvider>
-                    </LocationProvider>
-                  </NotificationProvider>
-                </PlatformProvider>
-              </RoutesProvider>
+              <PlatformProvider>
+                <NotificationProvider>
+                  <RoutesProvider>
+                    <AnalyticsProvider>
+                      <LocationProvider>
+                        <PreferencesProvider>
+                          <Slot />
+                        </PreferencesProvider>
+                      </LocationProvider>
+                    </AnalyticsProvider>
+                  </RoutesProvider>
+                </NotificationProvider>
+              </PlatformProvider>
             </AuthProvider>
           </ApiProvider>
         </ToastProvider>
