@@ -1,21 +1,28 @@
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import GainSimulator from '@/common/screens/profile/fleets/GainSimulator';
+import colors from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 export default function FleetProcess() {
   // context
+  const profile = useContextProfile();
+  const situation = profile?.situation;
   const router = useRouter();
   // UI
   return (
-    <View style={{ padding: paddings.lg }}>
-      <DefaultText size="lg">Funcionamento das frotas</DefaultText>
+    <View style={{ padding: paddings.lg, backgroundColor: colors.neutral50 }}>
+      <DefaultText style={{ ...lineHeight.lg }} size="lg">
+        Funcionamento das frotas
+      </DefaultText>
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="md"
         style={{
+          ...lineHeight.md,
           marginTop: paddings.sm,
         }}
       >
@@ -23,32 +30,35 @@ export default function FleetProcess() {
         cadastro, você estará automaticamente na frota padrão AppJusto mas você pode entrar ou criar
         outra frota a qualquer momento.
       </DefaultText>
+      {situation === 'approved' ? (
+        <View style={{ marginVertical: paddings.lg }}>
+          <DefaultText
+            size="md"
+            style={{
+              ...lineHeight.md,
+            }}
+          >
+            Você pode também se juntar à uma frota já criada.
+          </DefaultText>
+          <DefaultButton
+            style={{ marginTop: paddings.lg }}
+            title="Ver frotas"
+            onPress={() => router.push('/profile/fleets/')}
+          />
+        </View>
+      ) : null}
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="lg"
         style={{
           marginTop: paddings.lg,
-        }}
-      >
-        Você pode também se juntar à uma frota já criada.
-      </DefaultText>
-      <DefaultButton
-        style={{ marginTop: paddings.lg }}
-        title="Ver frotas"
-        onPress={() => router.push('/profile/fleets/')}
-      />
-      <DefaultText
-        size="2xl"
-        style={{
-          marginTop: paddings['2xl'],
         }}
       >
         Ganhos
       </DefaultText>
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="md"
         style={{
+          ...lineHeight.md,
           marginTop: paddings.lg,
         }}
       >
@@ -56,9 +66,9 @@ export default function FleetProcess() {
         sem taxas ou comissão.
       </DefaultText>
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="md"
         style={{
+          ...lineHeight.md,
           marginTop: paddings.lg,
         }}
       >

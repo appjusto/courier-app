@@ -10,18 +10,16 @@ import { DefaultCardIcon } from '../../../components/views/cards/icon';
 export type HowAppJustoWorksContentType = 'approval' | 'revenue' | 'fleets' | 'blocks' | 'safety';
 
 interface Props {
+  title: string;
   onSelect: (screen: HowAppJustoWorksContentType) => void;
 }
 
-export default function HowAppJustoWorksContent({ onSelect }: Props) {
+export default function HowAppJustoWorksContent({ title, onSelect }: Props) {
   // UI
   return (
     <DefaultView style={{ padding: paddings.lg, backgroundColor: colors.neutral50 }}>
-      <DefaultText size="lg" bold>
-        Entenda mais sobre o AppJusto
-      </DefaultText>
-      <DefaultText size="md" style={{ marginTop: paddings.sm }}>
-        Tire suas dúvidas e entenda os principais benefícios do AppJusto para o entregador
+      <DefaultText size="lg" style={{ marginTop: paddings.sm }}>
+        {title}
       </DefaultText>
       <Pressable onPress={() => onSelect('approval')} style={{ marginTop: paddings.lg }}>
         <DefaultCard

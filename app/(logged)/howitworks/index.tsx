@@ -16,7 +16,10 @@ export default function HowAppJustoWorks() {
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>
       <Stack.Screen options={{ title: 'Como funciona' }} />
-      <HowAppJustoWorksContent onSelect={onSelectHandler} />
+      <HowAppJustoWorksContent
+        title="Tire suas dúvidas e entenda os principais benefícios do AppJusto para quem faz entregas"
+        onSelect={onSelectHandler}
+      />
     </ScrollView>
   );
 }

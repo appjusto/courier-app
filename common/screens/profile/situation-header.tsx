@@ -33,6 +33,7 @@ export const FeedbackHeader = ({ variant, title, text, children, style, ...props
             size={70}
             style={{
               top: -35,
+              position: 'absolute',
               justifyContent: 'center',
               alignItems: 'center',
               backgroundColor: colors.white,
@@ -47,7 +48,12 @@ export const FeedbackHeader = ({ variant, title, text, children, style, ...props
         </View>
       </View>
       <View
-        style={{ paddingHorizontal: paddings.lg, justifyContent: 'center', alignItems: 'center' }}
+        style={{
+          paddingHorizontal: paddings.lg,
+          paddingTop: 60,
+          paddingBottom: paddings.xl,
+          alignItems: 'center',
+        }}
       >
         <DefaultText size="lg" style={{ marginBottom: paddings.lg }}>
           {title}

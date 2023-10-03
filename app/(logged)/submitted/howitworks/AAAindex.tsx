@@ -1,7 +1,5 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import HowAppJustoWorksContent, {
-  HowAppJustoWorksContentType,
-} from '@/common/screens/profile/howitworks';
+import { HowAppJustoWorksContentType } from '@/common/screens/profile/howitworks';
 import { Stack, router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
@@ -16,7 +14,7 @@ export default function HowAppJustoWorks() {
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>
       <Stack.Screen options={{ title: 'Como funciona' }} />
-      <HowAppJustoWorksContent onSelect={onSelectHandler} />
+      {/* <HowAppJustoWorksContent onSelect={onSelectHandler} /> */}
     </ScrollView>
   );
 }

@@ -1,5 +1,6 @@
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { View } from 'react-native';
@@ -23,12 +24,15 @@ export default function GainSimulator({
   return (
     <View style={{ ...screens.default }}>
       <View style={{ padding: paddings.lg }}>
-        <DefaultText size="sm" style={{ marginBottom: 4 }}>
+        <DefaultText style={{ marginBottom: 4 }} size="sm" color="black">
           Simulação de ganhos
         </DefaultText>
-        <DefaultText size="xs" color="neutral700" style={{ marginTop: paddings.xs }}>
-          Veja uma simulação aproximada dos ganhos por corrida nessa frota com os valores definidos
-          acima.
+        <DefaultText
+          size="xs"
+          color="neutral800"
+          style={{ ...lineHeight.xs, marginTop: paddings.xs }}
+        >
+          Veja uma simulação dos ganhos por corrida nessa frota com os valores definidos acima.
         </DefaultText>
         <View
           style={{
@@ -38,8 +42,10 @@ export default function GainSimulator({
             marginVertical: paddings.lg,
           }}
         >
-          <DefaultText size="sm">Distância percorrida por entrega</DefaultText>
-          <DefaultText size="sm" bold>
+          <DefaultText size="xxs" color="black">
+            Distância percorrida por entrega
+          </DefaultText>
+          <DefaultText size="xxs" color="black">
             Ganhos
           </DefaultText>
         </View>
@@ -53,12 +59,12 @@ export default function GainSimulator({
               justifyContent: 'space-between',
             }}
           >
-            <DefaultText size="sm" color="neutral700">
+            <DefaultText size="xxs" color="neutral800">
               {`${i === 0 ? 'Até ' : ''}${formatDistance(
                 distanceThreshold + i * kmInterval * 1000
               )}`}
             </DefaultText>
-            <DefaultText size="sm">
+            <DefaultText size="xxs" color="neutral800">
               {formatCurrency(minimumFee + i * kmInterval * additionalPerKmAfterThreshold)}
             </DefaultText>
           </View>

@@ -13,7 +13,6 @@ import { NotificationProvider } from '@/common/notifications/context/Notificatio
 import { setupNotifications } from '@/common/notifications/setup';
 import { RoutesProvider } from '@/common/routes/RoutesContext';
 import { getAppVersion } from '@/common/version';
-import { isLive } from '@/extra';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
@@ -62,9 +61,9 @@ export default function RootLayout() {
   // config
   useEffect(() => {
     // version toast
-    if (!isLive()) {
-      ShowToast('__' + getAppVersion());
-    }
+    // if (!isLive()) {
+    ShowToast(getAppVersion());
+    // }
     // in-app messaging config
     inAppMessaging()
       .setMessagesDisplaySuppressed(true)

@@ -47,7 +47,10 @@ export default function SubmittedIndex() {
           text={text()}
           variant={justSubmitted ? 'success' : 'warning'}
         />
-        <HowAppJustoWorksContent onSelect={onSelectHandler} />
+        <HowAppJustoWorksContent
+          title="Enquanto espera o retorno, que tal saber mais sobre como a gente funciona?"
+          onSelect={onSelectHandler}
+        />
       </DefaultScrollView>
     </View>
   );
