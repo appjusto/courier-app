@@ -83,11 +83,11 @@ export default function RootLayout() {
                 <NotificationProvider>
                   <RoutesProvider>
                     <AnalyticsProvider>
-                      <LocationProvider>
-                        <PreferencesProvider>
+                      <PreferencesProvider>
+                        <LocationProvider>
                           <Slot />
-                        </PreferencesProvider>
-                      </LocationProvider>
+                        </LocationProvider>
+                      </PreferencesProvider>
                     </AnalyticsProvider>
                   </RoutesProvider>
                 </NotificationProvider>
