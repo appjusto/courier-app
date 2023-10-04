@@ -118,7 +118,7 @@ export default function PhoneVerification() {
       <DefaultButton
         title="Verificar"
         disabled={!canSubmit}
-        loading={state === 'verifying-code'}
+        loading={state === 'verifying-code' || state === 'code-verified'}
         onPress={verifyHandler}
       />
     </View>
