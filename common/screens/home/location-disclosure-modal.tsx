@@ -26,12 +26,14 @@ export const LocationDisclosureModal = ({ onDismiss, ...props }: Props) => {
         </View>
         <View style={{ flex: 1, padding: paddings.lg }}>
           <View style={{ flex: 1 }} />
-          <DefaultText size="lg">Compartilha sua localização com a gente?</DefaultText>
+          <DefaultText size="lg" bold>
+            Compartilha sua localização com a gente?
+          </DefaultText>
           <DefaultText size="md" style={{ marginTop: paddings.lg, ...lineHeight.md }}>
             No AppJusto, as corridas tocam primeiro para os entregadores mais próximos ao local da
             retirada e esse é o único critério.
           </DefaultText>
-          <DefaultText size="md" style={{ marginTop: paddings.lg }}>
+          <DefaultText size="md" style={{ marginTop: paddings.lg, ...lineHeight.md }}>
             Para que possamos enviar corridas próximas à você e acompanhar suas entregas, você
             precisa permitir que a gente tenha acesso à sua localização o tempo todo. Nós só
             coletamos e utilizamos sua localização caso você esteja disponível para aceitar
