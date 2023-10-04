@@ -22,7 +22,7 @@ export const AvailabilityModal = ({ onConfirm, onDismiss, ...props }: Props) => 
   const [selectedMode, setSelectedMode] = useState(mode);
   // UI
   return (
-    <Modal animationType="slide" {...props}>
+    <Modal transparent animationType="slide" {...props}>
       <Pressable style={{ flex: 1 }} onPress={onDismiss}>
         {() => (
           <View

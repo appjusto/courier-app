@@ -9,7 +9,7 @@ interface Props extends ModalProps {
 }
 export const CenteredModal = ({ dismissLabel, children, onDismiss, ...props }: Props) => {
   return (
-    <Modal animationType="slide" {...props}>
+    <Modal transparent animationType="slide" {...props}>
       <Pressable style={{ flex: 1 }} onPress={onDismiss}>
         {() => (
           <View
@@ -17,6 +17,7 @@ export const CenteredModal = ({ dismissLabel, children, onDismiss, ...props }: P
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
+              padding: paddings['2xl'],
               backgroundColor: 'rgba(0, 0, 0, 0.45)',
             }}
           >

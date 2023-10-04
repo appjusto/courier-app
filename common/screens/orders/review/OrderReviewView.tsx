@@ -78,7 +78,7 @@ export const OrderReviewView = ({
           {!review || platformReview ? (
             <AspectReview
               style={{ marginTop: paddings.lg }}
-              label="appjusto"
+              label="AppJusto"
               type={platformReview}
               disabled={reallyDisabled}
               onChange={setPlatformReview}

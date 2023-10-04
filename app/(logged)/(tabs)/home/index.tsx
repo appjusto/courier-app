@@ -8,8 +8,6 @@ import { shareAppJusto } from '@/api/platform/shareAppJusto';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
-import { CenteredModal } from '@/common/components/modals/centered/centered-modal';
-import { DefaultText } from '@/common/components/texts/DefaultText';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { HomeActivity } from '@/common/screens/home/activity/home-activity';
@@ -18,6 +16,7 @@ import { ActiveRequestsCards } from '@/common/screens/home/cards/active-requests
 import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-cards';
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
 import { HomeHeader } from '@/common/screens/home/header/home-header';
+import { LocationDisclosureModal } from '@/common/screens/home/location-disclosure-modal';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
@@ -43,16 +42,10 @@ export default function HomeScreen() {
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>
-      <CenteredModal
+      <LocationDisclosureModal
         visible={locationDisclosureStatus === 'not-shown'}
         onDismiss={setLocationDisclosureShown}
-      >
-        <DefaultText>
-          Você precisa permitir que o AppJusto saiba sua localização o tempo todo para que possamos
-          enviar corridas próximas à você e acompanhar as entregas. Nós só coletamos e utilizamos
-          sua localização caso você esteja disponível para aceitar corridas.
-        </DefaultText>
-      </CenteredModal>
+      />
       <AvailabilityModal
         visible={availabilityModalShown && locationDisclosureStatus === 'shown'}
         onConfirm={updateMode}

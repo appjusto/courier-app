@@ -44,7 +44,7 @@ export const PeriodModal = ({ onSelectPeriod, onCancel, onSelectDate, ...props }
   };
   // UI
   return (
-    <Modal animationType="slide" {...props}>
+    <Modal transparent animationType="slide" {...props}>
       <Pressable style={{ flex: 1 }} onPress={onCancel}>
         {() => (
           <View

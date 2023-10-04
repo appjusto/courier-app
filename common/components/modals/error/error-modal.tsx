@@ -13,7 +13,7 @@ interface Props extends ModalProps {
 }
 export const ErrorModal = ({ title, text, dismissLabel, onDismiss, children, ...props }: Props) => {
   return (
-    <Modal animationType="slide" {...props}>
+    <Modal transparent animationType="slide" {...props}>
       <Pressable style={{ flex: 1 }} onPress={onDismiss}>
         {() => (
           <View

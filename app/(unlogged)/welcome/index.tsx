@@ -6,6 +6,7 @@ import { Page1Icon } from '@/common/screens/unlogged/welcome/page-1-icon';
 import { Page2Icon } from '@/common/screens/unlogged/welcome/page-2-icon';
 import { Page3Icon } from '@/common/screens/unlogged/welcome/page-3-icon';
 import colors from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, router } from 'expo-router';
@@ -37,7 +38,7 @@ function Page({ icon, header, text, ...props }: PageProps) {
       <View style={{ flex: 1, padding: paddings.lg }}>
         <View style={{ flex: 1 }} />
         <DefaultText size="lg">{header}</DefaultText>
-        <DefaultText size="md" style={{ marginTop: paddings.lg }}>
+        <DefaultText size="md" style={{ marginTop: paddings.lg, ...lineHeight.md }}>
           {text}
         </DefaultText>
         <View style={{ flex: 1 }} />

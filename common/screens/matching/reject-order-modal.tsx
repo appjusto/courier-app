@@ -16,7 +16,7 @@ export const RejectOrderModal = ({ onConfirm, onDismiss, ...props }: Props) => {
   const issues = useIssues('courier-rejects-matching');
   // UI
   return (
-    <Modal animationType="slide" {...props}>
+    <Modal transparent animationType="slide" {...props}>
       <Pressable style={{ flex: 1 }} onPress={onDismiss}>
         {() => (
           <View

@@ -12,8 +12,6 @@ export const useBackgroundLocation = (enabled: boolean) => {
   const profile = useContextProfile();
   const userId = profile?.id;
   const userToken = profile?.notificationPreferencesToken;
-  // TODO: get from context
-  const orderId = null;
   // state
   const [ready, setReady] = useState(false);
   const [location, setLocation] = useState<LatLng>();
@@ -26,8 +24,7 @@ export const useBackgroundLocation = (enabled: boolean) => {
       userId,
       userToken,
       userFlavor: 'courier',
-      orderId,
-    }).then((state) => {
+    }).then(() => {
       setReady(true);
     });
 
