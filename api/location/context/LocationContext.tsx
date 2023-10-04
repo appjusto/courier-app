@@ -53,5 +53,5 @@ export const useContextLocationDisclosureStatus = () => {
 export const useContextSetLocationDisclosureShown = () => {
   const value = React.useContext(LocationContext);
   if (!value) throw new Error('Api fora de contexto.');
-  return value.setLocationDisclosureShown;
+  return value.setLocationDisclosureShown!;
 };

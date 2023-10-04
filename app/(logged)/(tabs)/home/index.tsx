@@ -40,7 +40,6 @@ export default function HomeScreen() {
     setAvailabilityModalShown(false);
     api.profile().updateProfile({ mode }).then(null);
   };
-  console.log(availabilityModalShown);
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>
