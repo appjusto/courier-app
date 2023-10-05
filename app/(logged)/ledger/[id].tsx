@@ -42,7 +42,7 @@ export default function LedgerEntryScreen() {
   // UI
   // console.log('withdraw', withdrawId, withdraw);
   if (!entry) return <Loading />;
-  const { status, value, orderId, orderCode, createdOn } = entry;
+  const { status, value, orderId, orderCode, createdOn, updatedOn } = entry;
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Ganho ${getLedgerStatusAsText(status)}` }} />
@@ -71,6 +71,16 @@ export default function LedgerEntryScreen() {
                 {formatTimestamp(createdOn)}
               </DefaultText>
             </View>
+            {status === 'paid' && updatedOn ? (
+              <View style={{ marginTop: paddings.lg }}>
+                <DefaultText size="sm" color="neutral800">
+                  Pago em
+                </DefaultText>
+                <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
+                  {formatTimestamp(updatedOn)}
+                </DefaultText>
+              </View>
+            ) : null}
             {orderId ? (
               <View
                 style={{

@@ -52,7 +52,11 @@ export default function DeliveriesLedger() {
           entriesSummary={entriesSummary}
           ordersSummary={ordersSummary}
         />
-        <LedgerEntriesList style={{ marginTop: paddings.lg }} entries={entries} />
+        <LedgerEntriesList
+          style={{ marginTop: paddings.lg }}
+          emptyText="Ops! Não encontramos nenhum ganho neste período."
+          entries={entries}
+        />
       </DefaultView>
     </DefaultScrollView>
   );

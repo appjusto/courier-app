@@ -4,6 +4,7 @@ import { getWithdrawStatusAsText } from '@/api/couriers/withdraws/getWithdrawSta
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { Loading } from '@/common/components/views/Loading';
 import { MessageBox } from '@/common/components/views/MessageBox';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
@@ -39,6 +40,9 @@ export default function WithdrawDetailScreen() {
         showToast(error.message, 'error');
       });
   }, [api, withdrawId, showToast]);
+  useEffect(() => {
+    ShowToast(withdrawId, 10000);
+  }, [withdrawId]);
   // UI
   // console.log('withdraw', withdrawId, withdraw);
   if (!withdraw) return <Loading />;

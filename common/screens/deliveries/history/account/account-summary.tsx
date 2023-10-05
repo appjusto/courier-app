@@ -25,7 +25,7 @@ export const AccountSummary = ({ style, ...props }: Props) => {
   const withdrawValue =
     balance !== undefined && withdrawFee !== undefined ? balance - withdrawFee : 0;
   const canWithdraw =
-    onSimulator() || (withdrawFee && balance && minWithdrawValue && balance > minWithdrawValue);
+    onSimulator() || (withdrawFee && balance && minWithdrawValue && balance >= minWithdrawValue);
   // UI
   return (
     <View

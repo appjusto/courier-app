@@ -38,7 +38,11 @@ export default function DeliveriesHistory() {
     <DefaultScrollView style={{ ...screens.default }}>
       <DefaultView style={{ padding: paddings.lg }}>
         <PeriodControl onChange={changeHandler} />
-        <DeliveryList style={{ marginTop: paddings.lg }} orders={orders} />
+        <DeliveryList
+          style={{ marginTop: paddings.lg }}
+          emptyText="Ops! Não encontramos nenhuma corrida neste período."
+          orders={orders}
+        />
       </DefaultView>
     </DefaultScrollView>
   );

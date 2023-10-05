@@ -9,7 +9,6 @@ import { LedgerEntriesList } from '@/common/screens/deliveries/ledger/ledger-ent
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { useRouter } from 'expo-router';
-import { View } from 'react-native';
 
 export default function DeliveriesIndex() {
   // context
@@ -26,10 +25,10 @@ export default function DeliveriesIndex() {
         <AccountSummary />
         <LedgerEntriesList
           style={{ marginTop: paddings.lg }}
-          entries={entries}
           title="Seus últimos ganhos"
-          emptyText="Ops! Não encontramos nenhuma corrida nas últimas 24hs. Bora ficar disponível e
+          emptyText="Ops! Não encontramos nenhum ganho nas últimas 24hs. Bora ficar disponível e
           pegar umas corridas?"
+          entries={entries}
         >
           <DefaultButton
             style={{ marginTop: paddings.lg }}
@@ -37,13 +36,13 @@ export default function DeliveriesIndex() {
             variant="outline"
             onPress={() => router.push('/deliveries/ledger')}
           />
+          <DefaultButton
+            style={{ marginTop: paddings.lg }}
+            variant="outline"
+            title="Ver histórico de corridas"
+            onPress={() => router.push('/deliveries/orders')}
+          />
         </LedgerEntriesList>
-        <View style={{ flex: 1 }} />
-        <DefaultButton
-          variant="outline"
-          title="Ver histórico de corridas"
-          onPress={() => router.push('/deliveries/history')}
-        />
       </DefaultView>
     </DefaultScrollView>
   );

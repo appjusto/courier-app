@@ -1,3 +1,4 @@
+import { ErrorIcon } from '@/common/components/modals/error/icon';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
@@ -9,12 +10,11 @@ import { DeliveryItem } from './item';
 
 interface Props extends ViewProps {
   title?: string;
+  emptyText?: string;
   orders: WithId<Order>[];
 }
 
-export const DeliveryList = ({ orders, title, style, ...props }: Props) => {
-  // UI
-  if (!orders.length) return null;
+export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Props) => {
   return (
     <View
       style={[{ padding: paddings.lg, ...borders.default, borderColor: colors.neutral100 }, style]}
@@ -26,16 +26,33 @@ export const DeliveryList = ({ orders, title, style, ...props }: Props) => {
         </DefaultText>
       ) : null}
       <View>
-        {orders.map((order) => (
-          <Pressable
-            key={order.id}
-            onPress={() =>
-              router.push({ pathname: '/(logged)/order/[id]/delivered', params: { id: order.id } })
-            }
-          >
-            <DeliveryItem order={order} />
-          </Pressable>
-        ))}
+        {orders.length ? (
+          orders.map((order) => (
+            <Pressable
+              key={order.id}
+              onPress={() =>
+                router.push({
+                  pathname: '/(logged)/order/[id]/',
+                  params: { id: order.id },
+                })
+              }
+            >
+              <DeliveryItem order={order} />
+            </Pressable>
+          ))
+        ) : (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <ErrorIcon />
+            {emptyText ? (
+              <DefaultText
+                style={{ marginTop: paddings.lg, textAlign: 'center' }}
+                color="neutral800"
+              >
+                {emptyText}
+              </DefaultText>
+            ) : null}
+          </View>
+        )}
       </View>
     </View>
   );

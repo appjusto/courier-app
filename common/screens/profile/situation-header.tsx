@@ -55,14 +55,19 @@ export const FeedbackHeader = ({ variant, title, text, children, style, ...props
           alignItems: 'center',
         }}
       >
-        <DefaultText size="lg" style={{ marginBottom: paddings.lg }}>
+        <DefaultText
+          size="lg"
+          style={{ marginBottom: paddings.lg, textAlign: 'center', ...lineHeight.lg }}
+        >
           {title}
         </DefaultText>
-        {text.map((value) => (
-          <DefaultText key={value} size="md" style={{ ...lineHeight.md, textAlign: 'center' }}>
-            {value}
-          </DefaultText>
-        ))}
+        <View style={{ paddingHorizontal: paddings.lg }}>
+          {text.map((value) => (
+            <DefaultText key={value} size="md" style={{ ...lineHeight.md, textAlign: 'center' }}>
+              {value}
+            </DefaultText>
+          ))}
+        </View>
         {children}
       </View>
     </View>

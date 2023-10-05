@@ -92,10 +92,7 @@ export default class CouriersApi {
   }
   // account
   async fetchAccountInformation() {
-    const accountId = this.auth.getUserId();
-    if (!accountId) {
-      return;
-    }
+    const accountId = this.auth.getUserId()!;
     try {
       const payload: FetchAccountInformationPayload = {
         accountType: 'courier',
@@ -111,10 +108,7 @@ export default class CouriersApi {
   }
   // withdraws
   async requestWithdraw(amount: number) {
-    const accountId = this.auth.getUserId();
-    if (!accountId) {
-      return;
-    }
+    const accountId = this.auth.getUserId()!;
     try {
       const payload: RequestWithdrawPayload = {
         accountType: 'courier',
@@ -122,7 +116,8 @@ export default class CouriersApi {
         amount,
         meta: { version: getAppVersion() },
       };
-      await requestWithdraw(payload);
+      const response = await requestWithdraw(payload);
+      return response.data as string;
     } catch (error: unknown) {
       if (error instanceof Error) crashlytics().recordError(error);
       throw new Error('Não foi possível obter seu saldo. Tente novamente mais tarde.');
