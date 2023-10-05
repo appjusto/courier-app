@@ -1,16 +1,18 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { useApprovedEntriesSummary } from '@/api/ledger/useApprovedEntriesSummary';
 import {
   useContextLocationDisclosureStatus,
   useContextSetLocationDisclosureShown,
 } from '@/api/location/context/LocationContext';
+import { useTodaysOrdersSummary } from '@/api/orders/useTodaysOrdersSummary';
 import { shareAppJusto } from '@/api/platform/shareAppJusto';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
-import { HomeActivity } from '@/common/screens/home/activity/home-activity';
+import { ActivitySummary } from '@/common/screens/home/activity/activity-summary';
 import { AvailabilityModal } from '@/common/screens/home/availability-modal';
 import { ActiveRequestsCards } from '@/common/screens/home/cards/active-requests-cards';
 import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-cards';
@@ -31,6 +33,8 @@ export default function HomeScreen() {
   // tracking
   useTrackScreenView('Início');
   // state
+  const entriesSummary = useApprovedEntriesSummary();
+  const ordersSummary = useTodaysOrdersSummary();
   const { availabilityModalShown, setAvailabilityModalShown } = useContextAvailabilityModal();
   const locationDisclosureStatus = useContextLocationDisclosureStatus();
   const setLocationDisclosureShown = useContextSetLocationDisclosureShown();
@@ -55,7 +59,12 @@ export default function HomeScreen() {
         <HomeHeader />
         <View style={{ padding: paddings.lg }}>
           <HomeFleet />
-          <HomeActivity style={{ marginTop: paddings.lg }} />
+          <ActivitySummary
+            entriesSummary={entriesSummary}
+            ordersSummary={ordersSummary}
+            title="Corridas nas últimas 24h"
+            style={{ marginTop: paddings.lg }}
+          />
         </View>
         <View style={{ flex: 1, padding: paddings.lg, backgroundColor: colors.neutral50 }}>
           <OngoingOrdersCards />
