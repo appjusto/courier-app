@@ -97,7 +97,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-notifications',
       {
         icon: './assets/images/notification-icon.png',
-        sounds: ['./assets/sounds/order_request.wav'],
+        // sounds: ['./assets/sounds/order_request.wav'],
       },
     ],
     [

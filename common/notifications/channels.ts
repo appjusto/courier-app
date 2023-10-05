@@ -32,7 +32,7 @@ const requiredChannels = [
   {
     id: 'order-request' as NotificationChannel,
     name: 'Novas corridas',
-    sound: 'order_request.wav',
+    // sound: 'order_request.wav',
     bypassDnd: true,
   },
   {
