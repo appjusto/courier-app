@@ -32,7 +32,7 @@ export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Prop
               key={order.id}
               onPress={() =>
                 router.push({
-                  pathname: '/(logged)/order/[id]/',
+                  pathname: '/(logged)/order/[id]/detail',
                   params: { id: order.id },
                 })
               }
