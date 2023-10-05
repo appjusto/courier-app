@@ -1,11 +1,11 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { useObserveOrdersOfLast24h } from '@/api/orders/useObserveOrdersOfLast24h';
+import { useObserveApprovedEntries } from '@/api/ledger/useObserveApprovedEntries';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { Loading } from '@/common/components/views/Loading';
-import { DeliveryList } from '@/common/screens/deliveries/delivery-list';
 import { AccountSummary } from '@/common/screens/deliveries/history/account/account-summary';
+import { LedgerEntriesList } from '@/common/screens/deliveries/ledger/ledger-entries-list';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { useRouter } from 'expo-router';
@@ -15,20 +15,29 @@ export default function DeliveriesIndex() {
   // context
   const router = useRouter();
   // state
-  const orders = useObserveOrdersOfLast24h();
+  const entries = useObserveApprovedEntries();
   // tracking
   useTrackScreenView('Suas corridas');
   // UI
-  if (!orders) return <Loading />;
+  if (!entries) return <Loading />;
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
         <AccountSummary />
-        <DeliveryList
+        <LedgerEntriesList
           style={{ marginTop: paddings.lg }}
-          orders={orders}
-          title="Corridas das últimas 24h"
-        />
+          entries={entries}
+          title="Seus últimos ganhos"
+          emptyText="Ops! Não encontramos nenhuma corrida nas últimas 24hs. Bora ficar disponível e
+          pegar umas corridas?"
+        >
+          <DefaultButton
+            style={{ marginTop: paddings.lg }}
+            title="Ver histórico de ganhos"
+            variant="outline"
+            onPress={() => router.push('/deliveries/ledger')}
+          />
+        </LedgerEntriesList>
         <View style={{ flex: 1 }} />
         <DefaultButton
           variant="outline"

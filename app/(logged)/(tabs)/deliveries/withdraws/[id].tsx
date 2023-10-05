@@ -1,5 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { getWithdrawStatusAsText } from '@/api/couriers/withdraws/getWithdrawStatusAsText';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -12,7 +13,7 @@ import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Dayjs } from '@appjusto/dates';
 import { AccountWithdraw } from '@appjusto/types';
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
@@ -40,30 +41,43 @@ export default function WithdrawDetailScreen() {
   }, [api, withdrawId, showToast]);
   // UI
   // console.log('withdraw', withdrawId, withdraw);
-  if (withdraw === undefined) return <Loading />;
+  if (!withdraw) return <Loading />;
+  const { status, data, amount, createdOn } = withdraw;
+  const payingAt = (() => {
+    const result = 'Até às 23:59';
+    if (data.paying_at) {
+      const calendar = Dayjs(new Date(data.paying_at)).calendar();
+      if (status !== 'pending') return calendar;
+      return result + ' de ' + calendar;
+    } else {
+      if (status === 'pending') return result + ' do próximo dia útil';
+      return null;
+    }
+  })();
   return (
     <DefaultScrollView style={{ ...screens.default }}>
+      <Stack.Screen options={{ title: `Transferência ${getWithdrawStatusAsText(status)}` }} />
       <DefaultView style={{ padding: paddings.lg }}>
-        {withdraw ? (
+        <DefaultView style={{ padding: paddings.lg }}>
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <DefaultText size="md" color="black">
+              <DefaultText size="lg" color="black">
                 Transferência
               </DefaultText>
-              <WithdrawStatusBadge style={{ marginLeft: paddings.md }} status={withdraw.status} />
+              <WithdrawStatusBadge style={{ marginLeft: paddings.md }} status={status} />
             </View>
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="xs" color="neutral800">
                 Valor
               </DefaultText>
-              <DefaultText style={{ marginTop: paddings['2xs'] }}>{withdraw.amount}</DefaultText>
+              <DefaultText style={{ marginTop: paddings['2xs'] }}>{amount}</DefaultText>
             </View>
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="xs" color="neutral800">
                 Solicitado em
               </DefaultText>
               <DefaultText style={{ marginTop: paddings['2xs'] }}>
-                {formatTimestamp(withdraw.createdOn)}
+                {formatTimestamp(createdOn)}
               </DefaultText>
             </View>
             <View style={{ marginTop: paddings.lg }}>
@@ -71,27 +85,22 @@ export default function WithdrawDetailScreen() {
                 Destino
               </DefaultText>
               <DefaultText style={{ marginTop: paddings['2xs'] }}>
-                {`${withdraw.data.bank_address.bank} • Ag ${withdraw.data.bank_address.bank_ag} • ${withdraw.data.bank_address.bank_cc}`}
+                {`${data.bank_address.bank} • Ag ${data.bank_address.bank_ag} • ${data.bank_address.bank_cc}`}
               </DefaultText>
             </View>
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="xs" color="neutral800">
-                Previsão de compensação
+                Compensação
               </DefaultText>
-              <DefaultText style={{ marginTop: paddings['2xs'] }}>
-                {`${
-                  withdraw.data.paying_at
-                    ? Dayjs(new Date(withdraw.data.paying_at)).calendar()
-                    : 'Até 23:59 do dia solicitado'
-                }`}
-              </DefaultText>
+              <DefaultText style={{ marginTop: paddings['2xs'] }}>{payingAt}</DefaultText>
             </View>
-            <MessageBox style={{ marginTop: paddings['2xl'] }}>
-              Valores solicitados para transferência após horário comercial serão compensados no dia
-              seguinte.
-            </MessageBox>
+            {status === 'pending' ? (
+              <MessageBox style={{ marginTop: paddings['2xl'] }}>
+                {`O valor estará disponível ${payingAt}`}
+              </MessageBox>
+            ) : null}
           </View>
-        ) : null}
+        </DefaultView>
       </DefaultView>
     </DefaultScrollView>
   );

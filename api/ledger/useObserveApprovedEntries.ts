@@ -1,19 +1,20 @@
-import { useContextUserId } from '@/common/auth/AuthContext';
 import { LedgerEntry, WithId } from '@appjusto/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useContextApi } from '../ApiContext';
+import { ObserveLedgerOptions } from './LedgerApi';
 
 export const useObserveApprovedEntries = () => {
   // context
   const api = useContextApi();
-  const courierId = useContextUserId();
+  // refs
+  const optionsRef = useRef<ObserveLedgerOptions>({ statuses: ['approved'] });
+  const options = optionsRef.current;
   // state
   const [entries, setEntries] = useState<WithId<LedgerEntry>[]>();
   // side effects
   useEffect(() => {
-    if (!courierId) return;
-    return api.ledger().observeApprovedEntries(courierId, setEntries);
-  }, [api, courierId]);
+    return api.ledger().observeLedger(options, setEntries);
+  }, [api, options]);
   // result
   return entries;
 };

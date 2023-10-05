@@ -8,6 +8,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
 import { OrderReviewView } from '@/common/screens/orders/review/OrderReviewView';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';
@@ -15,6 +16,7 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { OrderReview, ReviewType } from '@appjusto/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
@@ -23,6 +25,7 @@ import { Pressable, View } from 'react-native';
 export default function OngoingOrderScreen() {
   // context
   const api = useContextApi();
+  const showToast = useShowToast();
   // params
   const params = useLocalSearchParams<{ id: string }>();
   const orderId = params.id;
@@ -68,6 +71,10 @@ export default function OngoingOrderScreen() {
         })
         .catch((error: unknown) => {
           setLoading(false);
+          console.error(error);
+          if (error instanceof Error) crashlytics().recordError(error);
+          showToast('Não foi possível enviar a avaliação.', 'error');
+          router.back();
         });
     }
   };

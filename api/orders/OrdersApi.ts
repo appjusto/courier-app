@@ -155,11 +155,6 @@ export default class OrdersApi {
 
   async setOrderReview(orderId: string, review: Partial<WithId<OrderReview>>) {
     const reviewId = review.id ?? reviewsRef().doc().id;
-    console.log('setOrderReview', reviewId);
-    console.log({
-      ...omit(review, ['id']),
-      reviewedOn: serverTimestamp(),
-    });
     await reviewRef(reviewId).set(
       {
         ...omit(review, ['id']),

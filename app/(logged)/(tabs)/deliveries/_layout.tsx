@@ -9,6 +9,7 @@ export default function DeliveriesLayout() {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="history" options={{ title: 'Histórico de corridas' }} />
+      <Stack.Screen name="ledger" options={{ title: 'Histórico de ganhos' }} />
       <Stack.Screen name="withdraws/index" options={{ title: 'Transferências' }} />
       <Stack.Screen
         name="withdraws/[id]"

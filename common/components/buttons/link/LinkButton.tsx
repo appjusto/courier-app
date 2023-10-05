@@ -7,12 +7,14 @@ import { DefaultText } from '../../texts/DefaultText';
 type LinkButtonProps = ViewProps & {
   size?: 'small' | 'medium';
   disabled?: boolean;
+  variant?: 'default' | 'ghost';
   onPress: () => void;
 };
 
 export const LinkButton = ({
   size = 'small',
   disabled,
+  variant = 'default',
   style,
   children,
   ...props
@@ -33,7 +35,7 @@ export const LinkButton = ({
                 size === 'small' ? { ...typography.sm } : { ...typography.md },
                 {
                   color: pressed ? colors.neutral900 : colors.black,
-                  textDecorationLine: 'underline',
+                  textDecorationLine: variant === 'ghost' ? 'none' : 'underline',
                 },
               ]}
             >

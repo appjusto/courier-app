@@ -1,30 +1,62 @@
-import { documentsAs } from '@/common/firebase/documentAs';
+import { documentAs, documentsAs } from '@/common/firebase/documentAs';
 import { LedgerEntry, LedgerEntryStatus, WithId } from '@appjusto/types';
+import crashlytics from '@react-native-firebase/crashlytics';
 import firestore from '@react-native-firebase/firestore';
+import AuthApi from '../auth/AuthApi';
+import { fromDate } from '../firebase/timestamp';
 
 // firestore
-const getLedgerRef = () => firestore().collection('ledger');
-// const getLedgerEntryRef = (id: string) => getLedgerRef().doc(id);
+const ledgerRef = () => firestore().collection('ledger');
+const entryRef = (id: string) => ledgerRef().doc(id);
 
 // API
+
+export interface ObserveLedgerOptions {
+  statuses?: LedgerEntryStatus[];
+  limit?: number;
+  from?: Date;
+  to?: Date;
+}
 export default class LedgerApi {
+  constructor(private auth: AuthApi) {}
   // observe orders
-  observeApprovedEntries(
-    courierId: string,
+  observeLedger(
+    options: ObserveLedgerOptions,
     resultHandler: (orders: WithId<LedgerEntry>[]) => void
   ) {
-    const query = getLedgerRef()
+    console.log('observeLedger', options);
+    const { statuses, from, to } = options;
+    let query = ledgerRef()
       .where('to.accountType', '==', 'courier')
-      .where('to.accountId', '==', courierId)
-      .where('status', '==', 'approved' as LedgerEntryStatus)
+      .where('to.accountId', '==', this.auth.getUserId())
       .orderBy('createdOn', 'desc');
+    if (statuses) {
+      query = query.where('status', 'in', statuses);
+    }
+    if (from) {
+      query = query.where('createdOn', '>', fromDate(from));
+    }
+    if (to) {
+      query = query.where('createdOn', '<', fromDate(to));
+    }
     return query.onSnapshot(
       async (snapshot) => {
+        console.log('observeLedger snapshot', snapshot.size);
         resultHandler(snapshot.empty ? [] : documentsAs<LedgerEntry>(snapshot.docs));
       },
       (error) => {
         console.error(error);
       }
     );
+  }
+  async fetchLedgerEntry(id: string) {
+    try {
+      const snapshot = await entryRef(id).get();
+      if (!snapshot.exists) return null;
+      return documentAs<LedgerEntry>(snapshot);
+    } catch (error: unknown) {
+      if (error instanceof Error) crashlytics().recordError(error);
+      throw new Error('Não foi possível obter detalhes do ganho. Tente novamente mais tarde.');
+    }
   }
 }

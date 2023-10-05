@@ -70,7 +70,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="deliveries"
         options={{
-          title: 'Suas corridas',
+          title: 'Seus ganhos',
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused}>

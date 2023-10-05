@@ -17,15 +17,18 @@ const PreferencesContext = React.createContext<Value>({
 export const PreferencesProvider = (props: Props) => {
   // context
   const profile = useContextProfile();
-  const status = profile?.status;
+  const [status, setStatus] = useState(profile?.status);
   // state
   const [availabilityModalShown, setAvailabilityModalShown] = useState(false);
   // side effects
   useEffect(() => {
-    if (status === 'available') {
-      setAvailabilityModalShown(true);
+    if (profile?.status !== status) {
+      if (status === 'unavailable' && profile?.status === 'available') {
+        setAvailabilityModalShown(true);
+      }
+      setStatus(profile?.status);
     }
-  }, [status]);
+  }, [status, profile]);
   // result
   return (
     <PreferencesContext.Provider value={{ availabilityModalShown, setAvailabilityModalShown }}>

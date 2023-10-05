@@ -1,17 +1,17 @@
 import { useUniqState } from '@/common/react/useUniqState';
-import { Order, WithId } from '@appjusto/types';
+import { LedgerEntry, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
-import { ObserveDeliveredOrdersOptions } from './OrdersApi';
+import { ObserveLedgerOptions } from './LedgerApi';
 
-export const useObserveOrdersFromPeriod = (_from: Date | undefined, _to: Date | undefined) => {
+export const useObserveLedgerFromPeriod = (_from: Date | undefined, _to: Date | undefined) => {
   // context
   const api = useContextApi();
   // state
   const from = useUniqState(_from);
   const to = useUniqState(_to);
-  const [options, setOptions] = useState<ObserveDeliveredOrdersOptions>();
-  const [orders, setOrders] = useState<WithId<Order>[]>();
+  const [options, setOptions] = useState<ObserveLedgerOptions>();
+  const [entries, setEntries] = useState<WithId<LedgerEntry>[]>();
   // side effects
   useEffect(() => {
     if (!from) return;
@@ -23,8 +23,8 @@ export const useObserveOrdersFromPeriod = (_from: Date | undefined, _to: Date | 
   }, [from, to]);
   useEffect(() => {
     if (!options) return;
-    return api.orders().observeOrders(options, setOrders);
+    return api.ledger().observeLedger(options, setEntries);
   }, [api, options]);
   // result
-  return orders;
+  return entries;
 };

@@ -30,7 +30,6 @@ const withdrawsRef = () => firestore().collection('withdraws');
 const withdrawRef = (id: string) => firestore().collection('withdraws').doc(id);
 export default class CouriersApi {
   constructor(private auth: AuthApi) {}
-
   // orders
   observeActiveRequests(resultHandler: (requests: WithId<CourierOrderRequest>[]) => void) {
     const query = courierRequestsRef()
@@ -88,11 +87,9 @@ export default class CouriersApi {
   async viewOrderRequest(requestId: string) {
     await courierRequestRef(requestId).update({ viewed: true } as CourierOrderRequest);
   }
-
   async updateRoutePolylineToOrigin(requestId: string, routePolylineToOrigin: string) {
     await courierRequestRef(requestId).update({ routePolylineToOrigin } as CourierOrderRequest);
   }
-
   // account
   async fetchAccountInformation() {
     const accountId = this.auth.getUserId();
@@ -112,6 +109,7 @@ export default class CouriersApi {
       throw new Error('Não foi possível obter seu saldo. Tente novamente mais tarde.');
     }
   }
+  // withdraws
   async requestWithdraw(amount: number) {
     const accountId = this.auth.getUserId();
     if (!accountId) {
@@ -130,7 +128,6 @@ export default class CouriersApi {
       throw new Error('Não foi possível obter seu saldo. Tente novamente mais tarde.');
     }
   }
-
   async fetchWithdraws(from: Date, to: Date) {
     try {
       const query = withdrawsRef()

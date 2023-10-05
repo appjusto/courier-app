@@ -22,13 +22,19 @@ import { PeriodModal } from './period-modal';
 export type Period = 'day' | 'week' | 'month' | 'custom';
 
 interface Props extends ViewProps {
+  initialFrom?: Date;
+  initialPeriod?: Period;
   onChange: (from: Date, to: Date) => void;
 }
 
-export const PeriodControl = ({ onChange }: Props) => {
+export const PeriodControl = ({
+  initialFrom = new Date(),
+  initialPeriod = 'day',
+  onChange,
+}: Props) => {
   // state
-  const [period, setPeriod] = useState<Period>('day');
-  const [from, setFrom] = useState(getStartOfDay().getTime());
+  const [period, setPeriod] = useState<Period>(initialPeriod);
+  const [from, setFrom] = useState(initialFrom.getTime());
   const [to, setTo] = useState<number>();
   const [modalVisible, setModalVisible] = useState(false);
   // side effects
