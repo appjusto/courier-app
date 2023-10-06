@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Smartphone,
   Users2,
+  XCircle,
 } from 'lucide-react-native';
 import { View } from 'react-native';
 
@@ -25,7 +26,8 @@ type IconName =
   | 'file'
   | 'chat'
   | 'helmet'
-  | 'alert';
+  | 'alert'
+  | 'cancel';
 
 type Variant = 'lighter' | 'darker' | 'dark' | 'warning';
 interface Props {
@@ -71,6 +73,9 @@ const getIcon = (name: IconName, variant?: Variant) => {
   }
   if (name === 'alert') {
     return <AlertOctagon size={iconSize} color={color} />;
+  }
+  if (name === 'cancel') {
+    return <XCircle size={iconSize} color={color} />;
   }
   if (name === 'helmet') {
     return <HelmetIcon />;

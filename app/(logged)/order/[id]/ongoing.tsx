@@ -1,16 +1,17 @@
 import { View } from 'react-native';
 
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
+import { unreadMessages } from '@/api/chats/unreadMessages';
+import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
-import { DefaultMap } from '@/common/components/map/DefaultMap';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
 import { ConfirmDelivery } from '@/common/screens/orders/confirmation/ConfirmDelivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
+import { OrderMap } from '@/common/screens/orders/map/order-map';
 import { CurrentOrderPlace } from '@/common/screens/orders/place/CurrentOrderPlace';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import paddings from '@/common/styles/paddings';
@@ -23,7 +24,9 @@ export default function OngoingOrderScreen() {
   const orderId = params.id;
   // state
   const order = useObserveOrder(orderId);
-  const request = useObserveOrderRequest(orderId);
+  const chat = useObserveChat(orderId);
+  const consumerUnreadMessages = unreadMessages(chat, order?.consumer.id);
+  const businessUnreadMessages = unreadMessages(chat, order?.business?.id);
   const orderStatus = order?.status;
   const dispatchingState = order?.dispatchingState;
   // console.log('orderId', orderId);
@@ -34,27 +37,12 @@ export default function OngoingOrderScreen() {
   useRouterAccordingOrderStatus(orderId, orderStatus, true);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
-  const origin = order.origin?.location;
-  const destination = order.destination?.location;
-  const polyline =
-    dispatchingState === 'going-pickup' && request?.routePolylineToOrigin
-      ? request.routePolylineToOrigin
-      : order.route?.polyline;
-  const navigationTo =
-    dispatchingState === 'going-destination' || dispatchingState === 'arrived-destination'
-      ? order.destination?.location
-      : order.origin?.location;
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Pedido #${order.code}` }} />
-      {dispatchingState !== 'arrived-destination' ? (
-        <DefaultMap
-          origin={origin}
-          destination={destination}
-          polyline={polyline}
-          navigationTo={navigationTo}
-        />
-      ) : null}
+      <OrderMap order={order} />
+      {/* ongoing alerts: recebe identificador para cada tipo e */}
+      <View style={{}}></View>
       <View
         style={{
           flex: dispatchingState === 'arrived-destination' ? 1 : undefined,
@@ -92,7 +80,12 @@ export default function OngoingOrderScreen() {
               style={{ marginLeft: paddings.sm }}
               title="Ajuda"
               variant="destructive"
-              onPress={() => null}
+              onPress={() => {
+                router.push({
+                  pathname: '/(logged)/order/[id]/support',
+                  params: { id: orderId },
+                });
+              }}
             />
           </View>
         </View>

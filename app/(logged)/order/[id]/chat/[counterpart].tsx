@@ -53,7 +53,8 @@ export default function ChatScreen() {
     api
       .chat()
       .sendMessage({
-        participantsIds: [courierId, counterpartId],
+        type: counterpartId === order.consumer.id ? 'consumer-courier' : 'business-courier',
+        participantsIds: [counterpartId, courierId], // order matters
         from: {
           agent: 'courier',
           id: courierId,
