@@ -1,9 +1,11 @@
+import crashlytics from '@react-native-firebase/crashlytics';
 import * as Device from 'expo-device';
 import {
   getExpoPushTokenAsync,
   getPermissionsAsync,
   requestPermissionsAsync,
 } from 'expo-notifications';
+import { ShowToast } from '../components/toast/Toast';
 
 export const getExpoPushToken = (retries: number): Promise<string | null> => {
   return new Promise(async (resolve, reject) => {
@@ -26,6 +28,8 @@ export const getExpoPushToken = (retries: number): Promise<string | null> => {
     } catch (error: unknown) {
       if (retries > 0) setTimeout(async () => resolve(await getExpoPushToken(retries - 1)), 1000);
       else {
+        ShowToast(error instanceof Error ? error.message : JSON.stringify(error));
+        if (error instanceof Error) crashlytics().recordError(error);
         reject(error);
       }
     }

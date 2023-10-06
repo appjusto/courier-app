@@ -48,7 +48,10 @@ export default function HomeScreen() {
     <DefaultScrollView style={{ ...screens.default }}>
       <LocationDisclosureModal
         visible={locationDisclosureStatus === 'not-shown'}
-        onDismiss={setLocationDisclosureShown}
+        onDismiss={() => {
+          setLocationDisclosureShown();
+          api.profile().updateProfile({ status: 'available' }).catch(console.error);
+        }}
       />
       <AvailabilityModal
         visible={availabilityModalShown && locationDisclosureStatus === 'shown'}

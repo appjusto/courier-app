@@ -4,6 +4,7 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -15,7 +16,7 @@ import { Loading } from '@/common/components/views/Loading';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
-import { formatTimestamp } from '@/common/formatters/timestamp';
+import { formatDate } from '@/common/formatters/timestamp';
 import { stopOrderRequestSound } from '@/common/notifications/sound';
 import { RejectOrderModal } from '@/common/screens/matching/reject-order-modal';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
@@ -31,6 +32,7 @@ import { View } from 'react-native';
 
 export default function MatchingScreen() {
   // context
+  const profile = useContextProfile();
   const api = useContextApi();
   const showToast = useShowToast();
   // params
@@ -39,7 +41,7 @@ export default function MatchingScreen() {
   // state
   const request = useObserveRequest(requestId);
   const situation = request?.situation;
-  const route = useMapRoute(request?.origin);
+  const route = useMapRoute(request?.origin, profile?.mode);
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [expiredModalShown, setExpiredModalShown] = useState(false);
@@ -103,6 +105,7 @@ export default function MatchingScreen() {
         if (error instanceof Error) showToast(error.message, 'error');
       });
   };
+  console.log(requestId);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
   const {
@@ -138,18 +141,17 @@ export default function MatchingScreen() {
       />
       <View style={{ paddingVertical: paddings.xl, paddingHorizontal: paddings.lg }}>
         {/* tags */}
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', marginBottom: paddings.lg }}>
           <RoundedView
             style={{
-              marginBottom: paddings.lg,
               paddingHorizontal: paddings.sm,
               paddingVertical: paddings.xs,
               backgroundColor: colors.neutral50,
-              borderColor: colors.neutral50,
+              borderWidth: 0,
             }}
           >
             <DefaultText color="black" size="xs">
-              {readyAt ? `Pronto às ${formatTimestamp(readyAt, 'HH:mm')}` : 'Pronto para coleta'}
+              {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pronto para coleta'}
             </DefaultText>
           </RoundedView>
           {locationFee ? (
@@ -157,7 +159,10 @@ export default function MatchingScreen() {
               style={{
                 flexDirection: 'row',
                 marginLeft: paddings.sm,
+                paddingHorizontal: paddings.sm,
+                paddingVertical: paddings.xs,
                 backgroundColor: colors.primary300,
+                borderWidth: 0,
               }}
             >
               <Zap size={16} color={colors.black} />

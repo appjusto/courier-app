@@ -1,10 +1,10 @@
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
-import { LatLng, RouteDetails } from '@appjusto/types';
+import { CourierMode, LatLng, RouteDetails } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
 import { useContextInitialLocation } from '../location/context/useContextInitialLocation';
 
-export const useMapRoute = (to?: LatLng) => {
+export const useMapRoute = (to?: LatLng, mode?: CourierMode) => {
   // context
   const api = useContextApi();
   const showToast = useShowToast();
@@ -14,6 +14,7 @@ export const useMapRoute = (to?: LatLng) => {
   // side effects
   useEffect(() => {
     if (!to) return;
+    if (!mode) return;
     if (location === undefined) return;
     if (location === null) {
       showToast('Não foi possível obter sua localização. Verifique suas configurações', 'warning');
@@ -32,7 +33,7 @@ export const useMapRoute = (to?: LatLng) => {
           showToast(error.message, 'warning');
         }
       });
-  }, [api, showToast, location, to]);
+  }, [api, showToast, location, to, mode]);
   // result
   console.log('location:', location, '; to:', to, '; route distance:', route?.distance);
   return route;

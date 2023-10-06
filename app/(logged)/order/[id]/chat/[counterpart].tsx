@@ -73,6 +73,7 @@ export default function ChatScreen() {
       .catch(console.error);
   };
   if (!order) return <Loading title="Chat" />;
+  // console.log(JSON.stringify(chat));
   // UI
   return (
     <KeyboardAwareScrollView
