@@ -27,7 +27,6 @@ export const LocationProvider = (props: Props) => {
   // state
   const { locationDisclosureStatus, setLocationDisclosureShown } = useLocationDisclosureStatus();
   const { location } = useBackgroundLocation(working && locationDisclosureStatus === 'shown');
-  // side effects =
   // result
   return (
     <LocationContext.Provider

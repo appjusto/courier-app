@@ -85,9 +85,11 @@ export default class CouriersApi {
     );
   }
   async viewOrderRequest(requestId: string) {
+    console.log('viewOrderRequest', requestId);
     await courierRequestRef(requestId).update({ viewed: true } as CourierOrderRequest);
   }
   async updateRoutePolylineToOrigin(requestId: string, routePolylineToOrigin: string) {
+    console.log('updateRoutePolylineToOrigin', requestId);
     await courierRequestRef(requestId).update({ routePolylineToOrigin } as CourierOrderRequest);
   }
   // account

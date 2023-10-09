@@ -1,8 +1,10 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { onSimulator } from '@/common/version/device';
 import { LatLng } from '@appjusto/types';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useEffect, useState } from 'react';
 import BackgroundGeolocation from 'react-native-background-geolocation';
+import { latlngFromGeopoint } from '../latlngFromGeoPoint';
 import { latlngFromLocation } from '../latlngFromLocation';
 import { configBackgroundGeolocation } from './configBackgroundGeolocation';
 import { startBackgroundGeolocation } from './startBackgroundGeolocation';
@@ -11,11 +13,19 @@ export const useBackgroundLocation = (enabled: boolean) => {
   // context
   const profile = useContextProfile();
   const userId = profile?.id;
+  const coordinates = profile?.coordinates;
   const userToken = profile?.notificationPreferencesToken;
   // state
   const [ready, setReady] = useState(false);
   const [location, setLocation] = useState<LatLng>();
   // side effects
+  useEffect(() => {
+    if (coordinates && onSimulator()) {
+      console.log('initial location');
+      setLocation(latlngFromGeopoint(coordinates));
+    }
+  }, [coordinates]);
+
   useEffect(() => {
     const onLocation = BackgroundGeolocation.onLocation((value) => {
       setLocation(latlngFromLocation(value));

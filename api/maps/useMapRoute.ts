@@ -13,6 +13,7 @@ export const useMapRoute = (to?: LatLng, mode?: CourierMode) => {
   const [route, setRoute] = useState<RouteDetails | null>();
   // side effects
   useEffect(() => {
+    console.log('useMapRoute', to, mode, location);
     if (!to) return;
     if (!mode) return;
     if (location === undefined) return;
@@ -23,7 +24,7 @@ export const useMapRoute = (to?: LatLng, mode?: CourierMode) => {
     }
     api
       .maps()
-      .googleDirections(location, to, 'car')
+      .googleDirections(location, to, mode)
       .then((result) => {
         setRoute(result);
       })

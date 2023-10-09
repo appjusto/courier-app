@@ -27,6 +27,7 @@ import { Issue } from '@appjusto/types';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
 import { Zap } from 'lucide-react-native';
+import { Skeleton } from 'moti/skeleton';
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 
@@ -174,30 +175,36 @@ export default function MatchingScreen() {
         </View>
         {/* values */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View>
-            <DefaultText size="xs" color="neutral800">
-              Valor da corrida
-            </DefaultText>
-            <DefaultText size="xl" color="black">
-              {formatCurrency(fee)}
-            </DefaultText>
-          </View>
-          <View>
-            <DefaultText size="xs" color="neutral800">
-              Distância total
-            </DefaultText>
-            <DefaultText size="xl" color={route ? 'black' : 'error300'}>
-              {formatDistance(totalDistance)}
-            </DefaultText>
-          </View>
-          <View>
-            <DefaultText size="xs" color="neutral800">
-              Valor por km
-            </DefaultText>
-            <DefaultText size="xl" color="black">
-              {formatCurrency(feePerKm)}
-            </DefaultText>
-          </View>
+          <Skeleton.Group show={!route}>
+            <View>
+              <DefaultText size="xs" color="neutral800">
+                Valor da corrida
+              </DefaultText>
+              <DefaultText size="xl" color="black">
+                {formatCurrency(fee)}
+              </DefaultText>
+            </View>
+            <View>
+              <DefaultText size="xs" color="neutral800">
+                Distância total
+              </DefaultText>
+              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
+                <DefaultText size="xl" color={route ? 'black' : 'error300'}>
+                  {formatDistance(totalDistance)}
+                </DefaultText>
+              </Skeleton>
+            </View>
+            <View>
+              <DefaultText size="xs" color="neutral800">
+                Valor por km
+              </DefaultText>
+              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
+                <DefaultText size="xl" color="black">
+                  {formatCurrency(feePerKm)}
+                </DefaultText>
+              </Skeleton>
+            </View>
+          </Skeleton.Group>
         </View>
         {/* button */}
         <ConfirmButton
