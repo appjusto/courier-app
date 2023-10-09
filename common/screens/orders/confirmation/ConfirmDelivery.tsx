@@ -182,12 +182,15 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
           Agora, tire uma foto da encomenda e da fachada do local de entrega:
         </DefaultText>
         <View style={{ flexDirection: 'row' }}>
-          <RoundedImageBox url={packageBase64} onPress={() => pickAndUpload('package').then(null)}>
+          <RoundedImageBox
+            url={packageBase64 ? `data:image/jpg;base64,${packageBase64}` : null}
+            onPress={() => pickAndUpload('package').then(null)}
+          >
             <Upload color={colors.black} />
           </RoundedImageBox>
           <RoundedImageBox
             style={{ marginLeft: paddings.lg }}
-            url={frontBase64}
+            url={frontBase64 ? `data:image/jpg;base64,${frontBase64}` : null}
             onPress={() => pickAndUpload('front').then(null)}
           >
             <Upload color={colors.black} />

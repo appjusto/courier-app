@@ -1,5 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { unreadMessages } from '@/api/chats/unreadMessages';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
@@ -17,7 +18,7 @@ import screens from '@/common/styles/screens';
 import { Flavor } from '@appjusto/types';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { Send, User } from 'lucide-react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -33,6 +34,7 @@ export default function ChatScreen() {
   // state
   const order = useObserveOrder(orderId);
   const chat = useObserveChat(orderId, counterpartId);
+  const unread = unreadMessages(chat);
   const [message, setMessage] = useState('');
   const counterpartFlavor = (): Flavor => {
     if (counterpartId === order?.consumer.id) return 'consumer';
@@ -41,10 +43,20 @@ export default function ChatScreen() {
   const counterpartName = () => {
     if (!order) return '';
     if (counterpartId === order.consumer.id) return order.consumer.name;
-    return order.business?.name;
+    return order.business?.name ?? '';
   };
   // tracking
   useTrackScreenView('Chat');
+  // side effects
+  useEffect(() => {
+    if (!unread?.length) return;
+    api
+      .chat()
+      .updateReadMessages(unread.map((message) => message.id))
+      .catch((error: unknown) => {
+        console.error(error);
+      });
+  }, [api, unread]);
   // handlers
   const sendMessage = () => {
     if (!courierId) return;
