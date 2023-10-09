@@ -5,7 +5,7 @@ import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
-import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButton';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { RoundedView } from '@/common/components/containers/RoundedView';
@@ -89,14 +89,14 @@ export default function MatchingScreen() {
         if (error instanceof Error) showToast(error.message, 'error');
       });
   }, [api, request?.orderId, route?.distance, showToast]);
-  const rejectOrder = (issue: Issue) => {
+  const rejectOrder = (issue: Issue, comment: string) => {
     if (!request?.orderId) return;
     trackEvent('Corrida recusada');
     setRejectModalShown(false);
     setLoading(true);
     api
       .orders()
-      .rejectOrder(request.orderId, issue)
+      .rejectOrder(request.orderId, issue, comment)
       .then(() => {
         setLoading(false);
         router.back();
@@ -174,7 +174,9 @@ export default function MatchingScreen() {
           ) : null}
         </View>
         {/* values */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View
+          style={{ flexDirection: 'row', marginTop: paddings.lg, justifyContent: 'space-between' }}
+        >
           <Skeleton.Group show={!route}>
             <View>
               <DefaultText size="xs" color="neutral800">
@@ -196,7 +198,7 @@ export default function MatchingScreen() {
             </View>
             <View>
               <DefaultText size="xs" color="neutral800">
-                Valor por km
+                Valor por KM
               </DefaultText>
               <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
                 <DefaultText size="xl" color="black">
@@ -208,21 +210,21 @@ export default function MatchingScreen() {
         </View>
         {/* button */}
         <ConfirmButton
-          style={{ marginTop: paddings.lg }}
+          style={{ marginTop: paddings['2xl'] }}
           text="Aceitar"
           trackText="Arraste para aceitar"
           onConfirm={matchOrder}
         />
-        <DefaultButton
-          style={{ marginTop: paddings.lg }}
-          variant="outline"
-          title="Passar"
-          loading={loading}
+        <LinkButton
+          style={{ marginTop: paddings.lg, alignSelf: 'center' }}
+          variant="ghost"
           onPress={() => {
             trackEvent('Passar corrida');
             setRejectModalShown(true);
           }}
-        />
+        >
+          Passar corrida
+        </LinkButton>
       </View>
     </DefaultView>
   );

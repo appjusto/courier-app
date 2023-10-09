@@ -1,6 +1,7 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
+import { ModalHandle } from '@/common/components/modals/modal-handle';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HelmetLargeIcon } from '@/common/icons/helmet-lg';
 import colors from '@/common/styles/colors';
@@ -33,16 +34,7 @@ export const AvailabilityModal = ({ onConfirm, onDismiss, ...props }: Props) => 
             }}
           >
             <View style={{ padding: paddings.lg, backgroundColor: colors.white }}>
-              <View
-                style={{
-                  alignSelf: 'center',
-                  marginTop: paddings.md,
-                  height: 6,
-                  width: 50,
-                  borderRadius: 100,
-                  backgroundColor: colors.neutral100,
-                }}
-              />
+              <ModalHandle />
               <DefaultText style={{ marginTop: paddings['2xl'] }} size="xl">
                 Como você vai fazer suas entregas hoje?
               </DefaultText>

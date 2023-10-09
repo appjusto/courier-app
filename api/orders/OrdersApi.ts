@@ -106,7 +106,7 @@ export default class OrdersApi {
     await matchOrder(payload);
   }
 
-  async rejectOrder(orderId: string, issue: Issue, comment?: string) {
+  async rejectOrder(orderId: string, issue: Issue, comment: string) {
     console.log('rejectOrder');
     const payload: RejectOrderPayload = {
       orderId,

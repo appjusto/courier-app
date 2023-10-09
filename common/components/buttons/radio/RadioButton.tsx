@@ -1,8 +1,16 @@
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleProp, TextProps, View, ViewProps } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
-import { RadioButtonProps } from './types';
+
+export type RadioButtonProps = ViewProps & {
+  title: string;
+  variant?: 'circle' | 'square';
+  checked: boolean;
+  disabled?: boolean;
+  textStyle?: StyleProp<TextProps>;
+  onPress: () => void;
+};
 
 const size = 18;
 
@@ -10,8 +18,9 @@ export const RadioButton = ({
   title,
   checked,
   variant = 'circle',
-  style,
   disabled,
+  style,
+  textStyle,
   onPress,
   ...props
 }: RadioButtonProps) => {
@@ -56,7 +65,7 @@ export const RadioButton = ({
                 />
               )}
             </View>
-            <DefaultText size="xs" style={{ marginLeft: paddings.sm }}>
+            <DefaultText size="xs" style={[{ marginLeft: paddings.sm }, textStyle]}>
               {title}
             </DefaultText>
           </View>
