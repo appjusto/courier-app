@@ -11,6 +11,7 @@ import AuthApi from './auth/AuthApi';
 import ChatsApi from './chats/ChatsApi';
 import CouriersApi from './couriers/CouriersApi';
 import FleetsApi from './fleets/FleetsApi';
+import IncidentsApi from './incidents/IncidentsApi';
 import LedgerApi from './ledger/LedgerApi';
 import MapsApi from './maps/MapsApi';
 import OrdersApi from './orders/OrdersApi';
@@ -33,6 +34,7 @@ export default class Api {
   private _ledger: LedgerApi;
   private _maps: MapsApi;
   private _chat: ChatsApi;
+  private _incidents: IncidentsApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -69,6 +71,7 @@ export default class Api {
     this._maps = new MapsApi();
     this._search = new SearchApi(extra.algolia, extra.env);
     this._chat = new ChatsApi(this._auth);
+    this._incidents = new IncidentsApi(this._auth);
   }
 
   auth() {
@@ -109,6 +112,10 @@ export default class Api {
 
   chat() {
     return this._chat;
+  }
+
+  incidents() {
+    return this._incidents;
   }
 
   search() {

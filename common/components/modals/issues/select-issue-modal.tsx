@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useIssues } from '@/api/platform/issues/useIssues';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
@@ -10,23 +11,35 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import typography from '@/common/styles/typography';
-import { Issue } from '@appjusto/types';
+import { Issue, IssueType } from '@appjusto/types';
 import { useState } from 'react';
 import { Modal, ModalProps, Pressable, View } from 'react-native';
 
 interface Props extends ModalProps {
+  title: string;
+  issueType?: IssueType;
+  loading?: boolean;
   onConfirm: (issue: Issue, comment: string) => void;
   onDismiss: () => void;
 }
-export const RejectOrderModal = ({ onConfirm, onDismiss, ...props }: Props) => {
+export const SelectIssueModal = ({
+  title,
+  issueType,
+  loading,
+  onConfirm,
+  onDismiss,
+  visible,
+  ...props
+}: Props) => {
   // state
   const [selectedIssue, setSelectedIssue] = useState<Issue>();
-  const issues = useIssues('courier-rejects-matching');
+  const issues = useIssues(issueType);
   const [comment, setComment] = useState('');
+  useTrackScreenView('Relatar Problema', { issueType }, visible);
   // UI
   if (!issues) return <Loading />;
   return (
-    <Modal transparent animationType="slide" {...props}>
+    <Modal transparent animationType="slide" visible={visible} {...props}>
       <Pressable style={{ flex: 1 }} onPress={onDismiss}>
         {() => (
           <DefaultScrollView style={{ ...screens.default }}>
@@ -40,7 +53,7 @@ export const RejectOrderModal = ({ onConfirm, onDismiss, ...props }: Props) => {
               <View style={{ flex: 0.8, padding: paddings.lg, backgroundColor: colors.white }}>
                 <ModalHandle style={{ marginTop: paddings.xl }} />
                 <DefaultText style={{ marginTop: paddings.xl }} size="lg">
-                  Por que você passou a corrida?
+                  {title}
                 </DefaultText>
                 {/* issues */}
                 <View style={{ marginTop: paddings.lg }}>
@@ -76,7 +89,8 @@ export const RejectOrderModal = ({ onConfirm, onDismiss, ...props }: Props) => {
                 <DefaultButton
                   style={{ marginVertical: paddings.lg }}
                   title="Enviar"
-                  disabled={!selectedIssue}
+                  disabled={!selectedIssue || loading}
+                  loading={loading}
                   onPress={() => {
                     if (selectedIssue) onConfirm(selectedIssue, comment);
                   }}

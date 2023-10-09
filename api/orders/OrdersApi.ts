@@ -4,6 +4,7 @@ import { getAppVersion } from '@/common/version';
 import { getFirebaseRegion } from '@/extra';
 import {
   CompleteDeliveryPayload,
+  DropOrderPayload,
   Issue,
   MatchOrderPayload,
   Order,
@@ -23,6 +24,7 @@ import StorageApi from '../storage/StorageApi';
 const region = getFirebaseRegion();
 const matchOrder = firebase.app().functions(region).httpsCallable('matchOrder');
 const rejectOrder = firebase.app().functions(region).httpsCallable('rejectOrder');
+const dropOrder = firebase.app().functions(region).httpsCallable('dropOrder');
 const completeDelivery = firebase.app().functions(region).httpsCallable('completeDelivery');
 
 // firestore
@@ -115,6 +117,17 @@ export default class OrdersApi {
       meta: { version: getAppVersion() },
     };
     await rejectOrder(payload);
+  }
+
+  async dropOrder(orderId: string, issue: Issue, comment: string) {
+    console.log('dropOrder');
+    const payload: DropOrderPayload = {
+      orderId,
+      issue,
+      comment,
+      meta: { version: getAppVersion() },
+    };
+    await dropOrder(payload);
   }
 
   async completeDelivery({

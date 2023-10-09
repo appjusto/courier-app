@@ -11,6 +11,7 @@ import { DefaultView } from '@/common/components/containers/DefaultView';
 import { RoundedView } from '@/common/components/containers/RoundedView';
 import { DefaultMap } from '@/common/components/map/DefaultMap';
 import { ErrorModal } from '@/common/components/modals/error/error-modal';
+import { SelectIssueModal } from '@/common/components/modals/issues/select-issue-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
@@ -18,7 +19,6 @@ import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { formatDate } from '@/common/formatters/timestamp';
 import { stopOrderRequestSound } from '@/common/notifications/sound';
-import { RejectOrderModal } from '@/common/screens/matching/reject-order-modal';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -92,16 +92,17 @@ export default function MatchingScreen() {
   const rejectOrder = (issue: Issue, comment: string) => {
     if (!request?.orderId) return;
     trackEvent('Corrida recusada');
-    setRejectModalShown(false);
     setLoading(true);
     api
       .orders()
       .rejectOrder(request.orderId, issue, comment)
       .then(() => {
+        setRejectModalShown(false);
         setLoading(false);
         router.back();
       })
       .catch((error: unknown) => {
+        setRejectModalShown(false);
         setLoading(false);
         if (error instanceof Error) showToast(error.message, 'error');
       });
@@ -135,8 +136,11 @@ export default function MatchingScreen() {
           router.back();
         }}
       />
-      <RejectOrderModal
+      <SelectIssueModal
+        title="Por que você passou a corrida?"
+        issueType="courier-rejects-matching"
         visible={rejectModalShown}
+        loading={loading}
         onConfirm={rejectOrder}
         onDismiss={() => setRejectModalShown(false)}
       />
