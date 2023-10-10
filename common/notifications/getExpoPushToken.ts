@@ -1,3 +1,4 @@
+import { getManifestExtra } from '@/extra';
 import crashlytics from '@react-native-firebase/crashlytics';
 import * as Device from 'expo-device';
 import {
@@ -6,6 +7,8 @@ import {
   requestPermissionsAsync,
 } from 'expo-notifications';
 import { ShowToast } from '../components/toast/Toast';
+
+const extra = getManifestExtra();
 
 export const getExpoPushToken = (retries: number): Promise<string | null> => {
   return new Promise(async (resolve, reject) => {
@@ -18,7 +21,7 @@ export const getExpoPushToken = (retries: number): Promise<string | null> => {
           finalStatus = status;
         }
         if (finalStatus === 'granted') {
-          resolve((await getExpoPushTokenAsync()).data);
+          resolve((await getExpoPushTokenAsync({ projectId: extra.eas.projectId })).data);
         } else {
           reject(new Error(finalStatus));
         }
@@ -28,7 +31,7 @@ export const getExpoPushToken = (retries: number): Promise<string | null> => {
     } catch (error: unknown) {
       if (retries > 0) setTimeout(async () => resolve(await getExpoPushToken(retries - 1)), 1000);
       else {
-        ShowToast(error instanceof Error ? error.message : JSON.stringify(error));
+        ShowToast('et:' + (error instanceof Error ? error.message : JSON.stringify(error)));
         if (error instanceof Error) crashlytics().recordError(error);
         reject(error);
       }
