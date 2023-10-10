@@ -78,11 +78,18 @@ export default class ProfileApi {
   }
 
   async submitProfile() {
-    const courierId = this.auth.getUserId();
-    if (!courierId) return;
+    const courierId = this.auth.getUserId()!;
     this.justSubmitted = true;
     await profileRef(courierId).update({
       situation: 'submitted',
+      updatedOn: serverTimestamp(),
+    } as Partial<CourierProfile>);
+  }
+
+  async fixProfile() {
+    const courierId = this.auth.getUserId()!;
+    await profileRef(courierId).update({
+      situation: 'pending',
       updatedOn: serverTimestamp(),
     } as Partial<CourierProfile>);
   }

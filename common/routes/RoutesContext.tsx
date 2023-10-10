@@ -35,6 +35,13 @@ export const RoutesProvider = (props: Props) => {
       }
     } else if (situation === 'approved') {
       if (!restricted) router.replace('/home');
+    } else if (situation === 'rejected') {
+      router.replace('/rejected');
+    } else if (situation === 'blocked') {
+      router.replace('/blocked');
+      // @ts-expect-error
+    } else if (situation === 'blocked2') {
+      router.replace('/blocked');
     }
   }, [situation, restricted, api]);
   // result
