@@ -1,22 +1,21 @@
 import { Audio } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
+import { ShowToast } from '../components/toast/Toast';
 
 let _sound: Sound;
-const getSound = async () => {
-  if (!_sound) {
-    _sound = (await Audio.Sound.createAsync(require('../../assets/sounds/order_request.wav')))
-      .sound;
-  }
-  return _sound;
-};
 
 export const playOrderRequestSound = async () => {
-  const sound = await getSound();
-  await sound.setStatusAsync({ positionMillis: 0, shouldPlay: true });
+  try {
+    _sound = (await Audio.Sound.createAsync(require('../../assets/sounds/order_request.wav')))
+      .sound;
+    await _sound.setStatusAsync({ positionMillis: 0, shouldPlay: true, volume: 1 });
+  } catch (error: unknown) {
+    ShowToast(error instanceof Error ? error.message : JSON.stringify(error));
+  }
   // await sound.playAsync();
 };
 
 export const stopOrderRequestSound = async () => {
   if (!_sound) return;
-  await _sound.stopAsync();
+  await _sound.setStatusAsync({ positionMillis: 0, shouldPlay: false, volume: 0 });
 };
