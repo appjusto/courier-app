@@ -4,7 +4,6 @@ import { GroupedChatMessages } from './types';
 
 export const groupOrderChatMessages = (messages: WithId<ChatMessage>[]) =>
   messages.reduce<GroupedChatMessages[]>((groups, message) => {
-    console.log(message.message);
     const currentGroup = last(groups);
     if (message.from.id === currentGroup?.from) {
       currentGroup!.messages.push(message);

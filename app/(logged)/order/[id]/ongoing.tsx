@@ -1,22 +1,24 @@
 import { View } from 'react-native';
 
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { unreadMessages } from '@/api/chats/unreadMessages';
-import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
+import { useChatHandler } from '@/common/screens/orders/chat/useChatHandler';
 import { ConfirmDelivery } from '@/common/screens/orders/confirmation/ConfirmDelivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
 import { OrderMap } from '@/common/screens/orders/map/order-map';
 import { CurrentOrderPlace } from '@/common/screens/orders/place/CurrentOrderPlace';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
+import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
+import { MessageCircle } from 'lucide-react-native';
 
 export default function OngoingOrderScreen() {
   // params
@@ -24,13 +26,9 @@ export default function OngoingOrderScreen() {
   const orderId = params.id;
   // state
   const order = useObserveOrder(orderId);
-  const chat = useObserveChat(orderId);
-  const consumerUnreadMessages = unreadMessages(chat, order?.consumer.id);
-  const businessUnreadMessages = unreadMessages(chat, order?.business?.id);
   const orderStatus = order?.status;
   const dispatchingState = order?.dispatchingState;
-  // console.log('orderId', orderId);
-  // console.log('orderStatus', orderStatus);
+  const { hasUnreadMessages, openChat } = useChatHandler(order);
   // tracking
   useTrackScreenView('Pedido em andamento');
   // side effects
@@ -67,14 +65,29 @@ export default function OngoingOrderScreen() {
           <View style={{ flex: 1 }} />
           <View style={{ flexDirection: 'row' }}>
             <DefaultButton
-              title="Iniciar chat"
-              variant="outline"
-              onPress={() => {
-                router.push({
-                  pathname: '/(logged)/order/[id]/chat/[counterpart]',
-                  params: { id: orderId, counterpart: order.consumer.id },
-                });
+              title="Chat"
+              buttonStyle={{
+                borderColor: hasUnreadMessages ? colors.primary100 : undefined,
+                backgroundColor: hasUnreadMessages ? colors.primary100 : colors.white,
               }}
+              variant="outline"
+              rightView={
+                <View style={{ marginLeft: paddings.sm }}>
+                  <MessageCircle size={16} color="black" />
+                  {hasUnreadMessages ? (
+                    <CircledView
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        backgroundColor: colors.primary500,
+                        borderColor: colors.primary500,
+                      }}
+                      size={8}
+                    />
+                  ) : null}
+                </View>
+              }
+              onPress={openChat}
             />
             <DefaultButton
               style={{ marginLeft: paddings.sm }}

@@ -27,6 +27,5 @@ export const useObserveChat = (orderId?: string, counterpartId?: string) => {
     );
   }, [orderChat, counterpartId]);
   // result
-  console.log(chat);
   return chat;
 };

@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Smartphone,
   Users2,
+  Utensils,
   XCircle,
 } from 'lucide-react-native';
 import { View } from 'react-native';
@@ -27,7 +28,8 @@ type IconName =
   | 'chat'
   | 'helmet'
   | 'alert'
-  | 'cancel';
+  | 'cancel'
+  | 'utentils';
 
 type Variant = 'lighter' | 'darker' | 'dark' | 'warning';
 interface Props {
@@ -79,6 +81,9 @@ const getIcon = (name: IconName, variant?: Variant) => {
   }
   if (name === 'helmet') {
     return <HelmetIcon />;
+  }
+  if (name === 'utentils') {
+    return <Utensils size={iconSize} color={color} />;
   }
   return null;
 };

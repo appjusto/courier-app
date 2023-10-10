@@ -17,6 +17,6 @@ export const replaceRouteAccordingOrderStatus = (
   } else if (status === 'delivered') {
     router.replace({ pathname: '/(logged)/order/[id]/delivered', params: { id: orderId } });
   } else if (status === 'canceled') {
-    // screen with cancellation info
+    // TODO: cancellation
   }
 };

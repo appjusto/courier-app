@@ -8,7 +8,7 @@ import { DefaultText } from '../../texts/DefaultText';
 
 interface Props extends ViewProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   icon: React.ReactNode;
   variant?: 'default' | 'dark';
 }
@@ -42,17 +42,19 @@ export default function DefaultCard({
         <DefaultText size="sm" color={variant === 'default' ? 'black' : 'white'}>
           {title}
         </DefaultText>
-        <DefaultText
-          size="xs"
-          color={variant === 'default' ? 'neutral800' : 'white'}
-          style={{
-            flexWrap: 'wrap',
-            width: '95%',
-            marginTop: 2,
-          }}
-        >
-          {subtitle}
-        </DefaultText>
+        {subtitle ? (
+          <DefaultText
+            size="xs"
+            color={variant === 'default' ? 'neutral800' : 'white'}
+            style={{
+              flexWrap: 'wrap',
+              width: '95%',
+              marginTop: 2,
+            }}
+          >
+            {subtitle}
+          </DefaultText>
+        ) : null}
       </View>
     </View>
   );

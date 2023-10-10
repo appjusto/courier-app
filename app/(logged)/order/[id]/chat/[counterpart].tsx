@@ -34,16 +34,15 @@ export default function ChatScreen() {
   // state
   const order = useObserveOrder(orderId);
   const chat = useObserveChat(orderId, counterpartId);
-  const unread = unreadMessages(chat);
+  const unread = unreadMessages(chat, counterpartId);
   const [message, setMessage] = useState('');
   const counterpartFlavor = (): Flavor => {
     if (counterpartId === order?.consumer.id) return 'consumer';
     return 'business';
   };
   const counterpartName = () => {
-    if (!order) return '';
-    if (counterpartId === order.consumer.id) return order.consumer.name;
-    return order.business?.name ?? '';
+    if (counterpartId === order?.consumer.id) return order.consumer.name;
+    return order?.business?.name;
   };
   // tracking
   useTrackScreenView('Chat');
@@ -104,7 +103,7 @@ export default function ChatScreen() {
           backgroundColor: colors.neutral50,
         }}
       >
-        <Stack.Screen options={{ title: `Chat com ${order.consumer.name}` }} />
+        <Stack.Screen options={{ title: `Chat com ${counterpartName()}` }} />
         <View style={{ padding: paddings.lg }}>
           {chat
             ? chat.map((group) => (

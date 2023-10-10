@@ -2,12 +2,13 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import typography from '@/common/styles/typography';
-import { ActivityIndicator, Pressable, View, ViewProps } from 'react-native';
+import { ActivityIndicator, Pressable, StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 
 type DefaultButtonProps = ViewProps & {
   title: string;
   variant?: 'primary' | 'destructive' | 'outline';
+  buttonStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
   loading?: boolean;
   leftView?: React.ReactNode;
@@ -20,6 +21,7 @@ export const DefaultButton = ({
   title,
   variant = 'primary',
   style,
+  buttonStyle,
   disabled,
   loading,
   leftView,
@@ -59,6 +61,7 @@ export const DefaultButton = ({
                 justifyContent: 'center',
                 height,
               },
+              buttonStyle,
             ]}
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
