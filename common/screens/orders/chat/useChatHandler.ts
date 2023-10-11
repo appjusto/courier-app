@@ -1,5 +1,6 @@
 import { unreadMessages } from '@/api/chats/unreadMessages';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
+import { getDispatchingStateFocus } from '@/api/orders/dispatching-state/getDispatchingStateFocus';
 import { Order, WithId } from '@appjusto/types';
 import { router } from 'expo-router';
 
@@ -23,7 +24,7 @@ export const useChatHandler = (order?: WithId<Order> | null) => {
       counterpartId = order.business.id;
     } else if (order.type === 'p2p') {
       counterpartId = order.consumer.id;
-    } else if (dispatchingState === 'going-pickup' || dispatchingState === 'arrived-pickup') {
+    } else if (getDispatchingStateFocus(dispatchingState) === 'pickup') {
       counterpartId = order.business!.id;
     }
     if (counterpartId) {

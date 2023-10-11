@@ -1,3 +1,4 @@
+import { getDispatchingStateFocus } from '@/api/orders/dispatching-state/getDispatchingStateFocus';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import paddings from '@/common/styles/paddings';
 import { Order, WithId } from '@appjusto/types';
@@ -19,8 +20,7 @@ export const CurrentOrderPlace = ({ order, style, ...props }: Props) => {
   return (
     <View style={[{ padding: paddings.lg }, style]} {...props}>
       <DefaultText size="xs">{currentPlaceLabel}</DefaultText>
-      {business?.name &&
-      (dispatchingState === 'going-pickup' || dispatchingState === 'arrived-pickup') ? (
+      {business?.name && getDispatchingStateFocus(dispatchingState) === 'pickup' ? (
         <DefaultText size="xs" color="black">
           {business.name}
         </DefaultText>

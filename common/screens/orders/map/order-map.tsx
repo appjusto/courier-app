@@ -1,4 +1,5 @@
 import { useObserveOrderRequest } from '@/api/couriers/requests/useObserveOrderRequest';
+import { getDispatchingStateFocus } from '@/api/orders/dispatching-state/getDispatchingStateFocus';
 import { DefaultMap } from '@/common/components/map/DefaultMap';
 import { Order, WithId } from '@appjusto/types';
 import { ViewProps } from 'react-native';
@@ -18,7 +19,7 @@ export const OrderMap = ({ order }: Props) => {
       ? request.routePolylineToOrigin
       : order.route?.polyline;
   const navigationTo =
-    dispatchingState === 'going-destination' || dispatchingState === 'arrived-destination'
+    getDispatchingStateFocus(dispatchingState) === 'destination'
       ? order.destination?.location
       : order.origin?.location;
   // UI
