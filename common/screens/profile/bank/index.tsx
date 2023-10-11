@@ -4,7 +4,6 @@ import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileCha
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
-import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
@@ -30,6 +29,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { SafeAreaView, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface AccountTypeRadio {
   title: string;
@@ -144,16 +144,21 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
     if (!bank) {
       return;
     }
-    const agencyFormatted = agencyFormatter(agency);
-    let accountFormatted = accountFormatter(account);
+    const agencyFormatted = agencyFormatter(bankFormatter(bank.agencyPattern, agency));
+    let accountFormatted = accountFormatter(bankFormatter(bank.accountPattern, account));
     if (bank.code === '104') {
       accountFormatted = `${getCEFAccountCode(personType!, accountType!)}${accountFormatted}`;
     }
+    const bankAccount = {
+      ...updatedBank,
+      agencyFormatted,
+      accountFormatted,
+    } as BankAccount;
     setLoading(true);
     if (!editing) {
       api
         .profile()
-        .updateProfile({ bankAccount: updatedBank as BankAccount })
+        .updateProfile({ bankAccount })
         .then(() => {
           setLoading(false);
           if (onUpdateProfile) onUpdateProfile();
@@ -200,113 +205,121 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   // UI
   if (!profile || !accountTypes) return <Loading />;
   return (
-    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
-      <DefaultText size="lg">
-        {profileState.includes('approved') ? 'Dados bancários' : 'Preencha seus dados bancários'}
-      </DefaultText>
-      <View style={{ flex: 1, marginTop: paddings.sm }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: paddings.sm,
-            alignItems: 'center',
-          }}
-        >
-          <RadioButton
-            title="Pessoa Física"
-            checked={personType === 'Pessoa Física'}
-            onPress={() => {
-              if (!profileState.includes('approved') || editing) {
-                setPersonType('Pessoa Física');
-              }
+    <KeyboardAwareScrollView
+      style={{ ...screens.default, padding: paddings.lg }}
+      enableOnAndroid
+      enableAutomaticScroll
+      keyboardOpeningTime={0}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1 }}
+      scrollIndicatorInsets={{ right: 1 }}
+    >
+      <SafeAreaView>
+        <DefaultText size="lg">
+          {profileState.includes('approved') ? 'Dados bancários' : 'Preencha seus dados bancários'}
+        </DefaultText>
+        <View style={{ flex: 1, marginTop: paddings.sm }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: paddings.sm,
+              alignItems: 'center',
             }}
-          />
-          <RadioButton
-            style={{ marginLeft: paddings.lg }}
-            title="Pessoa Jurídica"
-            checked={personType === 'Pessoa Jurídica'}
-            onPress={() => {
-              if (!profileState.includes('approved') || editing) {
-                setPersonType('Pessoa Jurídica');
-              }
-            }}
-          />
-        </View>
-        <LabeledText
-          style={{ marginTop: paddings.lg }}
-          title="Banco"
-          placeholder="Selecione seu banco"
-          value={bank?.name}
-          color={!profileState.includes('approved') || editing ? 'neutral700' : 'neutral500'}
-          onPress={onSelectBank}
-        />
-        <PatternInput
-          ref={agencyRef}
-          style={{ marginTop: paddings.lg }}
-          patternObject={{
-            mask: bank?.agencyPattern,
-            formatter: agencyFormatter,
-            parser: agencyParser,
-          }}
-          title="Agência"
-          placeholder="Digite sua agência"
-          keyboardType="number-pad"
-          returnKeyType="next"
-          editable={!profileState.includes('approved') || editing}
-          value={agency}
-          onChangeText={setAgency}
-          onBlur={() => {
-            if (bank?.agencyPattern && agency?.length) {
-              setAgency(bankFormatter(bank?.agencyPattern, agency));
-            }
-          }}
-          onSubmitEditing={() => accountRef.current?.focus()}
-        />
-        <View style={{ marginTop: paddings.lg }}>
-          {(accountTypes ?? []).map((option) => (
+          >
             <RadioButton
-              key={option.accountType}
-              style={{ marginTop: paddings.xs }}
-              title={option.title}
-              checked={accountType === option.accountType}
+              title="Pessoa Física"
+              checked={personType === 'Pessoa Física'}
               onPress={() => {
                 if (!profileState.includes('approved') || editing) {
-                  setAccountType(option.accountType);
+                  setPersonType('Pessoa Física');
                 }
               }}
             />
-          ))}
-        </View>
-        <PatternInput
-          ref={accountRef}
-          style={{ marginTop: paddings.lg }}
-          patternObject={{
-            mask: bank?.accountPattern,
-            formatter: accountFormatter,
-            parser: accountParser,
-          }}
-          title="Conta"
-          placeholder="Digite sua conta"
-          keyboardType="number-pad"
-          returnKeyType="next"
-          editable={!profileState.includes('approved') || editing}
-          value={account}
-          onChangeText={setAccount}
-          onBlur={() => {
-            if (bank?.accountPattern && account?.length) {
-              setAccount(bankFormatter(bank.accountPattern, account));
-            }
-          }}
-        />
-        <MessageBox style={{ marginTop: paddings.lg }}>
-          {profileState.includes('approved')
-            ? hasPendingChange
-              ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
-              : 'Possíveis alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
-            : 'Se sua empresa for MEI, você pode usar sua conta bancária de pessoa física. Caso não seja MEI, a conta bancária deverá ser em nome da empresa.'}
-        </MessageBox>
-        <View style={{ flex: 1 }} />
-        <SafeAreaView>
+            <RadioButton
+              style={{ marginLeft: paddings.lg }}
+              title="Pessoa Jurídica"
+              checked={personType === 'Pessoa Jurídica'}
+              onPress={() => {
+                if (!profileState.includes('approved') || editing) {
+                  setPersonType('Pessoa Jurídica');
+                }
+              }}
+            />
+          </View>
+          <LabeledText
+            style={{ marginTop: paddings.lg }}
+            title="Banco"
+            placeholder="Selecione seu banco"
+            value={bank?.name}
+            color={!profileState.includes('approved') || editing ? 'neutral700' : 'neutral500'}
+            onPress={onSelectBank}
+          />
+          <PatternInput
+            ref={agencyRef}
+            style={{ marginTop: paddings.lg }}
+            patternObject={{
+              mask: bank?.agencyPattern,
+              formatter: agencyFormatter,
+              parser: agencyParser,
+            }}
+            title="Agência"
+            placeholder="Digite sua agência"
+            keyboardType="number-pad"
+            returnKeyType="next"
+            editable={!profileState.includes('approved') || editing}
+            value={agency}
+            onChangeText={setAgency}
+            onBlur={() => {
+              if (bank?.agencyPattern && agency?.length) {
+                setAgency(bankFormatter(bank.agencyPattern, agency));
+              }
+            }}
+            onSubmitEditing={() => accountRef.current?.focus()}
+          />
+          <View style={{ marginTop: paddings.lg }}>
+            {(accountTypes ?? []).map((option) => (
+              <RadioButton
+                key={option.accountType}
+                style={{ marginTop: paddings.xs }}
+                title={option.title}
+                checked={accountType === option.accountType}
+                onPress={() => {
+                  if (!profileState.includes('approved') || editing) {
+                    setAccountType(option.accountType);
+                  }
+                }}
+              />
+            ))}
+          </View>
+          <PatternInput
+            ref={accountRef}
+            style={{ marginTop: paddings.lg }}
+            patternObject={{
+              mask: bank?.accountPattern,
+              formatter: accountFormatter,
+              parser: accountParser,
+            }}
+            title="Conta"
+            placeholder="Digite sua conta"
+            keyboardType="number-pad"
+            returnKeyType="next"
+            editable={!profileState.includes('approved') || editing}
+            value={account}
+            onChangeText={setAccount}
+            onBlur={() => {
+              if (bank?.accountPattern && account?.length) {
+                setAccount(bankFormatter(bank.accountPattern, account));
+              }
+            }}
+          />
+          <MessageBox style={{ marginTop: paddings.lg }}>
+            {profileState.includes('approved')
+              ? hasPendingChange
+                ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+                : 'Possíveis alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'
+              : 'Se sua empresa for MEI, você pode usar sua conta bancária de pessoa física. Caso não seja MEI, a conta bancária deverá ser em nome da empresa.'}
+          </MessageBox>
+          <View style={{ flex: 1 }} />
           <DefaultButton
             style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
             title={
@@ -319,8 +332,8 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
             disabled={isLoading || hasPendingChange || !canUpdateProfile}
             onPress={updateProfileHandler}
           />
-        </SafeAreaView>
-      </View>
-    </DefaultScrollView>
+        </View>
+      </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 }

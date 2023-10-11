@@ -3,7 +3,6 @@ import { fetchPostalDetails } from '@/api/externals/viacep';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
-import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -19,7 +18,8 @@ import { CourierCompany, ProfileChange } from '@appjusto/types';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { SafeAreaView, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Props {
   onUpdateProfile?: () => void;
@@ -157,136 +157,144 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   const title = 'Dados da sua PJ';
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
-    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
-      <DefaultText size="lg">
-        {profileState.includes('approved')
-          ? 'Os dados da sua MEI ou PJ'
-          : 'Preencha os dados da sua MEI ou PJ'}
-      </DefaultText>
-      <PatternInput
-        style={{ marginTop: paddings.lg }}
-        pattern="cnpj"
-        title="CNPJ"
-        placeholder="Apenas números"
-        keyboardType="number-pad"
-        returnKeyType="next"
-        editable={!profileState.includes('approved') || editing}
-        blurOnSubmit={false}
-        value={cnpj}
-        onChangeText={setCNPJ}
-        onSubmitEditing={() => nameRef.current?.focus()}
-      />
-      <DefaultInput
-        ref={nameRef}
-        style={{ marginTop: paddings.lg }}
-        title="Razão social"
-        placeholder="Razão social da sua PJ"
-        value={name}
-        keyboardType="default"
-        returnKeyType="next"
-        editable={!profileState.includes('approved') || editing}
-        blurOnSubmit={false}
-        onChangeText={setName}
-        onSubmitEditing={() => cepRef.current?.focus()}
-        maxLength={15}
-      />
-      <PatternInput
-        ref={cepRef}
-        style={{ marginTop: paddings.lg }}
-        pattern="cep"
-        title="CEP"
-        placeholder="Apenas números"
-        keyboardType="number-pad"
-        returnKeyType="next"
-        editable={!profileState.includes('approved') || editing}
-        blurOnSubmit={false}
-        value={cep}
-        onChangeText={setCEP}
-        onSubmitEditing={() => addressRef.current?.focus()}
-      />
-      <DefaultInput
-        ref={addressRef}
-        style={{ marginTop: paddings.lg }}
-        title="Endereço"
-        placeholder="Endereço"
-        value={address}
-        keyboardType="default"
-        returnKeyType="next"
-        editable={!profileState.includes('approved') || editing}
-        blurOnSubmit={false}
-        onChangeText={setAddress}
-        onSubmitEditing={() => numberRef.current?.focus()}
-      />
-      <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
-        <DefaultInput
-          ref={numberRef}
-          style={{ flex: 1 }}
-          title="Número"
-          value={number}
-          placeholder="000"
-          keyboardType="phone-pad"
+    <KeyboardAwareScrollView
+      style={{ ...screens.default, padding: paddings.lg }}
+      enableOnAndroid
+      enableAutomaticScroll
+      keyboardOpeningTime={0}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1 }}
+      scrollIndicatorInsets={{ right: 1 }}
+    >
+      <SafeAreaView>
+        <DefaultText size="lg">
+          {profileState.includes('approved')
+            ? 'Os dados da sua MEI ou PJ'
+            : 'Preencha os dados da sua MEI ou PJ'}
+        </DefaultText>
+        <PatternInput
+          style={{ marginTop: paddings.lg }}
+          pattern="cnpj"
+          title="CNPJ"
+          placeholder="Apenas números"
+          keyboardType="number-pad"
           returnKeyType="next"
           editable={!profileState.includes('approved') || editing}
           blurOnSubmit={false}
-          onChangeText={setNumber}
-          onSubmitEditing={() => additionalRef.current?.focus()}
+          value={cnpj}
+          onChangeText={setCNPJ}
+          onSubmitEditing={() => nameRef.current?.focus()}
         />
         <DefaultInput
-          ref={additionalRef}
-          style={{ marginLeft: paddings.lg, flex: 3 }}
-          title="Complemento"
-          value={additional}
-          placeholder="Sem complemento"
-          maxLength={9}
+          ref={nameRef}
+          style={{ marginTop: paddings.lg }}
+          title="Razão social"
+          placeholder="Razão social da sua PJ"
+          value={name}
           keyboardType="default"
           returnKeyType="next"
           editable={!profileState.includes('approved') || editing}
-          onChangeText={setAdditional}
+          blurOnSubmit={false}
+          onChangeText={setName}
+          onSubmitEditing={() => cepRef.current?.focus()}
+          maxLength={15}
         />
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
+        <PatternInput
+          ref={cepRef}
+          style={{ marginTop: paddings.lg }}
+          pattern="cep"
+          title="CEP"
+          placeholder="Apenas números"
+          keyboardType="number-pad"
+          returnKeyType="next"
+          editable={!profileState.includes('approved') || editing}
+          blurOnSubmit={false}
+          value={cep}
+          onChangeText={setCEP}
+          onSubmitEditing={() => addressRef.current?.focus()}
+        />
         <DefaultInput
-          style={{ flex: 3 }}
-          title="Cidade"
-          placeholder="Cidade"
-          value={city}
+          ref={addressRef}
+          style={{ marginTop: paddings.lg }}
+          title="Endereço"
+          placeholder="Endereço"
+          value={address}
           keyboardType="default"
           returnKeyType="next"
           editable={!profileState.includes('approved') || editing}
-          onChangeText={setCity}
+          blurOnSubmit={false}
+          onChangeText={setAddress}
+          onSubmitEditing={() => numberRef.current?.focus()}
         />
-        <DefaultInput
-          style={{ flex: 1, marginLeft: paddings.lg }}
-          title="Estado"
-          placeholder="UF"
-          value={state}
-          maxLength={2}
-          keyboardType="default"
-          returnKeyType="next"
-          editable={!profileState.includes('approved') || editing}
-          onChangeText={setState}
+        <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
+          <DefaultInput
+            ref={numberRef}
+            style={{ flex: 1 }}
+            title="Número"
+            value={number}
+            placeholder="000"
+            keyboardType="phone-pad"
+            returnKeyType="next"
+            editable={!profileState.includes('approved') || editing}
+            blurOnSubmit={false}
+            onChangeText={setNumber}
+            onSubmitEditing={() => additionalRef.current?.focus()}
+          />
+          <DefaultInput
+            ref={additionalRef}
+            style={{ marginLeft: paddings.lg, flex: 3 }}
+            title="Complemento"
+            value={additional}
+            placeholder="Sem complemento"
+            maxLength={9}
+            keyboardType="default"
+            returnKeyType="next"
+            editable={!profileState.includes('approved') || editing}
+            onChangeText={setAdditional}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
+          <DefaultInput
+            style={{ flex: 3 }}
+            title="Cidade"
+            placeholder="Cidade"
+            value={city}
+            keyboardType="default"
+            returnKeyType="next"
+            editable={false}
+          />
+          <DefaultInput
+            style={{ flex: 1, marginLeft: paddings.lg }}
+            title="Estado"
+            placeholder="UF"
+            value={state}
+            maxLength={2}
+            keyboardType="default"
+            returnKeyType="next"
+            editable={false}
+          />
+        </View>
+        {profileState.includes('approved') ? (
+          <MessageBox style={{ marginTop: paddings.lg }}>
+            {hasPendingChange
+              ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
+              : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'}
+          </MessageBox>
+        ) : null}
+        <View style={{ flex: 1 }} />
+        <DefaultButton
+          style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
+          title={
+            profileState.includes('approved')
+              ? editing
+                ? 'Salvar'
+                : 'Atualizar dados'
+              : 'Salvar e avançar'
+          }
+          disabled={isLoading || hasPendingChange || !canUpdateProfile}
+          onPress={updateProfileHandler}
         />
-      </View>
-      {profileState.includes('approved') ? (
-        <MessageBox style={{ marginTop: paddings.lg }}>
-          {hasPendingChange
-            ? 'Sua solicitação foi enviada para o nosso time e será revisada em breve.'
-            : 'Alterações dos seus dados cadastrais precisarão ser revisadas pelo nosso time.'}
-        </MessageBox>
-      ) : null}
-      <View style={{ flex: 1 }} />
-      <DefaultButton
-        style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
-        title={
-          profileState.includes('approved')
-            ? editing
-              ? 'Salvar'
-              : 'Atualizar dados'
-            : 'Salvar e avançar'
-        }
-        disabled={isLoading || hasPendingChange || !canUpdateProfile}
-        onPress={updateProfileHandler}
-      />
-    </DefaultScrollView>
+      </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 }

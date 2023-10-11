@@ -106,10 +106,7 @@ export default function BlockProcess({ variant }: Props) {
             title: 'Existe restrição de acesso sem retorno?',
             body: [
               {
-                text: 'Sim! Já temos casos de retorno de usuários. Para voltar a ter acesso ao AppJusto, será preciso entrar em contato com o suporte, e seguir as instruções para resolver o problema.',
-              },
-              {
-                text: 'Se o problema for resolvido, a pessoa será convidado a participar de uma Revisão de Perfil Operacional (RPO), para que as regras de qualidade da plataforma sejam firmadas, antes do acesso ser reestabelecido.',
+                text: 'A restrição por tempo indeterminado pode acontecer para usuários que têm histórico de problemas recorrentes e repetidos, como por exemplo, muitas anotações de problemas ou ter passado por mais de 3 RPO’s.',
               },
             ],
             children: <View />,
