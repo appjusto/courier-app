@@ -32,12 +32,13 @@ export default function OngoingOrderScreen() {
   // tracking
   useTrackScreenView('Pedido em andamento');
   // side effects
-  useRouterAccordingOrderStatus(orderId, orderStatus, true);
+  const view = useRouterAccordingOrderStatus(orderId, orderStatus, true);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Pedido #${order.code}` }} />
+      {view}
       <OrderMap order={order} />
       {/* ongoing alerts: recebe identificador para cada tipo e */}
       <View style={{}}></View>
