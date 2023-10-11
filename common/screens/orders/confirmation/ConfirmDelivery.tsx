@@ -11,13 +11,15 @@ import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import { onSimulator } from '@/common/version/device';
 import { Order, WithId } from '@appjusto/types';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useCameraPermissions, useMediaLibraryPermissions } from 'expo-image-picker';
 import { Upload } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
-import { View, ViewProps } from 'react-native';
+import { SafeAreaView, View, ViewProps } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Props extends ViewProps {
   order: WithId<Order>;
@@ -158,59 +160,69 @@ export const ConfirmDelivery = ({ order, style, ...props }: Props) => {
       </View>
     );
   return (
-    <View style={{ flex: 1, padding: paddings.xl, backgroundColor: colors.neutral50 }}>
-      <View style={{ padding: paddings.lg, backgroundColor: colors.white, borderRadius: 8 }}>
-        <DefaultText size="lg">Confirmar entrega sem código</DefaultText>
-        <DefaultText style={{ marginTop: paddings.xs }}>
-          O código deve ser informado pelo cliente no momento da entrega do pedido:
-        </DefaultText>
-        <DefaultInput
-          style={{ marginTop: paddings.lg }}
-          title="Nome do recebedor"
-          placeholder="Nome de quem recebeu"
-          value={deliveredTo}
-          onChangeText={setDeliveredTo}
-        />
-        <DefaultInput
-          style={{ marginTop: paddings.lg }}
-          title="Descrição adicional"
-          placeholder="Ex: entregue na portaria"
-          value={comment}
-          onChangeText={setComment}
-        />
-        <DefaultText style={{ marginTop: paddings.lg }}>
-          Agora, tire uma foto da encomenda e da fachada do local de entrega:
-        </DefaultText>
-        <View style={{ flexDirection: 'row' }}>
-          <RoundedImageBox
-            url={packageBase64 ? `data:image/jpg;base64,${packageBase64}` : null}
-            onPress={() => pickAndUpload('package').then(null)}
-          >
-            <Upload color={colors.black} />
-          </RoundedImageBox>
-          <RoundedImageBox
-            style={{ marginLeft: paddings.lg }}
-            url={frontBase64 ? `data:image/jpg;base64,${frontBase64}` : null}
-            onPress={() => pickAndUpload('front').then(null)}
-          >
-            <Upload color={colors.black} />
-          </RoundedImageBox>
+    <KeyboardAwareScrollView
+      style={{ ...screens.default, padding: paddings.xl, backgroundColor: colors.neutral50 }}
+      enableOnAndroid
+      enableAutomaticScroll
+      keyboardOpeningTime={0}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1 }}
+      scrollIndicatorInsets={{ right: 1 }}
+    >
+      <SafeAreaView>
+        <View style={{ padding: paddings.lg, backgroundColor: colors.white, borderRadius: 8 }}>
+          <DefaultText size="lg">Confirmar entrega sem código</DefaultText>
+          <DefaultText style={{ marginTop: paddings.xs }}>
+            O código deve ser informado pelo cliente no momento da entrega do pedido:
+          </DefaultText>
+          <DefaultInput
+            style={{ marginTop: paddings.lg }}
+            title="Nome do recebedor"
+            placeholder="Nome de quem recebeu"
+            value={deliveredTo}
+            onChangeText={setDeliveredTo}
+          />
+          <DefaultInput
+            style={{ marginTop: paddings.lg }}
+            title="Descrição adicional"
+            placeholder="Ex: entregue na portaria"
+            value={comment}
+            onChangeText={setComment}
+          />
+          <DefaultText style={{ marginTop: paddings.lg }}>
+            Agora, tire uma foto da encomenda e da fachada do local de entrega:
+          </DefaultText>
+          <View style={{ flexDirection: 'row' }}>
+            <RoundedImageBox
+              url={packageBase64 ? `data:image/jpg;base64,${packageBase64}` : null}
+              onPress={() => pickAndUpload('package').then(null)}
+            >
+              <Upload color={colors.black} />
+            </RoundedImageBox>
+            <RoundedImageBox
+              style={{ marginLeft: paddings.lg }}
+              url={frontBase64 ? `data:image/jpg;base64,${frontBase64}` : null}
+              onPress={() => pickAndUpload('front').then(null)}
+            >
+              <Upload color={colors.black} />
+            </RoundedImageBox>
+          </View>
+          <DefaultButton
+            style={{ marginTop: paddings.lg }}
+            title="Confirmar entrega"
+            disabled={!deliveredTo || loading || !packageUrl || !frontUrl}
+            loading={loading}
+            onPress={confirmWithoutCodeHandler}
+          />
         </View>
+        <View style={{ flex: 1 }} />
         <DefaultButton
-          style={{ marginTop: paddings.lg }}
-          title="Confirmar entrega"
-          disabled={!deliveredTo || loading || !packageUrl || !frontUrl}
-          loading={loading}
-          onPress={confirmWithoutCodeHandler}
+          style={{ marginBottom: paddings.lg }}
+          title="Confirmar entrega com código"
+          variant="outline"
+          onPress={() => setConfirmWithoutCode(false)}
         />
-      </View>
-      <View style={{ flex: 1 }} />
-      <DefaultButton
-        style={{ marginBottom: paddings.lg }}
-        title="Confirmar entrega com código"
-        variant="outline"
-        onPress={() => setConfirmWithoutCode(false)}
-      />
-    </View>
+      </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };

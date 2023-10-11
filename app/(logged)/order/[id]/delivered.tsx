@@ -10,7 +10,7 @@ import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
-import { OrderReviewView } from '@/common/screens/orders/review/OrderReviewView';
+import { OrderReviewView } from '@/common/screens/orders/review/order-review-view';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';

@@ -2,7 +2,6 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { getOrderBaseRevenue } from '@/api/orders/revenue/getOrderBaseRevenue';
 import { getOrderExtraRevenue } from '@/api/orders/revenue/getOrderExtraRevenue';
 import { getOrderTipRevenue } from '@/api/orders/revenue/getOrderTip';
-import { useObserveOrderReview } from '@/api/orders/reviews/useObserveOrderReview';
 import { getOrderTimestamp } from '@/api/orders/timestamp/getOrderTime';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -12,8 +11,7 @@ import { Loading } from '@/common/components/views/Loading';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatTimestamp } from '@/common/formatters/timestamp';
 import { OrderStatusBadge } from '@/common/screens/deliveries/history/order-status-badge';
-import borders from '@/common/styles/borders';
-import colors from '@/common/styles/colors';
+import { OrderDetailReview } from '@/common/screens/orders/review/order-detail-review';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams } from 'expo-router';
@@ -25,13 +23,12 @@ export default function OrderDetailScreen() {
   const orderId = params.id;
   // state
   const order = useObserveOrder(orderId);
-  const review = useObserveOrderReview(orderId);
   // tracking
   useTrackScreenView('Detalhe do Pedido');
   // side effects
   // UI
   if (!order) return <Loading title="Detalhe da corrida" />;
-  const { status, code, type, business, tip } = order;
+  const { status, code } = order;
   const baseRevenue = getOrderBaseRevenue(order);
   const tipRevenue = getOrderTipRevenue(order);
   const extraRevenue = getOrderExtraRevenue(order);
@@ -44,13 +41,13 @@ export default function OrderDetailScreen() {
           <View style={{ padding: paddings.lg }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <DefaultText size="lg" color="black">
-                {business?.name ?? 'Entrega rápida'}
+                {`Corrida #${code}`}
               </DefaultText>
               <OrderStatusBadge style={{ marginLeft: paddings.md }} status={status} />
             </View>
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="sm" color="neutral800">
-                Corrida
+                Entrega
               </DefaultText>
               <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
                 {formatCurrency(baseRevenue)}
@@ -86,22 +83,35 @@ export default function OrderDetailScreen() {
             </View>
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="sm" color="neutral800">
-                Código da corrida
+                Retirada
               </DefaultText>
-              <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
-                {`#${code}`}
+              <DefaultText
+                size="md"
+                style={{ marginTop: paddings['2xs'] }}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                {`${order.business?.name ? `${order.business.name} - ` : ''}${order.origin?.address
+                  .main}`}
+              </DefaultText>
+            </View>
+            <View style={{ marginTop: paddings.lg }}>
+              <DefaultText size="sm" color="neutral800">
+                Entrega
+              </DefaultText>
+              <DefaultText
+                size="md"
+                style={{ marginTop: paddings['2xs'] }}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
+                {`${order.business?.name ? `${order.business.name} - ` : ''}${order.destination
+                  ?.address.main}`}
               </DefaultText>
             </View>
           </View>
-          <View style={{ padding: paddings.lg }}>
-            <View
-              style={{
-                padding: paddings.lg,
-                ...borders.default,
-                borderColor: colors.neutral100,
-              }}
-            ></View>
-          </View>
+          {/* review */}
+          <OrderDetailReview style={{ marginTop: paddings.xl }} order={order} />
         </DefaultView>
       </DefaultView>
     </DefaultScrollView>

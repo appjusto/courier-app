@@ -6,7 +6,7 @@ import { ReviewType } from '@appjusto/types';
 import { useEffect } from 'react';
 import { View, ViewProps } from 'react-native';
 import { NPS } from '../nps/NPS';
-import { AspectReview } from './AspectReview';
+import { AspectReview } from './aspect-review';
 
 interface Props extends ViewProps {
   orderId?: string;

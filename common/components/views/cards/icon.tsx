@@ -10,6 +10,8 @@ import {
   MessageCircle,
   ShieldCheck,
   Smartphone,
+  ThumbsDown,
+  ThumbsUp,
   Users2,
   Utensils,
   XCircle,
@@ -29,9 +31,11 @@ type IconName =
   | 'helmet'
   | 'alert'
   | 'cancel'
-  | 'utentils';
+  | 'utentils'
+  | 'thumbs-up'
+  | 'thumbs-down';
 
-type Variant = 'lighter' | 'darker' | 'dark' | 'warning';
+type Variant = 'lighter' | 'darker' | 'dark' | 'warning' | 'neutral';
 interface Props {
   iconName: IconName;
   variant?: Variant;
@@ -45,6 +49,7 @@ const getIcon = (name: IconName, variant?: Variant) => {
   if (variant === 'darker') color = colors.primary900;
   else if (variant === 'dark') color = colors.black;
   else if (variant === 'warning') color = colors.warning500;
+  else if (variant === 'neutral') color = colors.neutral700;
 
   if (name === 'approval') {
     return <BadgeCheck size={iconSize} color={color} />;
@@ -79,11 +84,17 @@ const getIcon = (name: IconName, variant?: Variant) => {
   if (name === 'cancel') {
     return <XCircle size={iconSize} color={color} />;
   }
-  if (name === 'helmet') {
-    return <HelmetIcon />;
-  }
   if (name === 'utentils') {
     return <Utensils size={iconSize} color={color} />;
+  }
+  if (name === 'thumbs-up') {
+    return <ThumbsUp size={iconSize} color={color} />;
+  }
+  if (name === 'thumbs-down') {
+    return <ThumbsDown size={iconSize} color={color} />;
+  }
+  if (name === 'helmet') {
+    return <HelmetIcon />;
   }
   return null;
 };
@@ -94,6 +105,7 @@ export const DefaultCardIcon = ({ iconName, variant = 'lighter' }: Props) => {
   if (variant === 'darker') backgroundColor = colors.primary300;
   else if (variant === 'dark') backgroundColor = colors.primary300;
   else if (variant === 'warning') backgroundColor = colors.warning100;
+  else if (variant === 'neutral') backgroundColor = colors.neutral50;
   return (
     <View
       style={{
