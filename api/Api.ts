@@ -9,6 +9,7 @@ import { onSimulator } from '@/common/version/device';
 import { getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
 import ChatsApi from './chats/ChatsApi';
+import ComplaintsApi from './complaints/ComplaintsApi';
 import CouriersApi from './couriers/CouriersApi';
 import FleetsApi from './fleets/FleetsApi';
 import IncidentsApi from './incidents/IncidentsApi';
@@ -35,6 +36,7 @@ export default class Api {
   private _maps: MapsApi;
   private _chat: ChatsApi;
   private _incidents: IncidentsApi;
+  private _complaints: ComplaintsApi;
   private functions: FirebaseFunctionsTypes.Module;
 
   constructor() {
@@ -72,6 +74,7 @@ export default class Api {
     this._search = new SearchApi(extra.algolia, extra.env);
     this._chat = new ChatsApi(this._auth);
     this._incidents = new IncidentsApi(this._auth);
+    this._complaints = new ComplaintsApi();
   }
 
   auth() {
@@ -116,6 +119,10 @@ export default class Api {
 
   incidents() {
     return this._incidents;
+  }
+
+  complaints() {
+    return this._complaints;
   }
 
   search() {

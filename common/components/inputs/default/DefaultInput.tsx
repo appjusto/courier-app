@@ -7,7 +7,7 @@ import { Pressable, StyleProp, TextInput, TextStyle, View, ViewStyle } from 'rea
 import { DefaultText } from '../../texts/DefaultText';
 import { ThemeProps } from '../../themes';
 
-type DefaultInputProps = TextInput['props'] &
+export type DefaultInputProps = TextInput['props'] &
   ThemeProps & {
     title?: string;
     size?: keyof typeof typography;

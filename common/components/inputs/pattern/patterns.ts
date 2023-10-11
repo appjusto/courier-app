@@ -1,6 +1,7 @@
 import { cepFormatter } from '@/common/formatters/cep';
 import { cnpjFormatter } from '@/common/formatters/cnpj';
 import { cpfFormatter } from '@/common/formatters/cpf';
+import { dateFormatter } from '@/common/formatters/date';
 import { fulldateFormatter } from '@/common/formatters/fulldate';
 import { phoneFormatter } from '@/common/formatters/phone';
 
@@ -34,5 +35,10 @@ export default {
     mask: '00/00/0000',
     parser: numbersOnlyParser,
     formatter: fulldateFormatter,
+  },
+  date: {
+    mask: '00/00',
+    parser: numbersOnlyParser,
+    formatter: dateFormatter,
   },
 };

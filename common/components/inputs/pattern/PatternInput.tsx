@@ -1,8 +1,17 @@
 import { forwardRef, useState } from 'react';
 import { NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
-import { DefaultInput } from '../default/DefaultInput';
+import { DefaultInput, DefaultInputProps } from '../default/DefaultInput';
 import patterns from './patterns';
-import { PatternInputProps } from './types';
+
+export type PatternInputProps = DefaultInputProps & {
+  pattern?: keyof typeof patterns;
+  patternObject?: {
+    mask?: string;
+    parser?: (value: string) => string;
+    formatter?: (value: string | undefined) => string;
+    blurFormatter?: (value: string | undefined) => string;
+  };
+};
 
 export const PatternInput = forwardRef(
   (
@@ -20,7 +29,7 @@ export const PatternInput = forwardRef(
   ) => {
     const { mask, parser, formatter } = patternObject ?? (pattern ? patterns[pattern] : {});
     // state
-    const [placeholder, setPlaceholder] = useState(unfocusedPlaceholder);
+    const [placeholder, setPlaceholder] = useState(unfocusedPlaceholder ?? mask);
     const [error, setError] = useState<string>();
     const formattedValue = value ? (formatter ? formatter(String(value)) : value) : value;
     // handlers

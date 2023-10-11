@@ -19,11 +19,13 @@ import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-c
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
 import { HomeHeader } from '@/common/screens/home/header/home-header';
 import { LocationDisclosureModal } from '@/common/screens/home/location-disclosure-modal';
+import { SupportModal } from '@/common/screens/home/support-modal';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { CourierMode } from '@appjusto/types';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 export default function HomeScreen() {
@@ -38,6 +40,7 @@ export default function HomeScreen() {
   const { availabilityModalShown, setAvailabilityModalShown } = useContextAvailabilityModal();
   const locationDisclosureStatus = useContextLocationDisclosureStatus();
   const setLocationDisclosureShown = useContextSetLocationDisclosureShown();
+  const [supportModalShown, setSupportModalShown] = useState(false);
   // handlers
   const updateMode = (mode: CourierMode) => {
     setAvailabilityModalShown(false);
@@ -58,6 +61,7 @@ export default function HomeScreen() {
         onConfirm={updateMode}
         onDismiss={() => setAvailabilityModalShown(false)}
       />
+      <SupportModal visible={supportModalShown} onDismiss={() => setSupportModalShown(false)} />
       <DefaultView style={screens.headless}>
         <HomeHeader />
         <View style={{ padding: paddings.lg }}>
@@ -86,7 +90,7 @@ export default function HomeScreen() {
               subtitle="Compartilhe esse movimento por uma economia mais justa"
             />
           </Pressable>
-          <Pressable style={{ marginTop: paddings.lg }} onPress={() => null}>
+          <Pressable style={{ marginTop: paddings.lg }} onPress={() => setSupportModalShown(true)}>
             <DefaultCard
               icon={<DefaultCardIcon iconName="alert" variant="warning" />}
               title="Preciso de ajuda"

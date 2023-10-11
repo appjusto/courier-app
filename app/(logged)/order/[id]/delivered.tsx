@@ -9,6 +9,7 @@ import { Loading } from '@/common/components/views/Loading';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
+import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';
 import { formatCurrency } from '@/common/formatters/currency';
 import { OrderReviewView } from '@/common/screens/orders/review/order-review-view';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';
@@ -121,7 +122,7 @@ export default function OngoingOrderScreen() {
             <DefaultText style={{ marginTop: paddings.xs }}>
               Fale com um de nossos atendentes ou realize uma denúncia
             </DefaultText>
-            <Pressable onPress={() => null}>
+            <Pressable onPress={() => openWhatsAppSupportURL('Pedido entregue')}>
               <DefaultCard
                 style={{ marginTop: paddings.lg }}
                 icon={<DefaultCardIcon iconName="chat" />}
@@ -129,7 +130,7 @@ export default function OngoingOrderScreen() {
                 subtitle="Fale com a gente através do nosso WhatsApp"
               />
             </Pressable>
-            <Pressable onPress={() => null}>
+            <Pressable onPress={() => router.replace('/complaint/')}>
               <DefaultCard
                 style={{ marginTop: paddings.sm }}
                 icon={<DefaultCardIcon iconName="alert" variant="warning" />}

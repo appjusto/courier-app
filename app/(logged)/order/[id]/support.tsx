@@ -9,14 +9,14 @@ import { Loading } from '@/common/components/views/Loading';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
-import { URL_APPJUSTO_WHATSAPP } from '@/common/constants/urls';
+import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Issue } from '@appjusto/types';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Linking, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 export default function OrderSupportScreen() {
   // context
@@ -135,7 +135,7 @@ export default function OrderSupportScreen() {
             )}
           </Pressable>
         ) : null}
-        <Pressable onPress={() => Linking.openURL(URL_APPJUSTO_WHATSAPP)}>
+        <Pressable onPress={() => openWhatsAppSupportURL('Ajuda com a corrida')}>
           {() => (
             <DefaultCard
               style={{ marginTop: paddings.lg }}

@@ -25,7 +25,6 @@ export default class ChatsApi {
   }
 
   async sendMessage(message: Partial<ChatMessage>) {
-    console.log(message);
     await chatsRef().add({
       ...message,
       read: false,

@@ -1,5 +1,6 @@
 import { EntriesSummary } from '@/api/ledger/useEntriesSummary';
 import { OrdersSummary } from '@/api/orders/useOrdersSummary';
+import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
@@ -7,7 +8,9 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Dayjs } from '@appjusto/dates';
+import { Eye, EyeOff } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
+import { useState } from 'react';
 import { View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
@@ -23,6 +26,8 @@ export const ActivitySummary = ({
   style,
   ...props
 }: Props) => {
+  // state
+  const [shown, setShown] = useState(true);
   // UI
   const total =
     entriesSummary.total !== undefined ? formatCurrency(entriesSummary.total) : 'R$ 00,00';
@@ -38,13 +43,27 @@ export const ActivitySummary = ({
           ...borders.default,
           borderColor: colors.neutral100,
           padding: paddings.lg,
+          paddingTop: paddings.md,
         },
         style,
       ]}
       {...props}
     >
-      <DefaultText size="lg">{title}</DefaultText>
-      <Skeleton.Group show={loading}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <DefaultText size="lg">{title}</DefaultText>
+        <OnlyIconButton
+          icon={
+            shown ? (
+              <EyeOff size={24} color={colors.neutral900} />
+            ) : (
+              <Eye size={24} color={colors.neutral900} />
+            )
+          }
+          iconStyle={{ borderWidth: 0 }}
+          onPress={() => setShown((value) => !value)}
+        />
+      </View>
+      <Skeleton.Group show={loading || !shown}>
         <View style={{ marginTop: paddings.lg, flexDirection: 'row' }}>
           <View>
             <DefaultText size="xs" style={{ minWidth: 100 }}>

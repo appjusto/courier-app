@@ -5,7 +5,7 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
-import { URL_APPJUSTO_WHATSAPP } from '@/common/constants/urls';
+import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';
 import colors from '@/common/styles/colors';
 import lineHeight from '@/common/styles/lineHeight';
@@ -13,7 +13,7 @@ import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Stack } from 'expo-router';
-import { Linking, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function SubmittedIndex() {
   // context
@@ -74,7 +74,7 @@ export default function SubmittedIndex() {
             style={{ marginTop: paddings.md }}
             variant="outline"
             title="Falar com o suporte"
-            onPress={() => Linking.openURL(URL_APPJUSTO_WHATSAPP)}
+            onPress={() => openWhatsAppSupportURL('Cadastro reprovado')}
           />
         </View>
       </DefaultScrollView>

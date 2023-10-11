@@ -3,16 +3,16 @@ import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { URL_APPJUSTO_WHATSAPP } from '@/common/constants/urls';
+import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';
 import colors from '@/common/styles/colors';
 import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack } from 'expo-router';
-import { Linking, View } from 'react-native';
+import { View } from 'react-native';
 
-export default function SubmittedIndex() {
+export default function BlockedIndex() {
   // context
   const profile = useContextProfile();
   // track
@@ -38,7 +38,7 @@ export default function SubmittedIndex() {
           <View style={{ flex: 1 }} />
           <DefaultButton
             title="Falar com o suporte"
-            onPress={() => Linking.openURL(URL_APPJUSTO_WHATSAPP)}
+            onPress={() => openWhatsAppSupportURL('Cadastro bloqueado')}
           />
         </View>
       </DefaultScrollView>

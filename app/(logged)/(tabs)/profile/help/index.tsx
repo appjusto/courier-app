@@ -1,10 +1,10 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
+import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';
 import {
   URL_APPJUSTO_FAIRWORK_SITE,
   URL_APPJUSTO_FRESHDESK_COURIERS,
-  URL_APPJUSTO_WHATSAPP,
 } from '@/common/constants/urls';
 import { HelmetIcon } from '@/common/icons/helmet';
 import colors from '@/common/styles/colors';
@@ -50,7 +50,7 @@ export default function HelpScreen() {
         subtitles={['Entre em contato via WhatsApp']}
         leftView={<MessageCircle color={colors.black} size={20} />}
         rightView={<ChevronRight size={16} color={colors.neutral800} />}
-        onPress={() => Linking.openURL(URL_APPJUSTO_WHATSAPP)}
+        onPress={() => openWhatsAppSupportURL('Perfil > Ajuda')}
       />
     </DefaultScrollView>
   );
