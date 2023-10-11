@@ -1,4 +1,5 @@
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors from '@/common/styles/colors';
 import lineHeight from '@/common/styles/lineHeight';
@@ -13,7 +14,7 @@ export const LocationDisclosureModal = ({ onDismiss, ...props }: Props) => {
   // UI
   return (
     <Modal animationType="slide" {...props}>
-      <View style={{ flex: 1, backgroundColor: colors.white }} {...props}>
+      <DefaultScrollView style={{ flex: 1, backgroundColor: colors.white }}>
         <View
           style={{
             flex: 1,
@@ -46,7 +47,7 @@ export const LocationDisclosureModal = ({ onDismiss, ...props }: Props) => {
             onPress={onDismiss}
           />
         </View>
-      </View>
+      </DefaultScrollView>
     </Modal>
   );
 };

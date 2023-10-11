@@ -1,8 +1,8 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { DefaultView } from '@/common/components/containers/DefaultView';
 import ProfileBank from '@/common/screens/profile/bank';
 import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ProfileBankScreen() {
   // tracking
@@ -11,17 +11,9 @@ export default function ProfileBankScreen() {
   const router = useRouter();
   // UI
   return (
-    <KeyboardAwareScrollView
-      style={{ ...screens.default }}
-      enableOnAndroid
-      enableAutomaticScroll
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
-      scrollIndicatorInsets={{ right: 1 }}
-    >
+    <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Dados bancários' }} />
       <ProfileBank onSelectBank={() => router.push('/profile/select-bank')} />
-    </KeyboardAwareScrollView>
+    </DefaultView>
   );
 }

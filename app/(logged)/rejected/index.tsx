@@ -65,7 +65,11 @@ export default function SubmittedIndex() {
             Se você tiver dúvidas, nosso time de atendimento está aqui pra te ajudar!
           </DefaultText>
           <View style={{ flex: 1 }} />
-          <DefaultButton title="Alterar cadastro" onPress={fixProfile} />
+          <DefaultButton
+            style={{ marginTop: paddings.lg }}
+            title="Alterar cadastro"
+            onPress={fixProfile}
+          />
           <DefaultButton
             style={{ marginTop: paddings.md }}
             variant="outline"
