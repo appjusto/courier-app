@@ -1,8 +1,8 @@
-import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Pressable, View, ViewProps } from 'react-native';
+import { NPSValue } from './NPSValue';
 
 interface Props extends ViewProps {
   value?: number;
@@ -10,11 +10,9 @@ interface Props extends ViewProps {
   onChange?: (value: number) => void;
 }
 
-const TOTAL = 5;
+const TOTAL = 10;
 
 export const NPS = ({ style, value, disabled, onChange, ...props }: Props) => {
-  // state
-
   // UI
   return (
     <View
@@ -29,39 +27,19 @@ export const NPS = ({ style, value, disabled, onChange, ...props }: Props) => {
           marginTop: paddings['2xl'],
         }}
       >
-        {new Array(TOTAL).fill('').map((_, i) => (
-          <Pressable
-            key={i}
-            onPress={() => {
-              if (onChange && !disabled) onChange(i + 1);
-            }}
-          >
-            <CircledView
-              style={{
-                backgroundColor:
-                  value === i + 1
-                    ? i < Math.ceil(TOTAL / 2)
-                      ? colors.warning100
-                      : colors.primary100
-                    : colors.neutral50,
-                borderWidth: 0,
+        {new Array(TOTAL).fill('').map((_, i) => {
+          const index = i + 1;
+          return (
+            <Pressable
+              key={i}
+              onPress={() => {
+                if (onChange && !disabled) onChange(index);
               }}
             >
-              <DefaultText
-                size="md"
-                color={
-                  value === i + 1
-                    ? i < Math.ceil(TOTAL / 2)
-                      ? 'warning500'
-                      : 'primary500'
-                    : 'neutral700'
-                }
-              >
-                {i + 1}
-              </DefaultText>
-            </CircledView>
-          </Pressable>
-        ))}
+              <NPSValue value={index} selected={value === index} variant="small" />
+            </Pressable>
+          );
+        })}
       </View>
       <View
         style={{

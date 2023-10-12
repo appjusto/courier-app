@@ -44,7 +44,7 @@ export default function OngoingOrderScreen() {
   const setReviewHandler = () => {
     // TODO: tags
     if (!order) return;
-    let review: Partial<OrderReview> = {};
+    let review: Partial<OrderReview> = { npsVersion: '10' };
     if (consumerReview) {
       review = { ...review, consumerReview: { id: order.consumer.id, rating: consumerReview } };
     }

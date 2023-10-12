@@ -155,7 +155,7 @@ export default function ComplaintScreen() {
           <DefaultButton
             style={{ marginVertical: paddings['2xl'] }}
             title="Enviar"
-            disabled={loading}
+            disabled={loading || !canSubmit}
             loading={loading}
             onPress={submitHandler}
           />

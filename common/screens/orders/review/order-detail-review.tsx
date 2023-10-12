@@ -1,6 +1,5 @@
 import { useObserveOrderReview } from '@/api/orders/reviews/useObserveOrderReview';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
-import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import borders from '@/common/styles/borders';
@@ -9,6 +8,7 @@ import paddings from '@/common/styles/paddings';
 import { Order, WithId } from '@appjusto/types';
 import { router } from 'expo-router';
 import { View, ViewProps } from 'react-native';
+import { NPSValue } from '../nps/NPSValue';
 
 interface Props extends ViewProps {
   order: WithId<Order>;
@@ -70,6 +70,7 @@ export const OrderDetailReview = ({ order, style, ...props }: Props) => {
               marginTop: paddings.lg,
             }}
           >
+            {/* consumer */}
             <View style={{ alignItems: 'center' }}>
               {review?.consumerReview?.rating === 'positive' ? (
                 <DefaultCardIcon iconName="thumbs-up" />
@@ -84,6 +85,7 @@ export const OrderDetailReview = ({ order, style, ...props }: Props) => {
                 Consumidor
               </DefaultText>
             </View>
+            {/* business */}
             {order.type === 'food' ? (
               <View style={{ alignItems: 'center' }}>
                 {review?.business?.rating === 'positive' ? (
@@ -100,6 +102,7 @@ export const OrderDetailReview = ({ order, style, ...props }: Props) => {
                 </DefaultText>
               </View>
             ) : null}
+            {/* platform */}
             <View style={{ alignItems: 'center' }}>
               {review?.platform?.rating === 'positive' ? (
                 <DefaultCardIcon iconName="thumbs-up" />
@@ -114,24 +117,14 @@ export const OrderDetailReview = ({ order, style, ...props }: Props) => {
                 AppJusto
               </DefaultText>
             </View>
+            {/* nps */}
             <View style={{ alignItems: 'center' }}>
-              <CircledView
-                style={{
-                  backgroundColor: review?.nps ? colors.primary100 : colors.neutral50,
-                  borderColor: review?.nps ? colors.primary100 : colors.neutral50,
-                }}
-              >
-                <DefaultText size="lg" color="primary500">
-                  {review?.nps ?? ' - '}
-                </DefaultText>
-              </CircledView>
-
-              {review?.consumerReview?.rating === 'negative' ? (
-                <DefaultCardIcon iconName="thumbs-down" variant="warning" />
-              ) : null}
-              {!review?.consumerReview?.rating ? (
-                <DefaultCardIcon iconName="thumbs-up" variant="neutral" />
-              ) : null}
+              <NPSValue
+                value={review?.nps}
+                selected={true}
+                variant="large"
+                version={review?.npsVersion}
+              />
               <DefaultText style={{ marginTop: paddings.xs }} size="xs" color="neutral700">
                 NPS
               </DefaultText>

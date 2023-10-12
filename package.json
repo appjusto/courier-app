@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@appjusto/dates": "^1.0.1",
-    "@appjusto/types": "^23.9.6",
+    "@appjusto/types": "^23.9.11",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@fnando/cnpj": "^1.0.2",
@@ -61,6 +61,7 @@
     "expo-gradle-ext-vars": "^0.1.1",
     "expo-image": "~1.3.4",
     "expo-image-picker": "~14.3.2",
+    "expo-linear-gradient": "~12.3.0",
     "expo-linking": "~5.0.2",
     "expo-localization": "~14.3.0",
     "expo-notifications": "~0.20.1",
@@ -94,8 +95,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "react-native-webview": "13.2.2",
-    "expo-linear-gradient": "~12.3.0"
+    "react-native-webview": "13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

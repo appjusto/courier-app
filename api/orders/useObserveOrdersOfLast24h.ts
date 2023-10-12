@@ -16,7 +16,7 @@ export const useObserveOrdersOfLast24h = () => {
   const [orders, setOrders] = useState<WithId<Order>[]>();
   useEffect(() => {
     return api.orders().observeOrders(options, setOrders);
-  }, [api]);
+  }, [api, options]);
   // result
   return orders;
 };
