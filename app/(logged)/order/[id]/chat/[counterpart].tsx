@@ -103,7 +103,7 @@ export default function ChatScreen() {
           backgroundColor: colors.neutral50,
         }}
       >
-        <Stack.Screen options={{ title: `Chat com ${counterpartName()}` }} />
+        <Stack.Screen options={{ title: counterpartName() }} />
         <View style={{ padding: paddings.lg }}>
           {chat
             ? chat.map((group) => (

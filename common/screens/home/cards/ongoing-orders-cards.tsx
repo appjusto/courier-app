@@ -81,7 +81,7 @@ export const OngoingOrdersCards = ({ style, ...props }: Props) => {
                 </View>
                 <View style={{ padding: paddings.sm, width: '50%' }}>
                   <DefaultText size="xs" color="neutral700">
-                    Indo Para
+                    {focusOnDestination ? 'Entregar em' : 'Retirar em'}
                   </DefaultText>
                   <DefaultText size="md" color="black" numberOfLines={1} adjustsFontSizeToFit>
                     {`${goingToAddress?.address.main}`}

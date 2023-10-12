@@ -1,6 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { getDispatchingStateFocus } from '@/api/orders/dispatching-state/getDispatchingStateFocus';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { SelectIssueModal } from '@/common/components/modals/issues/select-issue-modal';
@@ -97,19 +98,21 @@ export default function OrderSupportScreen() {
           paddingHorizontal: paddings.lg,
         }}
       >
-        <Pressable onPress={() => setDropOderModalShown(true)}>
-          {() => (
-            <DefaultCard
-              icon={<DefaultCardIcon iconName="cancel" variant="warning" />}
-              title="Desistir da corrida"
-              subtitle="Você pode desistir da corrida até coletar o pedido"
-            />
-          )}
-        </Pressable>
+        {getDispatchingStateFocus(order.dispatchingState) === 'pickup' ? (
+          <Pressable onPress={() => setDropOderModalShown(true)}>
+            {() => (
+              <DefaultCard
+                style={{ marginBottom: paddings.lg }}
+                icon={<DefaultCardIcon iconName="cancel" variant="warning" />}
+                title="Desistir da corrida"
+                subtitle="Você pode desistir da corrida até coletar o pedido"
+              />
+            )}
+          </Pressable>
+        ) : null}
         <Pressable onPress={() => setReportIssueModalShown(true)}>
           {() => (
             <DefaultCard
-              style={{ marginTop: paddings.lg }}
               icon={<DefaultCardIcon iconName="alert" variant="warning" />}
               title="Tive um problema"
               subtitle="Abrir uma ocrrência para relatar algum problema durante a corrida"

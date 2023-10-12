@@ -93,7 +93,6 @@ export default function ComplaintScreen() {
             title="Descrição do ocorrido"
             placeholder="Nos conte com detalhes o que aconteceu"
             keyboardType="default"
-            returnKeyType="next"
             multiline
             value={description}
             onChangeText={setDescription}
@@ -130,7 +129,7 @@ export default function ComplaintScreen() {
             value={against}
             placeholder="Digite o nome do denunciado"
             keyboardType="default"
-            returnKeyType="next"
+            returnKeyType="done"
             onSubmitEditing={() => dateRef.current?.focus()}
             onChangeText={setAgainst}
           />

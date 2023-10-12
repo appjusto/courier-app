@@ -7,7 +7,6 @@ export const useUniqState = <T>(value: T) => {
   // side effects
   useEffect(() => {
     if (!isEqual(value, state)) {
-      console.log('updating:', state, '->', value);
       setState(value);
     }
   }, [state, value]);

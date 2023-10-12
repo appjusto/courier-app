@@ -8,6 +8,7 @@ import {
   FileText,
   HelpCircle,
   MessageCircle,
+  Package,
   ShieldCheck,
   Smartphone,
   ThumbsDown,
@@ -17,8 +18,9 @@ import {
   XCircle,
 } from 'lucide-react-native';
 import { View } from 'react-native';
+import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 
-type IconName =
+export type IconName =
   | 'approval'
   | 'revenue'
   | 'fleets'
@@ -33,10 +35,11 @@ type IconName =
   | 'cancel'
   | 'utentils'
   | 'thumbs-up'
-  | 'thumbs-down';
+  | 'thumbs-down'
+  | 'package';
 
-type Variant = 'lighter' | 'darker' | 'dark' | 'warning' | 'neutral';
-interface Props {
+type Variant = 'lighter' | 'darker' | 'dark' | 'warning' | 'neutral' | 'white';
+export interface DefaultIconProps extends ViewProps {
   iconName: IconName;
   variant?: Variant;
 }
@@ -93,29 +96,42 @@ const getIcon = (name: IconName, variant?: Variant) => {
   if (name === 'thumbs-down') {
     return <ThumbsDown size={iconSize} color={color} />;
   }
+  if (name === 'package') {
+    return <Package size={iconSize} color={color} />;
+  }
   if (name === 'helmet') {
     return <HelmetIcon />;
   }
   return null;
 };
 
-export const DefaultCardIcon = ({ iconName, variant = 'lighter' }: Props) => {
+export const DefaultCardIcon = ({
+  iconName,
+  variant = 'lighter',
+  style,
+  ...props
+}: DefaultIconProps) => {
   // UI
   let backgroundColor = colors.primary100;
   if (variant === 'darker') backgroundColor = colors.primary300;
   else if (variant === 'dark') backgroundColor = colors.primary300;
   else if (variant === 'warning') backgroundColor = colors.warning100;
   else if (variant === 'neutral') backgroundColor = colors.neutral50;
+  else if (variant === 'white') backgroundColor = colors.white;
   return (
     <View
-      style={{
-        width: size,
-        height: size,
-        borderRadius: size / 2,
-        backgroundColor,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      style={[
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        style,
+      ]}
+      {...props}
     >
       {getIcon(iconName, variant)}
     </View>

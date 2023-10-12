@@ -2,11 +2,10 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import React from 'react';
-import { View } from 'react-native';
-import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
+import { View, ViewProps } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 
-interface Props extends ViewProps {
+export interface DefaultCardProps extends ViewProps {
   title: string;
   subtitle?: string;
   icon: React.ReactNode;
@@ -20,7 +19,7 @@ export default function DefaultCard({
   variant = 'default',
   style,
   ...props
-}: Props) {
+}: DefaultCardProps) {
   return (
     <View
       style={[

@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
@@ -9,16 +9,19 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
 import { useChatHandler } from '@/common/screens/orders/chat/useChatHandler';
-import { ConfirmDelivery } from '@/common/screens/orders/confirmation/ConfirmDelivery';
+import { ConfirmDelivery } from '@/common/screens/orders/confirmation/confirm-delivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
 import { OrderMap } from '@/common/screens/orders/map/order-map';
 import { CurrentOrderPlace } from '@/common/screens/orders/place/CurrentOrderPlace';
+import { RestaurantProofCard } from '@/common/screens/orders/proof/restaurant-proof-card';
+import { RestaurantOrderProofModal } from '@/common/screens/orders/restaurant-order-proof-modal';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { MessageCircle } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
 
 export default function OngoingOrderScreen() {
   // params
@@ -26,22 +29,35 @@ export default function OngoingOrderScreen() {
   const orderId = params.id;
   // state
   const order = useObserveOrder(orderId);
+  const orderType = order?.type;
   const orderStatus = order?.status;
   const dispatchingState = order?.dispatchingState;
   const { hasUnreadMessages, openChat } = useChatHandler(order);
+  const [proofModalShown, setProofModalShown] = useState(false);
   // tracking
   useTrackScreenView('Pedido em andamento');
   // side effects
   const view = useRouterAccordingOrderStatus(orderId, orderStatus, true);
+  useEffect(() => {
+    if (orderType === 'food' && dispatchingState === 'arrived-pickup') {
+      setProofModalShown(true);
+    }
+  }, [orderType, dispatchingState]);
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Pedido #${order.code}` }} />
+      <RestaurantOrderProofModal
+        visible={proofModalShown}
+        order={order}
+        onDismiss={() => setProofModalShown(false)}
+      />
       {view}
       <OrderMap order={order} />
-      {/* ongoing alerts: recebe identificador para cada tipo e */}
-      <View style={{}}></View>
+      <Pressable onPress={() => setProofModalShown(true)}>
+        <RestaurantProofCard order={order} />
+      </Pressable>
       <View
         style={{
           flex: dispatchingState === 'arrived-destination' ? 1 : undefined,

@@ -31,7 +31,7 @@ export const ActiveRequestsCards = ({ style, ...props }: Props) => {
               flexDirection: 'row',
               justifyContent: 'flex-start',
               alignItems: 'center',
-              padding: paddings.lg,
+              padding: paddings.lgg,
               backgroundColor: colors.info100,
               borderRadius: 8,
               borderColor: colors.info300,

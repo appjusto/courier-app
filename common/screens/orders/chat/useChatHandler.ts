@@ -35,7 +35,13 @@ export const useChatHandler = (order?: WithId<Order> | null) => {
     } else {
       router.push({
         pathname: '/(logged)/order/[id]/chat-picker',
-        params: { id: orderId, consumerId: order.consumer.id, businessId: order.business!.id },
+        params: {
+          id: orderId,
+          consumerId: order.consumer.id,
+          businessId: order.business!.id,
+          hasUnreadMessagesFromConsumer: `${hasUnreadMessagesFromConsumer}`,
+          hasUnreadMessagesFromBusiness: `${hasUnreadMessagesFromBusiness}`,
+        },
       });
     }
   };

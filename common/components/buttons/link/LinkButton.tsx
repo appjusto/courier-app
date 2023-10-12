@@ -1,13 +1,14 @@
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import typography from '@/common/styles/typography';
-import { Pressable, View, ViewProps } from 'react-native';
+import { Pressable, StyleProp, TextStyle, View, ViewProps } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 
 type LinkButtonProps = ViewProps & {
   size?: 'small' | 'medium';
   disabled?: boolean;
   variant?: 'default' | 'ghost';
+  textStyle?: StyleProp<TextStyle>;
   onPress: () => void;
 };
 
@@ -16,6 +17,7 @@ export const LinkButton = ({
   disabled,
   variant = 'default',
   style,
+  textStyle,
   children,
   ...props
 }: LinkButtonProps) => {
@@ -37,6 +39,7 @@ export const LinkButton = ({
                   color: pressed ? colors.neutral900 : colors.black,
                   textDecorationLine: variant === 'ghost' ? 'none' : 'underline',
                 },
+                textStyle,
               ]}
             >
               {children}

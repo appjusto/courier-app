@@ -8,6 +8,7 @@ import {
 import { useTodaysOrdersSummary } from '@/api/orders/useTodaysOrdersSummary';
 import { shareAppJusto } from '@/api/platform/shareAppJusto';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
@@ -31,6 +32,7 @@ import { Pressable, View } from 'react-native';
 export default function HomeScreen() {
   // context
   const api = useContextApi();
+  const profile = useContextProfile();
   const router = useRouter();
   // tracking
   useTrackScreenView('Início');
@@ -44,7 +46,9 @@ export default function HomeScreen() {
   // handlers
   const updateMode = (mode: CourierMode) => {
     setAvailabilityModalShown(false);
-    api.profile().updateProfile({ mode }).then(null);
+    if (profile?.mode !== mode) {
+      api.profile().updateProfile({ mode }).then(null);
+    }
   };
   // UI
   return (

@@ -1,15 +1,64 @@
+import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
-import { DefaultCardIcon } from '@/common/components/views/cards/icon';
+import { DefaultCardIcon, IconName } from '@/common/components/views/cards/icon';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Pressable, View, ViewProps } from 'react-native';
+
+interface Props extends ViewProps {
+  title: string;
+  iconName: IconName;
+  hasUnreadMessages: boolean;
+}
+
+export const ChatCard = ({ title, iconName, hasUnreadMessages, style, ...props }: Props) => {
+  return (
+    <DefaultCard
+      style={[
+        {
+          backgroundColor: hasUnreadMessages ? colors.primary100 : colors.white,
+          borderColor: hasUnreadMessages ? colors.primary300 : colors.neutral100,
+        },
+        style,
+      ]}
+      {...props}
+      icon={
+        <View>
+          <DefaultCardIcon iconName={iconName} variant={hasUnreadMessages ? 'white' : 'lighter'} />
+          {hasUnreadMessages ? (
+            <CircledView
+              style={{
+                position: 'absolute',
+                right: 5,
+                top: 5,
+                backgroundColor: colors.primary500,
+                borderColor: colors.primary500,
+              }}
+              size={8}
+            />
+          ) : null}
+        </View>
+      }
+      title={title}
+    />
+  );
+};
 
 export default function ChatPickerScreen() {
   // params
-  const params = useLocalSearchParams<{ id: string; consumerId: string; businessId: string }>();
+  const params = useLocalSearchParams<{
+    id: string;
+    consumerId: string;
+    businessId: string;
+    hasUnreadMessagesFromConsumer: string;
+    hasUnreadMessagesFromBusiness: string;
+  }>();
   const { id: orderId, consumerId, businessId } = params;
+  const hasUnreadMessagesFromConsumer = params.hasUnreadMessagesFromConsumer === 'true';
+  const hasUnreadMessagesFromBusiness = params.hasUnreadMessagesFromConsumer === 'true';
+
   // handlers
   const openChat = (counterpartId: string) =>
     router.replace({
@@ -28,15 +77,20 @@ export default function ChatPickerScreen() {
       <Stack.Screen options={{ title: 'Chat' }} />
       <Pressable onPress={() => openChat(consumerId)}>
         {() => (
-          <DefaultCard icon={<DefaultCardIcon iconName="fleets" />} title="Chat com consumidor" />
+          <ChatCard
+            title="Chat com consumidor"
+            iconName="fleets"
+            hasUnreadMessages={hasUnreadMessagesFromConsumer}
+          />
         )}
       </Pressable>
       <Pressable onPress={() => openChat(businessId)}>
         {() => (
-          <DefaultCard
+          <ChatCard
             style={{ marginTop: paddings.lg }}
-            icon={<DefaultCardIcon iconName="utentils" />}
             title="Chat com restaurante"
+            iconName="utentils"
+            hasUnreadMessages={hasUnreadMessagesFromBusiness}
           />
         )}
       </Pressable>
