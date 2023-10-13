@@ -51,7 +51,7 @@ export const PeriodControl = ({
   }, [period]);
   // update to according with from
   useEffect(() => {
-    // console.log('effect peridod/from', period, from);
+    console.log('effect peridod/from', period, from);
     if (period === 'day') {
       setTo(getEndOfDay(new Date(from)).getTime());
     } else if (period === 'week') {
