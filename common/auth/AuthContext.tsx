@@ -29,15 +29,14 @@ export const AuthProvider = (props: Props) => {
   // side effects
   useEffect(() => {
     if (!userId) return;
+    inAppMessaging()
+      .setMessagesDisplaySuppressed(false)
+      .then(() => null);
     return api.profile().observeProfile<CourierProfile>(userId, setProfile);
   }, [api, userId]);
   useEffect(() => {
     if (user === null) {
       setProfile(null);
-    } else if (user) {
-      inAppMessaging()
-        .setMessagesDisplaySuppressed(false)
-        .then(() => null);
     }
   }, [user]);
   // result

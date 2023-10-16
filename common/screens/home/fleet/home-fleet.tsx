@@ -3,7 +3,6 @@ import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
-import { ShowToast } from '@/common/components/toast/Toast';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { formatCurrency } from '@/common/formatters/currency';
@@ -11,7 +10,6 @@ import { formatDistance } from '@/common/formatters/distance';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { router } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
@@ -50,14 +48,6 @@ export const HomeFleet = ({ style, ...props }: Props) => {
     <Pressable
       onPress={() => {
         setOpened((opened) => !opened);
-        inAppMessaging()
-          .triggerEvent('purchase')
-          .then(() => {
-            ShowToast('triggered!');
-          })
-          .catch((error) => {
-            ShowToast(JSON.stringify(error));
-          });
       }}
     >
       {({ pressed }) => (
@@ -142,7 +132,7 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                     title="Ver detalhes"
                     onPress={() => {
                       if (!fleet) return;
-                      router.push({ pathname: '/fleets/[id]', params: { id: fleet.id } });
+                      router.push({ pathname: '/fleets/', params: { id: fleet.id } });
                     }}
                   />
                 </View>

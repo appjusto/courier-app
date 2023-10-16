@@ -3,6 +3,7 @@ import { trackEvent } from '@/api/analytics/track';
 import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
@@ -10,7 +11,8 @@ import paddings from '@/common/styles/paddings';
 import { getAppVersion } from '@/common/version';
 import { onSimulator } from '@/common/version/device';
 import { CourierStatus } from '@appjusto/types';
-import { Switch, View } from 'react-native';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
+import { Pressable, Switch, View } from 'react-native';
 import Selfie from '../../profile/images/selfie';
 import { ProfileStatusBadge } from './status-badge';
 
@@ -47,6 +49,19 @@ export const HomeHeader = () => {
   if (!profile) return null;
   return (
     <View style={{ padding: paddings.lg, flexDirection: 'row', alignItems: 'center' }}>
+      <Pressable
+        delayLongPress={1000}
+        onLongPress={() => {
+          inAppMessaging()
+            .triggerEvent('Disponibilidade')
+            .then(() => {
+              ShowToast('triggerEvent: purchase');
+            })
+            .catch((error) => {
+              ShowToast(JSON.stringify(error));
+            });
+        }}
+      ></Pressable>
       <Selfie />
       <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
         <DefaultText size="md">{profile.name}</DefaultText>
