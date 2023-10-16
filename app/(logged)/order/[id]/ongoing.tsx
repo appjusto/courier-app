@@ -1,6 +1,8 @@
 import { Pressable, View } from 'react-native';
 
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { unreadMessagesIds } from '@/api/chats/unreadMessagesIds';
+import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CircledView } from '@/common/components/containers/CircledView';
@@ -8,7 +10,7 @@ import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
-import { useChatHandler } from '@/common/screens/orders/chat/useChatHandler';
+import { openChat } from '@/common/screens/orders/chat/openChat';
 import { ConfirmDelivery } from '@/common/screens/orders/confirmation/confirm-delivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
 import { OrderMap } from '@/common/screens/orders/map/order-map';
@@ -32,8 +34,16 @@ export default function OngoingOrderScreen() {
   const orderType = order?.type;
   const orderStatus = order?.status;
   const dispatchingState = order?.dispatchingState;
-  const { hasUnreadMessages, openChat } = useChatHandler(order);
   const [proofModalShown, setProofModalShown] = useState(false);
+  const chatWithConsumer = useObserveChat(orderId, order?.consumer.id);
+  const chatWithBusiness = useObserveChat(orderId, order?.business?.id);
+  const hasUnreadMessagesFromConsumer = Boolean(
+    unreadMessagesIds(chatWithConsumer, order?.consumer.id, 'consumer')?.length
+  );
+  const hasUnreadMessagesFromBusiness = Boolean(
+    unreadMessagesIds(chatWithBusiness, order?.business?.id, 'business')?.length
+  );
+  const hasUnreadMessages = hasUnreadMessagesFromConsumer || hasUnreadMessagesFromBusiness;
   // tracking
   useTrackScreenView('Pedido em andamento');
   // side effects
@@ -104,7 +114,9 @@ export default function OngoingOrderScreen() {
                   ) : null}
                 </View>
               }
-              onPress={openChat}
+              onPress={() =>
+                openChat(order, hasUnreadMessagesFromConsumer, hasUnreadMessagesFromBusiness)
+              }
             />
             <DefaultButton
               style={{ marginLeft: paddings.sm }}

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import Selfie from '../images/selfie';
 
 export default function ProfileHeader() {
-  // state
+  // context
   const profile = useContextProfile();
   // UI
   return (

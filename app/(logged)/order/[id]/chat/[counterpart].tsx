@@ -11,6 +11,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { Time, formatTimestamp } from '@/common/formatters/timestamp';
 import { useUniqState } from '@/common/react/useUniqState';
+import ProfileImage from '@/common/screens/profile/images/profile-image';
 import Selfie from '@/common/screens/profile/images/selfie';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
@@ -34,11 +35,18 @@ export default function ChatScreen() {
   // console.log('chat', counterpartId);
   // state
   const order = useObserveOrder(orderId);
-  const counterpartFlavor = counterpartId === order?.consumer.id ? 'consumer' : 'business';
-  const counterpartName =
-    counterpartId === order?.consumer.id ? order.consumer.name : order?.business?.name;
+  const counterpartFlavor = order
+    ? counterpartId === order.consumer.id
+      ? 'consumer'
+      : 'business'
+    : undefined;
+  const counterpartName = order
+    ? counterpartId === order.consumer.id
+      ? order.consumer.name
+      : order.business?.name
+    : undefined;
   const chat = useObserveChat(orderId, counterpartId);
-  const unread = useUniqState(unreadMessagesIds(chat, counterpartId));
+  const unread = useUniqState(unreadMessagesIds(chat, counterpartId, counterpartFlavor));
   const [message, setMessage] = useState('');
   // tracking
   useTrackScreenView('Chat');
@@ -56,6 +64,7 @@ export default function ChatScreen() {
   const sendMessage = () => {
     if (!courierId) return;
     if (!order) return;
+    if (!counterpartFlavor) return;
     setMessage('');
     api
       .chat()
@@ -110,8 +119,14 @@ export default function ChatScreen() {
                   }}
                   key={group.id}
                 >
-                  {/* TODO: business */}
-                  <View>{group.from === counterpartId ? <User /> : null}</View>
+                  {/* from consumer */}
+                  <View>{group.fromFlavor === 'consumer' ? <User /> : null}</View>
+                  {/* business */}
+                  <View>
+                    {group.fromFlavor === 'business' ? (
+                      <ProfileImage path={`businesses/${group.from}/logo_240x240.jpg`} />
+                    ) : null}
+                  </View>
                   <View style={{}}>
                     {group.messages.map((message) => (
                       <View

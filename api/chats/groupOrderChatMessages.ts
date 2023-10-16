@@ -10,5 +10,13 @@ export const groupOrderChatMessages = (messages: WithId<ChatMessage>[]) =>
       return groups;
     }
     // use as id for chat group the id of the first message of the group
-    return [...groups, { id: message.id, from: message.from.id, messages: [message] }];
+    return [
+      ...groups,
+      {
+        id: message.id,
+        messages: [message],
+        from: message.from.id,
+        fromFlavor: message.from.agent,
+      } as GroupedChatMessages,
+    ];
   }, []);

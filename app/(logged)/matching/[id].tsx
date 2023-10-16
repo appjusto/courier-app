@@ -204,7 +204,7 @@ export default function MatchingScreen() {
               <DefaultText size="xs" color="neutral800">
                 Valor por KM
               </DefaultText>
-              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
+              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={95}>
                 <DefaultText size="xl" color="black">
                   {formatCurrency(feePerKm)}
                 </DefaultText>

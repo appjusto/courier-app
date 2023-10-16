@@ -7,7 +7,6 @@ import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firest
 import { hash } from 'geokit';
 import { Platform } from 'react-native';
 import AuthApi from '../auth/AuthApi';
-import StorageApi from '../storage/StorageApi';
 
 // firestore
 const profileRef = (id: string) => firestore().collection('couriers').doc(id);
@@ -20,7 +19,6 @@ const usersChangesRef = () => usersSubcollectionsRef().collection('changes');
 export default class ProfileApi {
   constructor(
     private auth: AuthApi,
-    private storage: StorageApi,
     public justSubmitted: boolean = false
   ) {}
 

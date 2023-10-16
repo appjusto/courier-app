@@ -18,7 +18,6 @@ import firestore from '@react-native-firebase/firestore';
 import { omit } from 'lodash';
 import AuthApi from '../auth/AuthApi';
 import { fromDate } from '../firebase/timestamp';
-import StorageApi from '../storage/StorageApi';
 
 // functions
 const region = getFirebaseRegion();
@@ -47,10 +46,7 @@ interface CompleteDeliveryOptions {
   comment?: string;
 }
 export default class OrdersApi {
-  constructor(
-    private auth: AuthApi,
-    private storage: StorageApi
-  ) {}
+  constructor(private auth: AuthApi) {}
   // observe orders
   observeOrders(
     options: ObserveDeliveredOrdersOptions,
