@@ -19,7 +19,7 @@ export const NPSValue = ({ value, selected, version, variant, style, ...props }:
       return colors.warning100;
     } else {
       if (value <= 3) return colors.error100;
-      else if (value == 5) return colors.primary100;
+      else if (value === 5) return colors.primary100;
       return colors.warning100;
     }
   };
@@ -31,7 +31,7 @@ export const NPSValue = ({ value, selected, version, variant, style, ...props }:
       return 'warning500';
     } else {
       if (value <= 3) return 'error500';
-      else if (value == 5) return 'primary500';
+      else if (value === 5) return 'primary500';
       return 'warning500';
     }
   };

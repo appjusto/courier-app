@@ -5,7 +5,7 @@ import { groupOrderChatMessages } from './groupOrderChatMessages';
 import { sortMessages } from './sortMessages';
 import { GroupedChatMessages } from './types';
 
-export const useObserveChat = (orderId?: string, counterpartId?: string) => {
+export const useObserveChat = (orderId: string | undefined, counterpartId: string | undefined) => {
   // context
   const api = useContextApi();
   // state
@@ -14,14 +14,16 @@ export const useObserveChat = (orderId?: string, counterpartId?: string) => {
   // side effects
   useEffect(() => {
     if (!orderId) return;
+    if (!counterpartId) return;
     return api.chat().observeOrderChat(orderId, setOrderChat);
-  }, [api, orderId]);
+  }, [api, orderId, counterpartId]);
   useEffect(() => {
     if (!orderChat) return;
+    if (!counterpartId) return;
     setChat(
       groupOrderChatMessages(
         orderChat
-          .filter((value) => !counterpartId || value.participantsIds.includes(counterpartId))
+          .filter((value) => value.participantsIds.includes(counterpartId))
           .sort(sortMessages)
       )
     );

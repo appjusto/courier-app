@@ -1,6 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { unreadMessages } from '@/api/chats/unreadMessages';
+import { unreadMessagesIds } from '@/api/chats/unreadMessagesIds';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
@@ -10,12 +10,12 @@ import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { Time, formatTimestamp } from '@/common/formatters/timestamp';
+import { useUniqState } from '@/common/react/useUniqState';
 import Selfie from '@/common/screens/profile/images/selfie';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { Flavor } from '@appjusto/types';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { Send, User } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
@@ -31,19 +31,15 @@ export default function ChatScreen() {
   const params = useLocalSearchParams<{ id: string; counterpart: string }>();
   const orderId = params.id;
   const counterpartId = params.counterpart;
+  // console.log('chat', counterpartId);
   // state
   const order = useObserveOrder(orderId);
+  const counterpartFlavor = counterpartId === order?.consumer.id ? 'consumer' : 'business';
+  const counterpartName =
+    counterpartId === order?.consumer.id ? order.consumer.name : order?.business?.name;
   const chat = useObserveChat(orderId, counterpartId);
-  const unread = unreadMessages(chat, counterpartId);
+  const unread = useUniqState(unreadMessagesIds(chat, counterpartId));
   const [message, setMessage] = useState('');
-  const counterpartFlavor = (): Flavor => {
-    if (counterpartId === order?.consumer.id) return 'consumer';
-    return 'business';
-  };
-  const counterpartName = () => {
-    if (counterpartId === order?.consumer.id) return order.consumer.name;
-    return order?.business?.name;
-  };
   // tracking
   useTrackScreenView('Chat');
   // side effects
@@ -51,7 +47,7 @@ export default function ChatScreen() {
     if (!unread?.length) return;
     api
       .chat()
-      .updateReadMessages(unread.map((message) => message.id))
+      .updateReadMessages(unread)
       .catch((error: unknown) => {
         console.error(error);
       });
@@ -72,9 +68,9 @@ export default function ChatScreen() {
           name: courier.name,
         },
         to: {
-          agent: counterpartFlavor(),
+          agent: counterpartFlavor,
           id: counterpartId,
-          name: counterpartName(),
+          name: counterpartName,
         },
         message: message.trim(),
         orderId,
@@ -103,7 +99,7 @@ export default function ChatScreen() {
           backgroundColor: colors.neutral50,
         }}
       >
-        <Stack.Screen options={{ title: counterpartName() }} />
+        <Stack.Screen options={{ title: counterpartName }} />
         <View style={{ padding: paddings.lg }}>
           {chat
             ? chat.map((group) => (
@@ -114,6 +110,7 @@ export default function ChatScreen() {
                   }}
                   key={group.id}
                 >
+                  {/* TODO: business */}
                   <View>{group.from === counterpartId ? <User /> : null}</View>
                   <View style={{}}>
                     {group.messages.map((message) => (

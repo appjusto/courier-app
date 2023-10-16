@@ -36,7 +36,7 @@ export const NPS = ({ style, value, disabled, onChange, ...props }: Props) => {
                 if (onChange && !disabled) onChange(index);
               }}
             >
-              <NPSValue value={index} selected={value === index} variant="small" />
+              <NPSValue value={index} selected={value === index} variant="small" version="10" />
             </Pressable>
           );
         })}
