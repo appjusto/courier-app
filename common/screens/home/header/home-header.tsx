@@ -61,8 +61,9 @@ export const HomeHeader = () => {
               ShowToast(JSON.stringify(error));
             });
         }}
-      ></Pressable>
-      <Selfie />
+      >
+        <Selfie />
+      </Pressable>
       <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
         <DefaultText size="md">{profile.name}</DefaultText>
         <View>
