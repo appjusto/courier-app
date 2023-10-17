@@ -5,7 +5,7 @@ import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { View } from 'react-native';
 
-export default function RevenueProcess() {
+export const RevenueProcess = () => {
   return (
     <View style={{ padding: paddings.lg, backgroundColor: colors.neutral50 }}>
       <DefaultText style={{ ...lineHeight.lg }} size="lg">
@@ -14,8 +14,8 @@ export default function RevenueProcess() {
       <DefaultText
         size="md"
         style={{
+          marginTop: paddings.md,
           ...lineHeight.md,
-          marginTop: paddings.sm,
         }}
       >
         No AppJusto, você faz uma corrida e 24 horas depois você tem o dinheiro disponível para
@@ -24,4 +24,4 @@ export default function RevenueProcess() {
       <ImageRevenueProcess style={{ marginTop: paddings.lg }} />
     </View>
   );
-}
+};

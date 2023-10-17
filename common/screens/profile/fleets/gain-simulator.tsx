@@ -14,23 +14,23 @@ type Props = {
 
 const kmInterval = 2;
 
-export default function GainSimulator({
+export const GainSimulator = ({
   minimumFee,
   distanceThreshold,
   additionalPerKmAfterThreshold,
-}: Props) {
+}: Props) => {
   // const
   // UI
   return (
     <View style={{ ...screens.default }}>
       <View style={{ padding: paddings.lg }}>
-        <DefaultText style={{ marginBottom: 4 }} size="sm" color="black">
+        <DefaultText size="md" color="black">
           Simulação de ganhos
         </DefaultText>
         <DefaultText
-          size="xs"
+          size="sm"
           color="neutral800"
-          style={{ ...lineHeight.xs, marginTop: paddings.xs }}
+          style={{ ...lineHeight.xs, marginTop: paddings.sm }}
         >
           Veja uma simulação dos ganhos por corrida nessa frota com os valores definidos acima.
         </DefaultText>
@@ -42,10 +42,10 @@ export default function GainSimulator({
             marginVertical: paddings.lg,
           }}
         >
-          <DefaultText size="xxs" color="black">
+          <DefaultText size="xs" color="black">
             Distância percorrida por entrega
           </DefaultText>
-          <DefaultText size="xxs" color="black">
+          <DefaultText size="xs" color="black">
             Ganhos
           </DefaultText>
         </View>
@@ -59,12 +59,12 @@ export default function GainSimulator({
               justifyContent: 'space-between',
             }}
           >
-            <DefaultText size="xxs" color="neutral800">
+            <DefaultText size="xs" color="neutral800">
               {`${i === 0 ? 'Até ' : ''}${formatDistance(
                 distanceThreshold + i * kmInterval * 1000
               )}`}
             </DefaultText>
-            <DefaultText size="xxs" color="neutral800">
+            <DefaultText size="xs" color="neutral800">
               {formatCurrency(minimumFee + i * kmInterval * additionalPerKmAfterThreshold)}
             </DefaultText>
           </View>
@@ -72,4 +72,4 @@ export default function GainSimulator({
       </View>
     </View>
   );
-}
+};

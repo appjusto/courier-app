@@ -1,8 +1,10 @@
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { Accordion } from '@/common/components/containers/accordion/Accordion';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import { AlertBox } from '@/common/components/views/AlertBox';
 import { URL_IZA_SITE } from '@/common/constants/urls';
+import borders from '@/common/styles/borders';
+import colors from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { useState } from 'react';
 import { Linking, View } from 'react-native';
@@ -13,19 +15,14 @@ export default function SafetyProcess() {
   // UI
   return (
     <View style={{ padding: paddings.lg }}>
-      <DefaultText
-        size="2xl"
-        style={{
-          marginBottom: paddings.sm,
-        }}
-      >
+      <DefaultText style={{ ...lineHeight.lg }} size="lg">
         Segurança em primeiro lugar
       </DefaultText>
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="md"
         style={{
-          marginBottom: paddings.xl,
+          marginTop: paddings.md,
+          ...lineHeight.md,
         }}
       >
         Reunimos aqui as principais informações sobre segurança para que você não deixe de se
@@ -33,24 +30,25 @@ export default function SafetyProcess() {
       </DefaultText>
       {/* MEI */}
       <DefaultText
-        size="2xl"
+        size="lg"
         style={{
-          marginBottom: paddings.sm,
+          marginTop: paddings.lg,
         }}
       >
         MEI - Microempreendedor individual
       </DefaultText>
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="md"
         style={{
-          marginBottom: paddings.xl,
+          marginTop: paddings.lg,
+          ...lineHeight.md,
         }}
       >
         Microempreendedor Individual é um programa criado para ajudar profissionais autônomos a se
         formalizarem junto à Receita Federal e ao INSS.
       </DefaultText>
       <Accordion
+        style={{ marginTop: paddings.xl }}
         items={[
           {
             title: 'Qual é a importância do MEI?',
@@ -88,11 +86,32 @@ export default function SafetyProcess() {
           setSelectedItemTitle((current) => (title !== current ? title : ''));
         }}
       />
-      <AlertBox
-        style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
-        title="Gerencie seu MEI sem intermediários"
-        description="O Governo Federal oferece um site e também um aplicativo para orientar usuários sobre todos os detalhes do MEI."
+      {/* messagebox */}
+      <View
+        style={{
+          marginTop: paddings.lg,
+          padding: paddings.lg,
+          backgroundColor: colors.success100,
+          ...borders.default,
+          borderColor: colors.success300,
+        }}
       >
+        <DefaultText style={{ marginBottom: paddings.xs }} size="md" color="black">
+          Gerencie seu MEI sem intermediários
+        </DefaultText>
+        <DefaultText
+          color="neutral700"
+          size="sm"
+          style={{
+            ...lineHeight.sm,
+            flex: 1,
+            flexWrap: 'wrap',
+          }}
+        >
+          O Governo Federal oferece um site e também um aplicativo para orientar usuários sobre
+          todos os detalhes do MEI.
+        </DefaultText>
+
         <View
           style={{
             flexDirection: 'row',
@@ -103,7 +122,7 @@ export default function SafetyProcess() {
           <View style={{ flex: 1 }}>
             <DefaultButton
               variant="outline"
-              title="Site Quero ser MEI"
+              title="Quero ser MEI"
               onPress={() =>
                 Linking.openURL(
                   'https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/quero-ser-mei/o-que-e-ser-um-mei'
@@ -123,12 +142,12 @@ export default function SafetyProcess() {
             />
           </View>
         </View>
-      </AlertBox>
-      {/* Seguro */}
+      </View>
+      {/* seguro */}
       <DefaultText
-        size="2xl"
+        size="lg"
         style={{
-          marginBottom: 4,
+          marginTop: paddings.lg,
         }}
       >
         Seguro contra acidentes
@@ -143,17 +162,17 @@ export default function SafetyProcess() {
         Seguradora IZA S/A
       </DefaultText>
       <DefaultText
-        size="sm"
-        color="neutral700"
+        size="md"
         style={{
-          marginBottom: paddings.xl,
+          marginTop: paddings.md,
+          ...lineHeight.md,
         }}
       >
         O Seguro Acidentes IZA é uma proteção pessoal para garantir que você e sua família não
         fiquem desamparados em casos de acidentes de trânsito enquanto trabalha.
       </DefaultText>
       <Accordion
-        style={{ marginBottom: paddings.xl }}
+        style={{ marginTop: paddings.xl }}
         items={[
           {
             title: 'Resumo do benefício',
@@ -163,9 +182,10 @@ export default function SafetyProcess() {
               },
             ],
             children: (
-              <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
+              <View style={{ marginTop: paddings.lg }}>
                 <DefaultButton
-                  title="   Saiba mais  "
+                  title="Saiba mais"
+                  variant="outline"
                   onPress={() => Linking.openURL(URL_IZA_SITE)}
                 />
               </View>
@@ -182,9 +202,10 @@ export default function SafetyProcess() {
               },
             ],
             children: (
-              <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
+              <View style={{ marginTop: paddings.lg }}>
                 <DefaultButton
-                  title="   Baixar App  "
+                  title="Baixar App"
+                  variant="outline"
                   onPress={() => Linking.openURL(URL_IZA_SITE)}
                 />
               </View>
@@ -198,14 +219,15 @@ export default function SafetyProcess() {
       />
       {/* Cartilhas e cursos */}
       <DefaultText
-        size="2xl"
+        size="lg"
         style={{
-          marginBottom: paddings.xl,
+          marginTop: paddings.lg,
         }}
       >
         Cartilhas de segurança
       </DefaultText>
       <Accordion
+        style={{ marginTop: paddings.xl }}
         items={[
           {
             title: 'Cartilhas de segurança',
@@ -226,6 +248,7 @@ export default function SafetyProcess() {
                 <View style={{ flex: 1 }}>
                   <DefaultButton
                     title="Motoboy"
+                    variant="outline"
                     onPress={() =>
                       Linking.openURL(
                         'http://arquivosbiblioteca.fundacentro.gov.br/exlibris/aleph/a23_1/apache_media/749TS8QXRI4LV9AG4MIUTX22AP23MM.pdf'
@@ -236,6 +259,7 @@ export default function SafetyProcess() {
                 <View style={{ flex: 1, marginLeft: paddings.lg }}>
                   <DefaultButton
                     title="Guia Motociclista"
+                    variant="outline"
                     onPress={() => {
                       Linking.openURL(
                         'https://escola.detran.rs.gov.br/wp-content/uploads/2020/10/CARTILHA-MOTOBOY-1.pdf'
@@ -255,12 +279,11 @@ export default function SafetyProcess() {
               },
             ],
             children: (
-              <View style={{ flexDirection: 'row', marginTop: paddings.lg }}>
+              <View style={{ marginTop: paddings.lg }}>
                 <DefaultButton
-                  title="   Saiba mais  "
-                  onPress={() => {
-                    Linking.openURL('https://ead.detran.sp.gov.br/ept/bci/motofrete');
-                  }}
+                  title="Saiba mais"
+                  variant="outline"
+                  onPress={() => Linking.openURL('https://ead.detran.sp.gov.br/ept/bci/motofrete')}
                 />
               </View>
             ),

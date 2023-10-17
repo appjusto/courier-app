@@ -19,7 +19,7 @@ export default {
     lineHeight: 26,
   },
   'md': {
-    lineHeight: 28,
+    lineHeight: 24,
   },
   'lg': {
     lineHeight: 30,

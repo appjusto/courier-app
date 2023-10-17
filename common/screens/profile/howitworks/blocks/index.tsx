@@ -1,3 +1,4 @@
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { useState } from 'react';
 import { View } from 'react-native';
@@ -8,7 +9,7 @@ interface Props {
   variant: 'how-it-works' | 'blocked';
 }
 
-export default function BlockProcess({ variant }: Props) {
+export const BlockProcess = ({ variant }: Props) => {
   // state
   const [selectedItemTitle, setSelectedItemTitle] = useState('');
   // UI
@@ -16,22 +17,24 @@ export default function BlockProcess({ variant }: Props) {
     <View style={{ padding: paddings.lg }}>
       {variant === 'how-it-works' ? (
         <View>
-          <DefaultText size="lg">Por que o AppJusto tem bloqueios?</DefaultText>
+          <DefaultText style={{ ...lineHeight.lg }} size="lg">
+            Por que o AppJusto tem bloqueios?
+          </DefaultText>
           <DefaultText
-            size="sm"
-            color="neutral700"
+            size="md"
             style={{
-              marginTop: paddings.sm,
+              marginTop: paddings.md,
+              ...lineHeight.md,
             }}
           >
             O AppJusto oferece suporte ao vivo para o entregador ou entregadora resolver problemas
             operacionais.
           </DefaultText>
           <DefaultText
-            size="sm"
-            color="neutral700"
+            size="md"
             style={{
               marginTop: paddings.lg,
+              ...lineHeight.md,
             }}
           >
             Se os problemas apresentados não são resolvidos, a restrição de acesso poderá ser
@@ -39,12 +42,6 @@ export default function BlockProcess({ variant }: Props) {
           </DefaultText>
         </View>
       ) : null}
-      <DefaultText
-        size={variant === 'how-it-works' ? '2xl' : 'lg'}
-        style={{ marginTop: paddings.xl }}
-      >
-        Entenda mais sobre os bloqueios
-      </DefaultText>
       <Accordion
         style={{ marginTop: paddings.lg }}
         items={[
@@ -119,4 +116,4 @@ export default function BlockProcess({ variant }: Props) {
       />
     </View>
   );
-}
+};

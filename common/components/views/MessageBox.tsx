@@ -1,16 +1,28 @@
 import borders from '@/common/styles/borders';
 import colors, { ColorName } from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { AlertOctagon, CheckCircle2, Info, XCircle } from 'lucide-react-native';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleProp, Text, TextStyle, View } from 'react-native';
 import { DefaultText } from '../texts/DefaultText';
 
 type MessageBoxProps = Text['props'] & {
+  title?: string;
   variant?: 'info' | 'success' | 'error' | 'warning';
+  iconless?: boolean;
+  textStyle?: StyleProp<TextStyle>;
 };
 
-export function MessageBox({ variant = 'info', children, style, ...props }: MessageBoxProps) {
+export function MessageBox({
+  title,
+  variant = 'info',
+  iconless,
+  children,
+  style,
+  textStyle,
+  ...props
+}: MessageBoxProps) {
   // UI
   const backgroundColor = () => {
     if (variant === 'info') return colors.info100;
@@ -51,19 +63,28 @@ export function MessageBox({ variant = 'info', children, style, ...props }: Mess
       {...props}
     >
       <View style={{ flexDirection: 'row' }}>
-        {icon()}
-        <DefaultText
-          color={textColor()}
-          style={{
-            marginLeft: paddings.sm,
-            // borderWidth: 1,
-            // borderColor: backgroundColor(),
-            flex: 1,
-            flexWrap: 'wrap',
-          }}
-        >
-          {children}
-        </DefaultText>
+        {!iconless ? <View style={{ marginRight: paddings.sm }}>{icon()}</View> : null}
+        <View>
+          {title ? (
+            <DefaultText style={{ marginBottom: paddings.xs }} size="md" color="black">
+              {title}
+            </DefaultText>
+          ) : null}
+          <DefaultText
+            color={textColor()}
+            size="sm"
+            style={[
+              {
+                ...lineHeight.sm,
+                flex: 1,
+                flexWrap: 'wrap',
+              },
+              textStyle,
+            ]}
+          >
+            {children}
+          </DefaultText>
+        </View>
       </View>
     </View>
   );

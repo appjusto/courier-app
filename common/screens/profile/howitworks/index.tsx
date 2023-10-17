@@ -1,5 +1,6 @@
 import { URL_APPJUSTO_FRESHDESK_COURIERS } from '@/common/constants/urls';
 import colors from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { Linking, Pressable } from 'react-native';
 import { DefaultView } from '../../../components/containers/DefaultView';
@@ -18,7 +19,7 @@ export default function HowAppJustoWorksContent({ title, onSelect }: Props) {
   // UI
   return (
     <DefaultView style={{ padding: paddings.lg, backgroundColor: colors.neutral50 }}>
-      <DefaultText size="lg" style={{ marginTop: paddings.sm }}>
+      <DefaultText size="lg" style={{ marginTop: paddings.sm, ...lineHeight.lg }}>
         {title}
       </DefaultText>
       <Pressable onPress={() => onSelect('approval')} style={{ marginTop: paddings.lg }}>

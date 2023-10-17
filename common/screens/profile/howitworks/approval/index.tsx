@@ -16,8 +16,8 @@ export default function ApprovalProcess() {
       <DefaultText
         size="md"
         style={{
+          marginTop: paddings.md,
           ...lineHeight.md,
-          marginTop: paddings.sm,
         }}
       >
         Se você está cadastrado na cidade de São Paulo ou trabalha na cidade, faremos a aprovação
@@ -26,18 +26,24 @@ export default function ApprovalProcess() {
       <DefaultText
         size="md"
         style={{
+          marginTop: paddings.md,
           ...lineHeight.md,
-          marginTop: paddings.sm,
         }}
       >
         Para isso, você só precisa estar com a sua inscrição MEI em dia, e enviar todas as
-        informações no cadastro.'
+        informações no cadastro.
       </DefaultText>
-      <ImageApprovalProcess style={{ marginTop: paddings.lg }} />
+      <ImageApprovalProcess style={{ marginTop: paddings.xl }} />
       <Pressable onPress={() => null}>
-        <MessageBox style={{ marginTop: paddings.lg }} variant="success">
-          Não está em São Paulo? Não se preocupe, estamos em processo de expansão. Clique aqui para
-          recomendar restaurantes da sua cidade para nos ajudar a chegar em outras cidades!
+        <MessageBox
+          style={{ marginTop: paddings.xl }}
+          textStyle={{ color: colors.neutral700 }}
+          variant="success"
+          title="Não está em São Paulo?"
+          iconless
+        >
+          Não se preocupe, estamos em processo de expansão. Clique aqui para recomendar restaurantes
+          da sua cidade para nos ajudar a chegar em outras cidades!
         </MessageBox>
       </Pressable>
     </DefaultView>

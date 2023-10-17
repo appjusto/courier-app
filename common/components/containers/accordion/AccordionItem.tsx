@@ -1,4 +1,5 @@
 import colors from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
@@ -58,15 +59,15 @@ export const AccordionItem = ({ data, collpased, style, onPress, ...props }: Pro
               ? body.map((item, index) => (
                   <View
                     key={item.text}
-                    style={{ marginTop: index === 0 ? paddings.lg : paddings['2xl'] }}
+                    style={{ marginTop: index === 0 ? paddings.sm : paddings.xl }}
                   >
                     {item.title ? (
-                      <DefaultText size="sm" color="neutral700" bold>
+                      <DefaultText size="sm-overline" color="black" bold>
                         {item.title}
                       </DefaultText>
                     ) : null}
                     {item.text ? (
-                      <DefaultText size="sm" color="neutral700">
+                      <DefaultText style={{ ...lineHeight.sm }} size="sm">
                         {item.text}
                       </DefaultText>
                     ) : null}
