@@ -4,7 +4,7 @@ import { Share } from 'react-native';
 
 export const shareFleet = async (fleetId: string, fleetName: string) => {
   try {
-    const fleetDeeplink = `https://${getDomain()}/f/${fleetId}`;
+    const fleetDeeplink = `https://${getDomain()}/fleets/${fleetId}`;
     Share.share({
       message: `Eu faço parte da ${fleetName} no AppJusto, app criado para combater a exploração dos entregadores. Faça parte dessa frota também: ${fleetDeeplink}`,
       title: 'AppJusto',

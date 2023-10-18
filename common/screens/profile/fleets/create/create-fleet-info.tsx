@@ -67,7 +67,7 @@ export const CreateFleetInfo = ({
       </MessageBox>
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginVertical: paddings.xl }}
+        style={{ marginVertical: paddings.lg }}
         title="Salvar e avançar"
         disabled={!name.length || !description.length}
         onPress={onSave}
