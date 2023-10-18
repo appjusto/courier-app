@@ -26,7 +26,7 @@ export const useDispatchingStateControlDisabled = (order: Order, checkInterval =
   // checking interval
   useEffect(() => {
     if (ticking) {
-      const interval = setInterval(() => setTick((value) => value + 1), 5 * checkInterval);
+      const interval = setInterval(() => setTick((value) => value + 1), 1000 * checkInterval);
       return () => clearInterval(interval);
     }
   }, [ticking, checkInterval]);
