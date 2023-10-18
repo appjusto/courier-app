@@ -1,9 +1,11 @@
 import firebase from '@react-native-firebase/app';
 import appCheck from '@react-native-firebase/app-check';
 import auth from '@react-native-firebase/auth';
+import crashlytics from '@react-native-firebase/crashlytics';
 import firestore from '@react-native-firebase/firestore';
 import functions, { FirebaseFunctionsTypes } from '@react-native-firebase/functions';
 import storage from '@react-native-firebase/storage';
+import * as Application from 'expo-application';
 
 import { onSimulator } from '@/common/version/device';
 import { getManifestExtra } from '../extra';
@@ -51,6 +53,10 @@ export default class Api {
       });
       appCheck().initializeAppCheck({ provider, isTokenAutoRefreshEnabled: true });
     }
+    crashlytics().setAttribute(
+      'nativeApplicationVersion',
+      Application.nativeApplicationVersion ?? 'null'
+    );
     this.functions = firebase.app().functions(extra.firebase.region);
     if (extra.firebase.emulator.host) {
       const host = extra.firebase.emulator.host;
