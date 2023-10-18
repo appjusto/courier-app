@@ -78,7 +78,7 @@ export default function MatchingScreen() {
   // handlers
   const matchOrder = useCallback(() => {
     if (!request?.orderId) return;
-    trackEvent('Corrida aceita');
+    trackEvent('Aceitou corrida');
     api
       .orders()
       .matchOrder(request.orderId, route?.distance)
@@ -91,7 +91,7 @@ export default function MatchingScreen() {
   }, [api, request?.orderId, route?.distance, showToast]);
   const rejectOrder = (issue: Issue, comment: string) => {
     if (!request?.orderId) return;
-    trackEvent('Corrida recusada');
+    trackEvent('Recusou corrida');
     setLoading(true);
     api
       .orders()

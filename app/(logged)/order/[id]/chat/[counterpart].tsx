@@ -49,7 +49,7 @@ export default function ChatScreen() {
   const unread = useUniqState(unreadMessagesIds(chat, counterpartId, counterpartFlavor));
   const [message, setMessage] = useState('');
   // tracking
-  useTrackScreenView('Chat');
+  useTrackScreenView('Chat', { counterpartFlavor }, Boolean(counterpartFlavor));
   // side effects
   useEffect(() => {
     if (!unread?.length) return;

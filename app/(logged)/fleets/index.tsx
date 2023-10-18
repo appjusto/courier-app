@@ -2,10 +2,11 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
-import { FleetCard } from '@/common/screens/profile/fleets/FleetCard';
+import { FleetCard } from '@/common/screens/profile/fleets/fleet-card';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useRouter } from 'expo-router';
@@ -18,7 +19,7 @@ export default function FleetsScreen() {
   // state
   const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
   // tracking
-  useTrackScreenView('Sua frota');
+  useTrackScreenView('Sua frota', { fleetId: fleet?.id }, Boolean(fleet));
   // UI
   const title = 'Sua frota';
   if (!fleet) return <Loading title={title} />;
@@ -31,14 +32,16 @@ export default function FleetsScreen() {
       <DefaultButton
         style={{ marginTop: paddings.lg }}
         title="Ver todas as frotas disponíveis"
-        onPress={() => router.push('/profile/fleets/search')}
+        onPress={() => router.push('/fleets/search')}
       />
-      <DefaultButton
-        style={{ marginVertical: paddings.lg }}
-        variant="outline"
-        title="Criar nova frota"
-        onPress={() => null}
-      />
+      <LinkButton
+        style={{ marginVertical: paddings.lg, alignSelf: 'center' }}
+        variant="ghost"
+        size="medium"
+        onPress={() => router.push('/fleets/create')}
+      >
+        Criar nova frota
+      </LinkButton>
     </DefaultScrollView>
   );
 }

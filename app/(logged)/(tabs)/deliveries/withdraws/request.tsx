@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -26,6 +27,8 @@ export default function RequestWithdrawScreen() {
   const search = useLocalSearchParams<{ balance: string; fee: string; value: string }>();
   const { balance, fee, value } = search;
   const balanceAsNumber = toNumber(balance);
+  // tracking
+  useTrackScreenView('Solicitar transferência');
   // state
   const [loading, setLoading] = useState(false);
   // handlers
@@ -104,11 +107,7 @@ export default function RequestWithdrawScreen() {
             </View>
           </View>
         </View>
-        <MessageBox
-          style={{
-            marginTop: paddings.lg,
-          }}
-        >
+        <MessageBox style={{ marginTop: paddings.lg }}>
           Atenção: o saque pode ser solicitado a qualquer momento mas o valor compensa na conta
           somente no próximo dia útil, até 23:59.
         </MessageBox>

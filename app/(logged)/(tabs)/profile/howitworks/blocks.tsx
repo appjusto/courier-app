@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 
 export default function BlockProcessScreen() {
   // tracking
-  useTrackScreenView('Sua conta: Bloqueios');
+  useTrackScreenView('Sua conta / Como funciona: bloqueios');
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>

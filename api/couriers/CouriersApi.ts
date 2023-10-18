@@ -30,7 +30,7 @@ const withdrawsRef = () => firestore().collection('withdraws');
 const withdrawRef = (id: string) => firestore().collection('withdraws').doc(id);
 export default class CouriersApi {
   constructor(private auth: AuthApi) {}
-  // orders
+  // requests
   observeActiveRequests(resultHandler: (requests: WithId<CourierOrderRequest>[]) => void) {
     const query = courierRequestsRef()
       .where('courierId', '==', this.auth.getUserId())

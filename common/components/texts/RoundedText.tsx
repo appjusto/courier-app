@@ -6,28 +6,28 @@ import { DefaultTextProps } from './DefaultText';
 
 export function RoundedText({ style, color, size, bold, ...props }: DefaultTextProps) {
   return (
-    <View
-      style={[
-        {
-          paddingVertical: paddings.sm,
-          paddingHorizontal: paddings.sm,
-          borderRadius: 100,
-          borderColor: colors.neutral900,
-          borderWidth: 1,
-        },
-        style,
-      ]}
-    >
-      <Text
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View
         style={[
           {
-            ...typography[size ?? 'sm'],
-            color: color ? colors[color] : colors.neutral900,
+            paddingVertical: paddings.xs,
+            paddingHorizontal: paddings.sm,
+            borderRadius: 100,
           },
-          bold ? { fontFamily: semiboldFontFamily, fontWeight: 'bold' } : {},
+          style,
         ]}
-        {...props}
-      />
+      >
+        <Text
+          style={[
+            {
+              ...typography[size ?? 'sm'],
+              color: color ? colors[color] : colors.neutral900,
+            },
+            bold ? { fontFamily: semiboldFontFamily, fontWeight: 'bold' } : {},
+          ]}
+          {...props}
+        />
+      </View>
     </View>
   );
 }

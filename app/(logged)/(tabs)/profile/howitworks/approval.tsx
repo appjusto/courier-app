@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 
 export default function ApprovalProcessScreen() {
   // tracking
-  useTrackScreenView('Sua conta: Aprovação de cadastro');
+  useTrackScreenView('Sua conta / Como funciona: aprovação');
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>

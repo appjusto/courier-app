@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 
 export default function FleetProcessScreen() {
   // tracking
-  useTrackScreenView('Sua conta: Frotas');
+  useTrackScreenView('Sua conta / Como funciona: frotas');
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>

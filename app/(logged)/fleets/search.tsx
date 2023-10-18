@@ -1,14 +1,14 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useSearchFleets } from '@/api/search/useSearchFleets';
-import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
-import { FleetCard } from '@/common/screens/profile/fleets/FleetCard';
+import { FleetCard } from '@/common/screens/profile/fleets/fleet-card';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { FlashList } from '@shopify/flash-list';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -22,7 +22,7 @@ export default function FleetsSearch() {
   const title = 'Frotas disponíveis';
   if (!fleets) return <Loading title={title} />;
   return (
-    <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
+    <View style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title }} />
       <DefaultText size="lg">Escolha sua frota</DefaultText>
       <DefaultText style={{ marginTop: paddings.lg }} color="neutral700">
@@ -39,19 +39,30 @@ export default function FleetsSearch() {
         blurOnSubmit={false}
         onChangeText={setFleetName}
       />
+      <View style={{ height: paddings.xl }} />
       <FlashList
         data={fleets}
         renderItem={({ item }) => {
           return (
             <Pressable onPress={() => {}}>
-              <FleetCard style={{ marginTop: paddings.lg }} fleet={item} />
+              <FleetCard style={{ marginBottom: paddings.lg }} fleet={item} />
             </Pressable>
           );
         }}
         keyExtractor={(item) => item.id}
         estimatedItemSize={460}
-        ListFooterComponent={<View style={{ height: paddings.xl }} />}
+        ListFooterComponent={<View style={{ height: paddings.lg }} />}
       />
-    </DefaultScrollView>
+      <View style={{ padding: paddings.lg }}>
+        <LinkButton
+          style={{ alignSelf: 'center' }}
+          size="medium"
+          variant="ghost"
+          onPress={() => router.push('/(logged)/fleets/create')}
+        >
+          Criar nova frota
+        </LinkButton>
+      </View>
+    </View>
   );
 }

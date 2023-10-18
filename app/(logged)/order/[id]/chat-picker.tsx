@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
@@ -58,7 +59,7 @@ export default function ChatPickerScreen() {
   const { id: orderId, consumerId, businessId } = params;
   const hasUnreadMessagesFromConsumer = params.hasUnreadMessagesFromConsumer === 'true';
   const hasUnreadMessagesFromBusiness = params.hasUnreadMessagesFromConsumer === 'true';
-
+  useTrackScreenView('Escolher Chat');
   // handlers
   const openChat = (counterpartId: string) =>
     router.replace({

@@ -64,7 +64,7 @@ export default class Api {
     this._platform = new PlatformApi(this._auth);
     this._profile = new ProfileApi(this._auth);
     this._couriers = new CouriersApi(this._auth);
-    this._fleets = new FleetsApi();
+    this._fleets = new FleetsApi(this._profile);
     this._orders = new OrdersApi(this._auth);
     this._ledger = new LedgerApi(this._auth);
     this._maps = new MapsApi();

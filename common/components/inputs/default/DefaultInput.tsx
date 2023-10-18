@@ -11,6 +11,7 @@ export type DefaultInputProps = TextInput['props'] &
   ThemeProps & {
     title?: string;
     size?: keyof typeof typography;
+    limit?: number;
     containerStyle?: StyleProp<ViewStyle> | undefined;
     inputStyle?: StyleProp<TextStyle> | undefined;
     onPress?: () => void;
@@ -20,12 +21,13 @@ export const DefaultInput = forwardRef(
   (
     {
       title,
+      value,
       editable,
+      size,
+      limit,
       style,
       containerStyle,
       inputStyle,
-      size,
-      value,
       onPress,
       ...props
     }: DefaultInputProps,
@@ -72,6 +74,7 @@ export const DefaultInput = forwardRef(
                 },
                 inputStyle,
               ]}
+              maxLength={limit}
               editable={editable}
               onPressOut={() => {
                 if (onPress) onPress();
@@ -83,6 +86,11 @@ export const DefaultInput = forwardRef(
             />
           </View>
         </Pressable>
+        {limit ? (
+          <DefaultText style={{ marginTop: paddings['2xs'] }} color="neutral800">{`${
+            value?.length ?? 0
+          }/${limit} caracteres`}</DefaultText>
+        ) : null}
       </View>
     );
   }

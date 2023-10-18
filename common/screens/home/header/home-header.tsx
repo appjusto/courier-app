@@ -33,7 +33,7 @@ export const HomeHeader = () => {
       return;
     }
     const newStatus: CourierStatus = status === 'available' ? 'unavailable' : 'available';
-    trackEvent('Disponibilidade', { status: newStatus });
+    trackEvent(newStatus === 'available' ? 'Ficou disponível' : 'Ficou indisponível');
     api
       .profile()
       .updateProfile({ status: newStatus })

@@ -64,7 +64,7 @@ export default function ComplaintScreen() {
           },
           createdAt: serverTimestamp(),
         });
-        trackEvent('Denúncia realizada');
+        trackEvent('Realizou denúncia');
         router.replace('/complaint/feedback');
       } catch (error) {
         console.log(error);

@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
@@ -10,6 +11,9 @@ import { Stack, router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 export default function ComplaintFeedbackScreen() {
+  // tracking
+  useTrackScreenView('Denuncia enviada');
+  // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Denúncia enviada' }} />

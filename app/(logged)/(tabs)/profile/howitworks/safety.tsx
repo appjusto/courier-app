@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export default function SafetyProcessScreen() {
   // tracking
-  useTrackScreenView('Sua conta: Segurança');
+  useTrackScreenView('Sua conta / Como funciona: segurança');
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>

@@ -1,4 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { pickImage } from '@/api/files/pickImage';
 import { useStorageFile } from '@/api/storage/useStorageFile';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -41,6 +42,7 @@ export default function ConfirmWithoutCodeScreen() {
   const { downloadURL: packageUrl, upload: uploadPackage } = useStorageFile(
     api.orders().getOrderPODPackagePath(orderId)
   );
+  useTrackScreenView('Confirmar sem código');
   // handlers
   const handleError = (error: unknown) => {
     if (error instanceof Error) crashlytics().recordError(error);

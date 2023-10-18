@@ -64,7 +64,7 @@ export function MessageBox({
     >
       <View style={{ flexDirection: 'row' }}>
         {!iconless ? <View style={{ marginRight: paddings.sm }}>{icon()}</View> : null}
-        <View>
+        <View style={{ flexDirection: 'row' }}>
           {title ? (
             <DefaultText style={{ marginBottom: paddings.xs }} size="md" color="black">
               {title}
@@ -76,8 +76,8 @@ export function MessageBox({
             style={[
               {
                 ...lineHeight.sm,
-                flex: 1,
                 flexWrap: 'wrap',
+                marginRight: iconless ? undefined : paddings.lg,
               },
               textStyle,
             ]}

@@ -37,7 +37,7 @@ export default function OrderSupportScreen() {
   useTrackScreenView('Ajuda com a corrida');
   // handlers
   const createIncident = (issue: Issue, comment: string) => {
-    trackEvent('Problema relatado');
+    trackEvent('Relatou problema');
     setLoading(true);
     api
       .incidents()
@@ -51,7 +51,7 @@ export default function OrderSupportScreen() {
       });
   };
   const dropOrder = (issue: Issue, comment: string) => {
-    trackEvent('Corrida recusada');
+    trackEvent('Saiu da corrida');
     setLoading(true);
     api
       .orders()

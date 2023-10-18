@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -11,6 +12,9 @@ export default function WithdrawFeedbackScreen() {
   // params
   const params = useLocalSearchParams<{ id: string }>();
   const withdrawId = params.id;
+  // tracking
+  useTrackScreenView('Transferência solicitada');
+  // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Transferência solicitada' }} />

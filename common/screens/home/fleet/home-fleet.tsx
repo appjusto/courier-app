@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { shareFleet } from '../../../../api/fleets/shareFleet';
-import { FleetCardParam } from '../../profile/fleets/FleetCardParam';
+import { HomeFleetParam } from '../../profile/fleets/home-fleet-param';
 
 interface Props extends ViewProps {}
 
@@ -55,8 +55,8 @@ export const HomeFleet = ({ style, ...props }: Props) => {
           style={[
             {
               ...borders.default,
-              borderColor: colors.primary300,
-              backgroundColor: colors.primary100,
+              borderColor: colors.neutral200,
+              backgroundColor: colors.neutral50,
               padding: paddings.lg,
             },
             style,
@@ -77,6 +77,8 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                   borderColor: colors.black,
                   backgroundColor: colors.white,
                   marginRight: paddings.sm,
+                  borderWidth: 1,
+                  paddingVertical: paddings.sm,
                 }}
               >
                 {minimumFee}
@@ -88,12 +90,12 @@ export const HomeFleet = ({ style, ...props }: Props) => {
           </View>
           {opened ? (
             <View style={{ marginTop: paddings.lg }}>
-              <FleetCardParam
+              <HomeFleetParam
                 variant="home"
-                text="Distância inicial mínima"
+                text="Distância coberta pelo valor mínimo da corrida"
                 value={distanceThreshold}
               />
-              <FleetCardParam
+              <HomeFleetParam
                 variant="home"
                 text="Valor adicional por km rodado"
                 value={additionalPerKmAfterThreshold}
@@ -101,7 +103,7 @@ export const HomeFleet = ({ style, ...props }: Props) => {
               />
               <Pressable
                 onPress={() => {
-                  if (fleet) shareFleet(fleet);
+                  if (fleet) shareFleet(fleet.id, fleet.name);
                 }}
               >
                 {({ pressed }) => (
@@ -132,7 +134,7 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                     title="Ver detalhes"
                     onPress={() => {
                       if (!fleet) return;
-                      router.push({ pathname: '/fleets/', params: { id: fleet.id } });
+                      router.push({ pathname: '/(logged)/fleets/[id]', params: { id: fleet.id } });
                     }}
                   />
                 </View>

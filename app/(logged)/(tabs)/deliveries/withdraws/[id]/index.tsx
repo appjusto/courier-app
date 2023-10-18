@@ -28,7 +28,7 @@ export default function WithdrawDetailScreen() {
   // state
   const [withdraw, setWithdraw] = useState<AccountWithdraw | null>();
   // tracking
-  useTrackScreenView('Transferência');
+  useTrackScreenView('Detalhe de transferência');
   // side effects
   useEffect(() => {
     api

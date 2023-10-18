@@ -1,3 +1,4 @@
+import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import DefaultCard from '@/common/components/views/cards/DefaultCard';
@@ -19,6 +20,8 @@ import { Linking, View } from 'react-native';
 export default function ProfileAbout() {
   // context
   const router = useRouter();
+  // tracking
+  useTrackScreenView('Sobre');
   // UI
   return (
     <DefaultScrollView style={{ ...screens.default }}>

@@ -14,7 +14,7 @@ export default function OrderScreen() {
   console.log('OrderScreen orderId', orderId);
   console.log('OrderScreen orderStatus', orderStatus);
   // tracking
-  useTrackScreenView('Pedido');
+  useTrackScreenView('Carregando pedido');
   // side effects
   useRouterAccordingOrderStatus(orderId, orderStatus);
   // UI

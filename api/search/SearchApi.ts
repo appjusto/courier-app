@@ -98,6 +98,7 @@ export default class SearchApi {
   searchFleets(query: string = '', page?: number, hitsPerPage: number = 10) {
     return this.fleets.search<Fleet>(query, {
       page,
+      filters: 'type:public',
       hitsPerPage,
     });
   }

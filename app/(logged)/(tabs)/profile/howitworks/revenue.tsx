@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 
 export default function RevenueProcessScreen() {
   // tracking
-  useTrackScreenView('Sua conta: Recebimento');
+  useTrackScreenView('Sua conta / Como funciona: recebimento');
   // UI
   return (
     <ScrollView scrollIndicatorInsets={{ right: 1 }}>

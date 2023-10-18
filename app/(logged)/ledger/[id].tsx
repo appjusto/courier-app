@@ -27,7 +27,7 @@ export default function LedgerEntryScreen() {
   // state
   const [entry, setEntry] = useState<LedgerEntry | null>();
   // tracking
-  useTrackScreenView('Ganho');
+  useTrackScreenView('Detalhe de ganho');
   // side effects
   useEffect(() => {
     api
