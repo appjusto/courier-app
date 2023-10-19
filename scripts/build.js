@@ -1,11 +1,8 @@
 /* eslint-env node */
 
-const fs = require('fs');
-const path = require('path');
 const { spawn } = require('child_process');
 const { version } = require('../version.json');
-const eas = require('../eas.json');
-const { ENV, PLATFORM, CHANNEL, PROFILE, REMOTE } = process.env;
+const { ENV, PLATFORM, PROFILE, REMOTE } = process.env;
 
 // Usage:
 // devclient
@@ -14,27 +11,18 @@ const { ENV, PLATFORM, CHANNEL, PROFILE, REMOTE } = process.env;
 // device
 // ENV=dev PLATFORM=ios PROFILE=store npm run build
 // ENV=dev npm run build
-// others
-// ENV=dev CHANNEL=v14 npm run build
-// ENV=live PROFILE=store npm run build
+// store
+// ENV=live PROFILE=closed REMOTE=true npm run build
+// ENV=live PROFILE=production REMOTE=true npm run build
 
 const run = async () => {
   if (!ENV) {
     console.error('ENV indefinido');
     process.exit(-1);
   }
+  const majorVersion = `v${version.slice(0, version.indexOf('.'))}`;
   const platform = PLATFORM ?? 'android';
-  const profile = PROFILE ?? 'internal';
-  const channel = CHANNEL ?? `v${version.slice(0, version.indexOf('.'))}`;
-  if (eas.build.base.channel !== channel) {
-    const easCopy = { ...eas };
-    easCopy.build.base.channel = channel;
-    console.log(`Atualizando channel para ${channel}...`);
-    fs.writeFileSync(
-      path.join(__dirname, '..', 'eas.json'),
-      JSON.stringify(easCopy, undefined, '  ')
-    );
-  }
+  const profile = majorVersion + '-' + (PROFILE ?? 'internal');
   const args = [
     '-f',
     `.env.${ENV}.local`,

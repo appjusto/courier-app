@@ -5,14 +5,16 @@ const { ENV, CHANNEL } = process.env;
 
 // Usage:
 // ENV=dev npm run update
-// ENV=dev CHANNEL=v14 npm run update
+// ENV=dev CHANNEL=closed npm run update
+// ENV=dev CHANNEL=production npm run update
 
 const run = async () => {
   if (!ENV) {
     console.error('ENV indefinido');
     process.exit(-1);
   }
-  const channel = CHANNEL ?? `v${version.slice(0, version.indexOf('.'))}`;
+  let channel = `v${version.slice(0, version.indexOf('.'))}`;
+  if (CHANNEL) channel = `${channel}-${CHANNEL}`;
   const args = ['-f', `.env.${ENV}.local`, 'eas', 'update', '--channel', channel, '--auto'];
   console.log(`Atualizando ${channel} no ambiente ${ENV}: eas`, args.join(' '));
   spawn('env-cmd', args, { stdio: 'inherit' });
