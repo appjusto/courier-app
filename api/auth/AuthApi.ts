@@ -6,7 +6,9 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 // functions
 const region = getFirebaseRegion();
-export const deleteAccount = firebase.app().functions(region).httpsCallable('deleteAccount');
+const deleteAccount = firebase.app().functions(region).httpsCallable('deleteAccount');
+const requestAccessCode = firebase.app().functions(region).httpsCallable('requestAccessCode');
+const loginWithAccessCode = firebase.app().functions(region).httpsCallable('loginWithAccessCode');
 
 export default class AuthApi {
   observeAuthState(handler: (a: FirebaseAuthTypes.User | null) => unknown) {
@@ -52,6 +54,23 @@ export default class AuthApi {
   }
 
   // firebase functions
+  async requestAccessCode(phone: string) {
+    return requestAccessCode({
+      phone,
+      meta: { version: getAppVersion() },
+    });
+  }
+  async loginWithAccessCode(phone: string, accessCode: string) {
+    const response = await loginWithAccessCode({
+      phone,
+      accessCode,
+      meta: { version: getAppVersion() },
+    });
+    return response.data as string;
+  }
+  signInWithCustomToken(token: string) {
+    return auth().signInWithCustomToken(token);
+  }
   deleteAccount(payload: Partial<DeleteAccountPayload>) {
     return deleteAccount({
       ...payload,

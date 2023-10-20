@@ -2,6 +2,7 @@ import { useContextProfile } from '@/common/auth/AuthContext';
 import { useUniqState } from '@/common/react/useUniqState';
 import { useInstallReferrer } from '@/common/version/useInstallReferrer';
 import analytics from '@react-native-firebase/analytics';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { useGlobalSearchParams, usePathname } from 'expo-router';
 import { pick } from 'lodash';
 import React, { useEffect } from 'react';
@@ -24,6 +25,7 @@ export const AnalyticsProvider = (props: Props) => {
   useEffect(() => {
     if (userProperties === undefined) return;
     console.log('analytics', userProperties);
+    crashlytics().setUserId(userProperties.id);
     analytics().setUserId(userProperties.id);
     analytics().setUserProperties(userProperties);
   }, [userProperties]);
