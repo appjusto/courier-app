@@ -47,18 +47,18 @@ export default function PhoneVerification() {
   const signInWithPhoneNumber = useCallback(() => {
     // console.log('signInWithPhoneNumber', phone);
     setLoading(true);
-    trackEvent('Confirmando telefone');
+    trackEvent('Confirmando telefone', { phone });
     api
       .auth()
       .signInWithPhoneNumber(phone, countryCode)
       .then((result) => {
         setLoading(false);
-        trackEvent('Telefone confirmado');
+        trackEvent('Telefone confirmado', { phone });
         setConfirmation(result);
       })
       .catch((error) => {
         setLoading(false);
-        trackEvent('Erro ao confirmar telefone');
+        trackEvent('Erro ao confirmar telefone', { phone });
         console.log(JSON.stringify(error));
         setError(handleErrorMessage(error));
         crashlytics().recordError(error);
@@ -81,16 +81,16 @@ export default function PhoneVerification() {
   // handlers
   const verifyHandler = () => {
     setLoading(true);
-    trackEvent('Confirmando código');
+    trackEvent('Confirmando código', { phone });
     confirmation
       ?.confirm(code)
       .then((result) => {
-        trackEvent('Código confirmado');
+        trackEvent('Código confirmado', { phone });
         analytics().logLogin({ method: 'Firebase Phone' }).catch(console.error);
       })
       .catch((error) => {
         setLoading(false);
-        trackEvent('Erro ao confirmar código');
+        trackEvent('Erro ao confirmar código', { phone });
         console.log(JSON.stringify(error));
         setError(handleErrorMessage(error));
         crashlytics().recordError(error);
@@ -99,7 +99,7 @@ export default function PhoneVerification() {
   const requestAccessCode = () => {
     setRequestCodeModalShown(false);
     setLoading(true);
-    trackEvent('Requisitando código alternativo');
+    trackEvent('Requisitando código alternativo', { phone });
     setState('access-code');
     setCode('');
     api
@@ -107,23 +107,23 @@ export default function PhoneVerification() {
       .requestAccessCode(phone)
       .then(() => {
         setLoading(false);
-        trackEvent('Código alternativo requisitado');
+        trackEvent('Código alternativo requisitado', { phone });
         showToast('Novo código enviado por SMS!', 'success');
       })
       .catch(() => {
         setLoading(false);
-        trackEvent('Erro ao requisitar código alternativo');
+        trackEvent('Erro ao requisitar código alternativo', { phone });
         showToast('Não foi possível requisitar o código por SMS. Tente novamente.', 'error');
       });
   };
   const loginWithAccessCode = () => {
     setLoading(true);
-    trackEvent('Confirmando código alternativo');
+    trackEvent('Confirmando código alternativo', { phone });
     api
       .auth()
       .loginWithAccessCode(phone, code)
       .then((token) => {
-        trackEvent('Código alternativo confirmado');
+        trackEvent('Código alternativo confirmado', { phone });
         api
           .auth()
           .signInWithCustomToken(token)
@@ -135,7 +135,7 @@ export default function PhoneVerification() {
       .catch((error) => {
         console.error(error);
         setLoading(false);
-        trackEvent('Erro ao confirmar código alternativo');
+        trackEvent('Erro ao confirmar código alternativo', { phone });
         showToast('Código inválido. Tente novamente.', 'error');
       });
   };
