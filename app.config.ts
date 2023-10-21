@@ -55,6 +55,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     package: appBundlePackage(),
     versionCode,
+    adaptiveIcon: {
+      foregroundImage: './assets/images/adaptive_icon.png',
+      backgroundColor: '#FFCA41',
+    },
     googleServicesFile: process.env.EXPO_PUBLIC_GOOGLE_SERVICES_JSON,
     config: {
       googleMaps: {

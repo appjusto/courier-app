@@ -19,7 +19,7 @@ import { ActiveRequestsCards } from '@/common/screens/home/cards/active-requests
 import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-cards';
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
 import { HomeHeader } from '@/common/screens/home/header/home-header';
-import { LocationDisclosureModal } from '@/common/screens/home/location-disclosure-modal';
+import { LocationDisclosureModal } from '@/common/screens/home/location-disclosure-modal/location-disclosure-modal';
 import { SupportModal } from '@/common/screens/home/support-modal';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';

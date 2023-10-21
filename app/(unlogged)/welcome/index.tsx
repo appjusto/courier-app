@@ -2,63 +2,40 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { ArrowRightIconButton } from '@/common/components/buttons/icon/ArrowRightIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { BulletsSteps } from '@/common/screens/unlogged/welcome/BulletsSteps';
-import { Page1Icon } from '@/common/screens/unlogged/welcome/page-1-icon';
-import { Page2Icon } from '@/common/screens/unlogged/welcome/page-2-icon';
-import { Page3Icon } from '@/common/screens/unlogged/welcome/page-3-icon';
-import colors from '@/common/styles/colors';
-import lineHeight from '@/common/styles/lineHeight';
+import { WelcomeStep1Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep1Image';
+import { WelcomeStep2Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep2Image';
+import { WelcomeStep3Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep3Image';
+import { WelcomeStep4Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep4Image';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
-import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
-
-interface PageProps extends ViewProps {
-  icon: React.ReactNode;
-  header: string;
-  text: string;
-}
-
-function Page({ icon, header, text, ...props }: PageProps) {
-  // UI
-  return (
-    <View style={{ flex: 1 }} {...props}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.neutral50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {icon}
-      </View>
-      <View style={{ flex: 1, padding: paddings.lg }}>
-        <View style={{ flex: 1 }} />
-        <DefaultText size="lg">{header}</DefaultText>
-        <DefaultText size="md" style={{ marginTop: paddings.lg, ...lineHeight.md }}>
-          {text}
-        </DefaultText>
-        <View style={{ flex: 1 }} />
-      </View>
-    </View>
-  );
-}
+import { WelcomeStep } from '../../../common/screens/unlogged/welcome/WelcomeStep';
 
 export default function Welcome() {
   // refs
   const pagerViewRef = useRef<PagerView>(null);
   // state
   const [step, setStep] = useState(0);
-  const steps = 3;
+  const steps = 4;
   // track
   useTrackScreenView('Boas vindas');
   // UI
   return (
     <View style={{ ...screens.default }}>
-      <Stack.Screen options={{ headerShown: false }} />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTitle: () => (
+            <DefaultText style={{ marginTop: 0, textAlign: 'center' }} size="md-body-app" bold>
+              appjusto
+            </DefaultText>
+          ),
+          headerShadowVisible: false,
+        }}
+      />
       <PagerView
         ref={pagerViewRef}
         style={{ flex: 1 }}
@@ -68,26 +45,41 @@ export default function Welcome() {
           if (position !== step) setStep(position);
         }}
       >
-        <Page
-          icon={<Page1Icon />}
-          header="O AppJusto é a única plataforma onde as pessoas podem definir o valor do próprio trabalho"
-          text="O mínimo pago por corrida é de R$ 10, exatamente o valor reinvidicado nas manifestações."
+        <WelcomeStep
+          icon={<WelcomeStep1Image />}
+          header={['Remuneração justa:', 'mínimo de R$ 10 por entrega!']}
+          text={[
+            'A frota appjusto usa o valor reivindicado nas manifestações: R$ 10 até 5 km, mais R$ 2 por km adicional. Sem corridas duplas.',
+            'E somos a única plataforma que permite a criação de frotas com outros valores, caso você queira definir outro valor pro seu trabalho!',
+          ]}
           key="1"
         />
-        <Page
-          icon={<Page2Icon />}
-          header="No AppJusto todas as corridas são seguradas contra acidentes pela Iza"
-          text="Todas as corridas feitas pela rede AppJusto estão cobertas contra acidentes pelo seguro Iza, especializada nesse tipo de cobertura."
+        <WelcomeStep
+          icon={<WelcomeStep2Image />}
+          header={['Grana no bolso rapidinho']}
+          text={[
+            'A gente libera o seu dinheiro para saque em apenas 24 horas depois de você ter feito a corrida. Aí sim!',
+          ]}
           key="2"
         />
-        <Page
-          icon={<Page3Icon />}
-          header="No AppJusto você tem seu dinheiro disponível para saque em 24 horas"
-          text="Você faz uma corrida e 24 horas depois você tem o dinheiro disponível para saque."
+        <WelcomeStep
+          icon={<WelcomeStep3Image />}
+          header={['Você está protegido por seguro em todas as corridas']}
+          text={[
+            'Todas as corridas feitas pela rede appjusto estão cobertas contra acidentes pelo seguro Iza, especializado nesse tipo de cobertura.',
+          ]}
           key="3"
         />
+        <WelcomeStep
+          icon={<WelcomeStep4Image />}
+          header={['Garanta seus direitos do governo sendo MEI']}
+          text={[
+            'Pra entrar no appjusto, você precisa ser um MicroEmpreendedor Individual (MEI). Ter o cadastro e pagar seus impostos em dia garantem direitos como auxílio financeiro em caso de afastamento, aposentadoria e possibilidade de empréstimos especiais.',
+          ]}
+          key="4"
+        />
       </PagerView>
-      <View style={{ padding: paddings.lg, marginBottom: paddings.lg }}>
+      <View style={{ padding: paddings.lg, marginBottom: 0 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -97,7 +89,7 @@ export default function Welcome() {
         >
           <View style={{ flexDirection: 'row' }}>
             <DefaultText size="xs">{`Passo ${step + 1} de ${steps}`}</DefaultText>
-            <BulletsSteps size={3} index={step} style={{ marginLeft: paddings.lg }} />
+            <BulletsSteps size={4} index={step} style={{ marginLeft: paddings.lg }} />
           </View>
           <ArrowRightIconButton
             onPress={() => {

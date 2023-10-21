@@ -1,10 +1,12 @@
 import { PixelRatio, StyleProp, TextStyle } from 'react-native';
 
 const fontScale = PixelRatio.getFontScale() ?? 1;
+console.log(fontScale);
 
 export const regularFontFamily = 'HankenGrotesk-Regular';
 export const mediumFontFamily = 'HankenGrotesk-Medium';
 export const semiboldFontFamily = 'HankenGrotesk-SemiBold';
+export const boldFontFamily = 'HankenGrotesk-Bold';
 
 type T = object & StyleProp<TextStyle>;
 
