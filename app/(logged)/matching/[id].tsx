@@ -41,8 +41,10 @@ export default function MatchingScreen() {
   const requestId = params.id;
   // state
   const request = useObserveRequest(requestId);
+  const requestDistanceToOrigin = request?.distanceToOrigin;
   const situation = request?.situation;
   const route = useMapRoute(request?.origin, profile?.mode);
+  const routeDistanceToOrigin = route?.distance;
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [expiredModalShown, setExpiredModalShown] = useState(false);
@@ -68,6 +70,12 @@ export default function MatchingScreen() {
     if (!route) return;
     api.couriers().updateRoutePolylineToOrigin(requestId, route.polyline).catch(console.error);
   }, [route, requestId, api]);
+  // track distane
+  useEffect(() => {
+    if (!requestDistanceToOrigin) return;
+    if (!routeDistanceToOrigin) return;
+    trackEvent('Rota para origem', { requestDistanceToOrigin, routeDistanceToOrigin });
+  }, [requestDistanceToOrigin, routeDistanceToOrigin]);
   // open modal if request expired
   useEffect(() => {
     if (!situation) return;
@@ -110,17 +118,8 @@ export default function MatchingScreen() {
   console.log(requestId);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
-  const {
-    origin,
-    destination,
-    readyAt,
-    netValue,
-    locationFee = 0,
-    distance,
-    distanceToOrigin,
-  } = request;
-  const routeDistanceToOrigin = route?.distance ?? distanceToOrigin;
-  const totalDistance = distance + routeDistanceToOrigin;
+  const { origin, destination, readyAt, netValue, locationFee = 0, distance } = request;
+  const totalDistance = distance + (routeDistanceToOrigin ?? 0);
   const fee = netValue + locationFee;
   const feePerKm = round(fee / (totalDistance / 1000), 2);
   return (
