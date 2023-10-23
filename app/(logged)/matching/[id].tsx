@@ -2,6 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
+import { getPartialAddress } from '@/api/maps/getPartialAddress';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
@@ -10,6 +11,8 @@ import { ConfirmButton } from '@/common/components/buttons/swipeable/ConfirmButt
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { RoundedView } from '@/common/components/containers/RoundedView';
 import { DefaultMap } from '@/common/components/map/DefaultMap';
+import { DestinationMarker } from '@/common/components/map/markers/destination-marker';
+import { PackageMarker } from '@/common/components/map/markers/package-marker';
 import { ErrorModal } from '@/common/components/modals/error/error-modal';
 import { SelectIssueModal } from '@/common/components/modals/issues/select-issue-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -20,6 +23,7 @@ import { formatDistance } from '@/common/formatters/distance';
 import { formatDate } from '@/common/formatters/timestamp';
 import { stopOrderRequestSound } from '@/common/notifications/sound';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
+import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
@@ -118,14 +122,24 @@ export default function MatchingScreen() {
   console.log(requestId);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
-  const { origin, destination, readyAt, netValue, locationFee = 0, distance } = request;
+  const {
+    origin,
+    destination,
+    readyAt,
+    netValue,
+    locationFee = 0,
+    distance,
+    fleetName,
+    type,
+  } = request;
   const totalDistance = distance + (routeDistanceToOrigin ?? 0);
   const fee = netValue + locationFee;
   const feePerKm = round(fee / (totalDistance / 1000), 2);
+  const originAddress = getPartialAddress(request.originAddress);
+  const destinationAddress = getPartialAddress(request.originAddress);
   return (
-    <DefaultView style={{ ...screens.default }}>
+    <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
-      <DefaultMap origin={origin} destination={destination} polyline={route?.polyline} />
       <ErrorModal
         title="Ooops! :("
         text="Este pedido já foi aceito por outro entregador"
@@ -143,28 +157,23 @@ export default function MatchingScreen() {
         onConfirm={rejectOrder}
         onDismiss={() => setRejectModalShown(false)}
       />
-      <View style={{ paddingVertical: paddings.xl, paddingHorizontal: paddings.lg }}>
-        {/* tags */}
-        <View style={{ flexDirection: 'row', marginBottom: paddings.lg }}>
-          <RoundedView
-            style={{
-              paddingHorizontal: paddings.sm,
-              paddingVertical: paddings.xs,
-              backgroundColor: colors.neutral50,
-              borderWidth: 0,
-            }}
-          >
-            <DefaultText color="black" size="xs">
-              {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pronto para coleta'}
-            </DefaultText>
-          </RoundedView>
-          {locationFee ? (
+      <View
+        style={{
+          padding: paddings.lg,
+          alignItems: 'center',
+          ...borders.default,
+          borderColor: colors.neutral100,
+        }}
+      >
+        {/* location fee */}
+        {locationFee ? (
+          <View style={{ flexDirection: 'row' }}>
             <RoundedView
               style={{
                 flexDirection: 'row',
-                marginLeft: paddings.sm,
                 paddingHorizontal: paddings.sm,
                 paddingVertical: paddings.xs,
+                marginBottom: paddings.sm,
                 backgroundColor: colors.primary300,
                 borderWidth: 0,
               }}
@@ -174,46 +183,153 @@ export default function MatchingScreen() {
                 Alta demanda
               </DefaultText>
             </RoundedView>
-          ) : null}
-        </View>
-        {/* values */}
-        <View
-          style={{ flexDirection: 'row', marginTop: paddings.lg, justifyContent: 'space-between' }}
-        >
-          <Skeleton.Group show={!route}>
-            <View>
-              <DefaultText size="xs" color="neutral800">
-                Valor da corrida
-              </DefaultText>
-              <DefaultText size="xl" color="black">
+          </View>
+        ) : null}
+        <Skeleton.Group show={!route}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{ alignItems: 'center' }}>
+              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={110}>
+                <DefaultText>{formatCurrency(feePerKm)} por KM</DefaultText>
+              </Skeleton>
+              <DefaultText style={{ marginTop: paddings.xs }} size="2xl" color="black">
                 {formatCurrency(fee)}
               </DefaultText>
             </View>
-            <View>
-              <DefaultText size="xs" color="neutral800">
-                Distância total
-              </DefaultText>
+            <View style={{ marginLeft: paddings['2xl'], alignItems: 'center' }}>
+              <DefaultText>Distância total</DefaultText>
               <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
-                <DefaultText size="xl" color={route ? 'black' : 'error300'}>
+                <DefaultText style={{ marginTop: paddings.xs }} size="2xl" color="black">
                   {formatDistance(totalDistance)}
                 </DefaultText>
               </Skeleton>
             </View>
-            <View>
-              <DefaultText size="xs" color="neutral800">
-                Valor por KM
+          </View>
+        </Skeleton.Group>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          marginTop: paddings.md,
+          ...borders.default,
+          borderColor: colors.neutral100,
+          overflow: 'hidden',
+        }}
+      >
+        <DefaultMap origin={origin} destination={destination} polyline={route?.polyline} />
+        <View style={{ padding: paddings.lg }}>
+          <View style={{ flexDirection: 'row' }}>
+            <RoundedView
+              style={{
+                paddingHorizontal: paddings.sm,
+                paddingVertical: paddings.xs,
+                backgroundColor: colors.neutral50,
+                borderWidth: 0,
+              }}
+            >
+              <DefaultText color="black" size="xs">
+                {`Frota ${fleetName}`}
               </DefaultText>
-              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={95}>
-                <DefaultText size="xl" color="black">
-                  {formatCurrency(feePerKm)}
+            </RoundedView>
+            {type === 'food' ? (
+              <RoundedView
+                style={{
+                  paddingHorizontal: paddings.sm,
+                  paddingVertical: paddings.xs,
+                  backgroundColor: colors.info100,
+                  marginLeft: paddings.sm,
+                  borderWidth: 0,
+                }}
+              >
+                <DefaultText color="info900" size="xs">
+                  {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pedido já está pronto!'}
                 </DefaultText>
-              </Skeleton>
+              </RoundedView>
+            ) : null}
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: paddings.lg,
+            }}
+          >
+            <View style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+              <PackageMarker />
+              <View style={{ flex: 1, width: 1, backgroundColor: colors.black }} />
+              <DestinationMarker style={{ marginBottom: paddings.md }} />
             </View>
-          </Skeleton.Group>
+            <View style={{ flex: 1, marginLeft: paddings.sm }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <View>
+                  <DefaultText size="md" color="black">
+                    Retirada
+                  </DefaultText>
+                  <DefaultText size="md">{originAddress}</DefaultText>
+                </View>
+                <View>
+                  <Skeleton.Group show={!route}>
+                    <Skeleton colors={[colors.neutral50, colors.neutral100]} width={120}>
+                      <RoundedView
+                        style={{
+                          paddingHorizontal: paddings.sm,
+                          paddingVertical: paddings.xs,
+                          backgroundColor: colors.neutral50,
+                          marginLeft: paddings.sm,
+                          borderWidth: 0,
+                        }}
+                      >
+                        <DefaultText color="black" size="xs">
+                          {`${formatDistance(routeDistanceToOrigin ?? 0)} até retirada`}
+                        </DefaultText>
+                      </RoundedView>
+                    </Skeleton>
+                  </Skeleton.Group>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: paddings.lg,
+                }}
+              >
+                <View>
+                  <DefaultText size="md" color="black">
+                    Entrega
+                  </DefaultText>
+                  <DefaultText size="md">{destinationAddress}</DefaultText>
+                </View>
+                <View>
+                  <RoundedView
+                    style={{
+                      paddingHorizontal: paddings.sm,
+                      paddingVertical: paddings.xs,
+                      backgroundColor: colors.neutral50,
+                      marginLeft: paddings.sm,
+                      borderWidth: 0,
+                    }}
+                  >
+                    <DefaultText color="black" size="xs">
+                      {`+ ${formatDistance(distance)} até entrega`}
+                    </DefaultText>
+                  </RoundedView>
+                </View>
+              </View>
+            </View>
+          </View>
         </View>
+      </View>
+
+      <View style={{ padding: paddings.lg }}>
         {/* button */}
         <ConfirmButton
-          style={{ marginTop: paddings['2xl'] }}
+          style={{ marginTop: 0 }}
           text="Aceitar"
           trackText="Arraste para aceitar"
           onConfirm={matchOrder}

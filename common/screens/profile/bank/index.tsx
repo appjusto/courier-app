@@ -252,7 +252,9 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
             placeholder="Selecione seu banco"
             value={bank?.name}
             color={!profileState.includes('approved') || editing ? 'neutral700' : 'neutral500'}
-            onPress={onSelectBank}
+            onPress={() => {
+              if (!profileState.includes('approved') || editing) onSelectBank();
+            }}
           />
           <PatternInput
             ref={agencyRef}
