@@ -26,9 +26,8 @@ export default function ProfileSettings() {
         text="Tem certeza que deseja excluir sua conta?"
         cancelButtonLabel="Não, quero manter a conta"
         onConfirm={() => {
-          // api.auth().deleteAccount({});
-          // TODO: move to new screen
           setDeleteAccountModalVisible(false);
+          router.push('/profile/delete/');
         }}
         onCancel={() => setDeleteAccountModalVisible(false)}
       />

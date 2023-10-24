@@ -6,6 +6,7 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
 import { optionalChannels } from '@/common/notifications/channels';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { NotificationChannel } from '@appjusto/types';
@@ -42,7 +43,7 @@ export default function ProfileNotifications() {
     <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title }} />
       <DefaultText size="lg">Configure suas notificações</DefaultText>
-      <DefaultText style={{ marginTop: paddings.lg }} color="neutral700">
+      <DefaultText style={{ marginTop: paddings.lg, ...lineHeight.sm }} color="neutral700">
         Para garantia de qualidade da operação, as notificações relacionadas aos pedidos sempre vão
         aparecer, ok?
       </DefaultText>
@@ -54,7 +55,10 @@ export default function ProfileNotifications() {
               title={name}
               onPress={() => toggleNotificationPreference(id)}
             />
-            <DefaultText size="xs" style={{ marginTop: paddings.sm, marginLeft: 27 }}>
+            <DefaultText
+              size="xs"
+              style={{ marginTop: paddings.sm, ...lineHeight.xs, marginLeft: 27 }}
+            >
               {description}
             </DefaultText>
           </View>
