@@ -16,6 +16,7 @@ import { PackageMarker } from '@/common/components/map/markers/package-marker';
 import { ErrorModal } from '@/common/components/modals/error/error-modal';
 import { SelectIssueModal } from '@/common/components/modals/issues/select-issue-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { RoundedText } from '@/common/components/texts/RoundedText';
 import { Loading } from '@/common/components/views/Loading';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
@@ -167,23 +168,14 @@ export default function MatchingScreen() {
       >
         {/* location fee */}
         {locationFee ? (
-          <View style={{ flexDirection: 'row' }}>
-            <RoundedView
-              style={{
-                flexDirection: 'row',
-                paddingHorizontal: paddings.sm,
-                paddingVertical: paddings.xs,
-                marginBottom: paddings.sm,
-                backgroundColor: colors.primary300,
-                borderWidth: 0,
-              }}
-            >
-              <Zap size={16} color={colors.black} />
-              <DefaultText style={{ marginLeft: paddings.xs }} color="black" size="xs">
-                Alta demanda
-              </DefaultText>
-            </RoundedView>
-          </View>
+          <RoundedText
+            style={{ marginBottom: paddings.sm, backgroundColor: colors.primary300 }}
+            icon={<Zap style={{ marginRight: paddings.xs }} size={16} color={colors.black} />}
+            size="xs"
+            color="black"
+          >
+            Alta demanda
+          </RoundedText>
         ) : null}
         <Skeleton.Group show={!route}>
           <View style={{ flexDirection: 'row' }}>
@@ -218,32 +210,25 @@ export default function MatchingScreen() {
         <DefaultMap origin={origin} destination={destination} polyline={route?.polyline} />
         <View style={{ padding: paddings.lg }}>
           <View style={{ flexDirection: 'row' }}>
-            <RoundedView
-              style={{
-                paddingHorizontal: paddings.sm,
-                paddingVertical: paddings.xs,
-                backgroundColor: colors.neutral50,
-                borderWidth: 0,
-              }}
+            <RoundedText
+              style={{ marginBottom: paddings.sm, backgroundColor: colors.neutral50 }}
+              size="xs"
+              color="black"
             >
-              <DefaultText color="black" size="xs">
-                {`Frota ${fleetName}`}
-              </DefaultText>
-            </RoundedView>
+              {`Frota ${fleetName}`}
+            </RoundedText>
             {type === 'food' ? (
-              <RoundedView
+              <RoundedText
                 style={{
-                  paddingHorizontal: paddings.sm,
-                  paddingVertical: paddings.xs,
-                  backgroundColor: colors.info100,
+                  marginBottom: paddings.sm,
                   marginLeft: paddings.sm,
-                  borderWidth: 0,
+                  backgroundColor: colors.info100,
                 }}
+                size="xs"
+                color="info900"
               >
-                <DefaultText color="info900" size="xs">
-                  {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pedido já está pronto!'}
-                </DefaultText>
-              </RoundedView>
+                {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pedido já está pronto!'}
+              </RoundedText>
             ) : null}
           </View>
           <View

@@ -2,6 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileChanges';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -18,7 +19,6 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty, omit } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { SafeAreaView, TextInput, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface Props {
   onUpdateProfile?: () => void;
@@ -125,15 +125,7 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
   const title = 'Dados pessoais';
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
-    <KeyboardAwareScrollView
-      style={{ ...screens.default, padding: paddings.lg }}
-      enableOnAndroid
-      enableAutomaticScroll
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
-      scrollIndicatorInsets={{ right: 1 }}
-    >
+    <DefaultKeyboardAwareScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <SafeAreaView>
         <DefaultText size="lg">
           {profileState.includes('approved')
@@ -244,6 +236,6 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
           onPress={updateProfileHandler}
         />
       </SafeAreaView>
-    </KeyboardAwareScrollView>
+    </DefaultKeyboardAwareScrollView>
   );
 }

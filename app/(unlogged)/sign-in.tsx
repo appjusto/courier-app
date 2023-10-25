@@ -2,6 +2,7 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { CheckButton } from '@/common/components/buttons/check/CheckButton';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
+import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { SignInIcon } from '@/common/screens/unlogged/sign-in/icon';
@@ -12,7 +13,6 @@ import { isPhoneValid } from '@/common/validators/phone';
 import { Stack, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function SignIn() {
   // context
@@ -25,15 +25,7 @@ export default function SignIn() {
   useTrackScreenView('Login');
   // UI
   return (
-    <KeyboardAwareScrollView
-      style={{ ...screens.headless }}
-      enableOnAndroid
-      enableAutomaticScroll
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
-      scrollIndicatorInsets={{ right: 1 }}
-    >
+    <DefaultKeyboardAwareScrollView style={{ ...screens.headless }}>
       <Stack.Screen options={{ title: 'Entrar' }} />
       <View
         style={{
@@ -94,6 +86,6 @@ export default function SignIn() {
           />
         </SafeAreaView>
       </View>
-    </KeyboardAwareScrollView>
+    </DefaultKeyboardAwareScrollView>
   );
 }

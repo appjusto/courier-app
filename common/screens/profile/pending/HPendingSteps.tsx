@@ -6,7 +6,7 @@ import { ScrollView, View, ViewProps } from 'react-native';
 import { PendingStep } from './PendingStep';
 
 interface Props extends ViewProps {
-  steps: { title: string }[];
+  steps: string[];
   index: number;
 }
 
@@ -69,15 +69,16 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
         })}
         {steps.map((step, i) => (
           <PendingStep
-            key={`step-${i}`}
+            key={step}
             ref={stepsRefs[i]}
             // https://github.com/facebook/react-native/issues/29712
             collapsable={false}
             index={i}
-            title={step.title}
+            title={step}
             variant={i < index ? 'past' : i > index ? 'next' : 'current'}
             style={{ marginLeft: i > 0 ? paddings.xl : 0 }}
             icon="check"
+            // @ts-expect-error
             collapsable={false}
             flexDirection="column"
           />

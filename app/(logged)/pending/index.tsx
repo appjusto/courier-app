@@ -17,20 +17,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
-const steps = [
-  {
-    title: 'Dados pessoais',
-  },
-  {
-    title: 'Dados da sua PJ',
-  },
-  {
-    title: 'Dados bancários',
-  },
-  {
-    title: 'Documentos e foto',
-  },
-];
+const STEPS = ['Dados pessoais', 'Dados da sua PJ', 'Dados bancários', 'Documentos e foto'];
 
 export default function PendingIndex() {
   // context
@@ -55,14 +42,22 @@ export default function PendingIndex() {
   useEffect(() => {
     if (!profile) return;
     let index = 0;
-    if (isProfileValid(profile)) index++;
-    if (isCompanyValid(profile?.company)) index++;
-    if (isBankAccountValid(profile?.bankAccount)) index++;
-    if (selfieUrl && documentUrl) index++;
+    if (isProfileValid(profile)) {
+      index++;
+      if (isCompanyValid(profile?.company)) {
+        index++;
+        if (isBankAccountValid(profile?.bankAccount)) {
+          index++;
+          if (selfieUrl && documentUrl) {
+            index++;
+          }
+        }
+      }
+    }
     setStepIndex(index);
   }, [profile, selfieUrl, documentUrl]);
   // handlers
-  const canSubmit = stepIndex === steps.length;
+  const canSubmit = stepIndex === STEPS.length;
   const canAdvance = !loading && !loadingSelfie && !loadingDocument;
   const advanceHandler = () => {
     if (!profile) return;
@@ -104,7 +99,7 @@ export default function PendingIndex() {
         Vamos começar o seu processo de cadastro no AppJusto
       </DefaultText>
       {/* <ProfilePersonalData /> */}
-      <PendingSteps steps={steps} index={stepIndex} />
+      <PendingSteps steps={STEPS} index={stepIndex} />
       <MessageBox style={{ marginVertical: paddings.xl }}>
         O tempo estimado pra finalizar é de 10 minutos. Foca que é rapidinho ;)
       </MessageBox>

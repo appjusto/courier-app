@@ -16,6 +16,10 @@
       "channel": "v13",
       "distribution": "internal"
     },
+    "v13-testflight": {
+      "channel": "v13",
+      "distribution": "store"
+    },
     "v13-debug": {
       "channel": "v13",
       "distribution": "internal",

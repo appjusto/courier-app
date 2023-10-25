@@ -3,7 +3,7 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { pickImage } from '@/api/files/pickImage';
 import { useStorageFile } from '@/api/storage/useStorageFile';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
-import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultScrollView copy';
+import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedImageBox } from '@/common/components/views/images/rounded/RoundedImageBox';

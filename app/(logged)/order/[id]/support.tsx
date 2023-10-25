@@ -83,7 +83,9 @@ export default function OrderSupportScreen() {
       />
       <SelectIssueModal
         title="Por que você precisa desistir da entrega?"
-        issueType="courier-cancel"
+        issueType={
+          order.type === 'food' ? 'courier-drops-food-delivery' : 'courier-drops-p2p-delivery'
+        }
         visible={dropOrderModalShown}
         onConfirm={dropOrder}
         loading={loading}

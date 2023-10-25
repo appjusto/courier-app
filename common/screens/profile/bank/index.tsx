@@ -4,6 +4,7 @@ import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileCha
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
+import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
@@ -29,7 +30,6 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { SafeAreaView, TextInput, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface AccountTypeRadio {
   title: string;
@@ -205,15 +205,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   // UI
   if (!profile || !accountTypes) return <Loading />;
   return (
-    <KeyboardAwareScrollView
-      style={{ ...screens.default, padding: paddings.lg }}
-      enableOnAndroid
-      enableAutomaticScroll
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
-      scrollIndicatorInsets={{ right: 1 }}
-    >
+    <DefaultKeyboardAwareScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <SafeAreaView>
         <DefaultText size="lg">
           {profileState.includes('approved') ? 'Dados bancários' : 'Preencha seus dados bancários'}
@@ -336,6 +328,6 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
           />
         </View>
       </SafeAreaView>
-    </KeyboardAwareScrollView>
+    </DefaultKeyboardAwareScrollView>
   );
 }

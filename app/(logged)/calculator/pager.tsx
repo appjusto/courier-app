@@ -1,18 +1,19 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import ProfileBank from '@/common/screens/profile/bank';
-import ProfileCompany from '@/common/screens/profile/company';
-import ProfilePersonalImages from '@/common/screens/profile/images';
+import { useObserveCourierCosts } from '@/api/couriers/costs/useObserveCourierCosts';
+import { CalculatorStep1 } from '@/common/screens/calculator/calculator-step-1';
+import { CalculatorStep2 } from '@/common/screens/calculator/calculator-step-2';
+import { CalculatorStep3 } from '@/common/screens/calculator/calculator-step-3';
+import { CalculatorStep4 } from '@/common/screens/calculator/calculator-step-4';
 import { HPendingSteps } from '@/common/screens/profile/pending/HPendingSteps';
-import ProfilePersonalData from '@/common/screens/profile/personal';
 import screens from '@/common/styles/screens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
-const STEPS = ['Seus dados', 'Dados PJ', 'Banco', 'Documentos'];
+const STEPS = ['Entregas', 'Distâncias', 'Transporte', 'Custos', 'Dados adicionais'];
 
-export default function PendingPager() {
+export default function CalculatorPager() {
   // context
   const router = useRouter();
   // params
@@ -22,9 +23,10 @@ export default function PendingPager() {
   // refs
   const pagerViewRef = useRef<PagerView>(null);
   // state
+  const costs = useObserveCourierCosts();
   const [stepIndex, setStepIndex] = useState(initialPage);
   // tracking
-  useTrackScreenView('Cadastro');
+  useTrackScreenView('Calculadora');
   // handlers
   const nextHandler = () => {
     if (stepIndex + 1 < STEPS.length) {
@@ -47,14 +49,10 @@ export default function PendingPager() {
           if (position !== stepIndex) setStepIndex(position);
         }}
       >
-        <ProfilePersonalData onUpdateProfile={nextHandler} />
-        <ProfileCompany onUpdateProfile={nextHandler} />
-        <ProfileBank
-          bankId={search?.bankId}
-          onSelectBank={() => router.push('/pending/select-bank')}
-          onUpdateProfile={nextHandler}
-        />
-        <ProfilePersonalImages onUpdateProfile={nextHandler} />
+        <CalculatorStep1 costs={costs} onSave={nextHandler} />
+        <CalculatorStep2 costs={costs} onSave={nextHandler} />
+        <CalculatorStep3 costs={costs} onSave={nextHandler} />
+        <CalculatorStep4 costs={costs} onSave={nextHandler} />
       </PagerView>
     </View>
   );

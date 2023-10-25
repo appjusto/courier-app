@@ -56,7 +56,7 @@ export default function OrderDetailScreen() {
             {tipRevenue ? (
               <View style={{ marginTop: paddings.lg }}>
                 <DefaultText size="sm" color="neutral800">
-                  Total
+                  Caixinha
                 </DefaultText>
                 <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
                   {formatCurrency(tipRevenue)}
