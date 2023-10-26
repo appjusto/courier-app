@@ -1,18 +1,18 @@
 import { EmptyIcon } from '@/common/components/modals/error/icon';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import paddings from '@/common/styles/paddings';
-import { Order, WithId } from '@appjusto/types';
+import { AccountWithdraw, WithId } from '@appjusto/types';
 import { router } from 'expo-router';
 import { Pressable, View, ViewProps } from 'react-native';
-import { DeliveryItem } from './item';
+import { WithdrawItem } from './item';
 
 interface Props extends ViewProps {
   title?: string;
   emptyText?: string;
-  orders: WithId<Order>[];
+  withdraws: WithId<AccountWithdraw>[];
 }
 
-export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Props) => {
+export const WithdrawList = ({ withdraws, title, emptyText, style, ...props }: Props) => {
   return (
     <View style={[{ padding: paddings.lg }, style]} {...props}>
       {title ? (
@@ -21,18 +21,18 @@ export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Prop
         </DefaultText>
       ) : null}
       <View>
-        {orders.length ? (
-          orders.map((order) => (
+        {withdraws.length ? (
+          withdraws.map((withdraw) => (
             <Pressable
-              key={order.id}
+              key={withdraw.id}
               onPress={() =>
                 router.push({
-                  pathname: '/(logged)/order/[id]/detail',
-                  params: { id: order.id },
+                  pathname: '/(logged)/(tabs)/deliveries/withdraws/[id]/',
+                  params: { id: withdraw.id },
                 })
               }
             >
-              <DeliveryItem order={order} />
+              <WithdrawItem withdraw={withdraw} />
             </Pressable>
           ))
         ) : (

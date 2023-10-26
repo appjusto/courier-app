@@ -31,10 +31,11 @@ export default function DeliveriesLedger() {
   // handlers
   const changeHandler = useCallback(
     (_from: Date, _to: Date) => {
+      // console.log('changeHandler', _from, _to);
       if (!isEqual(from, _from)) {
         setFrom(_from);
       }
-      if (!isEqual(to, to)) {
+      if (!isEqual(to, _to)) {
         setTo(_to);
       }
     },
@@ -54,7 +55,7 @@ export default function DeliveriesLedger() {
         />
         <LedgerEntriesList
           style={{ marginTop: paddings.lg }}
-          emptyText="Ops! Não encontramos nenhum ganho neste período."
+          emptyText="Não encontramos nenhum ganho neste período."
           entries={entries}
         />
       </DefaultView>

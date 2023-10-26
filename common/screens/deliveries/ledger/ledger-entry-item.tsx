@@ -41,7 +41,7 @@ export const LedgerEntryItem = ({ entry, style, ...props }: Props) => {
         {/* subtitle */}
         <View style={{ flexDirection: 'row' }}>
           <DefaultText style={{ marginTop: paddings.xs }} size="xs" color="neutral800">
-            {formatTimestamp(entry.updatedOn ?? entry.createdOn)}
+            {formatTimestamp(entry.createdOn)}
           </DefaultText>
         </View>
       </View>

@@ -23,7 +23,7 @@ export default function DeliveriesHistory() {
   // handlers
   const changeHandler = useCallback(
     (_from: Date, _to: Date) => {
-      console.log('changeHandler', _from, _to);
+      // console.log('changeHandler', _from, _to);
       if (!isEqual(from, _from)) {
         setFrom(_from);
       }
@@ -41,7 +41,7 @@ export default function DeliveriesHistory() {
         <PeriodControl onChange={changeHandler} />
         <DeliveryList
           style={{ marginTop: paddings.lg }}
-          emptyText="Ops! Não encontramos nenhuma corrida neste período."
+          emptyText="Não encontramos nenhuma corrida neste período."
           orders={orders}
         />
       </DefaultView>

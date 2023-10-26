@@ -3,7 +3,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Modal, ModalProps, Pressable, View } from 'react-native';
-import { ErrorIcon } from './icon';
+import { EmptyIcon } from './icon';
 
 interface Props extends ModalProps {
   title?: string;
@@ -24,7 +24,7 @@ export const ErrorModal = ({ title, text, dismissLabel, onDismiss, children, ...
             }}
           >
             <View style={{ padding: paddings.lg, backgroundColor: colors.white }}>
-              <ErrorIcon style={{ alignSelf: 'center' }} />
+              <EmptyIcon style={{ alignSelf: 'center' }} />
               {title ? (
                 <DefaultText
                   style={{ marginVertical: paddings['2xl'], textAlign: 'center' }}

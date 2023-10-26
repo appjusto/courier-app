@@ -5,7 +5,7 @@ const EmptyStateImage = require('../../../../assets/images/empty_state.png');
 
 interface Props extends ViewProps {}
 
-export const ErrorIcon = ({ style, ...props }: Props) => {
+export const EmptyIcon = ({ style, ...props }: Props) => {
   return (
     <View style={[{}, style]} {...props}>
       <Image source={EmptyStateImage} style={{ width: 102, height: 106 }} />
