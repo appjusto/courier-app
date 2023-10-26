@@ -15,6 +15,7 @@ export default function Index() {
   // routing
   useEffect(() => {
     if (!router) return;
+    console.log(situation);
     if (situation === undefined) return;
     if (situation === null) router.replace('/welcome');
     else if (situation === 'approved') router.replace('/home');

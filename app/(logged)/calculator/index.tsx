@@ -1,6 +1,7 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveCourierCosts } from '@/api/couriers/costs/useObserveCourierCosts';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -12,11 +13,11 @@ import { Stack, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
-const STEPS = ['Entregas', 'Distâncias', 'Transporte', 'Custos', 'Dados adicionais'];
+const STEPS = ['Entregas', 'Distâncias', 'Transporte', 'Custos'];
 
 export default function CalculatorScreen() {
   // tracking
-  useTrackScreenView('Calculadora de ganhos');
+  useTrackScreenView('Calculadora Checklist');
   // state
   const costs = useObserveCourierCosts();
   const [stepIndex, setStepIndex] = useState(0);
@@ -30,6 +31,9 @@ export default function CalculatorScreen() {
         if (costs.kmWithLiter && costs.gasPrice) {
           index++;
         }
+        if (costs.withdrawCosts) {
+          index++;
+        }
       }
     }
     console.log(index);
@@ -37,7 +41,10 @@ export default function CalculatorScreen() {
   }, [costs]);
   // handlers
   const advanceHandler = () => {
-    router.push({ pathname: `/calculator/pager`, params: { initialPage: stepIndex } });
+    router.push({
+      pathname: `/calculator/pager`,
+      params: { initialPage: stepIndex < STEPS.length ? stepIndex : 0 },
+    });
   };
   // UI
   return (
@@ -52,7 +59,21 @@ export default function CalculatorScreen() {
           O tempo estimado pra finalizar é de 10 minutos. Foca que é rapidinho ;)
         </MessageBox>
         <View style={{ flex: 1 }} />
-        <DefaultButton title="Iniciar" onPress={advanceHandler} />
+        <DefaultButton
+          title={
+            stepIndex === 0 ? 'Iniciar' : costs?.processing ? 'Recalcular gastos' : 'Continuar'
+          }
+          onPress={advanceHandler}
+        />
+        {costs?.processing ? (
+          <LinkButton
+            style={{ marginTop: paddings.xl, alignSelf: 'center' }}
+            variant="ghost"
+            onPress={() => router.push('/calculator/results')}
+          >
+            Ver resultados
+          </LinkButton>
+        ) : null}
       </DefaultView>
     </DefaultScrollView>
   );

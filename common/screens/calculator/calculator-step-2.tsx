@@ -28,7 +28,9 @@ export const CalculatorStep2 = ({ costs, onSave, style, ...props }: Props) => {
   const [distanceToDestination, setDistanceToDestination] = useState('');
   const [loading, setLoading] = useState(false);
   const canSubmit =
-    Boolean(distanceFromHome) && Boolean(distanceToOrigin) && Boolean(distanceToDestination);
+    Boolean(distanceFromHome.length) &&
+    Boolean(distanceToOrigin.length) &&
+    Boolean(distanceToDestination.length);
   // side effects
   useEffect(() => {
     if (!costs) return;
@@ -98,7 +100,7 @@ export const CalculatorStep2 = ({ costs, onSave, style, ...props }: Props) => {
       />
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
+        style={{ marginVertical: paddings.xl }}
         title="Salvar e avançar"
         disabled={loading || !canSubmit}
         loading={loading}

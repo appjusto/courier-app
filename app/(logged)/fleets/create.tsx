@@ -17,17 +17,7 @@ import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
-const steps = [
-  {
-    title: 'Dados gerais',
-  },
-  {
-    title: 'Configurações',
-  },
-  {
-    title: 'Resumo',
-  },
-];
+const steps = ['Dados gerais', 'Configurações', 'Resumo'];
 
 export default function CreateFleetScreen() {
   // context

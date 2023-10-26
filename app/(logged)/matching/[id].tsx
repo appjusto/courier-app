@@ -142,7 +142,6 @@ export default function MatchingScreen() {
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
       <ErrorModal
-        title="Ooops! :("
         text="Este pedido já foi aceito por outro entregador"
         visible={expiredModalShown}
         onDismiss={() => {
@@ -183,12 +182,16 @@ export default function MatchingScreen() {
               <Skeleton colors={[colors.neutral50, colors.neutral100]} width={110}>
                 <DefaultText>{formatCurrency(feePerKm)} por KM</DefaultText>
               </Skeleton>
-              <DefaultText style={{ marginTop: paddings.xs }} size="2xl" color="black">
-                {formatCurrency(fee)}
-              </DefaultText>
+              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={140}>
+                <DefaultText style={{ marginTop: paddings.xs }} size="2xl" color="black">
+                  {formatCurrency(fee)}
+                </DefaultText>
+              </Skeleton>
             </View>
             <View style={{ marginLeft: paddings['2xl'], alignItems: 'center' }}>
-              <DefaultText>Distância total</DefaultText>
+              <Skeleton colors={[colors.neutral50, colors.neutral100]} width={110}>
+                <DefaultText>Distância total</DefaultText>
+              </Skeleton>
               <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
                 <DefaultText style={{ marginTop: paddings.xs }} size="2xl" color="black">
                   {formatDistance(totalDistance)}
@@ -322,6 +325,7 @@ export default function MatchingScreen() {
         <LinkButton
           style={{ marginTop: paddings.lg, alignSelf: 'center' }}
           variant="ghost"
+          size="medium"
           onPress={() => {
             trackEvent('Passar corrida');
             setRejectModalShown(true);

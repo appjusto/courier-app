@@ -22,21 +22,24 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
   const api = useContextApi();
   const showToast = useShowToast();
   // refs
+  const carrierPerMonthRef = useRef<TextInput>(null);
   const foodPerDayRef = useRef<TextInput>(null);
   const insurancePerMonthRef = useRef<TextInput>(null);
   const otherCostsPerYearRef = useRef<TextInput>(null);
   const otherCostsPerDayRef = useRef<TextInput>(null);
   // state
+  const [withdrawCosts, setWithdrawCosts] = useState('');
   const [carrierPerMonth, setCarrierPerMonth] = useState('');
   const [foodPerDay, setFoodPerDay] = useState('');
   const [insurancePerMonth, setInsurancePerMonth] = useState('');
   const [otherCostsPerYear, setOtherCostsPerYear] = useState('');
   const [otherCostsPerDay, setOtherCostsPerDay] = useState('');
   const [loading, setLoading] = useState(false);
-  const canSubmit = true;
+  const canSubmit = Boolean(withdrawCosts.length);
   // side effects
   useEffect(() => {
     if (!costs) return;
+    if (costs.withdrawCosts) setWithdrawCosts(String(costs.withdrawCosts));
     if (costs.carrierPerMonth) setCarrierPerMonth(String(costs.carrierPerMonth));
     if (costs.foodPerDay) setFoodPerDay(String(costs.foodPerDay));
     if (costs.insurancePerMonth) setInsurancePerMonth(String(costs.insurancePerMonth));
@@ -51,6 +54,7 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
     api
       .couriers()
       .updateCourierCosts({
+        withdrawCosts: toNumber(withdrawCosts ?? 0),
         carrierPerMonth: toNumber(carrierPerMonth ?? 0),
         foodPerDay: toNumber(foodPerDay ?? 0),
         insurancePerMonth: toNumber(insurancePerMonth ?? 0),
@@ -69,7 +73,20 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
   // UI
   return (
     <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
-      <View>
+      <PatternInput
+        pattern="currency"
+        title="Quanto você gasta por mês com taxas finaceiras?"
+        titleStyle={{ ...typography.md }}
+        subtitle="Considere o valor pago pelos saques pra sua conta"
+        subtitleStyle={{ ...typography.sm }}
+        placeholder="Exemplo: R$ 4,00"
+        keyboardType="numeric"
+        returnKeyType="next"
+        value={withdrawCosts}
+        onChangeText={setWithdrawCosts}
+        onSubmitEditing={() => carrierPerMonthRef.current?.focus()}
+      />
+      <View style={{ marginTop: paddings.xl }}>
         <RoundedText
           style={{ marginBottom: paddings.sm, backgroundColor: colors.neutral50 }}
           size="xs"
@@ -78,6 +95,7 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
           Pergunta opcional
         </RoundedText>
         <PatternInput
+          ref={carrierPerMonthRef}
           titleStyle={{ ...typography.md }}
           pattern="currency"
           title="Quanto você gasta por mês com telefonia móvel?"
@@ -179,7 +197,7 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
 
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
+        style={{ marginVertical: paddings.xl }}
         title="Salvar e avançar"
         disabled={loading || !canSubmit}
         loading={loading}

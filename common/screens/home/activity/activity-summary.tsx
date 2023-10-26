@@ -69,7 +69,7 @@ export const ActivitySummary = ({
             <DefaultText size="xs" style={{ minWidth: 100 }}>
               Seus ganhos
             </DefaultText>
-            <Skeleton colors={[colors.neutral50, colors.neutral100]} width={90}>
+            <Skeleton colors={[colors.neutral50, colors.neutral100]} width={100}>
               <DefaultText size="lg" color="black" style={{ marginTop: paddings.xs }}>
                 {total}
               </DefaultText>

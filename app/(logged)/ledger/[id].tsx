@@ -106,7 +106,7 @@ export default function LedgerEntryScreen() {
                     variant="ghost"
                     onPress={() =>
                       router.push({
-                        pathname: '/(logged)/order/[id]/delivered',
+                        pathname: '/(logged)/order/[id]/detail',
                         params: { id: orderId },
                       })
                     }

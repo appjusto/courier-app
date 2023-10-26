@@ -8,7 +8,7 @@ interface Props extends ViewProps {}
 export const ErrorIcon = ({ style, ...props }: Props) => {
   return (
     <View style={[{}, style]} {...props}>
-      <Image source={EmptyStateImage} style={{ width: 132, height: 138 }} />
+      <Image source={EmptyStateImage} style={{ width: 102, height: 106 }} />
     </View>
   );
 };

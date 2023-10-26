@@ -5,7 +5,7 @@ interface Props {
   size?: number;
 }
 
-export default function Selfie({ size = 60 }: Props) {
+export default function Selfie({ size = 40 }: Props) {
   // context
   const api = useContextApi();
   const path = api.profile().getSelfiePath('160');

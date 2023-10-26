@@ -26,8 +26,8 @@ export const DeliveryItem = ({ order, style, ...props }: Props) => {
         {
           flexDirection: 'row',
           alignItems: 'center',
-          paddingVertical: paddings.md,
-          paddingHorizontal: paddings.lg,
+          paddingBottom: paddings.md,
+          paddingHorizontal: paddings.xs,
         },
         style,
       ]}
@@ -45,7 +45,6 @@ export const DeliveryItem = ({ order, style, ...props }: Props) => {
           <DefaultText>
             {order.type === 'food' ? order.business?.name : 'Entrega rápida'}
           </DefaultText>
-          <OrderStatusBadge status={status} style={{ marginLeft: paddings.sm }} />
         </View>
         {/* subtitle */}
         <DefaultText style={{ marginTop: paddings.xs }} size="xs" color="neutral800">
@@ -56,7 +55,8 @@ export const DeliveryItem = ({ order, style, ...props }: Props) => {
           {`#${order.code}`}
         </DefaultText>
       </View>
-      <View style={{ flex: 1, marginTop: paddings.xs }} />
+      <View style={{ flex: 1 }} />
+      <OrderStatusBadge status={status} style={{ marginRight: paddings.sm }} />
       <ChevronRight size={16} color={colors.neutral800} style={{ marginLeft: paddings.sm }} />
     </View>
   );

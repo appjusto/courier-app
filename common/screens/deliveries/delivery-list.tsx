@@ -1,7 +1,5 @@
 import { ErrorIcon } from '@/common/components/modals/error/icon';
 import { DefaultText } from '@/common/components/texts/DefaultText';
-import borders from '@/common/styles/borders';
-import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Order, WithId } from '@appjusto/types';
 import { router } from 'expo-router';
@@ -16,10 +14,7 @@ interface Props extends ViewProps {
 
 export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Props) => {
   return (
-    <View
-      style={[{ padding: paddings.lg, ...borders.default, borderColor: colors.neutral100 }, style]}
-      {...props}
-    >
+    <View style={[{ padding: paddings.lg }, style]} {...props}>
       {title ? (
         <DefaultText style={{ marginBottom: paddings.lg }} size="lg">
           {title}

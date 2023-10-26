@@ -6,7 +6,7 @@ import { Modal, ModalProps, Pressable, View } from 'react-native';
 import { ErrorIcon } from './icon';
 
 interface Props extends ModalProps {
-  title: string;
+  title?: string;
   text: string;
   dismissLabel?: string;
   onDismiss: () => void;
@@ -24,13 +24,15 @@ export const ErrorModal = ({ title, text, dismissLabel, onDismiss, children, ...
             }}
           >
             <View style={{ padding: paddings.lg, backgroundColor: colors.white }}>
-              <ErrorIcon />
-              <DefaultText
-                style={{ marginVertical: paddings['2xl'], textAlign: 'center' }}
-                size="lg"
-              >
-                {title}
-              </DefaultText>
+              <ErrorIcon style={{ alignSelf: 'center' }} />
+              {title ? (
+                <DefaultText
+                  style={{ marginVertical: paddings['2xl'], textAlign: 'center' }}
+                  size="lg"
+                >
+                  {title}
+                </DefaultText>
+              ) : null}
 
               <DefaultText size="md" style={{ textAlign: 'center' }}>
                 {text}

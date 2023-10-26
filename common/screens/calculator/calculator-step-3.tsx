@@ -182,7 +182,7 @@ export const CalculatorStep3 = ({ costs, onSave, style, ...props }: Props) => {
       </View>
       <View style={{ flex: 1 }} />
       <DefaultButton
-        style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}
+        style={{ marginVertical: paddings.xl }}
         title="Salvar e avançar"
         disabled={loading || !canSubmit}
         loading={loading}

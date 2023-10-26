@@ -1,4 +1,5 @@
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import colors from '@/common/styles/colors';
 import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
@@ -16,6 +17,7 @@ export const WelcomeStep = ({ icon, header, text, ...props }: PageProps) => {
   // UI
   return (
     <View style={{ ...screens.headless }} {...props}>
+      <View style={{ flex: 0.3, backgroundColor: colors.neutral50 }} />
       <View
         style={{
           // flex: 1,
@@ -23,6 +25,7 @@ export const WelcomeStep = ({ icon, header, text, ...props }: PageProps) => {
           alignItems: 'center',
           // marginTop: paddings['2xl'],
           // borderWidth: 1,
+          backgroundColor: colors.neutral50,
         }}
       >
         {icon}

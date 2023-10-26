@@ -34,7 +34,6 @@ export const useRouterAccordingOrderStatus = (
   if (modalShown) {
     return (
       <ErrorModal
-        title="Ooops! :("
         text={modalText}
         visible={modalShown}
         onDismiss={() => {

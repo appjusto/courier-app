@@ -77,7 +77,14 @@ export default function HomeScreen() {
             style={{ marginTop: paddings.lg }}
           />
         </View>
-        <View style={{ flex: 1, padding: paddings.lg, backgroundColor: colors.neutral50 }}>
+        <View
+          style={{
+            flex: 1,
+            paddingVertical: paddings.sm,
+            paddingHorizontal: paddings.lg,
+            backgroundColor: colors.neutral50,
+          }}
+        >
           <OngoingOrdersCards />
           <ActiveRequestsCards />
           <Pressable onPress={() => router.push('/(logged)/howitworks')}>
@@ -87,14 +94,14 @@ export default function HomeScreen() {
               subtitle="Conheça as vantagens e entenda os benefícios que temos para você"
             />
           </Pressable>
-          <Pressable style={{ marginTop: paddings.lg }} onPress={() => shareAppJusto()}>
+          <Pressable style={{ marginTop: paddings.sm }} onPress={() => shareAppJusto()}>
             <DefaultCard
               icon={<DefaultCardIcon iconName="chat" />}
               title="Divulgue o AppJusto"
               subtitle="Compartilhe esse movimento por uma economia mais justa"
             />
           </Pressable>
-          <Pressable style={{ marginTop: paddings.lg }} onPress={() => setSupportModalShown(true)}>
+          <Pressable style={{ marginTop: paddings.sm }} onPress={() => setSupportModalShown(true)}>
             <DefaultCard
               icon={<DefaultCardIcon iconName="alert" variant="warning" />}
               title="Preciso de ajuda"

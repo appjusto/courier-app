@@ -28,15 +28,16 @@ export default function DeliveriesIndex() {
       <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
         <AccountSummary />
         <LedgerEntriesList
-          style={{ marginTop: paddings.lg }}
+          style={{ marginTop: paddings.sm }}
           title="Seus últimos ganhos"
-          emptyText="Ops! Não encontramos nenhum ganho nas últimas 24hs. Bora ficar disponível e
+          emptyText="Ops! Não encontramos nenhum ganho recente. Bora ficar disponível e
           pegar umas corridas?"
           entries={entries}
         >
           <DefaultButton
             style={{ marginTop: paddings.lg }}
             title="Ver histórico de ganhos"
+            size="sm"
             variant="outline"
             onPress={() => router.push('/deliveries/ledger')}
           />

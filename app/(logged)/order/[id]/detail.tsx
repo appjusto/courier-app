@@ -105,8 +105,7 @@ export default function OrderDetailScreen() {
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
-                {`${order.business?.name ? `${order.business.name} - ` : ''}${order.destination
-                  ?.address.main}`}
+                {order.destination?.address.main}
               </DefaultText>
             </View>
           </View>

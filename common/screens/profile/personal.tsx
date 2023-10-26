@@ -159,7 +159,6 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
           blurOnSubmit={false}
           onChangeText={setName}
           onSubmitEditing={() => surnameRef.current?.focus()}
-          maxLength={15}
         />
         <DefaultInput
           ref={surnameRef}
@@ -172,7 +171,6 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
           autoCapitalize="words"
           editable={!profileState.includes('approved') || editing}
           blurOnSubmit={false}
-          maxLength={15}
           onChangeText={setSurname}
           onSubmitEditing={() => cpfRef.current?.focus()}
         />

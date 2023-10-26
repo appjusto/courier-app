@@ -3,6 +3,7 @@ import { formatCurrency } from '@/common/formatters/currency';
 import { formatTimestamp } from '@/common/formatters/timestamp';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import { isLargeScreen } from '@/common/version/device';
 import { LedgerEntry, WithId } from '@appjusto/types';
 import { ChevronRight, Package } from 'lucide-react-native';
 import { View, ViewProps } from 'react-native';
@@ -21,7 +22,7 @@ export const LedgerEntryItem = ({ entry, style, ...props }: Props) => {
           flexDirection: 'row',
           alignItems: 'center',
           paddingVertical: paddings.md,
-          paddingHorizontal: paddings.sm,
+          paddingHorizontal: paddings.xs,
         },
         style,
       ]}
@@ -32,7 +33,7 @@ export const LedgerEntryItem = ({ entry, style, ...props }: Props) => {
       {/* info */}
       <View style={{ marginLeft: paddings.lg }}>
         {/* title */}
-        <DefaultText>
+        <DefaultText size="sm">
           {entry.orderId
             ? `Corrida${entry.orderCode ? ` #${entry.orderCode}` : ''}`
             : 'Ganho extra'}
@@ -42,11 +43,12 @@ export const LedgerEntryItem = ({ entry, style, ...props }: Props) => {
           <DefaultText style={{ marginTop: paddings.xs }} size="xs" color="neutral800">
             {formatTimestamp(entry.updatedOn ?? entry.createdOn)}
           </DefaultText>
-          <LedgerEntryStatusBadge status={entry.status} style={{ marginLeft: paddings.sm }} />
         </View>
       </View>
       <View style={{ flex: 1, marginTop: paddings.xs }} />
-      <DefaultText size="md" color="black">
+      <LedgerEntryStatusBadge status={entry.status} />
+      <View style={{ flex: 1, marginTop: paddings.xs }} />
+      <DefaultText size={isLargeScreen() ? 'md' : 'sm'} color="black">
         {formatCurrency(entry.value)}
       </DefaultText>
       <ChevronRight size={16} color={colors.neutral800} style={{ marginLeft: paddings.sm }} />

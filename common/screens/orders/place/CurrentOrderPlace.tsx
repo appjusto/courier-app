@@ -26,16 +26,10 @@ export const CurrentOrderPlace = ({ order, style, ...props }: Props) => {
         </DefaultText>
       ) : null}
       <DefaultText size="sm" color="black">
-        {currentPlace.address.main}
+        {`${currentPlace.address.main}${
+          currentPlace.additionalInfo ? ' - ' + currentPlace.additionalInfo : ''
+        }`}
       </DefaultText>
-      <DefaultText size="xs" color="black">
-        {currentPlace.address.secondary}
-      </DefaultText>
-      {currentPlace.additionalInfo ? (
-        <DefaultText size="xs" color="neutral800">
-          {currentPlace.additionalInfo}
-        </DefaultText>
-      ) : null}
       {currentPlace.instructions ? (
         <DefaultText size="xs" color="neutral800">
           {currentPlace.instructions}

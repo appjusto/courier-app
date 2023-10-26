@@ -37,7 +37,7 @@ export const OngoingOrdersCards = ({ style, ...props }: Props) => {
         return (
           <Pressable
             key={order.id}
-            style={{ marginBottom: paddings.lg }}
+            style={{ marginBottom: paddings.sm }}
             onPress={() => {
               router.push({ pathname: '/(logged)/order/[id]/ongoing', params: { id } });
             }}

@@ -6,6 +6,7 @@ import { WelcomeStep1Image } from '@/common/screens/unlogged/welcome/images/Welc
 import { WelcomeStep2Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep2Image';
 import { WelcomeStep3Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep3Image';
 import { WelcomeStep4Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep4Image';
+import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, router } from 'expo-router';
@@ -28,6 +29,7 @@ export default function Welcome() {
       <Stack.Screen
         options={{
           headerShown: true,
+          headerStyle: { backgroundColor: colors.neutral50 },
           headerTitle: () => (
             <DefaultText style={{ marginTop: 0, textAlign: 'center' }} size="md-body-app" bold>
               appjusto
@@ -74,7 +76,7 @@ export default function Welcome() {
           icon={<WelcomeStep4Image />}
           header={['Garanta seus direitos do governo sendo MEI']}
           text={[
-            'Pra entrar no appjusto, você precisa ser um MicroEmpreendedor Individual (MEI). Ter o cadastro e pagar seus impostos em dia garantem direitos como auxílio financeiro em caso de afastamento, aposentadoria e possibilidade de empréstimos especiais.',
+            'Pra entrar no appjusto, você precisa ser um MEI. Ter o cadastro e pagar seus impostos em dia garantem direitos como auxílio financeiro em caso de afastamento, aposentadoria e possibilidade de empréstimos especiais.',
           ]}
           key="4"
         />

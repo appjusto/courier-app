@@ -189,7 +189,6 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
           blurOnSubmit={false}
           onChangeText={setName}
           onSubmitEditing={() => cepRef.current?.focus()}
-          maxLength={15}
         />
         <PatternInput
           ref={cepRef}

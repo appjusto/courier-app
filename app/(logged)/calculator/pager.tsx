@@ -11,7 +11,7 @@ import { useRef, useState } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
-const STEPS = ['Entregas', 'Distâncias', 'Transporte', 'Custos', 'Dados adicionais'];
+const STEPS = ['Entregas', 'Distâncias', 'Transporte', 'Custos'];
 
 export default function CalculatorPager() {
   // context

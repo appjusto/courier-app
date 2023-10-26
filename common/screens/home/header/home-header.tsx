@@ -1,6 +1,5 @@
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
-import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { ShowToast } from '@/common/components/toast/Toast';
@@ -20,7 +19,6 @@ export const HomeHeader = () => {
   // context
   const api = useContextApi();
   const profile = useContextProfile();
-  const location = useContextLocation();
   const status = profile?.status;
   const working = status === 'available' || status === 'dispatching';
   const showToast = useShowToast();
@@ -69,11 +67,6 @@ export const HomeHeader = () => {
         <View>
           <DefaultText size="xxs" color="neutral700">{`ID #${profile.code}`}</DefaultText>
           <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText>
-          <DefaultText size="xxs" color="neutral700">
-            {location
-              ? `${location.latitude.toFixed(6)},${location.longitude.toFixed(6)}`
-              : 'sem localização'}
-          </DefaultText>
         </View>
       </View>
       <View style={{ flex: 1 }} />

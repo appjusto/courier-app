@@ -3,6 +3,7 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useStorageFile } from '@/api/storage/useStorageFile';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { ConfirmModal } from '@/common/components/modals/confirm-modal';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { Loading } from '@/common/components/views/Loading';
@@ -104,26 +105,28 @@ export default function PendingIndex() {
         O tempo estimado pra finalizar é de 10 minutos. Foca que é rapidinho ;)
       </MessageBox>
       <View style={{ flex: 1 }} />
-      {canSubmit ? (
-        <DefaultButton
-          style={{ marginBottom: paddings.lg }}
-          variant="outline"
-          title="Alterar cadastro"
-          onPress={() => router.push('/pending/pager')}
-        ></DefaultButton>
-      ) : null}
-      <DefaultButton
-        style={{ marginBottom: paddings.lg }}
-        variant="outline"
-        title="Sair"
-        onPress={() => setLogoutModalVisible(true)}
-      ></DefaultButton>
       <DefaultButton
         title={buttonTitle}
         disabled={!canAdvance}
         loading={!canAdvance}
         onPress={advanceHandler}
-      ></DefaultButton>
+      />
+      {canSubmit ? (
+        <DefaultButton
+          style={{ marginTop: paddings.lg }}
+          variant="outline"
+          title="Alterar cadastro"
+          onPress={() => router.push('/pending/pager')}
+        />
+      ) : null}
+      <LinkButton
+        style={{ alignSelf: 'center' }}
+        variant="ghost"
+        size="medium"
+        onPress={() => setLogoutModalVisible(true)}
+      >
+        Sair
+      </LinkButton>
     </View>
   );
 }

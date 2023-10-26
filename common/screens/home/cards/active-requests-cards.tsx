@@ -21,7 +21,7 @@ export const ActiveRequestsCards = ({ style, ...props }: Props) => {
       {requests.map((request) => (
         <Pressable
           key={request.id}
-          style={{ marginBottom: paddings.lg }}
+          style={{ marginBottom: paddings.sm }}
           onPress={() =>
             router.push({ pathname: '/(logged)/matching/[id]', params: { id: request.id } })
           }
