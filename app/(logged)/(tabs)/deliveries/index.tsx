@@ -5,14 +5,11 @@ import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { Loading } from '@/common/components/views/Loading';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
-import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { AccountSummary } from '@/common/screens/deliveries/history/account/account-summary';
 import { LedgerEntriesList } from '@/common/screens/deliveries/ledger/ledger-entries-list';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { useRouter } from 'expo-router';
-import { Pressable } from 'react-native';
 
 export default function DeliveriesIndex() {
   // context
@@ -49,14 +46,6 @@ export default function DeliveriesIndex() {
             Ver histórico de corridas
           </LinkButton>
         </LedgerEntriesList>
-        <Pressable onPress={() => router.push('/calculator/')}>
-          <DefaultCard
-            style={{ marginTop: paddings.md }}
-            icon={<DefaultCardIcon iconName="file" />}
-            title="Calculadora de ganhos"
-            subtitle="Calcule seus ganhos por corrida e por hora"
-          />
-        </Pressable>
       </DefaultView>
     </DefaultScrollView>
   );

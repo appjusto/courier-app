@@ -6,8 +6,9 @@ import { HPendingSteps } from '@/common/screens/profile/pending/HPendingSteps';
 import ProfilePersonalData from '@/common/screens/profile/personal';
 import screens from '@/common/styles/screens';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import PagerView from 'react-native-pager-view';
 
 const STEPS = ['Seus dados', 'Dados PJ', 'Banco', 'Documentos'];
@@ -20,11 +21,18 @@ export default function PendingPager() {
   let initialPage = parseInt(search.initialPage, 10);
   initialPage = isNaN(initialPage) ? 0 : initialPage;
   // refs
+  const stepsRef = useRef<ScrollView>(null);
   const pagerViewRef = useRef<PagerView>(null);
   // state
   const [stepIndex, setStepIndex] = useState(initialPage);
   // tracking
   useTrackScreenView('Cadastro');
+  // side effects
+  useEffect(() => {
+    if (stepIndex > STEPS.length / 2) {
+      stepsRef?.current?.scrollToEnd();
+    }
+  }, [stepIndex]);
   // handlers
   const nextHandler = () => {
     if (stepIndex + 1 < STEPS.length) {
@@ -36,7 +44,7 @@ export default function PendingPager() {
   // UI
   return (
     <View style={{ ...screens.default }}>
-      <HPendingSteps steps={STEPS} index={stepIndex} />
+      <HPendingSteps ref={stepsRef} steps={STEPS} index={stepIndex} />
       <PagerView
         ref={pagerViewRef}
         style={{ flex: 1 }}

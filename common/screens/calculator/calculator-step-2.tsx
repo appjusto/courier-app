@@ -29,8 +29,8 @@ export const CalculatorStep2 = ({ costs, onSave, style, ...props }: Props) => {
   const [loading, setLoading] = useState(false);
   const canSubmit =
     Boolean(distanceFromHome.length) &&
-    Boolean(distanceToOrigin.length) &&
-    Boolean(distanceToDestination.length);
+    Boolean(toNumber(distanceToOrigin)) &&
+    Boolean(toNumber(distanceToDestination));
   // side effects
   useEffect(() => {
     if (!costs) return;

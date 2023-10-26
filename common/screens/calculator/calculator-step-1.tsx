@@ -30,10 +30,10 @@ export const CalculatorStep1 = ({ costs, onSave, style, ...props }: Props) => {
   const [revenuePerOrder, setRevenuePerOrder] = useState('');
   const [loading, setLoading] = useState(false);
   const canSubmit =
-    Boolean(hoursPerDay) &&
-    Boolean(ordersPerDay) &&
-    Boolean(daysPerWeek) &&
-    Boolean(revenuePerOrder);
+    Boolean(toNumber(hoursPerDay)) &&
+    Boolean(toNumber(ordersPerDay)) &&
+    Boolean(toNumber(daysPerWeek)) &&
+    Boolean(toNumber(revenuePerOrder));
   // side effects
   useEffect(() => {
     if (!costs) return;

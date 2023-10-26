@@ -61,14 +61,15 @@ export default function CalculatorScreen() {
         <View style={{ flex: 1 }} />
         <DefaultButton
           title={
-            stepIndex === 0 ? 'Iniciar' : costs?.processing ? 'Recalcular gastos' : 'Continuar'
+            stepIndex === 0 ? 'Iniciar' : costs?.processing ? 'Recalcular ganhos' : 'Continuar'
           }
           onPress={advanceHandler}
         />
         {costs?.processing ? (
           <LinkButton
-            style={{ marginTop: paddings.xl, alignSelf: 'center' }}
+            style={{ marginTop: paddings.md, alignSelf: 'center' }}
             variant="ghost"
+            size="medium"
             onPress={() => router.push('/calculator/results')}
           >
             Ver resultados

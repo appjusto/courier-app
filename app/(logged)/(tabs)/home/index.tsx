@@ -6,7 +6,6 @@ import {
   useContextSetLocationDisclosureShown,
 } from '@/api/location/context/LocationContext';
 import { useTodaysOrdersSummary } from '@/api/orders/useTodaysOrdersSummary';
-import { shareAppJusto } from '@/api/platform/shareAppJusto';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -94,15 +93,17 @@ export default function HomeScreen() {
               subtitle="Conheça as vantagens e entenda os benefícios que temos para você"
             />
           </Pressable>
-          <Pressable style={{ marginTop: paddings.sm }} onPress={() => shareAppJusto()}>
+          <Pressable onPress={() => router.push('/calculator/')}>
             <DefaultCard
-              icon={<DefaultCardIcon iconName="chat" />}
-              title="Divulgue o AppJusto"
-              subtitle="Compartilhe esse movimento por uma economia mais justa"
+              style={{ marginTop: paddings.sm }}
+              icon={<DefaultCardIcon iconName="file" />}
+              title="Calculadora de ganhos"
+              subtitle="Calcule seus ganhos por corrida e por hora"
             />
           </Pressable>
-          <Pressable style={{ marginTop: paddings.sm }} onPress={() => setSupportModalShown(true)}>
+          <Pressable onPress={() => setSupportModalShown(true)}>
             <DefaultCard
+              style={{ marginTop: paddings.sm }}
               icon={<DefaultCardIcon iconName="alert" variant="warning" />}
               title="Preciso de ajuda"
               subtitle="Fale com nosso time ou faça uma denúncia"

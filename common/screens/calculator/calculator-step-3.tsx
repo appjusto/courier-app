@@ -3,6 +3,7 @@ import { DefaultButton } from '@/common/components/buttons/default/DefaultButton
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
 import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
+import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import colors from '@/common/styles/colors';
@@ -36,7 +37,8 @@ export const CalculatorStep3 = ({ costs, onSave, style, ...props }: Props) => {
   const [maintenancePerYear, setMaintenancePerYear] = useState('');
   const [loading, setLoading] = useState(false);
   const canSubmit =
-    Boolean(vehicle) && (vehicle !== 'motorcycle' || (Boolean(kmWithLiter) && Boolean(gasPrice)));
+    Boolean(vehicle) &&
+    (vehicle !== 'motorcycle' || (Boolean(toNumber(kmWithLiter)) && Boolean(toNumber(gasPrice))));
   // side effects
   useEffect(() => {
     if (!costs) return;
@@ -75,7 +77,9 @@ export const CalculatorStep3 = ({ costs, onSave, style, ...props }: Props) => {
   // UI
   return (
     <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
+      <DefaultText size="md">Que tipo de veículo que você usa?</DefaultText>
       <RadioButton
+        style={{ marginTop: paddings.xs }}
         textStyle={{ ...typography.md }}
         title="Moto ou veículo a gasolina, álcool ou diesel"
         onPress={() => setVehicle('motorcycle')}
