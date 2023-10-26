@@ -56,7 +56,7 @@ export default function HomeScreen() {
   };
   // UI
   return (
-    <DefaultScrollView style={{ ...screens.default }}>
+    <View style={{ ...screens.default }}>
       <LocationDisclosureModal
         visible={shouldShowLocationDisclosure}
         onDismiss={() => {
@@ -82,50 +82,52 @@ export default function HomeScreen() {
       />
       <DefaultView style={screens.headless}>
         <HomeHeader />
-        <View style={{ padding: paddings.lg }}>
-          <HomeFleet />
-          <ActivitySummary
-            entriesSummary={entriesSummary}
-            ordersSummary={ordersSummary}
-            title="Corridas nas últimas 24h"
-            style={{ marginTop: paddings.lg }}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            paddingVertical: paddings.sm,
-            paddingHorizontal: paddings.lg,
-            backgroundColor: colors.neutral50,
-          }}
-        >
-          <OngoingOrdersCards />
-          <ActiveRequestsCards />
-          <Pressable onPress={() => router.push('/(logged)/howitworks')}>
-            <DefaultCard
-              icon={<DefaultCardIcon iconName="file" />}
-              title="Como funciona o AppJusto"
-              subtitle="Conheça as vantagens e entenda os benefícios que temos para você"
+        <DefaultScrollView>
+          <View style={{ padding: paddings.lg }}>
+            <HomeFleet />
+            <ActivitySummary
+              entriesSummary={entriesSummary}
+              ordersSummary={ordersSummary}
+              title="Corridas nas últimas 24h"
+              style={{ marginTop: paddings.lg }}
             />
-          </Pressable>
-          <Pressable onPress={() => router.push('/calculator/')}>
-            <DefaultCard
-              style={{ marginTop: paddings.sm }}
-              icon={<DefaultCardIcon iconName="file" />}
-              title="Calculadora de ganhos"
-              subtitle="Calcule seus ganhos por corrida e por hora"
-            />
-          </Pressable>
-          <Pressable onPress={() => setSupportModalShown(true)}>
-            <DefaultCard
-              style={{ marginTop: paddings.sm }}
-              icon={<DefaultCardIcon iconName="alert" variant="warning" />}
-              title="Preciso de ajuda"
-              subtitle="Fale com nosso time ou faça uma denúncia"
-            />
-          </Pressable>
-        </View>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              paddingVertical: paddings.sm,
+              paddingHorizontal: paddings.lg,
+              backgroundColor: colors.neutral50,
+            }}
+          >
+            <OngoingOrdersCards />
+            <ActiveRequestsCards />
+            <Pressable onPress={() => router.push('/(logged)/howitworks')}>
+              <DefaultCard
+                icon={<DefaultCardIcon iconName="file" />}
+                title="Como funciona o AppJusto"
+                subtitle="Conheça as vantagens e entenda os benefícios que temos para você"
+              />
+            </Pressable>
+            <Pressable onPress={() => router.push('/calculator/')}>
+              <DefaultCard
+                style={{ marginTop: paddings.sm }}
+                icon={<DefaultCardIcon iconName="file" />}
+                title="Calculadora de ganhos"
+                subtitle="Calcule seus ganhos por corrida e por hora"
+              />
+            </Pressable>
+            <Pressable onPress={() => setSupportModalShown(true)}>
+              <DefaultCard
+                style={{ marginTop: paddings.sm }}
+                icon={<DefaultCardIcon iconName="alert" variant="warning" />}
+                title="Preciso de ajuda"
+                subtitle="Fale com nosso time ou faça uma denúncia"
+              />
+            </Pressable>
+          </View>
+        </DefaultScrollView>
       </DefaultView>
-    </DefaultScrollView>
+    </View>
   );
 }

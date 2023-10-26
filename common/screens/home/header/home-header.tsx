@@ -3,6 +3,7 @@ import { trackEvent } from '@/api/analytics/track';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { ShowToast } from '@/common/components/toast/Toast';
+import { HR } from '@/common/components/views/HR';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
@@ -46,38 +47,58 @@ export const HomeHeader = () => {
   // UI
   if (!profile) return null;
   return (
-    <View style={{ padding: paddings.lg, flexDirection: 'row', alignItems: 'center' }}>
-      <Pressable
-        delayLongPress={1000}
-        onLongPress={() => {
-          inAppMessaging()
-            .triggerEvent('Disponibilidade')
-            .then(() => {
-              ShowToast('triggerEvent: purchase');
-            })
-            .catch((error) => {
-              ShowToast(JSON.stringify(error));
-            });
+    <View>
+      <View
+        style={{
+          padding: paddings.lg,
+          flexDirection: 'row',
+          alignItems: 'center',
         }}
       >
-        <Selfie />
-      </Pressable>
-      <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
-        <DefaultText size="md">{profile.name}</DefaultText>
-        <View>
-          <DefaultText size="xxs" color="neutral700">{`ID #${profile.code}`}</DefaultText>
-          <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText>
+        <Pressable
+          delayLongPress={1000}
+          onLongPress={() => {
+            inAppMessaging()
+              .triggerEvent('Disponibilidade')
+              .then(() => {
+                ShowToast('triggerEvent: purchase');
+              })
+              .catch((error) => {
+                ShowToast(JSON.stringify(error));
+              });
+          }}
+        >
+          <Selfie />
+        </Pressable>
+        <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
+          <DefaultText size="md">{profile.name}</DefaultText>
+          <View>
+            <DefaultText size="xxs" color="neutral700">{`ID #${profile.code}`}</DefaultText>
+            <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText>
+          </View>
         </View>
+        <View style={{ flex: 1 }} />
+        <Switch
+          trackColor={{ false: colors.neutral200, true: colors.black }}
+          thumbColor={colors.white}
+          ios_backgroundColor={colors.white}
+          onValueChange={toggleWorking}
+          value={working}
+        />
+        <ProfileStatusBadge style={{ marginLeft: paddings.xs }} />
       </View>
-      <View style={{ flex: 1 }} />
-      <Switch
-        trackColor={{ false: colors.neutral200, true: colors.black }}
-        thumbColor={colors.white}
-        ios_backgroundColor={colors.white}
-        onValueChange={toggleWorking}
-        value={working}
+      <HR
+        style={{
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+        }}
       />
-      <ProfileStatusBadge style={{ marginLeft: paddings.xs }} />
     </View>
   );
 };

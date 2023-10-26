@@ -99,7 +99,6 @@ export default function PendingIndex() {
       <DefaultText size="xl" style={{ marginVertical: paddings.xl }}>
         Vamos começar o seu processo de cadastro no AppJusto
       </DefaultText>
-      {/* <ProfilePersonalData /> */}
       <PendingSteps steps={STEPS} index={stepIndex} />
       <MessageBox style={{ marginVertical: paddings.xl }}>
         O tempo estimado pra finalizar é de 10 minutos. Foca que é rapidinho ;)

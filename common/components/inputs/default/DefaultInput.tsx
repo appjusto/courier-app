@@ -34,6 +34,8 @@ export const DefaultInput = forwardRef(
       inputStyle,
       titleStyle,
       subtitleStyle,
+      onFocus,
+      onBlur,
       onPress,
       ...props
     }: DefaultInputProps,
@@ -50,6 +52,7 @@ export const DefaultInput = forwardRef(
       if (!value) return colors.neutral200;
       return colors.neutral700;
     };
+    console.log('focused', focused, borderColor());
     return (
       <View style={style}>
         <Pressable
@@ -98,8 +101,14 @@ export const DefaultInput = forwardRef(
               onPressOut={() => {
                 if (onPress) onPress();
               }}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
+              onFocus={(e) => {
+                setFocused(true);
+                if (onFocus) onFocus(e);
+              }}
+              onBlur={(e) => {
+                setFocused(false);
+                if (onBlur) onBlur(e);
+              }}
               value={value}
               {...props}
             />

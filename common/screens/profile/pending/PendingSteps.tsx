@@ -21,10 +21,9 @@ export const PendingSteps = ({ steps, index, style, ...props }: Props) => {
           {i + 1 < steps.length ? (
             <View
               style={{
-                flex: 1,
                 width: 2,
                 height: 20,
-                left: 14,
+                left: 13,
                 backgroundColor: i < index ? colors.success900 : colors.neutral200,
               }}
             />

@@ -7,13 +7,10 @@ import { PeriodControl } from '@/common/screens/deliveries/history/period-contro
 import { WithdrawList } from '@/common/screens/deliveries/withdraws/withdraws-list';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
-import { useRouter } from 'expo-router';
 import { isEqual } from 'lodash';
 import { useCallback, useRef, useState } from 'react';
 
 export default function WithdrawsScreen() {
-  // context
-  const router = useRouter();
   // state
   const startOfDay = useRef(getStartOfDay())?.current;
   const endOfDay = useRef(getEndOfDay())?.current;

@@ -45,7 +45,7 @@ export default function FleetProcess() {
           <DefaultButton
             style={{ marginTop: paddings.lg }}
             title="Ver frotas"
-            onPress={() => router.push('/profile/fleets/')}
+            onPress={() => router.push('/fleets/search')}
           />
         </View>
       ) : null}
