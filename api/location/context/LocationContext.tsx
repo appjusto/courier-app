@@ -1,7 +1,4 @@
-import {
-  LocationDisclosureStatus,
-  useLocationDisclosureStatus,
-} from '@/api/location/useLocationDisclosureStatus';
+import { useLocationDisclosureStatus } from '@/api/location/useLocationDisclosureStatus';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { LatLng } from '@appjusto/types';
 import React from 'react';
@@ -13,7 +10,7 @@ interface Props {
 
 interface Value {
   location?: LatLng;
-  locationDisclosureStatus?: LocationDisclosureStatus;
+  shouldShowLocationDisclosure?: boolean;
   setLocationDisclosureShown?: () => void;
 }
 
@@ -25,12 +22,13 @@ export const LocationProvider = (props: Props) => {
   const status = profile?.status;
   const working = status === 'available' || status === 'dispatching';
   // state
-  const { locationDisclosureStatus, setLocationDisclosureShown } = useLocationDisclosureStatus();
-  const { location } = useBackgroundLocation(working && locationDisclosureStatus === 'shown');
+  const { shouldShowLocationDisclosure, setLocationDisclosureShown } =
+    useLocationDisclosureStatus();
+  const { location } = useBackgroundLocation(working && !shouldShowLocationDisclosure);
   // result
   return (
     <LocationContext.Provider
-      value={{ location, locationDisclosureStatus, setLocationDisclosureShown }}
+      value={{ location, shouldShowLocationDisclosure, setLocationDisclosureShown }}
     >
       {props.children}
     </LocationContext.Provider>
@@ -43,10 +41,10 @@ export const useContextLocation = () => {
   return value.location;
 };
 
-export const useContextLocationDisclosureStatus = () => {
+export const useContextShouldShowLocationDisclosure = () => {
   const value = React.useContext(LocationContext);
   if (!value) throw new Error('Api fora de contexto.');
-  return value.locationDisclosureStatus;
+  return value.shouldShowLocationDisclosure;
 };
 
 export const useContextSetLocationDisclosureShown = () => {

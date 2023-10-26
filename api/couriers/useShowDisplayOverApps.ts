@@ -1,14 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 
-const KEY = 'disclosure-status';
+const KEY = 'display-over-apps-status';
 
-export const useLocationDisclosureStatus = () => {
+export const useShowDisplayOverApps = (shouldShowLocationDisclosure?: boolean) => {
   // state
   const [shouldShow, setShouldShow] = useState<boolean>();
   // side effects
   useEffect(() => {
-    if (shouldShow === undefined) {
+    if (shouldShowLocationDisclosure) {
+      setShouldShow(false);
+    } else if (shouldShow === undefined) {
       AsyncStorage.getItem(KEY)
         .then((value) => {
           setShouldShow(!value);
@@ -18,9 +20,9 @@ export const useLocationDisclosureStatus = () => {
           setShouldShow(true);
         });
     }
-  }, [shouldShow]);
+  }, [shouldShow, shouldShowLocationDisclosure]);
   // result
-  const setLocationDisclosureShown = useCallback(() => {
+  const setDisplayOverAppsShown = useCallback(() => {
     AsyncStorage.setItem(KEY, 'shown')
       .then(() => {
         setShouldShow(false);
@@ -30,5 +32,5 @@ export const useLocationDisclosureStatus = () => {
         setShouldShow(true);
       });
   }, []);
-  return { shouldShowLocationDisclosure: shouldShow, setLocationDisclosureShown };
+  return { shouldShowdisplayOverApps: shouldShow, setDisplayOverAppsShown };
 };
