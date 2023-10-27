@@ -105,119 +105,120 @@ export default function CalculatorResultsScreen() {
           </DefaultText>
           calculado pelo DIEESE, considerando uma jornada de 220 horas por mês.
         </DefaultText>
-        <ViewShot
-          ref={ref}
-          style={{ backgroundColor: colors.white }}
-          options={{ fileName: 'meus-ganhos', format: 'jpg', quality: 0.9 }}
-        >
-          <View
-            style={{
-              marginTop: paddings.lg,
-              padding: paddings.lg,
-              ...borders.default,
-              borderColor: colors.neutral100,
-            }}
+        <View style={{ marginTop: paddings.lg }}>
+          <ViewShot
+            style={{ backgroundColor: colors.white }}
+            ref={ref}
+            options={{ fileName: 'meus-ganhos', format: 'jpg', quality: 0.9 }}
           >
-            <DefaultText size="lg">Custos fixos</DefaultText>
-            <DefaultText style={{ marginTop: paddings.xs }} size="md" color="neutral700">
-              Não diretamente relacionados ao número de pedidos
-            </DefaultText>
             <View
               style={{
-                marginTop: paddings.lg,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginRight: paddings.lg,
+                padding: paddings.lg,
+                ...borders.default,
+                borderColor: colors.neutral100,
               }}
             >
-              <View>
-                <DefaultText>Por dia</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.dailyCosts ?? 0)}
-                </DefaultText>
-              </View>
-              <View>
-                <DefaultText>Por mês</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.monthlyCosts ?? 0)}
-                </DefaultText>
-              </View>
-              <View>
-                <DefaultText>Por ano</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.yearlyCosts ?? 0)}
-                </DefaultText>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: paddings.lg,
-              padding: paddings.lg,
-              ...borders.default,
-              borderColor: colors.neutral100,
-            }}
-          >
-            <DefaultText size="lg">Custos por pedidos</DefaultText>
-            <View
-              style={{
-                marginTop: paddings.lg,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginRight: paddings.lg,
-              }}
-            >
-              <View>
-                <DefaultText>Combustível</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.orderGasCost ?? 0)}
-                </DefaultText>
-              </View>
-              <View>
-                <DefaultText>Proporcional diário</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.dailyCostsPerOrder ?? 0)}
-                </DefaultText>
+              <DefaultText size="lg">Custos fixos</DefaultText>
+              <DefaultText style={{ marginTop: paddings.xs }} size="md" color="neutral700">
+                Não diretamente relacionados ao número de pedidos
+              </DefaultText>
+              <View
+                style={{
+                  marginTop: paddings.lg,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginRight: paddings.lg,
+                }}
+              >
+                <View>
+                  <DefaultText>Por dia</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.dailyCosts ?? 0)}
+                  </DefaultText>
+                </View>
+                <View>
+                  <DefaultText>Por mês</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.monthlyCosts ?? 0)}
+                  </DefaultText>
+                </View>
+                <View>
+                  <DefaultText>Por ano</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.yearlyCosts ?? 0)}
+                  </DefaultText>
+                </View>
               </View>
             </View>
             <View
               style={{
                 marginTop: paddings.lg,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginRight: paddings.lg,
+                padding: paddings.lg,
+                ...borders.default,
+                borderColor: colors.neutral100,
               }}
             >
-              <View>
-                <DefaultText>Propocional mensal</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.monthlyCostsPerOrder ?? 0)}
-                </DefaultText>
+              <DefaultText size="lg">Custos por pedidos</DefaultText>
+              <View
+                style={{
+                  marginTop: paddings.lg,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginRight: paddings.lg,
+                }}
+              >
+                <View>
+                  <DefaultText>Combustível</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.orderGasCost ?? 0)}
+                  </DefaultText>
+                </View>
+                <View>
+                  <DefaultText>Proporcional diário</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.dailyCostsPerOrder ?? 0)}
+                  </DefaultText>
+                </View>
               </View>
-              <View>
-                <DefaultText>Proporcional anual</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.yearlyCostsPerOrder ?? 0)}
-                </DefaultText>
+              <View
+                style={{
+                  marginTop: paddings.lg,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginRight: paddings.lg,
+                }}
+              >
+                <View>
+                  <DefaultText>Propocional mensal</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.monthlyCostsPerOrder ?? 0)}
+                  </DefaultText>
+                </View>
+                <View>
+                  <DefaultText>Proporcional anual</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.yearlyCostsPerOrder ?? 0)}
+                  </DefaultText>
+                </View>
+              </View>
+              <View
+                style={{
+                  marginTop: paddings.lg,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginRight: paddings.lg,
+                }}
+              >
+                <View>
+                  <DefaultText>Total de custos por pedido</DefaultText>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
+                    {formatCurrency(updatedCosts.processing?.costsPerOrder ?? 0)}
+                  </DefaultText>
+                </View>
               </View>
             </View>
-            <View
-              style={{
-                marginTop: paddings.lg,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginRight: paddings.lg,
-              }}
-            >
-              <View>
-                <DefaultText>Total de custos por pedido</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="lg" color="black">
-                  {formatCurrency(updatedCosts.processing?.costsPerOrder ?? 0)}
-                </DefaultText>
-              </View>
-            </View>
-          </View>
-        </ViewShot>
+          </ViewShot>
+        </View>
         <DefaultButton
           style={{ marginTop: paddings.lg }}
           title="Compartilhar"

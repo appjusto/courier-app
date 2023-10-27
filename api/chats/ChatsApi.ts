@@ -1,8 +1,10 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
+import { Dayjs } from '@appjusto/dates';
 import { ChatMessage, WithId } from '@appjusto/types';
 import firestore from '@react-native-firebase/firestore';
 import AuthApi from '../auth/AuthApi';
+import { fromDate } from '../firebase/timestamp';
 
 const chatsRef = () => firestore().collection('chats');
 const chatRef = (id: string) => firestore().collection('chats').doc(id);
@@ -24,7 +26,27 @@ export default class ChatsApi {
     });
   }
 
+  observeAvailableCouriersChat(resultHandler: (chats: WithId<ChatMessage>[]) => void) {
+    const query = chatsRef()
+      .where('type', '==', 'available-couriers')
+      .where('timestamp', '>', fromDate(Dayjs().subtract(2, 'h').toDate()))
+      .orderBy('timestamp', 'asc');
+    return query.onSnapshot(
+      async (snapshot) => {
+        if (snapshot.empty) {
+          resultHandler([]);
+        } else {
+          resultHandler(documentsAs<ChatMessage>(snapshot.docs));
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
   async sendMessage(message: Partial<ChatMessage>) {
+    console.log(message);
     await chatsRef().add({
       ...message,
       read: false,

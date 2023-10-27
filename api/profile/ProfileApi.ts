@@ -141,10 +141,10 @@ export default class ProfileApi {
     );
   }
 
-  getSelfiePath(size?: string) {
-    const courierId = this.auth.getUserId();
-    if (!courierId) return null;
-    return `couriers/${courierId}/selfie${size ? `_${size}x${size}` : ''}.jpg`;
+  getSelfiePath(size?: string, courierId?: string) {
+    return `couriers/${courierId ?? this.auth.getUserId()}/selfie${
+      size ? `_${size}x${size}` : ''
+    }.jpg`;
   }
   getDocumentPath(size?: string) {
     const courierId = this.auth.getUserId();

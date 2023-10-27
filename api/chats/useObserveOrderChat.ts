@@ -23,7 +23,7 @@ export const useObserveChat = (orderId: string | undefined, counterpartId: strin
     setChat(
       groupOrderChatMessages(
         orderChat
-          .filter((value) => value.participantsIds.includes(counterpartId))
+          .filter((value) => value.participantsIds?.includes(counterpartId))
           .sort(sortMessages)
       )
     );

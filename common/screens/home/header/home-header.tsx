@@ -12,6 +12,7 @@ import { getAppVersion } from '@/common/version';
 import { onSimulator } from '@/common/version/device';
 import { CourierStatus } from '@appjusto/types';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
+import { router } from 'expo-router';
 import { Pressable, Switch, View } from 'react-native';
 import Selfie from '../../profile/images/selfie';
 import { ProfileStatusBadge } from './status-badge';
@@ -62,6 +63,7 @@ export const HomeHeader = () => {
               .triggerEvent('Disponibilidade')
               .then(() => {
                 ShowToast('triggerEvent: purchase');
+                router.push('/chat/available');
               })
               .catch((error) => {
                 ShowToast(JSON.stringify(error));
