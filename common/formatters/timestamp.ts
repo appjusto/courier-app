@@ -2,6 +2,7 @@ import { Dayjs } from '@appjusto/dates';
 import { Timestamp } from '@appjusto/types/external/firebase';
 
 export const DateTime = 'DD/MM • HH:mm';
+export const FullDate = 'DD/MM/YYYY';
 export const Time = 'HH[h]mm';
 
 export const formatTimestamp = (timestamp: Timestamp, pattern?: string) =>
