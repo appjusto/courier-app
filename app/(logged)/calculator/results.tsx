@@ -109,6 +109,7 @@ export default function CalculatorResultsScreen() {
         <ViewShot ref={ref} options={{ fileName: 'meus-ganhos', format: 'jpg', quality: 0.9 }}>
           <View
             style={{
+              backgroundColor: colors.white,
               marginTop: paddings.lg,
               padding: paddings.lg,
               ...borders.default,
