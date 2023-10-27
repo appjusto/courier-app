@@ -142,7 +142,7 @@ export default function MatchingScreen() {
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
       <ErrorModal
-        text="Este pedido já foi aceito por outro entregador"
+        text="Este pedido já foi aceito por outra pessoa"
         visible={expiredModalShown}
         onDismiss={() => {
           setExpiredModalShown(false);
