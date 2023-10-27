@@ -13,6 +13,7 @@ export const useInstallReferrer = () => {
   // redux
   const api = useContextApi();
   const profile = useContextProfile();
+  const profileLoaded = Boolean(profile);
   const installReferrer = profile?.installReferrer;
   // helpers
   const getInstallationDetails = async () => {
@@ -32,6 +33,7 @@ export const useInstallReferrer = () => {
   useEffect(() => {
     if (onSimulator()) return;
     if (Platform.OS !== 'android') return;
+    if (!profileLoaded) return;
     if (installReferrer !== null) {
       getInstallationDetails()
         .then(({ referrer, time }) => {
@@ -47,8 +49,6 @@ export const useInstallReferrer = () => {
                   ...(utm ?? {}),
                   updatedAt: serverTimestamp(),
                   installedAt: time ? fromDate(time) : null,
-                  previousInstallReferrer: ir ?? '',
-                  currentinstallReferrer: `${utm.utm_medium};${utm.utm_source}`,
                 },
               })
               .then(null);
@@ -58,5 +58,5 @@ export const useInstallReferrer = () => {
         })
         .catch(() => {});
     }
-  }, [installReferrer, api]);
+  }, [profileLoaded, installReferrer, api]);
 };
