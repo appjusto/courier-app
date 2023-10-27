@@ -16,7 +16,8 @@ interface Props extends ModalProps {
 }
 export const RestaurantOrderProofModal = ({ order, onDismiss, ...props }: Props) => {
   if (!order) return null;
-  const canDismiss = order.status === 'dispatching';
+  const dispatchByCourier = order?.tags?.includes('dispatch-by-courier') === true;
+  const canDismiss = dispatchByCourier || order.status === 'dispatching';
   // UI
   return (
     <Modal transparent animationType="slide" {...props}>
@@ -70,18 +71,28 @@ export const RestaurantOrderProofModal = ({ order, onDismiss, ...props }: Props)
                 size="lg"
               >{`#${order.code}`}</DefaultText>
               <View style={{ flex: 1 }} />
-              <DefaultText style={{ textAlign: 'center' }} color="neutral800">
-                Cliente
-              </DefaultText>
-              <DefaultText style={{ marginTop: paddings.sm, textAlign: 'center' }} size="lg">
-                {order.consumer.name}
-              </DefaultText>
-              {/* </View> */}
+              {/* consumer */}
+              {!dispatchByCourier ? (
+                <View>
+                  <DefaultText style={{ textAlign: 'center' }} color="neutral800">
+                    Cliente
+                  </DefaultText>
+                  <DefaultText style={{ marginTop: paddings.sm, textAlign: 'center' }} size="lg">
+                    {order.consumer.name}
+                  </DefaultText>
+                </View>
+              ) : null}
               <View style={{ flex: 1 }} />
               {/* buttons */}
               <View style={{ width: '100%' }}>
                 <DefaultButton
-                  title={canDismiss ? 'Recebi o pedido' : 'Aguardando restaurante'}
+                  title={
+                    canDismiss
+                      ? dispatchByCourier
+                        ? 'Dar saída'
+                        : 'Recebi o pedido'
+                      : 'Aguardando restaurante'
+                  }
                   disabled={!canDismiss}
                   onPress={onDismiss}
                 />

@@ -34,6 +34,7 @@ export default function OngoingOrderScreen() {
   const orderType = order?.type;
   const orderStatus = order?.status;
   const dispatchingState = order?.dispatchingState;
+  const dispatchByCourier = order?.tags?.includes('dispatch-by-courier') === true;
   const [proofModalShown, setProofModalShown] = useState(false);
   const chatWithConsumer = useObserveChat(orderId, order?.consumer.id);
   const chatWithBusiness = useObserveChat(orderId, order?.business?.id);
@@ -83,10 +84,14 @@ export default function OngoingOrderScreen() {
         >
           {/* consumer name */}
           <View>
-            <DefaultText size="xs">{`Pedido #${order.code} de`}</DefaultText>
-            <DefaultText size="md" color="black">
-              {order.consumer.name}
-            </DefaultText>
+            <DefaultText size="xs">{`Pedido #${order.code}${
+              dispatchByCourier ? '' : ' de'
+            }`}</DefaultText>
+            {!dispatchByCourier ? (
+              <DefaultText size="md" color="black">
+                {order.consumer.name}
+              </DefaultText>
+            ) : null}
           </View>
           {/* controls */}
           <View style={{ flex: 1 }} />
