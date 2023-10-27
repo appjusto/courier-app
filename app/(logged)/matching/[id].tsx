@@ -137,7 +137,7 @@ export default function MatchingScreen() {
   const fee = netValue + locationFee;
   const feePerKm = round(fee / (totalDistance / 1000), 2);
   const originAddress = getPartialAddress(request.originAddress);
-  const destinationAddress = getPartialAddress(request.originAddress);
+  const destinationAddress = getPartialAddress(request.destinationAddress);
   return (
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
