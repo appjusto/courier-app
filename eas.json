@@ -12,10 +12,6 @@
         "buildConfiguration": "Debug"
       }
     },
-    "v13-internal": {
-      "channel": "v13",
-      "distribution": "internal"
-    },
     "v13-debug": {
       "channel": "v13",
       "distribution": "internal",
@@ -24,6 +20,22 @@
       },
       "ios": {
         "buildConfiguration": "Debug"
+      }
+    },
+    "v13-adhoc": {
+      "channel": "v13",
+      "distribution": "internal"
+    },
+    "v13-testflight": {
+      "channel": "v13",
+      "distribution": "store"
+    },
+    "v13-internal": {
+      "channel": "v13-internal",
+      "distribution": "store",
+      "env": {
+        "EAS_BUILD_DISABLE_NPM_CACHE": "1",
+        "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1"
       }
     },
     "v13-closed": {

@@ -5,8 +5,9 @@ const { ENV, CHANNEL } = process.env;
 
 // Usage:
 // ENV=dev npm run update
-// ENV=dev CHANNEL=closed npm run update
-// ENV=dev CHANNEL=production npm run update
+// ENV=live CHANNEL=internal npm run update
+// ENV=live CHANNEL=closed npm run update
+// ENV=live CHANNEL=production npm run update
 
 const run = async () => {
   if (!ENV) {

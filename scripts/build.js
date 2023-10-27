@@ -6,14 +6,18 @@ const { ENV, PLATFORM, PROFILE, REMOTE } = process.env;
 
 // Usage:
 // devclient
-// ENV=dev PROFILE=devclient PLATFORM=ios npm run build
-// ENV=dev PROFILE=devclient npm run build
-// device
-// ENV=dev PLATFORM=ios PROFILE=store npm run build
-// ENV=dev npm run build
-// store
+// ENV=dev PROFILE=debug REMOTE=true npm run build
+// ENV=dev PROFILE=devclient PLATFORM=ios REMOTE=true npm run build
+// adhoc
+// ENV=dev PROFILE=adhoc REMOTE=true npm run build
+// ENV=dev PLATFORM=ios PROFILE=testflight REMOTE=true npm run build
+// internal
+// ENV=live PROFILE=internal REMOTE=true npm run build
+// beta
 // ENV=live PROFILE=closed REMOTE=true npm run build
+// production
 // ENV=live PROFILE=production REMOTE=true npm run build
+// ENV=live PLATFORM=ios PROFILE=production REMOTE=true npm run build
 
 const run = async () => {
   if (!ENV) {
