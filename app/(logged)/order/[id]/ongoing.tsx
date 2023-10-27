@@ -1,5 +1,6 @@
 import { Pressable, View } from 'react-native';
 
+import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { unreadMessagesIds } from '@/api/chats/unreadMessagesIds';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
@@ -10,6 +11,7 @@ import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { HR } from '@/common/components/views/HR';
 import { Loading } from '@/common/components/views/Loading';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { openChat } from '@/common/screens/orders/chat/openChat';
 import { ConfirmDelivery } from '@/common/screens/orders/confirmation/confirm-delivery';
 import { DispatchingStateControl } from '@/common/screens/orders/dispatching-state/DispatchingStateControl';
@@ -26,6 +28,9 @@ import { MessageCircle } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 
 export default function OngoingOrderScreen() {
+  // context
+  const api = useContextApi();
+  const showToast = useShowToast();
   // params
   const params = useLocalSearchParams<{ id: string }>();
   const orderId = params.id;
@@ -54,6 +59,18 @@ export default function OngoingOrderScreen() {
       setProofModalShown(true);
     }
   }, [orderType, dispatchingState]);
+  // handlers
+  const advanceHandler = () => {
+    api
+      .orders()
+      .updateOrder(orderId, { dispatchingState: 'going-destination' })
+      .then(null)
+      .catch((error: unknown) => {
+        if (error instanceof Error) {
+          showToast(error.message, 'error');
+        }
+      });
+  };
   // UI
   if (!order) return <Loading title="Pedido em andamento" />;
   return (
@@ -62,7 +79,10 @@ export default function OngoingOrderScreen() {
       <RestaurantOrderProofModal
         visible={proofModalShown}
         order={order}
-        onDismiss={() => setProofModalShown(false)}
+        onDismiss={() => {
+          setProofModalShown(false);
+          if (dispatchByCourier) advanceHandler();
+        }}
       />
       {view}
       <OrderMap order={order} />
