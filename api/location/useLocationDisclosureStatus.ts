@@ -1,35 +1,34 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 
-export type LocationDisclosureStatus = 'shown' | 'not-shown';
 const KEY = 'disclosure-status';
 
 export const useLocationDisclosureStatus = () => {
   // state
-  const [status, setStatus] = useState<LocationDisclosureStatus>();
+  const [shouldShow, setShouldShow] = useState<boolean>();
   // side effects
   useEffect(() => {
-    if (status === undefined) {
+    if (shouldShow === undefined) {
       AsyncStorage.getItem(KEY)
         .then((value) => {
-          setStatus(value ? 'shown' : 'not-shown');
+          setShouldShow(!value);
         })
         .catch((error: unknown) => {
           console.error(error);
-          setStatus('not-shown');
+          setShouldShow(true);
         });
     }
-  }, [status]);
+  }, [shouldShow]);
   // result
   const setLocationDisclosureShown = useCallback(() => {
     AsyncStorage.setItem(KEY, 'shown')
       .then(() => {
-        setStatus('shown');
+        setShouldShow(false);
       })
       .catch((error: unknown) => {
         console.error(error);
-        setStatus('not-shown');
+        setShouldShow(true);
       });
   }, []);
-  return { locationDisclosureStatus: status, setLocationDisclosureShown };
+  return { shouldShowLocationDisclosure: shouldShow, setLocationDisclosureShown };
 };

@@ -108,7 +108,7 @@ export const ConfirmButton = ({
         >
           <DefaultButton
             style={{ width: buttonWidth }}
-            height={50}
+            size="lg"
             title={text}
             loading={loading || confirmed}
             disabled={disabled}

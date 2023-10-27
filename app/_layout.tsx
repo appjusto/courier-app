@@ -42,6 +42,7 @@ export default function RootLayout() {
     HankenGroteskRegular: require('../assets/fonts/HankenGrotesk-Regular.ttf'),
     HankenGroteskMedium: require('../assets/fonts/HankenGrotesk-Medium.ttf'),
     HankenGroteskSemiBold: require('../assets/fonts/HankenGrotesk-SemiBold.ttf'),
+    HankenGroteskBold: require('../assets/fonts/HankenGrotesk-Bold.ttf'),
     ...FontAwesome.font,
   });
   const colorScheme = useColorScheme();

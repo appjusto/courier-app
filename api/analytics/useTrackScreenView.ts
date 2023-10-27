@@ -7,9 +7,8 @@ export const useTrackScreenView = (name: string, params = {}, enabled = true) =>
   const uniqParams = useUniqState(params);
   // side effects
   useEffect(() => {
-    if (!uniqParams) return;
     if (!enabled) return;
-    console.log('track', name, uniqParams);
+    console.log('useTrackScreenView', name, uniqParams);
     analytics()
       .logScreenView({ screen_name: name, ...uniqParams })
       .catch(console.error);

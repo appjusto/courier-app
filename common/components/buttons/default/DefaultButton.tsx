@@ -13,7 +13,7 @@ type DefaultButtonProps = ViewProps & {
   loading?: boolean;
   leftView?: React.ReactNode;
   rightView?: React.ReactNode;
-  height?: number;
+  size?: 'lg' | 'md' | 'sm';
   onPress: () => void;
 };
 
@@ -26,7 +26,7 @@ export const DefaultButton = ({
   loading,
   leftView,
   rightView,
-  height,
+  size = 'md',
   ...props
 }: DefaultButtonProps) => {
   const backgroundColor = (pressed: boolean) => {
@@ -46,6 +46,8 @@ export const DefaultButton = ({
     if (variant === 'outline') return colors.black;
     return colors.white;
   };
+  const height = size === 'sm' ? 38 : size === 'md' ? 42 : 50;
+  const textStyle = size === 'sm' ? typography.sm : typography.md;
   return (
     <View style={[style]}>
       <Pressable disabled={disabled} {...props}>
@@ -70,9 +72,7 @@ export const DefaultButton = ({
               ) : (
                 <>
                   {leftView}
-                  <DefaultText style={{ ...typography.md, color: textColor() }}>
-                    {title}
-                  </DefaultText>
+                  <DefaultText style={{ ...textStyle, color: textColor() }}>{title}</DefaultText>
                   {rightView}
                 </>
               )}

@@ -64,7 +64,7 @@ export function MessageBox({
     >
       <View style={{ flexDirection: 'row' }}>
         {!iconless ? <View style={{ marginRight: paddings.sm }}>{icon()}</View> : null}
-        <View style={{ flexDirection: 'row' }}>
+        <View>
           {title ? (
             <DefaultText style={{ marginBottom: paddings.xs }} size="md" color="black">
               {title}

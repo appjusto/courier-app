@@ -36,18 +36,20 @@ export default class ProfileApi {
     );
   }
   // observe profile changes
-  observeProfile<T extends UserProfile>(
-    id: string,
-    resultHandler: (profile: WithId<T> | null) => void
-  ) {
-    // console.log('observeProfile', id);
+  // async fetchProfile(id: string) {
+  //   const snapshot = await profileRef(id).get();
+  //   if (!snapshot.exists) return null;
+  //   return documentAs<CourierProfile>(snapshot);
+  // }
+  observeProfile(id: string, resultHandler: (profile: WithId<CourierProfile> | null) => void) {
+    console.log('observeProfile', id);
     return profileRef(id).onSnapshot(async (snapshot) => {
-      // console.log('profile.exists', snapshot.exists);
+      console.log('profile.exists', snapshot.exists);
       if (!snapshot.exists) {
         await this.createProfile(id);
         // resultHandler(null);
       } else {
-        resultHandler(documentAs<T>(snapshot));
+        resultHandler(documentAs<CourierProfile>(snapshot));
       }
     });
   }

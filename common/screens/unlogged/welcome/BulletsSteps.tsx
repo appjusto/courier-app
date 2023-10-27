@@ -11,7 +11,8 @@ export const BulletsSteps = ({ size, index, style, ...props }: Props) => {
   return (
     <View style={[style, { flexDirection: 'row' }]} {...props}>
       {new Array(size).fill('').map((_, i) => {
-        const selected = i <= index;
+        const past = i <= index;
+        const selected = i === index;
         return (
           <CircledView
             key={`${i}`}
@@ -26,7 +27,7 @@ export const BulletsSteps = ({ size, index, style, ...props }: Props) => {
               size={8}
               style={{
                 borderWidth: 0,
-                backgroundColor: selected ? colors.black : colors.neutral200,
+                backgroundColor: past ? colors.black : colors.neutral200,
               }}
             />
           </CircledView>

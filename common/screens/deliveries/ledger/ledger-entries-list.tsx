@@ -1,4 +1,4 @@
-import { ErrorIcon } from '@/common/components/modals/error/icon';
+import { EmptyIcon } from '@/common/components/modals/error/icon';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
@@ -47,7 +47,7 @@ export const LedgerEntriesList = ({
           ))
         ) : (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <ErrorIcon />
+            <EmptyIcon />
             {emptyText ? (
               <DefaultText
                 style={{ marginTop: paddings.lg, textAlign: 'center' }}

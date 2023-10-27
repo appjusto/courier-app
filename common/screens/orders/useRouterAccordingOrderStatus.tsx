@@ -26,7 +26,7 @@ export const useRouterAccordingOrderStatus = (
     } else if (status === 'delivered') {
       router.replace({ pathname: '/(logged)/order/[id]/delivered', params: { id: orderId } });
     } else if (status === 'canceled') {
-      setModalText('Este pedido foi cancelado');
+      setModalText('Esta corrida foi cancelada');
       setModalShown(true);
     }
   }, [orderId, status, ongoing]);
@@ -34,7 +34,6 @@ export const useRouterAccordingOrderStatus = (
   if (modalShown) {
     return (
       <ErrorModal
-        title="Ooops! :("
         text={modalText}
         visible={modalShown}
         onDismiss={() => {

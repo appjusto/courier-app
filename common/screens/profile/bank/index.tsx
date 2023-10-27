@@ -4,6 +4,7 @@ import { useRequestedProfileChanges } from '@/api/profile/useRequestedProfileCha
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { RadioButton } from '@/common/components/buttons/radio/RadioButton';
+import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { LabeledText } from '@/common/components/texts/LabeledText';
@@ -29,7 +30,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { SafeAreaView, TextInput, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { PersonTypeModal } from './person-type-modal';
 
 interface AccountTypeRadio {
   title: string;
@@ -58,9 +59,10 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   const [bank, setBank] = useState<WithId<Bank>>();
   const [agency, setAgency] = useState<string>();
   const [account, setAccount] = useState<string>();
-  const [personType, setPersonType] = useState<BankAccountPersonType>('Pessoa Física');
+  const [personType, setPersonType] = useState<BankAccountPersonType>();
   const [accountTypes, setAccountTypes] = useState<AccountTypeRadio[]>();
   const [accountType, setAccountType] = useState<BankAccountType>();
+  const [personTypeModalShown, setPersonTypeModalShown] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
   // effects
@@ -84,7 +86,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
       setAccount(profile.bankAccount.account);
     }
   }, [profile, bank, banks, personType, accountType, agency, account]);
-  // params
+  // side effects
   useEffect(() => {
     if (!bankId) return;
     if (bankId === bank?.id) return;
@@ -205,16 +207,21 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   // UI
   if (!profile || !accountTypes) return <Loading />;
   return (
-    <KeyboardAwareScrollView
-      style={{ ...screens.default, padding: paddings.lg }}
-      enableOnAndroid
-      enableAutomaticScroll
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
-      scrollIndicatorInsets={{ right: 1 }}
-    >
+    <DefaultKeyboardAwareScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <SafeAreaView>
+        <PersonTypeModal
+          personType={personType}
+          visible={personTypeModalShown}
+          onConfirm={() => {
+            setPersonTypeModalShown(false);
+          }}
+          onCancel={() => {
+            setPersonTypeModalShown(false);
+            setPersonType((value) =>
+              value === 'Pessoa Física' ? 'Pessoa Jurídica' : 'Pessoa Física'
+            );
+          }}
+        />
         <DefaultText size="lg">
           {profileState.includes('approved') ? 'Dados bancários' : 'Preencha seus dados bancários'}
         </DefaultText>
@@ -232,6 +239,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
               onPress={() => {
                 if (!profileState.includes('approved') || editing) {
                   setPersonType('Pessoa Física');
+                  setPersonTypeModalShown(true);
                 }
               }}
             />
@@ -242,6 +250,7 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
               onPress={() => {
                 if (!profileState.includes('approved') || editing) {
                   setPersonType('Pessoa Jurídica');
+                  setPersonTypeModalShown(true);
                 }
               }}
             />
@@ -252,7 +261,9 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
             placeholder="Selecione seu banco"
             value={bank?.name}
             color={!profileState.includes('approved') || editing ? 'neutral700' : 'neutral500'}
-            onPress={onSelectBank}
+            onPress={() => {
+              if (!profileState.includes('approved') || editing) onSelectBank();
+            }}
           />
           <PatternInput
             ref={agencyRef}
@@ -334,6 +345,6 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
           />
         </View>
       </SafeAreaView>
-    </KeyboardAwareScrollView>
+    </DefaultKeyboardAwareScrollView>
   );
 }

@@ -10,10 +10,13 @@ import { ThemeProps } from '../../themes';
 export type DefaultInputProps = TextInput['props'] &
   ThemeProps & {
     title?: string;
+    subtitle?: string;
     size?: keyof typeof typography;
     limit?: number;
     containerStyle?: StyleProp<ViewStyle> | undefined;
     inputStyle?: StyleProp<TextStyle> | undefined;
+    titleStyle?: StyleProp<TextStyle> | undefined;
+    subtitleStyle?: StyleProp<TextStyle> | undefined;
     onPress?: () => void;
   };
 
@@ -21,6 +24,7 @@ export const DefaultInput = forwardRef(
   (
     {
       title,
+      subtitle,
       value,
       editable,
       size,
@@ -28,6 +32,10 @@ export const DefaultInput = forwardRef(
       style,
       containerStyle,
       inputStyle,
+      titleStyle,
+      subtitleStyle,
+      onFocus,
+      onBlur,
       onPress,
       ...props
     }: DefaultInputProps,
@@ -44,6 +52,7 @@ export const DefaultInput = forwardRef(
       if (!value) return colors.neutral200;
       return colors.neutral700;
     };
+    console.log('focused', focused, borderColor());
     return (
       <View style={style}>
         <Pressable
@@ -52,7 +61,20 @@ export const DefaultInput = forwardRef(
             if (onPress) onPress();
           }}
         >
-          {title ? <DefaultText color="black">{title}</DefaultText> : null}
+          {title ? (
+            <DefaultText style={titleStyle} color="neutral900">
+              {title}
+            </DefaultText>
+          ) : null}
+          {subtitle ? (
+            <DefaultText
+              size="xs"
+              style={[{ marginTop: paddings.sm }, subtitleStyle]}
+              color="neutral700"
+            >
+              {subtitle}
+            </DefaultText>
+          ) : null}
           <View
             style={[
               {
@@ -79,8 +101,14 @@ export const DefaultInput = forwardRef(
               onPressOut={() => {
                 if (onPress) onPress();
               }}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
+              onFocus={(e) => {
+                setFocused(true);
+                if (onFocus) onFocus(e);
+              }}
+              onBlur={(e) => {
+                setFocused(false);
+                if (onBlur) onBlur(e);
+              }}
               value={value}
               {...props}
             />

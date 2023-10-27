@@ -24,17 +24,18 @@ export const AuthProvider = (props: Props) => {
   const user = useUser();
   const userId = user?.uid;
   const [profile, setProfile] = useState<WithId<CourierProfile> | null>();
-  // console.log('userId', userId);
-  // console.log('profile', profile);
+  console.log('userId', userId);
+  console.log('profile', profile);
   // side effects
   useEffect(() => {
     if (!userId) return;
     inAppMessaging()
       .setMessagesDisplaySuppressed(false)
       .then(() => null);
-    return api.profile().observeProfile<CourierProfile>(userId, setProfile);
+    return api.profile().observeProfile(userId, setProfile);
   }, [api, userId]);
   useEffect(() => {
+    console.log('user', user);
     if (user === null) {
       setProfile(null);
     }

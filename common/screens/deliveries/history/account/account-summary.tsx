@@ -58,6 +58,7 @@ export const AccountSummary = ({ style, ...props }: Props) => {
       <DefaultButton
         style={{ marginTop: paddings.lg }}
         title="Transferir para conta"
+        size="sm"
         disabled={!canWithdraw}
         onPress={() => {
           router.push({
@@ -71,7 +72,8 @@ export const AccountSummary = ({ style, ...props }: Props) => {
         }}
       />
       <DefaultButton
-        style={{ marginTop: paddings.lg }}
+        style={{ marginTop: paddings.sm }}
+        size="sm"
         variant="outline"
         title="Ver histórico de transferências"
         onPress={() => router.push('/deliveries/withdraws')}

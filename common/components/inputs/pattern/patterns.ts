@@ -1,6 +1,7 @@
 import { cepFormatter } from '@/common/formatters/cep';
 import { cnpjFormatter } from '@/common/formatters/cnpj';
 import { cpfFormatter } from '@/common/formatters/cpf';
+import { formatCurrency } from '@/common/formatters/currency';
 import { dateFormatter } from '@/common/formatters/date';
 import { fulldateFormatter } from '@/common/formatters/fulldate';
 import { phoneFormatter } from '@/common/formatters/phone';
@@ -40,5 +41,20 @@ export default {
     mask: '00/00',
     parser: numbersOnlyParser,
     formatter: dateFormatter,
+  },
+  currency: {
+    mask: 'R$ 0000,00',
+    parser: numbersOnlyParser,
+    formatter: formatCurrency,
+  },
+  number: {
+    mask: '0',
+    parser: numbersOnlyParser,
+    formatter: undefined,
+  },
+  twodigtsnumber: {
+    mask: '00',
+    parser: numbersOnlyParser,
+    formatter: undefined,
   },
 };

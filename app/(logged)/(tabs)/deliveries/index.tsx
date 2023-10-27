@@ -1,6 +1,7 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveApprovedEntries } from '@/api/ledger/useObserveApprovedEntries';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { Loading } from '@/common/components/views/Loading';
@@ -24,24 +25,26 @@ export default function DeliveriesIndex() {
       <DefaultView style={{ ...screens.headless, padding: paddings.lg }}>
         <AccountSummary />
         <LedgerEntriesList
-          style={{ marginTop: paddings.lg }}
+          style={{ marginTop: paddings.sm }}
           title="Seus últimos ganhos"
-          emptyText="Ops! Não encontramos nenhum ganho nas últimas 24hs. Bora ficar disponível e
+          emptyText="Ops! Não encontramos nenhum ganho recente. Bora ficar disponível e
           pegar umas corridas?"
           entries={entries}
         >
           <DefaultButton
             style={{ marginTop: paddings.lg }}
             title="Ver histórico de ganhos"
+            size="sm"
             variant="outline"
             onPress={() => router.push('/deliveries/ledger')}
           />
-          <DefaultButton
-            style={{ marginTop: paddings.lg }}
-            variant="outline"
-            title="Ver histórico de corridas"
+          <LinkButton
+            style={{ marginTop: paddings.sm, alignSelf: 'center' }}
+            variant="ghost"
             onPress={() => router.push('/deliveries/orders')}
-          />
+          >
+            Ver histórico de corridas
+          </LinkButton>
         </LedgerEntriesList>
       </DefaultView>
     </DefaultScrollView>

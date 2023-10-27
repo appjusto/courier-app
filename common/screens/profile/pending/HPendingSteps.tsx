@@ -1,18 +1,18 @@
 import { useRefs } from '@/common/components/inputs/code-input/useRefs';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { ScrollView, View, ViewProps } from 'react-native';
 import { PendingStep } from './PendingStep';
 
 interface Props extends ViewProps {
-  steps: { title: string }[];
+  steps: string[];
   index: number;
 }
 
 type Measure = { x: number; y: number; width: number; height: number };
 
-export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
+export const HPendingSteps = forwardRef(({ steps, index, style, ...props }: Props, externalRef) => {
   // refs
   const stepsRefs = useRefs<View>().slice(0, steps.length);
   const [measures, setMeasures] = useState<Measure[]>([]);
@@ -50,7 +50,11 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
   // UI
   return (
     <View style={[{ padding: paddings.lg }, style]} {...props} onLayout={() => measure()}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        ref={externalRef ? (externalRef as React.RefObject<ScrollView>) : null}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {linesMeasures.map((measure, i) => {
           // console.log(measure);
           return (
@@ -69,15 +73,16 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
         })}
         {steps.map((step, i) => (
           <PendingStep
-            key={`step-${i}`}
+            key={step}
             ref={stepsRefs[i]}
             // https://github.com/facebook/react-native/issues/29712
             collapsable={false}
             index={i}
-            title={step.title}
+            title={step}
             variant={i < index ? 'past' : i > index ? 'next' : 'current'}
             style={{ marginLeft: i > 0 ? paddings.xl : 0 }}
             icon="check"
+            // @ts-expect-error
             collapsable={false}
             flexDirection="column"
           />
@@ -85,4 +90,4 @@ export const HPendingSteps = ({ steps, index, style, ...props }: Props) => {
       </ScrollView>
     </View>
   );
-};
+});

@@ -5,6 +5,7 @@ import { useObserveChat } from '@/api/chats/useObserveOrderChat';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
+import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -16,12 +17,10 @@ import Selfie from '@/common/screens/profile/images/selfie';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { Send, User } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function ChatScreen() {
   // context
@@ -92,15 +91,7 @@ export default function ChatScreen() {
   // console.log(JSON.stringify(chat));
   // UI
   return (
-    <KeyboardAwareScrollView
-      style={{ ...screens.default }}
-      enableOnAndroid
-      enableAutomaticScroll
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
-      scrollIndicatorInsets={{ right: 1 }}
-    >
+    <DefaultKeyboardAwareScrollView>
       <DefaultView
         style={{
           flex: 1,
@@ -194,6 +185,6 @@ export default function ChatScreen() {
           </View>
         </SafeAreaView>
       </DefaultView>
-    </KeyboardAwareScrollView>
+    </DefaultKeyboardAwareScrollView>
   );
 }

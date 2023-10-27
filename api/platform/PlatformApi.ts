@@ -45,7 +45,6 @@ export default class PlatformApi {
   }
 
   async fetchPlatformParams() {
-    console.log('fetchPlatformParams');
     const snapshot = await platformParamsRef().get();
     return snapshot.data() as PlatformParams;
   }

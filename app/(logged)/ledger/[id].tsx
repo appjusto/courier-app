@@ -81,7 +81,7 @@ export default function LedgerEntryScreen() {
                 </DefaultText>
               </View>
             ) : null}
-            {orderId ? (
+            {orderCode ? (
               <View
                 style={{
                   flexDirection: 'row',
@@ -101,17 +101,19 @@ export default function LedgerEntryScreen() {
                     {orderCode ? <DefaultText size="md">{`#${orderCode}`}</DefaultText> : null}
                   </View>
                 </View>
-                <LinkButton
-                  variant="ghost"
-                  onPress={() =>
-                    router.push({
-                      pathname: '/(logged)/order/[id]/delivered',
-                      params: { id: orderId },
-                    })
-                  }
-                >
-                  Ver mais
-                </LinkButton>
+                {orderId ? (
+                  <LinkButton
+                    variant="ghost"
+                    onPress={() =>
+                      router.push({
+                        pathname: '/(logged)/order/[id]/detail',
+                        params: { id: orderId },
+                      })
+                    }
+                  >
+                    Ver mais
+                  </LinkButton>
+                ) : null}
               </View>
             ) : null}
           </View>

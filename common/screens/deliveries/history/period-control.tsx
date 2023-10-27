@@ -43,23 +43,27 @@ export const PeriodControl = ({
     // console.log('effect peridod', period);
     if (period === 'day') {
       setFrom(getStartOfDay().getTime());
+      setTo(getEndOfDay().getTime());
     } else if (period === 'week') {
       setFrom(getStartOfWeek().getTime());
+      setTo(getEndOfWeek().getTime());
     } else if (period === 'month') {
       setFrom(getStartOfMonth().getTime());
+      setTo(getEndOfMonth().getTime());
     }
   }, [period]);
   // update to according with from
-  useEffect(() => {
-    console.log('effect peridod/from', period, from);
-    if (period === 'day') {
-      setTo(getEndOfDay(new Date(from)).getTime());
-    } else if (period === 'week') {
-      setTo(getEndOfWeek(new Date(from)).getTime());
-    } else if (period === 'month') {
-      setTo(getEndOfMonth(new Date(from)).getTime());
-    }
-  }, [period, from]);
+  // useEffect(() => {
+  //   console.log('from', period, new Date(from));
+  //   if (period === 'day') {
+  //     console.log('to', period, getEndOfDay(new Date(from)));
+  //     setTo(getEndOfDay(new Date(from)).getTime());
+  //   } else if (period === 'week') {
+  //     setTo(getEndOfWeek(new Date(from)).getTime());
+  //   } else if (period === 'month') {
+  //     setTo(getEndOfMonth(new Date(from)).getTime());
+  //   }
+  // }, [period, from]);
   // handler
   useEffect(() => {
     if (!from || !to) return;

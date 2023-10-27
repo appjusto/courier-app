@@ -31,6 +31,7 @@ export const useInstallReferrer = () => {
   // side effects
   useEffect(() => {
     if (onSimulator()) return;
+    if (Platform.OS !== 'android') return;
     if (installReferrer !== null) {
       getInstallationDetails()
         .then(({ referrer, time }) => {
@@ -46,6 +47,8 @@ export const useInstallReferrer = () => {
                   ...(utm ?? {}),
                   updatedAt: serverTimestamp(),
                   installedAt: time ? fromDate(time) : null,
+                  previousInstallReferrer: ir ?? '',
+                  currentinstallReferrer: `${utm.utm_medium};${utm.utm_source}`,
                 },
               })
               .then(null);

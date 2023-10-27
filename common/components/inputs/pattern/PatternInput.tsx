@@ -31,7 +31,7 @@ export const PatternInput = forwardRef(
     // state
     const [placeholder, setPlaceholder] = useState(unfocusedPlaceholder ?? mask);
     const [error, setError] = useState<string>();
-    const formattedValue = value ? (formatter ? formatter(String(value)) : value) : value;
+    const formattedValue = value && formatter ? formatter(String(value)) : value;
     // handlers
     const onChangeHandler = (text: string) => {
       if (onChangeText) onChangeText(parser ? parser(text) : text);

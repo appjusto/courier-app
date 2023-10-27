@@ -90,6 +90,7 @@ export const RestaurantOrderProofModal = ({ order, onDismiss, ...props }: Props)
                 style={{ marginVertical: paddings.lg }}
                 textStyle={{ color: colors.error900 }}
                 variant="ghost"
+                size="medium"
                 onPress={() => {
                   onDismiss();
                   router.push({

@@ -1,5 +1,5 @@
 import colors, { ColorName } from '@/common/styles/colors';
-import typography, { semiboldFontFamily } from '@/common/styles/typography';
+import typography, { boldFontFamily } from '@/common/styles/typography';
 import { Text } from 'react-native';
 
 export type DefaultTextProps = Text['props'] & {
@@ -13,7 +13,7 @@ export function DefaultText({ style, color, size, bold, ...props }: DefaultTextP
     <Text
       style={[
         { ...typography[size ?? 'sm'], color: color ? colors[color] : colors.neutral900 },
-        bold ? { fontFamily: semiboldFontFamily, fontWeight: 'bold' } : {},
+        bold ? { fontFamily: boldFontFamily, fontWeight: 'bold' } : {},
         style,
       ]}
       {...props}

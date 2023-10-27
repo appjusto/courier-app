@@ -1,8 +1,10 @@
 import { documentAs, documentsAs } from '@/common/firebase/documentAs';
+import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { getAppVersion } from '@/common/version';
 import { getFirebaseRegion } from '@/extra';
 import {
   AccountWithdraw,
+  CourierCosts,
   CourierOrderRequest,
   CourierOrderRequestSituation,
   FetchAccountInformationPayload,
@@ -28,6 +30,8 @@ const courierRequestsRef = () => firestore().collection('courier-requests');
 const courierRequestRef = (id: string) => courierRequestsRef().doc(id);
 const withdrawsRef = () => firestore().collection('withdraws');
 const withdrawRef = (id: string) => firestore().collection('withdraws').doc(id);
+const courierCostsRef = () => firestore().collection('couriers-costs');
+
 export default class CouriersApi {
   constructor(private auth: AuthApi) {}
   // requests
@@ -151,5 +155,27 @@ export default class CouriersApi {
         'Não foi possível obter detalhes da transferências. Tente novamente mais tarde.'
       );
     }
+  }
+  // costs
+  async updateCourierCosts(update: Partial<CourierCosts>) {
+    await courierCostsRef()
+      .doc(this.auth.getUserId())
+      .set({ ...update, updatedAt: serverTimestamp() }, { merge: true });
+  }
+  observeCourierCosts(resultHandler: (costs: Partial<CourierCosts> | null) => void) {
+    return courierCostsRef()
+      .doc(this.auth.getUserId())
+      .onSnapshot(
+        async (snapshot) => {
+          if (!snapshot.exists) {
+            resultHandler(null);
+          } else {
+            resultHandler(documentAs<CourierCosts>(snapshot));
+          }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 }

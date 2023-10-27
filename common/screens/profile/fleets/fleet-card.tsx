@@ -68,7 +68,11 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
           />
         </View>
         {usingFleet ? (
-          <RoundedText style={{ backgroundColor: colors.primary100 }} size="xs" color="primary900">
+          <RoundedText
+            style={{ marginTop: paddings.sm, backgroundColor: colors.primary100 }}
+            size="xs"
+            color="primary900"
+          >
             Você faz parte desta frota!
           </RoundedText>
         ) : null}
