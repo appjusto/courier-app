@@ -18,7 +18,7 @@ import { CourierCosts } from '@appjusto/types';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Stack, router } from 'expo-router';
 import * as Sharing from 'expo-sharing';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 
@@ -27,7 +27,7 @@ export default function CalculatorResultsScreen() {
   const api = useContextApi();
   const showToast = useShowToast();
   // refs
-  const ref = useRef<ViewShot>();
+  const ref = useRef<ViewShot>() as RefObject<ViewShot>;
   // tracking
   useTrackScreenView('Calculadora Resultados');
   // state
@@ -105,11 +105,13 @@ export default function CalculatorResultsScreen() {
           </DefaultText>
           calculado pelo DIEESE, considerando uma jornada de 220 horas por mês.
         </DefaultText>
-        {/* @ts-expect-error */}
-        <ViewShot ref={ref} options={{ fileName: 'meus-ganhos', format: 'jpg', quality: 0.9 }}>
+        <ViewShot
+          ref={ref}
+          style={{ backgroundColor: colors.white }}
+          options={{ fileName: 'meus-ganhos', format: 'jpg', quality: 0.9 }}
+        >
           <View
             style={{
-              backgroundColor: colors.white,
               marginTop: paddings.lg,
               padding: paddings.lg,
               ...borders.default,
