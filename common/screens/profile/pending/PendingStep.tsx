@@ -8,7 +8,7 @@ import { CircledView } from '../../../components/containers/CircledView';
 
 interface Props extends ViewProps {
   index: number;
-  title: string;
+  title?: string;
   variant: 'current' | 'past' | 'next';
   icon?: 'pencil' | 'check';
   flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse' | undefined;
@@ -58,14 +58,16 @@ export const PendingStep = forwardRef(
             </DefaultText>
           )}
         </CircledView>
-        <DefaultText
-          style={{
-            marginLeft: flexDirection === 'row' ? paddings.sm : 0,
-            marginTop: flexDirection === 'row' ? 0 : paddings.md,
-          }}
-        >
-          {title}
-        </DefaultText>
+        {title ? (
+          <DefaultText
+            style={{
+              marginLeft: flexDirection === 'row' ? paddings.sm : 0,
+              marginTop: flexDirection === 'row' ? 0 : paddings.md,
+            }}
+          >
+            {title}
+          </DefaultText>
+        ) : null}
       </View>
     );
   }

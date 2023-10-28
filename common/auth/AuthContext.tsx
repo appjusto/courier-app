@@ -1,7 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { CourierProfile, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import React, { useEffect, useState } from 'react';
 import { useUser } from './useUser';
 
@@ -29,9 +28,9 @@ export const AuthProvider = (props: Props) => {
   // side effects
   useEffect(() => {
     if (!userId) return;
-    inAppMessaging()
-      .setMessagesDisplaySuppressed(false)
-      .then(() => null);
+    // inAppMessaging()
+    //   .setMessagesDisplaySuppressed(false)
+    //   .then(() => null);
     return api.profile().observeProfile(userId, setProfile);
   }, [api, userId]);
   useEffect(() => {

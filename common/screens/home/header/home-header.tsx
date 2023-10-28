@@ -59,10 +59,10 @@ export const HomeHeader = () => {
         <Pressable
           delayLongPress={1000}
           onLongPress={() => {
+            trackEvent('LongPressAnalytics');
             inAppMessaging()
-              .triggerEvent('Disponibilidade')
+              .triggerEvent('LongPressTrigger')
               .then(() => {
-                ShowToast('triggerEvent: purchase');
                 router.push('/profile/public');
               })
               .catch((error) => {

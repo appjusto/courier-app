@@ -15,7 +15,6 @@ import { RoutesProvider } from '@/common/routes/RoutesContext';
 import { getAppVersion } from '@/common/version';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
@@ -66,9 +65,9 @@ export default function RootLayout() {
     ShowToast(getAppVersion());
     // }
     // in-app messaging config
-    inAppMessaging()
-      .setMessagesDisplaySuppressed(true)
-      .then(() => setInAppSuppressed(true));
+    // inAppMessaging()
+    //   .setMessagesDisplaySuppressed(true)
+    //   .then(() => setInAppSuppressed(true));
   }, []);
   // UI
   if (!loaded || splashScreenShown || !inAppSuppressed) {

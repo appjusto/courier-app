@@ -56,7 +56,7 @@ export default function CalculatorScreen() {
         </DefaultText>
         <PendingSteps steps={STEPS} index={stepIndex} />
         <MessageBox style={{ marginVertical: paddings.xl }}>
-          O tempo estimado pra finalizar é de 10 minutos. Foca que é rapidinho ;)
+          O tempo estimado pra finalizar é de 5 minutos. Foca que é rapidinho ;)
         </MessageBox>
         <View style={{ flex: 1 }} />
         <DefaultButton
