@@ -33,7 +33,7 @@ const reviewsRef = () => firestore().collection('reviews');
 const reviewRef = (id: string) => reviewsRef().doc(id);
 
 // API
-export interface ObserveDeliveredOrdersOptions {
+export interface ObserveOrdersOptions {
   statuses?: OrderStatus[];
   from?: Date;
   to?: Date;
@@ -48,10 +48,7 @@ interface CompleteDeliveryOptions {
 export default class OrdersApi {
   constructor(private auth: AuthApi) {}
   // observe orders
-  observeOrders(
-    options: ObserveDeliveredOrdersOptions,
-    resultHandler: (orders: WithId<Order>[]) => void
-  ) {
+  observeOrders(options: ObserveOrdersOptions, resultHandler: (orders: WithId<Order>[]) => void) {
     console.log('observeOrders', options);
     const { statuses, from, to } = options;
     let query = ordersRef()

@@ -1,4 +1,3 @@
-import { EntriesSummary } from '@/api/ledger/useEntriesSummary';
 import { OrdersSummary } from '@/api/orders/useOrdersSummary';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -15,13 +14,13 @@ import { View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
   title: string;
-  entriesSummary: EntriesSummary;
+  // entriesSummary: EntriesSummary;
   ordersSummary: OrdersSummary;
 }
 
 export const ActivitySummary = ({
   title,
-  entriesSummary,
+  // entriesSummary,
   ordersSummary,
   style,
   ...props
@@ -29,13 +28,15 @@ export const ActivitySummary = ({
   // state
   const [shown, setShown] = useState(true);
   // UI
-  const total =
-    entriesSummary.total !== undefined ? formatCurrency(entriesSummary.total) : 'R$ 00,00';
-  const numberOfOrders = entriesSummary.orders !== undefined ? entriesSummary.orders.length : '0';
+  const revenue =
+    ordersSummary.revenue !== undefined ? formatCurrency(ordersSummary.revenue) : 'R$ 00,00';
+  const numberOfOrders = ordersSummary.total ?? 0;
   const distance =
     ordersSummary.distance !== undefined ? formatDistance(ordersSummary.distance) : '00';
-  const time = ordersSummary.time ? Dayjs.duration(ordersSummary.time, 's').humanize() : '0h';
-  const loading = entriesSummary.total === undefined || ordersSummary.distance === undefined;
+  const time = ordersSummary.time
+    ? Dayjs.duration(ordersSummary.time, 's').asMinutes().toFixed(0) + 'mins'
+    : '0mins';
+  const loading = ordersSummary.distance === undefined;
   return (
     <View
       style={[
@@ -71,7 +72,7 @@ export const ActivitySummary = ({
             </DefaultText>
             <Skeleton colors={[colors.neutral50, colors.neutral100]} width={100}>
               <DefaultText size="lg" color="black" style={{ marginTop: paddings.xs }}>
-                {total}
+                {revenue}
               </DefaultText>
             </Skeleton>
           </View>

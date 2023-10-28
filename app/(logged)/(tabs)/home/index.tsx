@@ -1,12 +1,12 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useShowDisplayOverApps } from '@/api/couriers/useShowDisplayOverApps';
-import { useApprovedEntriesSummary } from '@/api/ledger/useApprovedEntriesSummary';
 import {
   useContextSetLocationDisclosureShown,
   useContextShouldShowLocationDisclosure,
 } from '@/api/location/context/LocationContext';
-import { useTodaysOrdersSummary } from '@/api/orders/useTodaysOrdersSummary';
+import { useObserveOrdersOfLast24h } from '@/api/orders/useObserveOrdersOfLast24h';
+import { useOrdersSummary } from '@/api/orders/useOrdersSummary';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -38,8 +38,9 @@ export default function HomeScreen() {
   // tracking
   useTrackScreenView('Início');
   // state
-  const entriesSummary = useApprovedEntriesSummary();
-  const ordersSummary = useTodaysOrdersSummary();
+  // const entriesSummary = useApprovedEntriesSummary();
+  const orders = useObserveOrdersOfLast24h();
+  const ordersSummary = useOrdersSummary(orders);
   const { availabilityModalShown, setAvailabilityModalShown } = useContextAvailabilityModal();
   const shouldShowLocationDisclosure = useContextShouldShowLocationDisclosure();
   const setLocationDisclosureShown = useContextSetLocationDisclosureShown();
@@ -86,7 +87,7 @@ export default function HomeScreen() {
           <View style={{ padding: paddings.lg }}>
             <HomeFleet />
             <ActivitySummary
-              entriesSummary={entriesSummary}
+              // entriesSummary={entriesSummary}
               ordersSummary={ordersSummary}
               title="Corridas nas últimas 24h"
               style={{ marginTop: paddings.lg }}

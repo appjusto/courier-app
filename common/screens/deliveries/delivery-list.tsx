@@ -12,7 +12,7 @@ interface Props extends ViewProps {
   orders: WithId<Order>[];
 }
 
-export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Props) => {
+export const DeliveryList = ({ orders, title, emptyText, style, children, ...props }: Props) => {
   return (
     <View style={[{ padding: paddings.lg }, style]} {...props}>
       {title ? (
@@ -48,6 +48,7 @@ export const DeliveryList = ({ orders, title, emptyText, style, ...props }: Prop
             ) : null}
           </View>
         )}
+        {children}
       </View>
     </View>
   );
