@@ -52,7 +52,6 @@ export const DefaultInput = forwardRef(
       if (!value) return colors.neutral200;
       return colors.neutral700;
     };
-    console.log('focused', focused, borderColor());
     return (
       <View style={style}>
         <Pressable
