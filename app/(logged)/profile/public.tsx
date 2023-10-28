@@ -32,7 +32,7 @@ export default function PublicProfileScreen() {
   // refs
   const ref = useRef<ViewShot>() as RefObject<ViewShot>;
   // tracking
-  useTrackScreenView('Perfil público9');
+  useTrackScreenView('Perfil público');
   // handlers
   const shareProfile = () => {
     if (!ref.current?.capture) {
