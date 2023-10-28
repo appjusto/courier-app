@@ -20,7 +20,7 @@ export function Loading({ backgroundColor, title, size = 'large' }: Props) {
         backgroundColor: colors[backgroundColor ?? 'white'],
       }}
     >
-      <Stack.Screen options={{ title: title ?? '' }} />
+      {title ? <Stack.Screen options={{ title }} /> : null}
       <ActivityIndicator size={size} color={colors.primary900} />
     </DefaultView>
   );

@@ -7,6 +7,7 @@ import { PreferencesProvider } from '@/api/preferences/context/PreferencesContex
 import { AuthProvider } from '@/common/auth/AuthContext';
 import { useSplashScreen } from '@/common/components/splashscreen/useSplashScreen';
 import { ShowToast } from '@/common/components/toast/Toast';
+import { Loading } from '@/common/components/views/Loading';
 import { ToastProvider } from '@/common/components/views/toast/ToastContext';
 import '@/common/errors/ignore';
 import { NotificationProvider } from '@/common/notifications/context/NotificationContext';
@@ -18,7 +19,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
@@ -46,7 +47,7 @@ export default function RootLayout() {
   });
   const colorScheme = useColorScheme();
   const splashScreenShown = useSplashScreen();
-  const [inAppSuppressed, setInAppSuppressed] = useState(false);
+  // const [inAppSuppressed, setInAppSuppressed] = useState(false);
   // side effects
   // error handling
   useEffect(() => {
@@ -70,8 +71,9 @@ export default function RootLayout() {
     //   .then(() => setInAppSuppressed(true));
   }, []);
   // UI
-  if (!loaded || splashScreenShown || !inAppSuppressed) {
-    return null;
+  if (!loaded || splashScreenShown) {
+    // if (!loaded || splashScreenShown || !inAppSuppressed) {
+    return <Loading />;
   }
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
