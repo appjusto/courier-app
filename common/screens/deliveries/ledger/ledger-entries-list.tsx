@@ -58,7 +58,6 @@ export const LedgerEntriesList = ({
             ) : null}
           </View>
         )}
-
         {children}
       </View>
     </View>

@@ -18,7 +18,7 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { Send, User } from 'lucide-react-native';
+import { CheckCheck, Send, User } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 
@@ -136,18 +136,31 @@ export default function ChatScreen() {
 
                             ...borders.default,
                             backgroundColor:
-                              group.from === counterpartId ? colors.white : colors.primary100,
+                              group.from === counterpartId ? colors.white : colors.neutral100,
                             borderColor:
-                              group.from === counterpartId ? colors.neutral100 : colors.primary300,
+                              group.from === counterpartId ? colors.neutral100 : colors.neutral300,
                           }}
                         >
-                          <View style={{}}>
-                            <DefaultText style={{}} color="neutral900">
-                              {message.message}
-                            </DefaultText>
-                            <DefaultText style={{ alignSelf: 'flex-end' }} size="xxs">
-                              {message.timestamp ? formatTimestamp(message.timestamp, Time) : ''}
-                            </DefaultText>
+                          <View>
+                            <DefaultText color="neutral900">{message.message}</DefaultText>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'flex-end',
+                              }}
+                            >
+                              <DefaultText size="xxs">
+                                {message.timestamp ? formatTimestamp(message.timestamp, Time) : ''}
+                              </DefaultText>
+                              {group.from === courierId ? (
+                                <CheckCheck
+                                  style={{ marginLeft: paddings.xs }}
+                                  size={16}
+                                  color={message.read ? colors.primary500 : colors.neutral500}
+                                />
+                              ) : null}
+                            </View>
                           </View>
                         </View>
                       </View>

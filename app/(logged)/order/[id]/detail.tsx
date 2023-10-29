@@ -2,7 +2,6 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { getOrderBaseRevenue } from '@/api/orders/revenue/getOrderBaseRevenue';
 import { getOrderExtraRevenue } from '@/api/orders/revenue/getOrderExtraRevenue';
 import { getOrderTipRevenue } from '@/api/orders/revenue/getOrderTip';
-import { getOrderTimestamp } from '@/api/orders/timestamp/getOrderTime';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -73,14 +72,26 @@ export default function OrderDetailScreen() {
                 </DefaultText>
               </View>
             ) : null}
-            <View style={{ marginTop: paddings.lg }}>
-              <DefaultText size="sm" color="neutral800">
-                Realizada em
-              </DefaultText>
-              <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
-                {formatTimestamp(getOrderTimestamp(order))}
-              </DefaultText>
-            </View>
+            {order.dispatchingTimestamps.confirmed ? (
+              <View style={{ marginTop: paddings.lg }}>
+                <DefaultText size="sm" color="neutral800">
+                  Aceito em
+                </DefaultText>
+                <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
+                  {formatTimestamp(order.dispatchingTimestamps.confirmed)}
+                </DefaultText>
+              </View>
+            ) : null}
+            {order.timestamps.delivered ? (
+              <View style={{ marginTop: paddings.lg }}>
+                <DefaultText size="sm" color="neutral800">
+                  Entregue em
+                </DefaultText>
+                <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
+                  {formatTimestamp(order.timestamps.delivered)}
+                </DefaultText>
+              </View>
+            ) : null}
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="sm" color="neutral800">
                 Retirada
