@@ -30,20 +30,9 @@ export default function AvailableCouriersChatScreen() {
   useTrackScreenView('Chat entregadores online');
   // handlers
   const sendMessage = () => {
-    if (!courierId) return;
+    if (!courier?.name) return;
     setMessage('');
-    api
-      .chat()
-      .sendMessage({
-        type: 'available-couriers',
-        from: {
-          agent: 'courier',
-          id: courierId,
-          name: courier.name,
-        },
-        message: message.trim(),
-      })
-      .catch(console.error);
+    api.chat().sendPublicMessage(message, courier.name).catch(console.error);
   };
   // UI
   return (

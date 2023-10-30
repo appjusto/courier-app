@@ -46,12 +46,23 @@ export default class ChatsApi {
   }
 
   async sendMessage(message: Partial<ChatMessage>) {
-    console.log(message);
     await chatsRef().add({
       ...message,
       read: false,
       timestamp: serverTimestamp(),
     } as ChatMessage);
+  }
+
+  async sendPublicMessage(message: string, courierName: string) {
+    await this.sendMessage({
+      type: 'available-couriers',
+      from: {
+        agent: 'courier',
+        id: this.auth.getUserId() as string,
+        name: courierName,
+      },
+      message: message.trim(),
+    });
   }
 
   async updateReadMessages(messageIds: string[]) {
