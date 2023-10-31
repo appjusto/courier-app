@@ -35,7 +35,7 @@ export const RoutesProvider = (props: Props) => {
       }
     } else if (situation === 'approved') {
       if (!restricted) router.replace('/home');
-    } else if (situation === 'rejected') {
+    } else if (situation === 'rejected' || situation === 'invalid') {
       router.replace('/rejected');
     } else if (situation === 'blocked') {
       router.replace('/blocked');
