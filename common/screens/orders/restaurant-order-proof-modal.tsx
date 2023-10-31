@@ -13,8 +13,9 @@ import { Modal, ModalProps, Pressable, View } from 'react-native';
 interface Props extends ModalProps {
   order: WithId<Order> | undefined | null;
   onDismiss: () => void;
+  onConfirm: () => void;
 }
-export const RestaurantOrderProofModal = ({ order, onDismiss, ...props }: Props) => {
+export const RestaurantOrderProofModal = ({ order, onDismiss, onConfirm, ...props }: Props) => {
   if (!order) return null;
   const dispatchByCourier = order?.tags?.includes('dispatch-by-courier') === true;
   const canDismiss = dispatchByCourier || order.status === 'dispatching';
@@ -94,7 +95,7 @@ export const RestaurantOrderProofModal = ({ order, onDismiss, ...props }: Props)
                       : 'Aguardando restaurante'
                   }
                   disabled={!canDismiss}
-                  onPress={onDismiss}
+                  onPress={onConfirm}
                 />
               </View>
               <LinkButton

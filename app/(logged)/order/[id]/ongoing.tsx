@@ -4,6 +4,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { unreadMessagesIds } from '@/api/chats/unreadMessagesIds';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
+import { getDispatchingStateFocus } from '@/api/orders/dispatching-state/getDispatchingStateFocus';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { CircledView } from '@/common/components/containers/CircledView';
@@ -40,6 +41,8 @@ export default function OngoingOrderScreen() {
   const orderStatus = order?.status;
   const dispatchingState = order?.dispatchingState;
   const dispatchByCourier = order?.tags?.includes('dispatch-by-courier') === true;
+  const showConsumerName =
+    !dispatchByCourier || getDispatchingStateFocus(dispatchingState) === 'destination';
   const [proofModalShown, setProofModalShown] = useState(false);
   const chatWithConsumer = useObserveChat(orderId, order?.consumer.id);
   const chatWithBusiness = useObserveChat(orderId, order?.business?.id);
@@ -81,6 +84,9 @@ export default function OngoingOrderScreen() {
         order={order}
         onDismiss={() => {
           setProofModalShown(false);
+        }}
+        onConfirm={() => {
+          setProofModalShown(false);
           if (dispatchByCourier) advanceHandler();
         }}
       />
@@ -105,9 +111,9 @@ export default function OngoingOrderScreen() {
           {/* consumer name */}
           <View>
             <DefaultText size="xs">{`Pedido #${order.code}${
-              dispatchByCourier ? '' : ' de'
+              showConsumerName ? ' de' : ''
             }`}</DefaultText>
-            {!dispatchByCourier ? (
+            {showConsumerName ? (
               <DefaultText size="md" color="black">
                 {order.consumer.name}
               </DefaultText>
