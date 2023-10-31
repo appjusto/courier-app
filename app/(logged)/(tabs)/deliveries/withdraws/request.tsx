@@ -88,7 +88,7 @@ export default function RequestWithdrawScreen() {
             <Percent color={colors.neutral800} />
             <View style={{ marginLeft: paddings.lg }}>
               <DefaultText>Taxa da Iugu por saque</DefaultText>
-              <DefaultText size="xl">{`-${formatCurrency(toNumber(fee))}`}</DefaultText>
+              <DefaultText size="xl">{`-${fee}`}</DefaultText>
             </View>
           </View>
           <View

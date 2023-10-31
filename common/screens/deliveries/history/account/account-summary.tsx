@@ -61,11 +61,12 @@ export const AccountSummary = ({ style, ...props }: Props) => {
         size="sm"
         disabled={!canWithdraw}
         onPress={() => {
+          if (!withdrawFee) return;
           router.push({
             pathname: '/deliveries/withdraws/request',
             params: {
               balance: `${balance}`,
-              fee: `${withdrawFee}`,
+              fee: formatCurrency(withdrawFee),
               value: `${withdrawValue}`,
             },
           });
