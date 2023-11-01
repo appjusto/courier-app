@@ -2,10 +2,12 @@ import { ChatMessage, WithId } from '@appjusto/types';
 import { last } from 'lodash';
 import { GroupedChatMessages } from './types';
 
+const groupId = (message: ChatMessage) => message.from.id ?? message.from.agent;
+
 export const groupOrderChatMessages = (messages: WithId<ChatMessage>[]) =>
   messages.reduce<GroupedChatMessages[]>((groups, message) => {
     const currentGroup = last(groups);
-    if (message.from.id === currentGroup?.from) {
+    if (groupId(message) === currentGroup?.from) {
       currentGroup!.messages.push(message);
       return groups;
     }
@@ -15,7 +17,7 @@ export const groupOrderChatMessages = (messages: WithId<ChatMessage>[]) =>
       {
         id: message.id,
         messages: [message],
-        from: message.from.id,
+        from: groupId(message),
         fromFlavor: message.from.agent,
       } as GroupedChatMessages,
     ];
