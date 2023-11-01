@@ -1,5 +1,4 @@
-import { useObserveFleet } from '@/api/fleets/useObserveFleet';
-import { useContextProfile } from '@/common/auth/AuthContext';
+import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
@@ -22,10 +21,8 @@ import { HomeFleetParam } from '../../profile/fleets/home-fleet-param';
 interface Props extends ViewProps {}
 
 export const HomeFleet = ({ style, ...props }: Props) => {
-  // context
-  const profile = useContextProfile();
   // state
-  const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
+  const fleet = useObserveActiveFleet();
   const [opened, setOpened] = useState(false);
   // animation
   const animation = useDynamicAnimation(() => ({

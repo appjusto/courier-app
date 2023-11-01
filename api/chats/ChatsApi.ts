@@ -3,8 +3,10 @@ import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { Dayjs } from '@appjusto/dates';
 import { ChatMessage, WithId } from '@appjusto/types';
 import firestore from '@react-native-firebase/firestore';
+import { LatLng } from 'react-native-maps';
 import AuthApi from '../auth/AuthApi';
 import { fromDate } from '../firebase/timestamp';
+import { geolocationFromLatLng } from '../location/geolocationFromLatLng';
 
 const chatsRef = () => firestore().collection('chats');
 const chatRef = (id: string) => firestore().collection('chats').doc(id);
@@ -53,13 +55,14 @@ export default class ChatsApi {
     } as ChatMessage);
   }
 
-  async sendPublicMessage(message: string, courierName: string) {
+  async sendPublicMessage(message: string, courierName: string, location?: LatLng) {
     await this.sendMessage({
       type: 'available-couriers',
       from: {
         agent: 'courier',
         id: this.auth.getUserId() as string,
         name: courierName,
+        ...(location ? geolocationFromLatLng(location) : {}),
       },
       message: message.trim(),
     });

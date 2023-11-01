@@ -2,6 +2,8 @@ import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { unreadMessagesIds } from '@/api/chats/unreadMessagesIds';
 import { useObserveChat } from '@/api/chats/useObserveOrderChat';
+import { useContextLocation } from '@/api/location/context/LocationContext';
+import { geolocationFromLatLng } from '@/api/location/geolocationFromLatLng';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
@@ -27,6 +29,7 @@ export default function ChatScreen() {
   const api = useContextApi();
   const courier = useContextProfile();
   const courierId = courier?.id;
+  const location = useContextLocation();
   // params
   const params = useLocalSearchParams<{ id: string; counterpart: string }>();
   const orderId = params.id;
@@ -84,6 +87,7 @@ export default function ChatScreen() {
         orderId,
         orderStatus: order.status,
         orderCode: order.code,
+        ...(location ? geolocationFromLatLng(location) : {}),
       })
       .catch(console.error);
   };

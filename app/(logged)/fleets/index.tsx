@@ -1,6 +1,5 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { useObserveFleet } from '@/api/fleets/useObserveFleet';
-import { useContextProfile } from '@/common/auth/AuthContext';
+import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -15,9 +14,8 @@ import { View } from 'react-native';
 export default function FleetsScreen() {
   // context
   const router = useRouter();
-  const profile = useContextProfile();
   // state
-  const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
+  const fleet = useObserveActiveFleet();
   // tracking
   useTrackScreenView('Sua frota', { fleetId: fleet?.id }, Boolean(fleet));
   // UI

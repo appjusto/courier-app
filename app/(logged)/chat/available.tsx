@@ -1,6 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveAvailableCouriersChat } from '@/api/chats/useObserveAvailableCouriersChat';
+import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
 import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
@@ -21,6 +22,7 @@ export default function AvailableCouriersChatScreen() {
   // context
   const api = useContextApi();
   const courier = useContextProfile();
+  const location = useContextLocation();
   const courierId = courier?.id;
   const available = courier?.status === 'available';
   // state
@@ -32,7 +34,7 @@ export default function AvailableCouriersChatScreen() {
   const sendMessage = () => {
     if (!courier?.name) return;
     setMessage('');
-    api.chat().sendPublicMessage(message, courier.name).catch(console.error);
+    api.chat().sendPublicMessage(message, courier.name, location).catch(console.error);
   };
   // UI
   return (

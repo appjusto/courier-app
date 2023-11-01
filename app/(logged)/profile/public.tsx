@@ -1,5 +1,5 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { useObserveFleet } from '@/api/fleets/useObserveFleet';
+import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -28,7 +28,7 @@ export default function PublicProfileScreen() {
   const profile = useContextProfile();
   const showToast = useShowToast();
   // state
-  const fleet = useObserveFleet(profile?.fleetsIds?.find(() => true));
+  const fleet = useObserveActiveFleet();
   // refs
   const ref = useRef<ViewShot>() as RefObject<ViewShot>;
   // tracking

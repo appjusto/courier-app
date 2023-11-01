@@ -2,6 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
+import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { getPartialAddress } from '@/api/maps/getPartialAddress';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
@@ -45,11 +46,12 @@ export default function MatchingScreen() {
   const params = useLocalSearchParams<{ id: string }>();
   const requestId = params.id;
   // state
+  const fleet = useObserveActiveFleet();
   const request = useObserveRequest(requestId);
   const requestDistanceToOrigin = request?.distanceToOrigin;
   const situation = request?.situation;
   const route = useMapRoute(request?.origin, profile?.mode);
-  const routeDistanceToOrigin = route?.distance;
+  const routeDistanceToOrigin = route?.distance ?? 0;
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [expiredModalShown, setExpiredModalShown] = useState(false);
@@ -88,6 +90,11 @@ export default function MatchingScreen() {
       setExpiredModalShown(true);
     }
   }, [situation]);
+  const distanceExceedsFleetLimit = routeDistanceToOrigin > (fleet?.maxDistanceToOrigin ?? 0);
+  useEffect(() => {
+    if (!distanceExceedsFleetLimit) return;
+    trackEvent('Distância passou limite');
+  }, [distanceExceedsFleetLimit]);
   // handlers
   const matchOrder = useCallback(() => {
     if (!request?.orderId) return;
@@ -123,6 +130,7 @@ export default function MatchingScreen() {
   console.log(requestId);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
+  if (!fleet) return <Loading title="Nova corrida pra você!" />;
   const {
     origin,
     destination,
@@ -133,11 +141,13 @@ export default function MatchingScreen() {
     fleetName,
     type,
   } = request;
-  const totalDistance = distance + (routeDistanceToOrigin ?? 0);
+  const totalDistance = distance + routeDistanceToOrigin;
   const fee = netValue + locationFee;
   const feePerKm = round(fee / (totalDistance / 1000), 2);
   const originAddress = getPartialAddress(request.originAddress);
   const destinationAddress = getPartialAddress(request.destinationAddress);
+  const hideValues = !route || distanceExceedsFleetLimit;
+
   return (
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
@@ -146,6 +156,13 @@ export default function MatchingScreen() {
         visible={expiredModalShown}
         onDismiss={() => {
           setExpiredModalShown(false);
+          router.back();
+        }}
+      />
+      <ErrorModal
+        text="Com sua localização atual, a distância para coleta é maior que o permitido pela sua frota."
+        visible={distanceExceedsFleetLimit}
+        onDismiss={() => {
           router.back();
         }}
       />
@@ -176,7 +193,7 @@ export default function MatchingScreen() {
             Alta demanda
           </RoundedText>
         ) : null}
-        <Skeleton.Group show={!route}>
+        <Skeleton.Group show={hideValues}>
           <View style={{ flexDirection: 'row' }}>
             <View style={{ alignItems: 'center' }}>
               <Skeleton colors={[colors.neutral50, colors.neutral100]} width={110}>
@@ -260,7 +277,7 @@ export default function MatchingScreen() {
                   <DefaultText size="md">{originAddress}</DefaultText>
                 </View>
                 <View>
-                  <Skeleton.Group show={!route}>
+                  <Skeleton.Group show={hideValues}>
                     <Skeleton colors={[colors.neutral50, colors.neutral100]} width={120}>
                       <RoundedView
                         style={{
@@ -272,7 +289,7 @@ export default function MatchingScreen() {
                         }}
                       >
                         <DefaultText color="black" size="xs">
-                          {`${formatDistance(routeDistanceToOrigin ?? 0)} até retirada`}
+                          {`${formatDistance(routeDistanceToOrigin)} até retirada`}
                         </DefaultText>
                       </RoundedView>
                     </Skeleton>
