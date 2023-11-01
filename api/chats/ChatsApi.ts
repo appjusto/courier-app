@@ -7,6 +7,7 @@ import { LatLng } from 'react-native-maps';
 import AuthApi from '../auth/AuthApi';
 import { fromDate } from '../firebase/timestamp';
 import { geolocationFromLatLng } from '../location/geolocationFromLatLng';
+import { getDocumentsAround } from '../location/queries/geofire';
 
 const chatsRef = () => firestore().collection('chats');
 const chatRef = (id: string) => firestore().collection('chats').doc(id);
@@ -47,6 +48,23 @@ export default class ChatsApi {
     );
   }
 
+  async fetchAvailableCouriersChat(location: LatLng) {
+    const docs = await getDocumentsAround({
+      location,
+      getQuery: (startAt, endAt) => {
+        console.log(startAt, endAt);
+        return chatsRef()
+          .where('type', '==', 'available-couriers')
+          .orderBy('g.geohash')
+          .startAt(startAt)
+          .endAt(endAt);
+      },
+      // TODO: deal with timestamp
+      // .where('timestamp', '>', fromDate(Dayjs().subtract(2, 'h').toDate()))
+      // .orderBy('timestamp', 'asc'),
+    });
+    return documentsAs<ChatMessage>(docs);
+  }
   async sendMessage(message: Partial<ChatMessage>) {
     await chatsRef().add({
       ...message,
@@ -62,8 +80,8 @@ export default class ChatsApi {
         agent: 'courier',
         id: this.auth.getUserId() as string,
         name: courierName,
-        ...(location ? geolocationFromLatLng(location) : {}),
       },
+      ...(location ? geolocationFromLatLng(location) : {}),
       message: message.trim(),
     });
   }

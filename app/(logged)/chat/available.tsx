@@ -27,6 +27,7 @@ export default function AvailableCouriersChatScreen() {
   const available = courier?.status === 'available';
   // state
   const chat = useObserveAvailableCouriersChat(available);
+  // const chat = useFetchAvailableCouriersChatAround(available);
   const [message, setMessage] = useState('');
   // tracking
   useTrackScreenView('Chat entregadores online');

@@ -73,6 +73,7 @@
     "expo-task-manager": "~11.3.0",
     "expo-updates": "~0.18.15",
     "expo-web-browser": "~12.3.2",
+    "geofire-common": "^6.0.0",
     "geokit": "^1.1.0",
     "i18n-js": "^4.3.2",
     "lodash": "^4.17.21",
