@@ -52,6 +52,14 @@ export default function OrderDetailScreen() {
                 {formatCurrency(baseRevenue)}
               </DefaultText>
             </View>
+            <View style={{ marginTop: paddings.lg }}>
+              <DefaultText size="sm" color="neutral800">
+                Valor por KM
+              </DefaultText>
+              <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
+                {/* {TODO: adicionar valor por km} */}
+              </DefaultText>
+            </View>
             {tipRevenue ? (
               <View style={{ marginTop: paddings.lg }}>
                 <DefaultText size="sm" color="neutral800">

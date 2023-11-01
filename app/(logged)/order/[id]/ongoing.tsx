@@ -113,11 +113,10 @@ export default function OngoingOrderScreen() {
             <DefaultText size="xs">{`Pedido #${order.code}${
               showConsumerName ? ' de' : ''
             }`}</DefaultText>
-            {showConsumerName ? (
-              <DefaultText size="md" color="black">
-                {order.consumer.name}
-              </DefaultText>
-            ) : null}
+
+            <DefaultText size="md" color="black">
+              {showConsumerName ? order.consumer.name : order.business?.name}
+            </DefaultText>
           </View>
           {/* controls */}
           <View style={{ flex: 1 }} />
