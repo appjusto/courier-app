@@ -2,9 +2,11 @@ import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import ProfileBank from '@/common/screens/profile/bank';
 import screens from '@/common/styles/screens';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 
 export default function ProfileBankScreen() {
+  // params
+  const search = useLocalSearchParams<{ bankId: string }>();
   // tracking
   useTrackScreenView('Sua conta: Dados bancários');
   // context
@@ -13,7 +15,10 @@ export default function ProfileBankScreen() {
   return (
     <DefaultView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: 'Dados bancários' }} />
-      <ProfileBank onSelectBank={() => router.push('/profile/select-bank')} />
+      <ProfileBank
+        bankId={search?.bankId}
+        onSelectBank={() => router.push('/profile/select-bank')}
+      />
     </DefaultView>
   );
 }
