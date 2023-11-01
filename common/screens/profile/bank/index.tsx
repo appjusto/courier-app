@@ -156,8 +156,8 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
       agencyFormatted,
       accountFormatted,
     } as BankAccount;
-    setLoading(true);
     if (!editing) {
+      setLoading(true);
       api
         .profile()
         .updateProfile({ bankAccount })
@@ -191,6 +191,12 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
         bankChanges.account = account;
         bankChanges.accountFormatted = accountFormatted;
       }
+      console.log(bankChanges);
+      if (isEmpty(bankChanges)) {
+        showToast('Nenhuma alteração solicitada.', 'error');
+        return;
+      }
+      setLoading(true);
       api
         .profile()
         .requestProfileChange(changes)
