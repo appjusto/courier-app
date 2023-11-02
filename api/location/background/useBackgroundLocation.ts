@@ -1,4 +1,5 @@
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { getAppVersion } from '@/common/version';
 import { onSimulator } from '@/common/version/device';
 import { LatLng } from '@appjusto/types';
 import crashlytics from '@react-native-firebase/crashlytics';
@@ -36,6 +37,7 @@ export const useBackgroundLocation = (enabled: boolean) => {
       userId,
       userToken,
       userFlavor: 'courier',
+      userVersion: getAppVersion(),
     }).then(() => {
       setReady(true);
     });
