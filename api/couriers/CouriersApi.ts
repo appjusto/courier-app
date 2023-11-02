@@ -10,6 +10,7 @@ import {
   FetchAccountInformationPayload,
   FetchAccountInformationResponse,
   RequestWithdrawPayload,
+  RouteDetails,
   WithId,
 } from '@appjusto/types';
 import firebase from '@react-native-firebase/app';
@@ -92,9 +93,9 @@ export default class CouriersApi {
     console.log('viewOrderRequest', requestId);
     await courierRequestRef(requestId).update({ viewed: true } as CourierOrderRequest);
   }
-  async updateRoutePolylineToOrigin(requestId: string, routePolylineToOrigin: string) {
-    console.log('updateRoutePolylineToOrigin', requestId);
-    await courierRequestRef(requestId).update({ routePolylineToOrigin } as CourierOrderRequest);
+  async updateOrderRequestRoute(requestId: string, route: RouteDetails) {
+    console.log('updateOrderRequestRoute', requestId);
+    await courierRequestRef(requestId).update({ route } as CourierOrderRequest);
   }
   // account
   async fetchAccountInformation() {

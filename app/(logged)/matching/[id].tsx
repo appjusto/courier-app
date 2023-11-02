@@ -75,7 +75,7 @@ export default function MatchingScreen() {
   // update route polyline
   useEffect(() => {
     if (!route) return;
-    api.couriers().updateRoutePolylineToOrigin(requestId, route.polyline).catch(console.error);
+    api.couriers().updateOrderRequestRoute(requestId, route).catch(console.error);
   }, [route, requestId, api]);
   // track distane
   useEffect(() => {

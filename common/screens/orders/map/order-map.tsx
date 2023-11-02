@@ -15,8 +15,8 @@ export const OrderMap = ({ order }: Props) => {
   const origin = order.origin?.location;
   const destination = order.destination?.location;
   const polyline =
-    dispatchingState === 'going-pickup' && request?.routePolylineToOrigin
-      ? request.routePolylineToOrigin
+    dispatchingState === 'going-pickup' && request?.route?.polyline
+      ? request?.route?.polyline
       : order.route?.polyline;
   const navigationTo =
     getDispatchingStateFocus(dispatchingState) === 'destination'
