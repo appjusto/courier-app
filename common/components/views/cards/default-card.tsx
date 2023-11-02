@@ -12,14 +12,14 @@ export interface DefaultCardProps extends ViewProps {
   variant?: 'default' | 'dark';
 }
 
-export default function DefaultCard({
+export const DefaultCard = ({
   title,
   subtitle,
   icon,
   variant = 'default',
   style,
   ...props
-}: DefaultCardProps) {
+}: DefaultCardProps) => {
   return (
     <View
       style={[
@@ -57,4 +57,4 @@ export default function DefaultCard({
       </View>
     </View>
   );
-}
+};

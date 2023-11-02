@@ -1,7 +1,7 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import {
   URL_APPJUSTO_GITHUB,

@@ -11,7 +11,7 @@ import { useContextAvailabilityModal } from '@/api/preferences/context/Preferenc
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { ActivitySummary } from '@/common/screens/home/activity/activity-summary';
 import { AvailabilityModal } from '@/common/screens/home/availability-modal';

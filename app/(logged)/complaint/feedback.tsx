@@ -1,7 +1,7 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';

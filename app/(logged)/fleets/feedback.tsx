@@ -5,7 +5,7 @@ import { shareFleet } from '@/api/fleets/shareFleet';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { FeedbackHeader } from '@/common/screens/profile/situation-header';

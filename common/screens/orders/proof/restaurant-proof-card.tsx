@@ -1,4 +1,4 @@
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import paddings from '@/common/styles/paddings';
 import { Order } from '@appjusto/types';

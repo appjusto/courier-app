@@ -7,7 +7,7 @@ import { DefaultScrollView } from '@/common/components/containers/DefaultScrollV
 import { SelectIssueModal } from '@/common/components/modals/issues/select-issue-modal';
 import { useOngoingIssueType } from '@/common/components/modals/issues/useOngoingIssueType';
 import { Loading } from '@/common/components/views/Loading';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { openWhatsAppSupportURL } from '@/common/constants/openWhatsAppSupportURL';

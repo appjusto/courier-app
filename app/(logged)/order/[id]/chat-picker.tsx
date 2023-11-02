@@ -1,7 +1,7 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon, IconName } from '@/common/components/views/cards/icon';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';

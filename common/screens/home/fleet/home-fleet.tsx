@@ -2,8 +2,6 @@ import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
-import DefaultCard from '@/common/components/views/cards/DefaultCard';
-import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import borders from '@/common/styles/borders';
@@ -15,8 +13,8 @@ import { MotiView, useDynamicAnimation } from 'moti';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
-import { shareFleet } from '../../../../api/fleets/shareFleet';
 import { HomeFleetParam } from '../../profile/fleets/home-fleet-param';
+import { ShareFleetCard } from './share-fleet-card';
 
 interface Props extends ViewProps {}
 
@@ -98,20 +96,7 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                 value={additionalPerKmAfterThreshold}
                 style={{ borderBottomWidth: 0, paddingBottom: 0 }}
               />
-              <Pressable
-                onPress={() => {
-                  if (fleet) shareFleet(fleet.id, fleet.name);
-                }}
-              >
-                {({ pressed }) => (
-                  <DefaultCard
-                    style={{ marginTop: paddings.md }}
-                    icon={<DefaultCardIcon iconName="chat" variant="darker" />}
-                    title="Compartilhar frota"
-                    subtitle="Convide seus colegas para participar dessa frota"
-                  />
-                )}
-              </Pressable>
+              <ShareFleetCard />
               <View
                 style={{
                   flexDirection: 'row',

@@ -5,7 +5,7 @@ import paddings from '@/common/styles/paddings';
 import { Linking, Pressable } from 'react-native';
 import { DefaultView } from '../../../components/containers/DefaultView';
 import { DefaultText } from '../../../components/texts/DefaultText';
-import DefaultCard from '../../../components/views/cards/DefaultCard';
+import { DefaultCard } from '../../../components/views/cards/default-card';
 import { DefaultCardIcon } from '../../../components/views/cards/icon';
 
 export type HowAppJustoWorksContentType = 'approval' | 'revenue' | 'fleets' | 'blocks' | 'safety';

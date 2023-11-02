@@ -136,9 +136,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     url: `https://u.expo.dev/${projectId}`,
     fallbackToCacheTimeout: 1000 * 50,
   },
-  runtimeVersion: {
-    policy: 'sdkVersion',
-  },
+  runtimeVersion: version.slice(0, version.lastIndexOf('.')),
   extra: {
     env,
     firebase: {
