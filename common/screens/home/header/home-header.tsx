@@ -64,8 +64,8 @@ export const HomeHeader = () => {
               .triggerEvent('LongPressTrigger')
               .then(() => {
                 ShowToast('triggerEvent: purchase');
-                // router.push('/chat/available');
-                router.push('/profile/public');
+                router.push('/chat/available');
+                // router.push('/profile/public');
               })
               .catch((error) => {
                 ShowToast(JSON.stringify(error));

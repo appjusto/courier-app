@@ -73,10 +73,10 @@ export default function CalculatorResultsScreen() {
       });
   };
   // UI
-  if (!updatedCosts) return <Loading title="Calculadora de ganhos" />;
+  if (!updatedCosts) return <Loading title="Resultados" />;
   return (
     <DefaultScrollView style={{ ...screens.default }}>
-      <Stack.Screen options={{ title: 'Calculadora de ganhos' }} />
+      <Stack.Screen options={{ title: 'Resultados' }} />
       <DefaultView style={{ padding: paddings.lg }}>
         <DefaultText style={{ ...lineHeight.lg }} size="lg">
           Aqui estão os seus custos e ganhos por corrida e por hora:

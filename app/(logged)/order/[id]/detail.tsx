@@ -14,6 +14,7 @@ import { OrderDetailReview } from '@/common/screens/orders/review/order-detail-r
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { Stack, useLocalSearchParams } from 'expo-router';
+import { round } from 'lodash';
 import { View } from 'react-native';
 
 export default function OrderDetailScreen() {
@@ -27,11 +28,12 @@ export default function OrderDetailScreen() {
   // side effects
   // UI
   if (!order) return <Loading title="Detalhe da corrida" />;
-  const { status, code } = order;
+  const { status, code, route, courier } = order;
   const baseRevenue = getOrderBaseRevenue(order);
   const tipRevenue = getOrderTipRevenue(order);
   const extraRevenue = getOrderExtraRevenue(order);
-
+  const totalDistance = (route?.distance ?? 1) + (courier?.distanceToOrigin ?? 0);
+  const feePerKm = round(baseRevenue / (totalDistance / 1000), 2);
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen options={{ title: `Corrida #${code}` }} />
@@ -50,6 +52,14 @@ export default function OrderDetailScreen() {
               </DefaultText>
               <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
                 {formatCurrency(baseRevenue)}
+              </DefaultText>
+            </View>
+            <View style={{ marginTop: paddings.lg }}>
+              <DefaultText size="sm" color="neutral800">
+                Valor por KM
+              </DefaultText>
+              <DefaultText size="md" style={{ marginTop: paddings['2xs'] }}>
+                {formatCurrency(feePerKm)}
               </DefaultText>
             </View>
             {tipRevenue ? (

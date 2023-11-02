@@ -15,6 +15,7 @@ export function RoundedText({ icon, style, color, size, bold, ...props }: Option
         style={[
           {
             flexDirection: 'row',
+            alignItems: 'center',
             paddingVertical: paddings.xs,
             paddingHorizontal: paddings.sm,
             borderRadius: 100,

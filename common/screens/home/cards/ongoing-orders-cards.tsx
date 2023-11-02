@@ -60,7 +60,7 @@ export const OngoingOrdersCards = ({ style, ...props }: Props) => {
                 >
                   <CheckCircle2 color={colors.info500} size={16} />
                   <View style={{ flexDirection: 'row' }}>
-                    <DefaultText style={{ marginLeft: paddings.xs }}>
+                    <DefaultText style={{ marginLeft: paddings.xs }} color="info900">
                       {focusOnDestination
                         ? getDispatchingStateAsText(dispatchingState)
                         : 'Pedido ' + getOrderStatusAsText(status).toLocaleLowerCase()}

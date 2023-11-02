@@ -1,9 +1,9 @@
 import { LatLng } from '@appjusto/types';
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import firebase from '@react-native-firebase/firestore';
 import { hash } from 'geokit';
 
 export const geolocationFromLatLng = (latlng: LatLng) => {
-  const location = new FirebaseFirestoreTypes.GeoPoint(latlng.latitude, latlng.longitude);
+  const location = new firebase.GeoPoint(latlng.latitude, latlng.longitude);
   return {
     coordinates: location,
     g: {

@@ -4,6 +4,7 @@ import { useObserveAvailableCouriersChat } from '@/api/chats/useObserveAvailable
 import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
+import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
@@ -13,10 +14,13 @@ import Selfie from '@/common/screens/profile/images/selfie';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import { Image } from 'expo-image';
 import { Stack, router } from 'expo-router';
 import { Send } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, SafeAreaView, View } from 'react-native';
+
+const AppJustoLogo = require('../../../assets/images/icon.png');
 
 export default function AvailableCouriersChatScreen() {
   // context
@@ -57,6 +61,7 @@ export default function AvailableCouriersChatScreen() {
           <View style={{ padding: paddings.lg }}>
             {chat
               ? chat.map((group) => {
+                  console.log('group', group.id);
                   return (
                     <View
                       style={{
@@ -66,7 +71,15 @@ export default function AvailableCouriersChatScreen() {
                       key={group.id}
                     >
                       <View>
-                        {group.from !== courierId ? (
+                        {group.from === 'platform' ? (
+                          <CircledView size={40} style={{ marginTop: 0, borderWidth: 0 }}>
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={AppJustoLogo}
+                              contentFit="cover"
+                            />
+                          </CircledView>
+                        ) : group.from !== courierId ? (
                           <Selfie size={40} courierId={courierId} />
                         ) : null}
                       </View>
@@ -76,6 +89,7 @@ export default function AvailableCouriersChatScreen() {
                           const isLink = Boolean(link);
                           return (
                             <Pressable
+                              key={message.id}
                               onPress={() => {
                                 if (link && link[1]) router.push(link[1] as `https://`);
                               }}
@@ -89,7 +103,6 @@ export default function AvailableCouriersChatScreen() {
                                   marginHorizontal: paddings.md,
                                   marginBottom: paddings.sm,
                                 }}
-                                key={message.id}
                               >
                                 <View
                                   style={{

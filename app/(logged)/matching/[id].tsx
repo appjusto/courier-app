@@ -32,7 +32,7 @@ import screens from '@/common/styles/screens';
 import { Issue } from '@appjusto/types';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
-import { Zap } from 'lucide-react-native';
+import { Package, Utensils, Zap } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -147,7 +147,6 @@ export default function MatchingScreen() {
   const originAddress = getPartialAddress(request.originAddress);
   const destinationAddress = getPartialAddress(request.destinationAddress);
   const hideValues = !route || distanceExceedsFleetLimit;
-
   return (
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
@@ -182,17 +181,30 @@ export default function MatchingScreen() {
           borderColor: colors.neutral100,
         }}
       >
-        {/* location fee */}
-        {locationFee ? (
+        <View style={{ flexDirection: 'row' }}>
           <RoundedText
-            style={{ marginBottom: paddings.sm, backgroundColor: colors.primary300 }}
-            icon={<Zap style={{ marginRight: paddings.xs }} size={16} color={colors.black} />}
+            style={{ marginBottom: paddings.sm, backgroundColor: colors.neutral50 }}
             size="xs"
             color="black"
           >
-            Alta demanda
+            {`Frota ${fleetName}`}
           </RoundedText>
-        ) : null}
+          {/* location fee */}
+          {locationFee ? (
+            <RoundedText
+              style={{
+                marginBottom: paddings.sm,
+                marginLeft: paddings.sm,
+                backgroundColor: colors.primary300,
+              }}
+              icon={<Zap style={{ marginRight: paddings.xs }} size={16} color={colors.black} />}
+              size="xs"
+              color="black"
+            >
+              Alta demanda
+            </RoundedText>
+          ) : null}
+        </View>
         <Skeleton.Group show={hideValues}>
           <View style={{ flexDirection: 'row' }}>
             <View style={{ alignItems: 'center' }}>
@@ -231,11 +243,26 @@ export default function MatchingScreen() {
         <View style={{ padding: paddings.lg }}>
           <View style={{ flexDirection: 'row' }}>
             <RoundedText
-              style={{ marginBottom: paddings.sm, backgroundColor: colors.neutral50 }}
+              style={{ marginBottom: paddings.sm, backgroundColor: colors.primary100 }}
+              icon={
+                type === 'food' ? (
+                  <Utensils
+                    style={{ marginRight: paddings.xs }}
+                    size={12}
+                    color={colors.primary900}
+                  />
+                ) : (
+                  <Package
+                    style={{ marginRight: paddings.xs }}
+                    size={12}
+                    color={colors.primary900}
+                  />
+                )
+              }
               size="xs"
-              color="black"
+              color="primary900"
             >
-              {`Frota ${fleetName}`}
+              {type === 'food' ? 'Restaurante' : 'Encomenda'}
             </RoundedText>
             {type === 'food' ? (
               <RoundedText
@@ -247,7 +274,7 @@ export default function MatchingScreen() {
                 size="xs"
                 color="info900"
               >
-                {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pedido já está pronto!'}
+                {readyAt ? `Pronto às ${formatDate(readyAt, 'HH:mm')}` : 'Pedido pronto!'}
               </RoundedText>
             ) : null}
           </View>
