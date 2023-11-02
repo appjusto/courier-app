@@ -1,7 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { shareFleet } from '@/api/fleets/shareFleet';
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -10,6 +9,7 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
 import { Loading } from '@/common/components/views/Loading';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
+import { copyFleetLinkToClipboard } from '@/common/screens/home/fleet/copyFleetLinkToClipboard';
 import { FleetDetail } from '@/common/screens/profile/fleets/fleet-detail';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -41,6 +41,12 @@ export default function FleetDetailScreen() {
         router.back();
       });
   };
+  const copyToClipboard = () => {
+    if (!fleet) return;
+    copyFleetLinkToClipboard(fleet.id).then(() => {
+      showToast('Link da frota copiado!', 'success');
+    });
+  };
   // UI
   if (!fleet) return <Loading />;
   const usingFleet = profile?.fleetsIds.includes(fleet.id);
@@ -51,7 +57,7 @@ export default function FleetDetailScreen() {
         options={{
           title: `Frota ${fleet.name}`,
           headerRight: (props) => (
-            <Pressable onPress={() => shareFleet(fleet.id, fleet.name)}>
+            <Pressable onPress={copyToClipboard}>
               {() => <Share2 size={16} color={colors.neutral900} />}
             </Pressable>
           ),

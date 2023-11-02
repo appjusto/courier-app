@@ -96,7 +96,7 @@ export const HomeFleet = ({ style, ...props }: Props) => {
                 value={additionalPerKmAfterThreshold}
                 style={{ borderBottomWidth: 0, paddingBottom: 0 }}
               />
-              <ShareFleetCard />
+              <ShareFleetCard fleetId={fleet?.id} fleetName={fleetName} />
               <View
                 style={{
                   flexDirection: 'row',

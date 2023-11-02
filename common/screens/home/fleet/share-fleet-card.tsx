@@ -1,16 +1,15 @@
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
-import { getDomain } from '@/common/constants/urls';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import * as Clipboard from 'expo-clipboard';
 import { Copy } from 'lucide-react-native';
 import React from 'react';
 import { Pressable, View, ViewProps } from 'react-native';
+import { copyFleetLinkToClipboard } from './copyFleetLinkToClipboard';
 
 export interface ShareFleetCardProps extends ViewProps {
-  fleetId: string;
+  fleetId?: string;
   fleetName: string;
 }
 
@@ -19,8 +18,8 @@ export const ShareFleetCard = ({ fleetId, style, ...props }: ShareFleetCardProps
   const showToast = useShowToast();
   // handler
   const copyToClipboard = () => {
-    const fleetDeeplink = `https://${getDomain()}/fleets/${fleetId}`;
-    Clipboard.setStringAsync(fleetDeeplink).then(() => {
+    if (!fleetId) return;
+    copyFleetLinkToClipboard(fleetId).then(() => {
       showToast('Link da frota copiado!', 'success');
     });
   };

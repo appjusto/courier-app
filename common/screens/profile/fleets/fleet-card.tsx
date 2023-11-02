@@ -17,7 +17,7 @@ import { router } from 'expo-router';
 import { Share2 } from 'lucide-react-native';
 import { View } from 'react-native';
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
-import { shareFleet } from '../../../../api/fleets/shareFleet';
+import { copyFleetLinkToClipboard } from '../../home/fleet/copyFleetLinkToClipboard';
 
 interface Props extends ViewProps {
   fleet: WithId<Fleet>;
@@ -37,6 +37,11 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
       .then(() => {
         showToast(`Você agora faz parte da frota ${fleet.name}!`, 'success');
       });
+  };
+  const copyToClipboard = () => {
+    copyFleetLinkToClipboard(fleet.id).then(() => {
+      showToast('Link da frota copiado!', 'success');
+    });
   };
   // UI
   const usingFleet = profile?.fleetsIds.includes(fleet.id);
@@ -64,7 +69,7 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
           <OnlyIconButton
             icon={<Share2 size={16} color={colors.neutral900} />}
             variant="circle"
-            onPress={() => shareFleet(fleet.id, fleet.name)}
+            onPress={copyToClipboard}
           />
         </View>
         {usingFleet ? (

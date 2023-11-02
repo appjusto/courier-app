@@ -9,6 +9,7 @@ import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/D
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { getAppJustoURLPath } from '@/common/constants/urls';
 import { Time, formatTimestamp } from '@/common/formatters/timestamp';
 import Selfie from '@/common/screens/profile/images/selfie';
 import borders from '@/common/styles/borders';
@@ -58,7 +59,7 @@ export default function AvailableCouriersChatScreen() {
             backgroundColor: colors.neutral50,
           }}
         >
-          <View style={{ padding: paddings.lg }}>
+          <View style={{ padding: paddings.lg, paddingRight: paddings.xl }}>
             {chat
               ? chat.map((group) => {
                   console.log('group', group.id);
@@ -85,13 +86,15 @@ export default function AvailableCouriersChatScreen() {
                       </View>
                       <View style={{}}>
                         {group.messages.map((message) => {
-                          const link = /https:\/\/appjusto.com.br\/(.+)/.exec(message.message);
-                          const isLink = Boolean(link);
+                          const path = getAppJustoURLPath(message.message);
                           return (
                             <Pressable
                               key={message.id}
                               onPress={() => {
-                                if (link && link[1]) router.push(link[1] as `https://`);
+                                if (path) {
+                                  console.log(path);
+                                  router.push(path as `https://`);
+                                }
                               }}
                             >
                               <View
@@ -120,7 +123,7 @@ export default function AvailableCouriersChatScreen() {
                                   <View style={{}}>
                                     <DefaultText
                                       style={{
-                                        textDecorationLine: isLink ? 'underline' : undefined,
+                                        textDecorationLine: path ? 'underline' : undefined,
                                       }}
                                       color="neutral900"
                                     >
