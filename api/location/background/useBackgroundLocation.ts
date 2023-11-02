@@ -27,6 +27,8 @@ export const useBackgroundLocation = (enabled: boolean) => {
   }, [coordinates]);
 
   useEffect(() => {
+    if (!userId) return;
+    if (!userToken) return;
     const onLocation = BackgroundGeolocation.onLocation((value) => {
       setLocation(latlngFromLocation(value));
     });
