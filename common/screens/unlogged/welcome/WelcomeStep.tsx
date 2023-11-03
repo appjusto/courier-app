@@ -17,7 +17,7 @@ export const WelcomeStep = ({ icon, header, text, ...props }: PageProps) => {
   // UI
   return (
     <View style={{ ...screens.headless }} {...props}>
-      <View style={{ flex: 0.3, backgroundColor: colors.neutral50 }} />
+      <View style={{ flex: 0.2, backgroundColor: colors.neutral50 }} />
       <View
         style={{
           // flex: 1,

@@ -5,7 +5,7 @@ interface Props extends ImageProps {}
 
 const IMAGE = require('./step_01.png');
 
-const SIZE = isLargeScreen() ? 360 : 260;
+const SIZE = isLargeScreen() ? 360 : 220;
 
 export const WelcomeStep1Image = ({ style, ...props }: Props) => {
   return <Image source={IMAGE} style={[{ width: SIZE, height: SIZE }, style]} />;
