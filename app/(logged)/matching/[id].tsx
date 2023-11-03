@@ -90,7 +90,7 @@ export default function MatchingScreen() {
       setExpiredModalShown(true);
     }
   }, [situation]);
-  const distanceExceedsFleetLimit = routeDistanceToOrigin > (fleet?.maxDistanceToOrigin ?? 0);
+  const distanceExceedsFleetLimit = routeDistanceToOrigin > 2 * (fleet?.maxDistanceToOrigin ?? 0);
   useEffect(() => {
     if (!distanceExceedsFleetLimit) return;
     trackEvent('Distância passou limite');
