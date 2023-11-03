@@ -53,7 +53,7 @@ export const LocationDisclosureModal = ({ onDismiss, ...props }: Props) => {
           <View style={{ flex: 1 }} />
           <DefaultButton
             style={{ marginVertical: paddings.md }}
-            title="Autorizar"
+            title="Continuar"
             onPress={onDismiss}
           />
         </View>

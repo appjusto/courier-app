@@ -42,8 +42,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         'com.transistorsoft.fetch',
         'com.transistorsoft.customtask',
       ],
-      NSUserTrackingUsageDescription:
-        'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
       NSLocationWhenInUseUsageDescription:
         'Precisamos da sua localização para enviar corridas próximas e monitorar a entrega.',
       NSLocationAlwaysAndWhenInUseUsageDescription:
