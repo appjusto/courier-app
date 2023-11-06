@@ -1,6 +1,7 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
+import { ShowToast } from '@/common/components/toast/Toast';
 import { DefaultCard } from '@/common/components/views/cards/default-card';
 import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import {
@@ -14,8 +15,9 @@ import screens from '@/common/styles/screens';
 import { getAppVersion } from '@/common/version';
 import { getDeviceVersion } from '@/common/version/device';
 import { Stack, useRouter } from 'expo-router';
+import * as Updates from 'expo-updates';
 import { ChevronRight, FileText, Instagram, Laptop, SquareCode } from 'lucide-react-native';
-import { Linking, View } from 'react-native';
+import { Linking, Pressable, View } from 'react-native';
 
 export default function ProfileAbout() {
   // context
@@ -63,11 +65,16 @@ export default function ProfileAbout() {
       />
       <View style={{ flex: 1 }} />
       <View style={{ padding: paddings.lg }}>
-        <DefaultCard
-          icon={<DefaultCardIcon iconName="smartphone" />}
-          title={`Versão: ${getAppVersion()}`}
-          subtitle={getDeviceVersion()}
-        />
+        <Pressable
+          delayLongPress={1000}
+          onLongPress={() => ShowToast(`${Updates.channel} / ${Updates.runtimeVersion}`)}
+        >
+          <DefaultCard
+            icon={<DefaultCardIcon iconName="smartphone" />}
+            title={`Versão: ${getAppVersion()}`}
+            subtitle={getDeviceVersion()}
+          />
+        </Pressable>
       </View>
     </DefaultScrollView>
   );
