@@ -67,11 +67,13 @@ export default class ProfileApi {
       updatedOn: serverTimestamp(),
     };
     try {
+      // console.log('updating profile', changes);
       await profileRef(courierId).update(update);
     } catch (error) {
       if (retry > 0) {
         setTimeout(() => this.updateProfile(changes, retry - 1), 2000);
       } else {
+        // console.log('error!')
         throw error;
       }
     }

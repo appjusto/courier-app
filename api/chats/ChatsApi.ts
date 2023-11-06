@@ -31,7 +31,7 @@ export default class ChatsApi {
   observeAvailableCouriersChat(resultHandler: (chats: WithId<ChatMessage>[]) => void) {
     const query = chatsRef()
       .where('type', '==', 'available-couriers')
-      .where('timestamp', '>', fromDate(Dayjs().subtract(2, 'h').toDate()))
+      .where('timestamp', '>', fromDate(Dayjs().subtract(4, 'h').toDate()))
       .orderBy('timestamp', 'asc');
     return query.onSnapshot(
       async (snapshot) => {

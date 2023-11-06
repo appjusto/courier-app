@@ -8,6 +8,7 @@ import {
   FileText,
   HelpCircle,
   MessageCircle,
+  MessagesSquare,
   Package,
   ShieldCheck,
   Smartphone,
@@ -30,6 +31,7 @@ export type IconName =
   | 'smartphone'
   | 'file'
   | 'chat'
+  | 'chat-messages'
   | 'helmet'
   | 'alert'
   | 'cancel'
@@ -42,12 +44,10 @@ type Variant = 'lighter' | 'darker' | 'dark' | 'warning' | 'neutral' | 'white';
 export interface DefaultIconProps extends ViewProps {
   iconName: IconName;
   variant?: Variant;
+  iconSize?: number;
 }
 
-const size = 50;
-const iconSize = 24;
-
-const getIcon = (name: IconName, variant?: Variant) => {
+const getIcon = (name: IconName, iconSize: number, variant?: Variant) => {
   let color = colors.primary500;
   if (variant === 'darker') color = colors.primary900;
   else if (variant === 'dark') color = colors.black;
@@ -81,6 +81,9 @@ const getIcon = (name: IconName, variant?: Variant) => {
   if (name === 'chat') {
     return <MessageCircle size={iconSize} color={color} />;
   }
+  if (name === 'chat-messages') {
+    return <MessagesSquare size={iconSize} color={color} />;
+  }
   if (name === 'alert') {
     return <AlertOctagon size={iconSize} color={color} />;
   }
@@ -108,6 +111,7 @@ const getIcon = (name: IconName, variant?: Variant) => {
 export const DefaultCardIcon = ({
   iconName,
   variant = 'lighter',
+  iconSize = 24,
   style,
   ...props
 }: DefaultIconProps) => {
@@ -118,6 +122,7 @@ export const DefaultCardIcon = ({
   else if (variant === 'warning') backgroundColor = colors.warning100;
   else if (variant === 'neutral') backgroundColor = colors.neutral50;
   else if (variant === 'white') backgroundColor = colors.white;
+  const size = iconSize * 2;
   return (
     <View
       style={[
@@ -133,7 +138,7 @@ export const DefaultCardIcon = ({
       ]}
       {...props}
     >
-      {getIcon(iconName, variant)}
+      {getIcon(iconName, iconSize, variant)}
     </View>
   );
 };

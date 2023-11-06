@@ -11,11 +11,13 @@ import { useContextAvailabilityModal } from '@/api/preferences/context/Preferenc
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
-import { DefaultCard } from '@/common/components/views/cards/default-card';
-import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { ActivitySummary } from '@/common/screens/home/activity/activity-summary';
 import { AvailabilityModal } from '@/common/screens/home/availability-modal';
 import { ActiveRequestsCards } from '@/common/screens/home/cards/active-requests-cards';
+import { AvailableChatCard } from '@/common/screens/home/cards/available-chat-card';
+import { CalculatorCard } from '@/common/screens/home/cards/calculator-card';
+import { HowItWorksCard } from '@/common/screens/home/cards/how-it-works-card';
+import { NeedSupportCard } from '@/common/screens/home/cards/need-support-card';
 import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-cards';
 import { DisplayOverAppsModal } from '@/common/screens/home/display-over-apps-modal';
 import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
@@ -28,7 +30,7 @@ import screens from '@/common/styles/screens';
 import { CourierMode } from '@appjusto/types';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Linking, Pressable, View } from 'react-native';
+import { Linking, View } from 'react-native';
 
 export default function HomeScreen() {
   // context
@@ -103,29 +105,13 @@ export default function HomeScreen() {
           >
             <OngoingOrdersCards />
             <ActiveRequestsCards />
-            <Pressable onPress={() => router.push('/(logged)/howitworks')}>
-              <DefaultCard
-                icon={<DefaultCardIcon iconName="file" />}
-                title="Como funciona o AppJusto"
-                subtitle="Conheça as vantagens e entenda os benefícios que temos para você"
-              />
-            </Pressable>
-            <Pressable onPress={() => router.push('/calculator/')}>
-              <DefaultCard
-                style={{ marginTop: paddings.sm }}
-                icon={<DefaultCardIcon iconName="file" />}
-                title="Calculadora de ganhos"
-                subtitle="Calcule seus ganhos por corrida e por hora"
-              />
-            </Pressable>
-            <Pressable onPress={() => setSupportModalShown(true)}>
-              <DefaultCard
-                style={{ marginTop: paddings.sm }}
-                icon={<DefaultCardIcon iconName="alert" variant="warning" />}
-                title="Preciso de ajuda"
-                subtitle="Fale com nosso time ou faça uma denúncia"
-              />
-            </Pressable>
+            <AvailableChatCard />
+            <CalculatorCard />
+            <HowItWorksCard style={{ marginTop: paddings.sm }} />
+            <NeedSupportCard
+              style={{ marginTop: paddings.sm }}
+              onPress={() => setSupportModalShown(true)}
+            />
           </View>
         </DefaultScrollView>
       </DefaultView>

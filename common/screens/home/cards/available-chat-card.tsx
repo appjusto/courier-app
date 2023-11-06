@@ -1,0 +1,36 @@
+import { useContextProfile } from '@/common/auth/AuthContext';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
+import { DefaultCardIcon } from '@/common/components/views/cards/icon';
+import paddings from '@/common/styles/paddings';
+import { onSimulator } from '@/common/version/device';
+import { router } from 'expo-router';
+import { Pressable, View, ViewProps } from 'react-native';
+
+interface Props extends ViewProps {}
+
+export const AvailableChatCard = ({ style, ...props }: Props) => {
+  // context
+  const profile = useContextProfile();
+  // UI
+  if (!onSimulator()) {
+    if (!profile?.statistics) return null;
+    if (profile.statistics.deliveries < 100) return null;
+    if (
+      profile.statistics.canceled &&
+      (profile.statistics.canceled / profile.statistics.deliveries) * 100 > 5
+    ) {
+      return null;
+    }
+  }
+  return (
+    <View style={[{ marginBottom: paddings.sm }, style]} {...props}>
+      <Pressable onPress={() => router.push('/chat/available')}>
+        <DefaultCard
+          icon={<DefaultCardIcon iconName="chat-messages" />}
+          title="Chat appjusto"
+          subtitle="Converse com quem também está disponível agora"
+        />
+      </Pressable>
+    </View>
+  );
+};

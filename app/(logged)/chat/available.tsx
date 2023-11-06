@@ -1,19 +1,26 @@
 import { useContextApi } from '@/api/ApiContext';
+import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveAvailableCouriersChat } from '@/api/chats/useObserveAvailableCouriersChat';
 import { useContextLocation } from '@/api/location/context/LocationContext';
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
 import { CircledView } from '@/common/components/containers/CircledView';
 import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/DefaultKeyboardAwareScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { RoundedText } from '@/common/components/texts/RoundedText';
+import { DefaultCardIcon } from '@/common/components/views/cards/icon';
+import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { getAppJustoURLPath } from '@/common/constants/urls';
+import { handleErrorMessage } from '@/common/firebase/errors';
 import { Time, formatTimestamp } from '@/common/formatters/timestamp';
 import Selfie from '@/common/screens/profile/images/selfie';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
+import lineHeight from '@/common/styles/lineHeight';
 import paddings from '@/common/styles/paddings';
 import { Image } from 'expo-image';
 import { Stack, router } from 'expo-router';
@@ -26,28 +33,87 @@ const AppJustoLogo = require('../../../assets/images/icon.png');
 export default function AvailableCouriersChatScreen() {
   // context
   const api = useContextApi();
-  const courier = useContextProfile();
+  const showToast = useShowToast();
+  const profile = useContextProfile();
   const location = useContextLocation();
-  const courierId = courier?.id;
-  const available = courier?.status === 'available';
+  const courierId = profile?.id;
+  const status = profile?.status;
+  const available = status === 'available';
   // state
   const chat = useObserveAvailableCouriersChat(available);
   const [message, setMessage] = useState('');
   // tracking
   useTrackScreenView('Chat entregadores online');
   // handlers
+  const toggleWorking = () => {
+    if (!profile) return;
+    if (status === 'available') return;
+    if (status === 'inactive') return;
+    if (status === 'dispatching') {
+      showToast('Você precisa finalizar a entrega para utilizar o chat público.', 'warning');
+      return;
+    }
+    trackEvent('Ficou disponível');
+    api
+      .profile()
+      .updateProfile({ status: 'available' })
+      .catch((error) => {
+        const message = handleErrorMessage(error);
+        showToast(message, 'error');
+      });
+  };
   const sendMessage = () => {
-    if (!courier?.name) return;
+    if (!profile?.name) return;
     setMessage('');
-    api.chat().sendPublicMessage(message, courier.name, location).catch(console.error);
+    api.chat().sendPublicMessage(message, profile.name, location).catch(console.error);
   };
   // UI
   return (
     <DefaultKeyboardAwareScrollView>
       <Stack.Screen options={{ title: 'Chat geral' }} />
       {!available ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <DefaultText>Fique ativo para usar o chat</DefaultText>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: paddings.xl,
+          }}
+        >
+          <View style={{ flex: 1 }} />
+          <DefaultCardIcon iconName="chat-messages" iconSize={80} />
+          <DefaultText style={{ marginTop: paddings.lg, textAlign: 'center' }} size="lg">
+            Saiba onde os pedidos estão tocando e converse com quem também está disponível
+          </DefaultText>
+          <DefaultText style={{ marginTop: paddings.lg, textAlign: 'center' }} size="md">
+            Fique disponível para acessar este chat
+          </DefaultText>
+          <View
+            style={{
+              marginTop: paddings.xl,
+              padding: paddings.lg,
+              ...borders.default,
+              borderColor: colors.neutral100,
+            }}
+          >
+            <DefaultText color="black">Principais recursos</DefaultText>
+            <DefaultText
+              style={{ marginTop: paddings.md, ...lineHeight.xs }}
+              size="xs"
+              color="neutral800"
+            >{`\u00B7 Saber onde os pedidos estão tocando\n\u00B7 Convidar outras pessoas para entrar na sua frota\n\u00B7 Fazer contatos e fortalecer a categoria`}</DefaultText>
+            <RoundedText
+              style={{ marginTop: paddings.md, backgroundColor: colors.info100 }}
+              size="xs"
+              color="info900"
+            >
+              Mensagens disponíveis até 4 horas após envio
+            </RoundedText>
+          </View>
+          <View style={{ flex: 1 }} />
+          <View style={{ width: '100%' }}>
+            <DefaultButton onPress={toggleWorking} title="Ficar disponível" />
+          </View>
         </View>
       ) : null}
 

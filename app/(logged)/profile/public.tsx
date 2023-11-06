@@ -1,8 +1,11 @@
+import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
+import { DefaultInput } from '@/common/components/inputs/default/DefaultInput';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
 import { Loading } from '@/common/components/views/Loading';
@@ -14,26 +17,50 @@ import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
+import typography from '@/common/styles/typography';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { Stack } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { Copy, Share2, ThumbsDown, ThumbsUp } from 'lucide-react-native';
-import { RefObject, useRef } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import ViewShot from 'react-native-view-shot';
 import Selfie from '../../../common/screens/profile/images/selfie';
 
 export default function PublicProfileScreen() {
   // context
+  const api = useContextApi();
   const profile = useContextProfile();
   const showToast = useShowToast();
+  // refs
+  const aboutRef = useRef<TextInput>(null);
+  const ref = useRef<ViewShot>() as RefObject<ViewShot>;
   // state
   const fleet = useObserveActiveFleet();
-  // refs
-  const ref = useRef<ViewShot>() as RefObject<ViewShot>;
+  const [about, setAbout] = useState<string>();
+  const [aboutFocused, setAboutFocused] = useState(false);
   // tracking
   useTrackScreenView('Perfil público');
+  // side effects
+  useEffect(() => {
+    if (profile?.about && about === undefined) setAbout(profile.about ?? '');
+  }, [profile, about]);
   // handlers
+  const updateProfileHandler = () => {
+    if (!profile?.id) return;
+    api
+      .profile()
+      .updateProfile({ about })
+      .then(() => {
+        aboutRef.current?.blur();
+        showToast('Seu perfil foi atualizado!', 'success');
+      })
+      .catch((error) => {
+        console.error(error);
+        showToast('Não foi possível atualizar seu perfil. Tente novamente', 'error');
+      });
+  };
   const shareProfile = () => {
     if (!ref.current?.capture) {
       showToast('Não foi possível criar a imagem com seus resultados.', 'error');
@@ -80,10 +107,55 @@ export default function PublicProfileScreen() {
             <DefaultText style={{ marginTop: paddings.sm }} size="xl">
               {profile.name}
             </DefaultText>
-            <DefaultText style={{ marginTop: paddings.sm }} color="neutral800">
-              {profile.about ?? ''}
-            </DefaultText>
+            <DefaultInput
+              ref={aboutRef}
+              style={{ marginTop: paddings.sm, minHeight: 70, width: '100%' }}
+              inputStyle={{ ...typography.sm }}
+              containerStyle={{ borderColor: colors.neutral200 }}
+              title="Sobre você"
+              placeholder="Que tal falar um pouco sobre você para que o cliente te conheça melhor?"
+              keyboardType="default"
+              multiline
+              value={about}
+              onChangeText={setAbout}
+              onFocus={() => setAboutFocused(true)}
+              onBlur={() => setAboutFocused(false)}
+            />
+            {aboutFocused ? (
+              <LinkButton
+                variant="ghost"
+                style={{ alignSelf: 'flex-end' }}
+                onPress={updateProfileHandler}
+              >
+                Salvar
+              </LinkButton>
+            ) : null}
           </View>
+          {/* financial goal */}
+          {/* <View
+            style={{
+              marginTop: paddings.lg,
+              padding: paddings.lg,
+              ...borders.default,
+              borderColor: colors.neutral100,
+            }}
+          >
+            <DefaultText size="md">Meta financeira</DefaultText>
+            <View
+              style={{
+                marginTop: paddings.xs,
+              }}
+            >
+              <DefaultText size="xs">
+                Adicione uma meta financeira para incentivar os clientes a dar uma caixinha
+              </DefaultText>
+              <DefaultButton
+                style={{ marginTop: paddings.lg }}
+                onPress={() => null}
+                title="Adicionar meta financeira"
+              />
+            </View>
+          </View> */}
           {/* code */}
           <View
             style={{
