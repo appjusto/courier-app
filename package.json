@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@appjusto/dates": "^1.0.1",
-    "@appjusto/types": "^23.10.4",
+    "@appjusto/types": "^23.11.5",
     "@expo/react-native-action-sheet": "^4.0.1",
     "@expo/vector-icons": "^13.0.0",
     "@fnando/cnpj": "^1.0.2",

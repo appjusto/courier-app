@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 
 const KEY = 'display-over-apps-status';
 
@@ -8,7 +9,9 @@ export const useShowDisplayOverApps = (shouldShowLocationDisclosure?: boolean) =
   const [shouldShow, setShouldShow] = useState<boolean>();
   // side effects
   useEffect(() => {
-    if (shouldShowLocationDisclosure) {
+    if (Platform.OS !== 'android') {
+      setShouldShow(false);
+    } else if (shouldShowLocationDisclosure) {
       setShouldShow(false);
     } else if (shouldShow === undefined) {
       AsyncStorage.getItem(KEY)

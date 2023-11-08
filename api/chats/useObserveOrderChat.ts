@@ -10,7 +10,7 @@ export const useObserveChat = (orderId: string | undefined, counterpartId: strin
   const api = useContextApi();
   // state
   const [orderChat, setOrderChat] = useState<WithId<ChatMessage>[]>();
-  const [chat, setChat] = useState<WithId<GroupedChatMessages>[]>();
+  const [chat, setChat] = useState<WithId<GroupedChatMessages<ChatMessage>>[]>();
   // side effects
   useEffect(() => {
     if (!orderId) return;

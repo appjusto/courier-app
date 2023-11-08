@@ -1,7 +1,7 @@
 import { documentsAs } from '@/common/firebase/documentAs';
 import { serverTimestamp } from '@/common/firebase/serverTimestamp';
 import { Dayjs } from '@appjusto/dates';
-import { ChatMessage, WithId } from '@appjusto/types';
+import { ChatMessage, ChatPublicMessage, WithId } from '@appjusto/types';
 import firestore from '@react-native-firebase/firestore';
 import { LatLng } from 'react-native-maps';
 import AuthApi from '../auth/AuthApi';
@@ -28,7 +28,7 @@ export default class ChatsApi {
     });
   }
 
-  observeAvailableCouriersChat(resultHandler: (chats: WithId<ChatMessage>[]) => void) {
+  observeAvailableCouriersChat(resultHandler: (chats: WithId<ChatPublicMessage>[]) => void) {
     const query = chatsRef()
       .where('type', '==', 'available-couriers')
       .where('timestamp', '>', fromDate(Dayjs().subtract(4, 'h').toDate()))
@@ -38,7 +38,7 @@ export default class ChatsApi {
         if (snapshot.empty) {
           resultHandler([]);
         } else {
-          resultHandler(documentsAs<ChatMessage>(snapshot.docs));
+          resultHandler(documentsAs<ChatPublicMessage>(snapshot.docs));
         }
       },
       (error) => {
@@ -47,7 +47,7 @@ export default class ChatsApi {
     );
   }
 
-  async sendMessage(message: Partial<ChatMessage>) {
+  async sendMessage(message: Partial<ChatMessage | ChatPublicMessage>) {
     await chatsRef().add({
       ...message,
       read: false,

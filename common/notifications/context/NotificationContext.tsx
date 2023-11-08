@@ -24,7 +24,11 @@ export const NotificationProvider = (props: Props) => {
   const message = notification ? (notification.request.content.data as PushMessageData) : undefined;
   useEffect(() => {
     if (!message) return;
-    if (message.action === 'navigate' || message.action === 'order-request') {
+    if (
+      message.action === 'navigate' ||
+      message.action === 'order-request' ||
+      message.action === 'order-chat'
+    ) {
       setDeeplink(message.url);
     }
   }, [message]);

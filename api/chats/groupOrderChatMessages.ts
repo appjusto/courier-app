@@ -1,11 +1,13 @@
-import { ChatMessage, WithId } from '@appjusto/types';
+import { ChatMessage, ChatPublicMessage, WithId } from '@appjusto/types';
 import { last } from 'lodash';
 import { GroupedChatMessages } from './types';
 
-const groupId = (message: ChatMessage) => message.from.id ?? message.from.agent;
+const groupId = (message: ChatMessage | ChatPublicMessage) => message.from.id ?? message.from.agent;
 
-export const groupOrderChatMessages = (messages: WithId<ChatMessage>[]) =>
-  messages.reduce<GroupedChatMessages[]>((groups, message) => {
+export const groupOrderChatMessages = <T extends ChatMessage | ChatPublicMessage>(
+  messages: WithId<T>[]
+) =>
+  messages.reduce<GroupedChatMessages<T>[]>((groups, message) => {
     const currentGroup = last(groups);
     if (groupId(message) === currentGroup?.from) {
       currentGroup!.messages.push(message);
@@ -19,6 +21,6 @@ export const groupOrderChatMessages = (messages: WithId<ChatMessage>[]) =>
         messages: [message],
         from: groupId(message),
         fromFlavor: message.from.agent,
-      } as GroupedChatMessages,
+      } as GroupedChatMessages<T>,
     ];
   }, []);

@@ -1,6 +1,6 @@
-import { ChatMessage } from '@appjusto/types';
+import { ChatMessage, ChatPublicMessage } from '@appjusto/types';
 
-export const sortMessages = (a: ChatMessage, b: ChatMessage) => {
+export const sortMessages = <T extends ChatMessage | ChatPublicMessage>(a: T, b: T) => {
   if (a.timestamp && b.timestamp) return a.timestamp.toMillis() - b.timestamp.toMillis();
   if (!a.timestamp) return 1;
   else if (!b.timestamp) return -1;

@@ -1,4 +1,4 @@
-import { ChatMessage, WithId } from '@appjusto/types';
+import { ChatPublicMessage, WithId } from '@appjusto/types';
 import { useEffect, useState } from 'react';
 import { useContextApi } from '../ApiContext';
 import { groupOrderChatMessages } from './groupOrderChatMessages';
@@ -9,8 +9,8 @@ export const useObserveAvailableCouriersChat = (enabled: boolean) => {
   // context
   const api = useContextApi();
   // state
-  const [messages, setMessages] = useState<WithId<ChatMessage>[]>();
-  const [chat, setChat] = useState<WithId<GroupedChatMessages>[]>();
+  const [messages, setMessages] = useState<WithId<ChatPublicMessage>[]>();
+  const [chat, setChat] = useState<WithId<GroupedChatMessages<ChatPublicMessage>>[]>();
   // side effects
   useEffect(() => {
     if (!enabled) return;

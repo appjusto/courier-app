@@ -1,8 +1,8 @@
-import { ChatMessage, ClientFlavor, WithId } from '@appjusto/types';
+import { ChatMessage, ChatPublicMessage, ClientFlavor, WithId } from '@appjusto/types';
 
-export interface GroupedChatMessages {
+export interface GroupedChatMessages<T extends ChatMessage | ChatPublicMessage> {
   id: string;
   from: string;
   fromFlavor: ClientFlavor;
-  messages: WithId<ChatMessage>[];
+  messages: WithId<T>[];
 }

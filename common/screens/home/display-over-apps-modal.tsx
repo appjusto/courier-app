@@ -56,7 +56,7 @@ export const DisplayOverAppsModal = ({ onOpenSettings, onDismiss, ...props }: Pr
                 Ative a função "Exibir sobre outros aplicativos"
               </DefaultText>
               <View style={{ marginRight: paddings['2xl'] }}>
-                <Step
+                {/* <Step
                   style={{ marginTop: paddings['2xl'] }}
                   index="1"
                   text="Abra as Configurações do seu celular."
@@ -72,26 +72,26 @@ export const DisplayOverAppsModal = ({ onOpenSettings, onDismiss, ...props }: Pr
                   style={{ marginTop: paddings.lgg }}
                   index="3"
                   text="Procure o aplicativo do AppJusto que você está usando na lista de aplicativos instalados e toque nele."
-                />
+                /> */}
                 <Step
                   style={{ marginTop: paddings.lgg }}
-                  index="4"
+                  index="1"
                   text={
-                    'Na página de informações do aplicativo, toque em "Permissões" ou "Acessibilidade".'
+                    'Na tela de configurações do aplicativo, toque em "Permissões" ou "Acessibilidade".'
                   }
                 />
                 <Step
                   style={{ marginTop: paddings.lgg }}
-                  index="5"
+                  index="2"
                   text={
-                    'Procure a opção "Exibir sobre outros aplicativos" ou algo semelhante. Ela pode estar localizada em "Janelas flutuantes" ou "Sobreposições de tela".'
+                    'Ative a opção "Exibir sobre outros aplicativos". Ela pode estar localizada em "Janelas flutuantes" ou "Sobreposições de tela".'
                   }
                 />
-                <Step
+                {/* <Step
                   style={{ marginTop: paddings.lgg }}
-                  index="6"
+                  index="3"
                   text="Ative essa opção para permitir que o aplicativo seja exibido sobre outros aplicativos."
-                />
+                /> */}
               </View>
               <DefaultButton
                 style={{ marginTop: paddings['2xl'] }}
