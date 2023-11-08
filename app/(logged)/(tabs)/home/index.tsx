@@ -28,7 +28,6 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { CourierMode } from '@appjusto/types';
-import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Linking, View } from 'react-native';
 
@@ -36,7 +35,6 @@ export default function HomeScreen() {
   // context
   const api = useContextApi();
   const profile = useContextProfile();
-  const router = useRouter();
   // tracking
   useTrackScreenView('Início');
   // state

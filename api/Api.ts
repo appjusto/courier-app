@@ -8,7 +8,7 @@ import storage from '@react-native-firebase/storage';
 import * as Application from 'expo-application';
 
 import { onSimulator } from '@/common/version/device';
-import { getManifestExtra } from '../extra';
+import { getEnv, getManifestExtra } from '../extra';
 import AuthApi from './auth/AuthApi';
 import ChatsApi from './chats/ChatsApi';
 import ComplaintsApi from './complaints/ComplaintsApi';
@@ -41,7 +41,7 @@ export default class Api {
 
   constructor() {
     auth().languageCode = 'pt';
-    if (!onSimulator()) {
+    if (!onSimulator() && getEnv() === 'live') {
       const provider = appCheck().newReactNativeFirebaseAppCheckProvider();
       provider.configure({
         android: {

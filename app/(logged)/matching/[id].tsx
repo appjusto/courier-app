@@ -34,6 +34,7 @@ import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { round } from 'lodash';
 import { Package, Utensils, Zap } from 'lucide-react-native';
 import { Skeleton } from 'moti/skeleton';
+import { nanoid } from 'nanoid/non-secure';
 import { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 
@@ -46,6 +47,7 @@ export default function MatchingScreen() {
   const params = useLocalSearchParams<{ id: string }>();
   const requestId = params.id;
   // state
+  const [matchKey, setMatchKey] = useState(nanoid());
   const fleet = useObserveActiveFleet();
   const request = useObserveRequest(requestId);
   const requestDistanceToOrigin = request?.distanceToOrigin;
@@ -107,6 +109,7 @@ export default function MatchingScreen() {
       })
       .catch((error: unknown) => {
         if (error instanceof Error) showToast(error.message, 'error');
+        setMatchKey(nanoid());
       });
   }, [api, request?.orderId, route?.distance, showToast]);
   const rejectOrder = (issue: Issue, comment: string) => {
@@ -361,6 +364,7 @@ export default function MatchingScreen() {
       <View style={{ padding: paddings.lg }}>
         {/* button */}
         <ConfirmButton
+          key={matchKey}
           style={{ marginTop: 0 }}
           text="Aceitar"
           trackText="Arraste para aceitar"

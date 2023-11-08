@@ -19,7 +19,7 @@ export const CurrentOrderPlace = ({ order, style, ...props }: Props) => {
   if (!currentPlace) return null;
   return (
     <View style={[{ padding: paddings.lg }, style]} {...props}>
-      <DefaultText>{currentPlaceLabel}</DefaultText>
+      <DefaultText size="xs">{currentPlaceLabel}</DefaultText>
       {business?.name && getDispatchingStateFocus(dispatchingState) === 'pickup' ? (
         <DefaultText size="md" color="black">
           {business.name}
