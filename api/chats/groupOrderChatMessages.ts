@@ -21,6 +21,7 @@ export const groupOrderChatMessages = <T extends ChatMessage | ChatPublicMessage
         messages: [message],
         from: groupId(message),
         fromFlavor: message.from.agent,
+        fromName: message.from.name,
       } as GroupedChatMessages<T>,
     ];
   }, []);

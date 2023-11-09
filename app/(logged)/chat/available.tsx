@@ -130,84 +130,99 @@ export default function AvailableCouriersChatScreen() {
               ? chat.map((group) => {
                   console.log('group', group.id);
                   return (
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: group.from === courierId ? 'flex-end' : 'flex-start',
-                      }}
-                      key={group.id}
-                    >
-                      <View>
-                        {group.from === 'platform' ? (
-                          <CircledView size={40} style={{ marginTop: 0, borderWidth: 0 }}>
-                            <Image
-                              style={{ width: 40, height: 40 }}
-                              source={AppJustoLogo}
-                              contentFit="cover"
-                            />
-                          </CircledView>
-                        ) : group.from !== courierId ? (
-                          <Selfie size={40} courierId={courierId} />
-                        ) : null}
-                      </View>
-                      <View style={{}}>
-                        {group.messages.map((message) => {
-                          const path = getAppJustoURLPath(message.message);
-                          return (
-                            <Pressable
-                              key={message.id}
-                              onPress={() => {
-                                if (path) {
-                                  console.log(path);
-                                  router.push(path as `https://`);
-                                }
-                              }}
-                            >
-                              <View
-                                style={{
-                                  // borderWidth: 1,
-                                  flexDirection: 'row',
-                                  justifyContent:
-                                    group.from === courierId ? 'flex-end' : 'flex-start',
-                                  marginHorizontal: paddings.md,
-                                  marginBottom: paddings.sm,
+                    <View key={group.id}>
+                      {group.fromName ? (
+                        <DefaultText
+                          style={{
+                            marginLeft: group.from === courierId ? 0 : 54,
+                            marginRight: group.from === courierId ? 54 : 0,
+                            alignSelf: group.from === courierId ? 'flex-end' : 'flex-start',
+                            marginBottom: paddings.xs,
+                          }}
+                          size="xs"
+                          color="black"
+                        >
+                          {group.fromName}
+                        </DefaultText>
+                      ) : null}
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: group.from === courierId ? 'flex-end' : 'flex-start',
+                        }}
+                      >
+                        <View>
+                          {group.from === 'platform' ? (
+                            <CircledView size={40} style={{ marginTop: 0, borderWidth: 0 }}>
+                              <Image
+                                style={{ width: 40, height: 40 }}
+                                source={AppJustoLogo}
+                                contentFit="cover"
+                              />
+                            </CircledView>
+                          ) : group.from !== courierId ? (
+                            <Selfie size={40} courierId={group.from} />
+                          ) : null}
+                        </View>
+                        <View style={{}}>
+                          {group.messages.map((message) => {
+                            const path = getAppJustoURLPath(message.message);
+                            return (
+                              <Pressable
+                                key={message.id}
+                                onPress={() => {
+                                  if (path) {
+                                    console.log(path);
+                                    router.push(path as `https://`);
+                                  }
                                 }}
                               >
                                 <View
                                   style={{
-                                    padding: paddings.md,
-
-                                    ...borders.default,
-                                    backgroundColor:
-                                      group.from === courierId ? colors.primary100 : colors.white,
-                                    borderColor:
-                                      group.from === courierId
-                                        ? colors.primary300
-                                        : colors.neutral100,
+                                    // borderWidth: 1,
+                                    flexDirection: 'row',
+                                    justifyContent:
+                                      group.from === courierId ? 'flex-end' : 'flex-start',
+                                    marginHorizontal: paddings.md,
+                                    marginBottom: paddings.sm,
                                   }}
                                 >
-                                  <View style={{}}>
-                                    <DefaultText
-                                      style={{
-                                        textDecorationLine: path ? 'underline' : undefined,
-                                      }}
-                                      color="neutral900"
-                                    >
-                                      {message.message}
-                                    </DefaultText>
-                                    <DefaultText style={{ alignSelf: 'flex-end' }} size="xxs">
-                                      {message.timestamp
-                                        ? formatTimestamp(message.timestamp, Time)
-                                        : ''}
-                                    </DefaultText>
+                                  <View
+                                    style={{
+                                      padding: paddings.md,
+
+                                      ...borders.default,
+                                      backgroundColor:
+                                        group.from === courierId ? colors.neutral100 : colors.white,
+                                      borderColor:
+                                        group.from === courierId
+                                          ? colors.neutral300
+                                          : colors.neutral100,
+                                    }}
+                                  >
+                                    <View style={{}}>
+                                      <DefaultText
+                                        style={{
+                                          textDecorationLine: path ? 'underline' : undefined,
+                                        }}
+                                        color="neutral900"
+                                      >
+                                        {message.message}
+                                      </DefaultText>
+                                      <DefaultText style={{ alignSelf: 'flex-end' }} size="xxs">
+                                        {message.timestamp
+                                          ? formatTimestamp(message.timestamp, Time)
+                                          : ''}
+                                      </DefaultText>
+                                    </View>
                                   </View>
                                 </View>
-                              </View>
-                            </Pressable>
-                          );
-                        })}
+                              </Pressable>
+                            );
+                          })}
+                        </View>
+                        <View>{group.from === courierId ? <Selfie size={40} /> : null}</View>
                       </View>
-                      <View>{group.from === courierId ? <Selfie size={40} /> : null}</View>
                     </View>
                   );
                 })

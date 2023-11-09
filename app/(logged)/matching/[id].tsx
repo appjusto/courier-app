@@ -290,7 +290,7 @@ export default function MatchingScreen() {
             <View style={{ justifyContent: 'space-between', alignItems: 'center' }}>
               <PackageMarker />
               <View style={{ flex: 1, width: 1, backgroundColor: colors.black }} />
-              <DestinationMarker style={{ marginBottom: paddings.md }} />
+              <DestinationMarker style={{ marginBottom: 18 }} />
             </View>
             <View style={{ flex: 1, marginLeft: paddings.sm }}>
               <View
@@ -301,29 +301,33 @@ export default function MatchingScreen() {
                 }}
               >
                 <View>
-                  <DefaultText size="md" color="black">
-                    Retirada
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {/* <DefaultText size="xs" color="black">
+                      Retirada
+                    </DefaultText> */}
+                    <View>
+                      <Skeleton.Group show={hideValues}>
+                        <Skeleton colors={[colors.neutral50, colors.neutral100]} width={120}>
+                          <RoundedView
+                            style={{
+                              paddingHorizontal: paddings.sm,
+                              paddingVertical: paddings.xs,
+                              backgroundColor: colors.neutral50,
+                              // marginLeft: paddings.sm,
+                              borderWidth: 0,
+                            }}
+                          >
+                            <DefaultText color="black" size="xs">
+                              {`${formatDistance(routeDistanceToOrigin)} até retirada`}
+                            </DefaultText>
+                          </RoundedView>
+                        </Skeleton>
+                      </Skeleton.Group>
+                    </View>
+                  </View>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="md">
+                    {originAddress}
                   </DefaultText>
-                  <DefaultText size="md">{originAddress}</DefaultText>
-                </View>
-                <View>
-                  <Skeleton.Group show={hideValues}>
-                    <Skeleton colors={[colors.neutral50, colors.neutral100]} width={120}>
-                      <RoundedView
-                        style={{
-                          paddingHorizontal: paddings.sm,
-                          paddingVertical: paddings.xs,
-                          backgroundColor: colors.neutral50,
-                          marginLeft: paddings.sm,
-                          borderWidth: 0,
-                        }}
-                      >
-                        <DefaultText color="black" size="xs">
-                          {`${formatDistance(routeDistanceToOrigin)} até retirada`}
-                        </DefaultText>
-                      </RoundedView>
-                    </Skeleton>
-                  </Skeleton.Group>
                 </View>
               </View>
               <View
@@ -334,26 +338,25 @@ export default function MatchingScreen() {
                   marginTop: paddings.lg,
                 }}
               >
-                <View>
-                  <DefaultText size="md" color="black">
-                    Entrega
+                <View style={{}}>
+                  <View>
+                    <RoundedView
+                      style={{
+                        paddingHorizontal: paddings.sm,
+                        paddingVertical: paddings.xs,
+                        backgroundColor: colors.neutral50,
+                        // marginLeft: paddings.sm,
+                        borderWidth: 0,
+                      }}
+                    >
+                      <DefaultText color="black" size="xs">
+                        {`+ ${formatDistance(distance)} até entrega`}
+                      </DefaultText>
+                    </RoundedView>
+                  </View>
+                  <DefaultText style={{ marginTop: paddings.xs }} size="md">
+                    {destinationAddress}
                   </DefaultText>
-                  <DefaultText size="md">{destinationAddress}</DefaultText>
-                </View>
-                <View>
-                  <RoundedView
-                    style={{
-                      paddingHorizontal: paddings.sm,
-                      paddingVertical: paddings.xs,
-                      backgroundColor: colors.neutral50,
-                      marginLeft: paddings.sm,
-                      borderWidth: 0,
-                    }}
-                  >
-                    <DefaultText color="black" size="xs">
-                      {`+ ${formatDistance(distance)} até entrega`}
-                    </DefaultText>
-                  </RoundedView>
                 </View>
               </View>
             </View>
