@@ -1,6 +1,8 @@
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useContextProfile } from '@/common/auth/AuthContext';
+import { LinkButton } from '@/common/components/buttons/link/LinkButton';
+import { RoundedView } from '@/common/components/containers/RoundedView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { ShowToast } from '@/common/components/toast/Toast';
 import { HR } from '@/common/components/views/HR';
@@ -8,11 +10,11 @@ import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { handleErrorMessage } from '@/common/firebase/errors';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
-import { getAppVersion } from '@/common/version';
 import { onSimulator } from '@/common/version/device';
 import { CourierStatus } from '@appjusto/types';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { router } from 'expo-router';
+import { ArrowUpRight } from 'lucide-react-native';
 import { Pressable, Switch, View } from 'react-native';
 import Selfie from '../../profile/images/selfie';
 import { ProfileStatusBadge } from './status-badge';
@@ -57,28 +59,55 @@ export const HomeHeader = () => {
         }}
       >
         <Pressable
-          delayLongPress={1000}
+          delayLongPress={2000}
+          onPress={() => router.push('/profile/public')}
           onLongPress={() => {
             trackEvent('LongPressAnalytics');
             inAppMessaging()
               .triggerEvent('LongPressTrigger')
               .then(() => {
-                router.push('/profile/public');
+                ShowToast('LongPress!');
               })
               .catch((error) => {
                 ShowToast(JSON.stringify(error));
               });
           }}
         >
-          <Selfie />
-        </Pressable>
-        <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
-          <DefaultText size="md">{profile.name}</DefaultText>
           <View>
-            <DefaultText size="xxs" color="neutral700">{`ID #${profile.code}`}</DefaultText>
-            <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText>
+            <Selfie />
+            <RoundedView
+              style={{
+                position: 'absolute',
+                width: 16,
+                height: 16,
+                right: 0,
+                bottom: 0,
+                backgroundColor: colors.white,
+                borderColor: colors.neutral200,
+                borderWidth: 1,
+              }}
+            >
+              <ArrowUpRight size={10} color={colors.black} />
+            </RoundedView>
           </View>
-        </View>
+        </Pressable>
+        <Pressable onPress={() => router.push('/profile/public')}>
+          <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
+            <DefaultText size="md">{profile.name}</DefaultText>
+            <LinkButton
+              size="xxs"
+              onPress={() => router.push('/profile/public')}
+              style={{ padding: 0 }}
+            >
+              Ver Perfil
+            </LinkButton>
+            <DefaultText
+              style={{ marginTop: paddings['2xs'] }}
+              size="xxs"
+              color="neutral700"
+            >{`#${profile.code}`}</DefaultText>
+          </View>
+        </Pressable>
         <View style={{ flex: 1 }} />
         <Switch
           trackColor={{ false: colors.neutral200, true: colors.black }}

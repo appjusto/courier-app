@@ -56,7 +56,7 @@ export default function FleetsSearch() {
       <View style={{ padding: paddings.lg }}>
         <LinkButton
           style={{ alignSelf: 'center' }}
-          size="medium"
+          size="md"
           variant="ghost"
           onPress={() => router.push('/(logged)/fleets/create')}
         >

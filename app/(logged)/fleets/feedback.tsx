@@ -53,7 +53,7 @@ export default function CreateFleetFeedbackScreen() {
         />
         <LinkButton
           style={{ marginTop: paddings.lg, alignSelf: 'center' }}
-          size="medium"
+          size="md"
           variant="ghost"
           onPress={() => router.back()}
         >

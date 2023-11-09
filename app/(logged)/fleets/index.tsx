@@ -35,7 +35,7 @@ export default function FleetsScreen() {
       <LinkButton
         style={{ marginVertical: paddings.lg, alignSelf: 'center' }}
         variant="ghost"
-        size="medium"
+        size="md"
         onPress={() => router.push('/fleets/create')}
       >
         Criar nova frota

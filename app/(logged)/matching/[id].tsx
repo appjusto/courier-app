@@ -376,7 +376,7 @@ export default function MatchingScreen() {
         <LinkButton
           style={{ marginTop: paddings.lg, alignSelf: 'center' }}
           variant="ghost"
-          size="medium"
+          size="md"
           onPress={() => {
             trackEvent('Passar corrida');
             setRejectModalShown(true);

@@ -109,10 +109,10 @@ export default function PublicProfileScreen() {
             </DefaultText>
             <DefaultInput
               ref={aboutRef}
-              style={{ marginTop: paddings.sm, minHeight: 70, width: '100%' }}
+              style={{ marginTop: paddings.sm, width: '100%' }}
               inputStyle={{ ...typography.sm }}
               containerStyle={{ borderColor: colors.neutral200 }}
-              title="Sobre você"
+              title={!about ? 'Sobre você' : ''}
               placeholder="Que tal falar um pouco sobre você para que o cliente te conheça melhor?"
               keyboardType="default"
               multiline
@@ -191,7 +191,7 @@ export default function PublicProfileScreen() {
               borderColor: colors.neutral100,
             }}
           >
-            <DefaultText size="md">Estatísticas do entregador</DefaultText>
+            <DefaultText size="md">Estatísticas</DefaultText>
             <View
               style={{
                 marginTop: paddings.lg,

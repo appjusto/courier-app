@@ -100,7 +100,7 @@ export const DisplayOverAppsModal = ({ onOpenSettings, onDismiss, ...props }: Pr
               />
               <LinkButton
                 style={{ marginTop: paddings.sm, alignSelf: 'center' }}
-                size="medium"
+                size="md"
                 variant="ghost"
                 onPress={onDismiss}
               >

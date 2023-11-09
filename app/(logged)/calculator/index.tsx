@@ -69,7 +69,7 @@ export default function CalculatorScreen() {
           <LinkButton
             style={{ marginTop: paddings.md, alignSelf: 'center' }}
             variant="ghost"
-            size="medium"
+            size="md"
             onPress={() => router.push('/calculator/results')}
           >
             Ver resultados

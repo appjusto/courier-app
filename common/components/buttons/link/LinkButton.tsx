@@ -5,7 +5,7 @@ import { Pressable, StyleProp, TextStyle, View, ViewProps } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 
 type LinkButtonProps = ViewProps & {
-  size?: 'small' | 'medium';
+  size?: keyof typeof typography;
   disabled?: boolean;
   variant?: 'default' | 'ghost';
   textStyle?: StyleProp<TextStyle>;
@@ -13,7 +13,7 @@ type LinkButtonProps = ViewProps & {
 };
 
 export const LinkButton = ({
-  size = 'small',
+  size = 'sm',
   disabled,
   variant = 'default',
   style,
@@ -22,29 +22,28 @@ export const LinkButton = ({
   ...props
 }: LinkButtonProps) => {
   return (
-    <View style={[style]}>
+    <View
+      style={[
+        {
+          padding: paddings.md,
+        },
+        style,
+      ]}
+    >
       <Pressable disabled={disabled} {...props}>
         {({ pressed }) => (
-          <View
+          <DefaultText
             style={[
+              { ...typography[size] },
               {
-                padding: paddings.md,
+                color: pressed ? colors.neutral900 : colors.black,
+                textDecorationLine: variant === 'ghost' ? 'none' : 'underline',
               },
+              textStyle,
             ]}
           >
-            <DefaultText
-              style={[
-                size === 'small' ? { ...typography.sm } : { ...typography.md },
-                {
-                  color: pressed ? colors.neutral900 : colors.black,
-                  textDecorationLine: variant === 'ghost' ? 'none' : 'underline',
-                },
-                textStyle,
-              ]}
-            >
-              {children}
-            </DefaultText>
-          </View>
+            {children}
+          </DefaultText>
         )}
       </Pressable>
     </View>

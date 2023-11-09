@@ -25,8 +25,9 @@ import paddings from '@/common/styles/paddings';
 import { Image } from 'expo-image';
 import { Stack, router } from 'expo-router';
 import { Send } from 'lucide-react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Pressable, SafeAreaView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AppJustoLogo = require('../../../assets/images/icon.png');
 
@@ -39,6 +40,8 @@ export default function AvailableCouriersChatScreen() {
   const courierId = profile?.id;
   const status = profile?.status;
   const available = status === 'available';
+  // refs
+  const scrollRef = useRef<KeyboardAwareScrollView>();
   // state
   const chat = useObserveAvailableCouriersChat(available);
   const [message, setMessage] = useState('');
@@ -69,7 +72,10 @@ export default function AvailableCouriersChatScreen() {
   };
   // UI
   return (
-    <DefaultKeyboardAwareScrollView>
+    <DefaultKeyboardAwareScrollView
+      ref={scrollRef}
+      onContentSizeChange={() => scrollRef.current?.scrollToEnd()}
+    >
       <Stack.Screen options={{ title: 'Chat geral' }} />
       {!available ? (
         <View

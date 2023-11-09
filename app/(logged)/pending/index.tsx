@@ -121,7 +121,7 @@ export default function PendingIndex() {
       <LinkButton
         style={{ alignSelf: 'center' }}
         variant="ghost"
-        size="medium"
+        size="md"
         onPress={() => setLogoutModalVisible(true)}
       >
         Sair
