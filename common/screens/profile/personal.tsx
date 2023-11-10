@@ -108,6 +108,10 @@ export default function ProfilePersonalData({ onUpdateProfile }: Props) {
       if (cpf !== profile.cpf) changes.cpf = cpf;
       if (phone !== profile.phone) changes.phone = phone;
       if (birthday !== profile.birthday) changes.birthday = birthday;
+      if (isEmpty(changes)) {
+        showToast('Nenhuma alteração solicitada.', 'warning');
+        return;
+      }
       api
         .profile()
         .requestProfileChange(changes)
