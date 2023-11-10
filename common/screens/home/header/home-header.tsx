@@ -92,7 +92,8 @@ export const HomeHeader = () => {
           </View>
         </Pressable>
         <Pressable onPress={() => router.push('/profile/public')}>
-          <View style={{ marginLeft: paddings.md, flexDirection: 'column' }}>
+          <View style={{ marginLeft: paddings.md }}>
+            <DefaultText size="xxs" color="neutral700">{`#${profile.code}`}</DefaultText>
             <DefaultText size="md">{profile.name}</DefaultText>
             <LinkButton
               size="xxs"
@@ -101,11 +102,8 @@ export const HomeHeader = () => {
             >
               Ver Perfil
             </LinkButton>
-            <DefaultText
-              style={{ marginTop: paddings['2xs'] }}
-              size="xxs"
-              color="neutral700"
-            >{`#${profile.code}`}</DefaultText>
+
+            {/* <DefaultText size="xxs" color="neutral700">{`V${getAppVersion()}`}</DefaultText> */}
           </View>
         </Pressable>
         <View style={{ flex: 1 }} />

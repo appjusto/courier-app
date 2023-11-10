@@ -60,11 +60,12 @@ export default class Api {
     this.functions = firebase.app().functions(extra.firebase.region);
     if (extra.firebase.emulator.host) {
       const host = extra.firebase.emulator.host;
+      console.log('using emulator:', host);
       auth().useEmulator(`http://${host}:9099`);
-      firestore().useEmulator(host, 8080);
-      functions().useEmulator(host, 5001);
-      storage().useEmulator(host, 9199);
-      // TODO: firebase.app().storage('gs://default-bucket')
+      firestore().useEmulator(`http://${host}`, 8080);
+      functions().useEmulator(`http://${host}`, 5001);
+      storage().useEmulator(`http://${host}`, 9199);
+      // firebase.app().storage('gs://default-bucket').useEmulator(host, 9199);
     }
     this._auth = new AuthApi();
     this._platform = new PlatformApi(this._auth);

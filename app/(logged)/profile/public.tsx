@@ -19,6 +19,7 @@ import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import typography from '@/common/styles/typography';
 import crashlytics from '@react-native-firebase/crashlytics';
+import * as Clipboard from 'expo-clipboard';
 import { Stack } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { Copy, Share2, ThumbsDown, ThumbsUp } from 'lucide-react-native';
@@ -157,31 +158,39 @@ export default function PublicProfileScreen() {
             </View>
           </View> */}
           {/* code */}
-          <View
-            style={{
-              marginTop: paddings.lg,
-              padding: paddings.lg,
-              backgroundColor: colors.primary100,
-              ...borders.default,
-              borderColor: colors.primary300,
-            }}
+          <Pressable
+            onPress={() =>
+              Clipboard.setStringAsync(profile.code).then(() => {
+                showToast('Código copiado!', 'success');
+              })
+            }
           >
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                marginTop: paddings.lg,
+                padding: paddings.lg,
+                backgroundColor: colors.primary100,
+                ...borders.default,
+                borderColor: colors.primary300,
               }}
             >
-              <View>
-                <DefaultText size="xs">Código</DefaultText>
-                <DefaultText size="md" color="black">
-                  {profile.code}
-                </DefaultText>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <View>
+                  <DefaultText size="xs">Código</DefaultText>
+                  <DefaultText size="md" color="black">
+                    {profile.code}
+                  </DefaultText>
+                </View>
+                <Copy size={24} color={colors.neutral900} />
               </View>
-              <Copy size={24} color={colors.neutral900} />
             </View>
-          </View>
+          </Pressable>
           {/* statistics */}
           <View
             style={{
