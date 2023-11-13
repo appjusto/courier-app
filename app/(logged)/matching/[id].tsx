@@ -71,7 +71,6 @@ export default function MatchingScreen() {
   // stop sound and update request as viewed
   useEffect(() => {
     if (!requestId) return;
-    stopOrderRequestSound().then(null).catch(null);
     api.couriers().viewOrderRequest(requestId).catch(console.error);
   }, [api, requestId]);
   // update route polyline
@@ -131,6 +130,7 @@ export default function MatchingScreen() {
       });
   };
   console.log(requestId);
+  stopOrderRequestSound().then(null).catch(null);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
   if (!fleet) return <Loading title="Nova corrida pra você!" />;
