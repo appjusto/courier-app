@@ -53,6 +53,12 @@ const requiredChannels = [
     sound: undefined,
     bypassDnd: true,
   },
+  {
+    id: 'profile-availability' as NotificationChannel,
+    name: 'Programação de disponibilidade',
+    sound: undefined,
+    bypassDnd: true,
+  },
 ];
 
 Notifications.setNotificationHandler({

@@ -58,7 +58,7 @@ export default function ChatPickerScreen() {
   }>();
   const { id: orderId, consumerId, businessId } = params;
   const hasUnreadMessagesFromConsumer = params.hasUnreadMessagesFromConsumer === 'true';
-  const hasUnreadMessagesFromBusiness = params.hasUnreadMessagesFromConsumer === 'true';
+  const hasUnreadMessagesFromBusiness = params.hasUnreadMessagesFromBusiness === 'true';
   useTrackScreenView('Escolher Chat');
   // handlers
   const openChat = (counterpartId: string) =>
@@ -85,16 +85,18 @@ export default function ChatPickerScreen() {
           />
         )}
       </Pressable>
-      <Pressable onPress={() => openChat(businessId)}>
-        {() => (
-          <ChatCard
-            style={{ marginTop: paddings.lg }}
-            title="Chat com restaurante"
-            iconName="utentils"
-            hasUnreadMessages={hasUnreadMessagesFromBusiness}
-          />
-        )}
-      </Pressable>
+      {businessId ? (
+        <Pressable onPress={() => openChat(businessId)}>
+          {() => (
+            <ChatCard
+              style={{ marginTop: paddings.lg }}
+              title="Chat com restaurante"
+              iconName="utentils"
+              hasUnreadMessages={hasUnreadMessagesFromBusiness}
+            />
+          )}
+        </Pressable>
+      ) : null}
     </DefaultView>
   );
 }

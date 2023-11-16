@@ -30,7 +30,7 @@ export default function DeliveriesIndex() {
         <AccountSummary />
         <DeliveryList
           style={{ marginTop: paddings.lg, ...borders.default, borderColor: colors.neutral100 }}
-          title="Corridas nas últimas 24h"
+          title="Entregas nas últimas 24h"
           emptyText="Não encontramos nenhuma corrida neste período."
           orders={orders}
         >

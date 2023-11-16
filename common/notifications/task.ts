@@ -29,6 +29,8 @@ TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionIn
     } catch (error) {
       console.error(error);
     }
+  } else if (channelId === 'profile-availability') {
+    ShowToast('profile-availability');
   }
 });
 

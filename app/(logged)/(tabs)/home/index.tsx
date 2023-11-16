@@ -8,6 +8,7 @@ import {
 import { useObserveOrdersOfLast24h } from '@/api/orders/useObserveOrdersOfLast24h';
 import { useOrdersSummary } from '@/api/orders/useOrdersSummary';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
+import { useSchedules } from '@/api/schedules/useSchedules';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -35,8 +36,6 @@ export default function HomeScreen() {
   // context
   const api = useContextApi();
   const profile = useContextProfile();
-  // tracking
-  useTrackScreenView('Início');
   // state
   // const entriesSummary = useApprovedEntriesSummary();
   const orders = useObserveOrdersOfLast24h();
@@ -48,6 +47,10 @@ export default function HomeScreen() {
   const { shouldShowdisplayOverApps, setDisplayOverAppsShown } = useShowDisplayOverApps(
     shouldShowLocationDisclosure
   );
+  // tracking
+  useTrackScreenView('Início');
+  // side effects
+  useSchedules();
   // handlers
   const updateMode = (mode: CourierMode) => {
     setAvailabilityModalShown(false);
@@ -89,7 +92,7 @@ export default function HomeScreen() {
             <ActivitySummary
               // entriesSummary={entriesSummary}
               ordersSummary={ordersSummary}
-              title="Corridas nas últimas 24h"
+              title="Entregas nas últimas 24h"
               style={{ marginTop: paddings.lg }}
             />
           </View>
