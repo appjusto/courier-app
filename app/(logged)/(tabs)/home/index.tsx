@@ -12,6 +12,7 @@ import { useSchedules } from '@/api/schedules/useSchedules';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
+import { useDismissNotifications } from '@/common/notifications/useDismissNotifications';
 import { ActivitySummary } from '@/common/screens/home/activity/activity-summary';
 import { AvailabilityModal } from '@/common/screens/home/availability-modal';
 import { ActiveRequestsCards } from '@/common/screens/home/cards/active-requests-cards';
@@ -50,6 +51,7 @@ export default function HomeScreen() {
   // tracking
   useTrackScreenView('Início');
   // side effects
+  useDismissNotifications();
   useSchedules();
   // handlers
   const updateMode = (mode: CourierMode) => {

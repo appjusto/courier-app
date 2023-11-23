@@ -1,4 +1,3 @@
-import { Dayjs } from '@appjusto/dates';
 import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
 
@@ -13,9 +12,9 @@ export const useSchedules = () => {
             data: {},
           },
           trigger: {
-            date: Dayjs()
-              .add(Dayjs.duration({ seconds: 5 }))
-              .toDate(),
+            hour: 10,
+            minute: 0,
+            repeats: true,
             channelId: 'profile-availability',
           },
         }).then(null);

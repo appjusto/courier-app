@@ -24,6 +24,7 @@ import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { formatDate } from '@/common/formatters/timestamp';
 import { stopOrderRequestSound } from '@/common/notifications/sound';
+import { useDismissNotifications } from '@/common/notifications/useDismissNotifications';
 import { useRouterAccordingOrderStatus } from '@/common/screens/orders/useRouterAccordingOrderStatus';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
@@ -66,6 +67,7 @@ export default function MatchingScreen() {
   // tracking
   useTrackScreenView('Matching');
   // side effects
+  useDismissNotifications();
   useRouterAccordingOrderStatus(request?.orderId, order?.status);
   // update request to viewed
   // stop sound and update request as viewed
