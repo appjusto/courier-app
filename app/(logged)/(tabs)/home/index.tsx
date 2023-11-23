@@ -8,7 +8,6 @@ import {
 import { useObserveOrdersOfLast24h } from '@/api/orders/useObserveOrdersOfLast24h';
 import { useOrdersSummary } from '@/api/orders/useOrdersSummary';
 import { useContextAvailabilityModal } from '@/api/preferences/context/PreferencesContext';
-import { useSchedules } from '@/api/schedules/useSchedules';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -52,7 +51,7 @@ export default function HomeScreen() {
   useTrackScreenView('Início');
   // side effects
   useDismissNotifications();
-  useSchedules();
+  // useSchedules();
   // handlers
   const updateMode = (mode: CourierMode) => {
     setAvailabilityModalShown(false);
