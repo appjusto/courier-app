@@ -20,7 +20,7 @@ import MapsApi from './maps/MapsApi';
 import OrdersApi from './orders/OrdersApi';
 import PlatformApi from './platform/PlatformApi';
 import ProfileApi from './profile/ProfileApi';
-import SearchApi from './search/SearchApi';
+import AlgoliaApi from './search/AlgoliaApi';
 
 const extra = getManifestExtra();
 
@@ -30,7 +30,7 @@ export default class Api {
   private _profile: ProfileApi;
   private _couriers: CouriersApi;
   private _fleets: FleetsApi;
-  private _search: SearchApi;
+  private _search: AlgoliaApi;
   private _orders: OrdersApi;
   private _ledger: LedgerApi;
   private _maps: MapsApi;
@@ -75,7 +75,7 @@ export default class Api {
     this._orders = new OrdersApi(this._auth);
     this._ledger = new LedgerApi(this._auth);
     this._maps = new MapsApi();
-    this._search = new SearchApi(extra.algolia, extra.env);
+    this._search = new AlgoliaApi(extra.algolia, extra.env);
     this._chat = new ChatsApi(this._auth);
     this._incidents = new IncidentsApi(this._auth);
     this._complaints = new ComplaintsApi();
