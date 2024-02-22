@@ -18,5 +18,10 @@
     "**/.expo": true,
     "**/.expo-shared": true,
     "**/node_modules": true
+  },
+  "[typescript][typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
   }
 }

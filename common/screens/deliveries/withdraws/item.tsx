@@ -13,7 +13,7 @@ interface Props extends ViewProps {
 
 export const WithdrawItem = ({ withdraw, style, ...props }: Props) => {
   const time = formatTimestamp(withdraw.createdOn);
-  const { status } = withdraw;
+  const { status, amount } = withdraw;
   // UI
   return (
     <View
@@ -39,7 +39,7 @@ export const WithdrawItem = ({ withdraw, style, ...props }: Props) => {
         </View>
       </View>
       <View style={{ flex: 1 }} />
-      <DefaultText color="black">{withdraw.amount}</DefaultText>
+      <DefaultText color="black">{amount}</DefaultText>
       <ChevronRight size={16} color={colors.neutral800} style={{ marginLeft: paddings.sm }} />
     </View>
   );

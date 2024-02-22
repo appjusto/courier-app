@@ -44,7 +44,11 @@ export default function FleetsSearch() {
         data={fleets}
         renderItem={({ item }) => {
           return (
-            <Pressable onPress={() => {}}>
+            <Pressable
+              onPress={() => {
+                // TODO
+              }}
+            >
               <FleetCard style={{ marginBottom: paddings.lg }} fleet={item} />
             </Pressable>
           );
