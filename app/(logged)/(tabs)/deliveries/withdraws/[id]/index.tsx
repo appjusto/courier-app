@@ -1,6 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { getWithdrawStatusAsText } from '@/api/couriers/withdraws/getWithdrawStatusAsText';
+import { getPixTypeLabel } from '@/api/profile/pix/getPixTypeLabel';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
 import { DefaultText } from '@/common/components/texts/DefaultText';
@@ -46,16 +47,25 @@ export default function WithdrawDetailScreen() {
   // UI
   // console.log('withdraw', withdrawId, withdraw);
   if (!withdraw) return <Loading />;
-  const { status, data, amount, createdOn } = withdraw;
+  const { status, data, amount, createdOn, type } = withdraw;
   const payingAt = (() => {
     const result = 'Até às 23:59';
-    if (data.paying_at) {
+    if (type === 'pix') {
+      return 'Em até 1h'; // TODO: revew
+    } else if (data.paying_at) {
       const calendar = Dayjs(new Date(data.paying_at)).calendar();
       if (status !== 'pending') return calendar;
       return result + ' de ' + calendar;
     } else {
       if (status === 'pending') return result + ' do próximo dia útil';
-      return null;
+    }
+    return '';
+  })();
+  const info = (() => {
+    if (type === 'pix') {
+      return `${getPixTypeLabel(withdraw.receiver.type)} • ${withdraw.receiver.key}`;
+    } else {
+      return `${data.bank_address.bank} • Ag ${data.bank_address.bank_ag} • ${data.bank_address.bank_cc}`;
     }
   })();
   return (
@@ -88,9 +98,7 @@ export default function WithdrawDetailScreen() {
               <DefaultText size="xs" color="neutral800">
                 Destino
               </DefaultText>
-              <DefaultText style={{ marginTop: paddings['2xs'] }}>
-                {`${data.bank_address.bank} • Ag ${data.bank_address.bank_ag} • ${data.bank_address.bank_cc}`}
-              </DefaultText>
+              <DefaultText style={{ marginTop: paddings['2xs'] }}>{info}</DefaultText>
             </View>
             <View style={{ marginTop: paddings.lg }}>
               <DefaultText size="xs" color="neutral800">

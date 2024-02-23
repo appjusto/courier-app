@@ -3,6 +3,7 @@ import {
   useContextPlatformFees,
   useContextPlatformParams,
 } from '@/api/platform/context/PlatformContext';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { formatCurrency } from '@/common/formatters/currency';
@@ -18,9 +19,12 @@ interface Props extends ViewProps {}
 export const AccountSummary = ({ style, ...props }: Props) => {
   // context
   const router = useRouter();
+  const profile = useContextProfile();
+  const instantWithdraw = profile?.pix?.enabled === true;
   // state
   const minWithdrawValue = useContextPlatformParams()?.marketplace.minWithdrawValue;
-  const withdrawFee = useContextPlatformFees()?.processing.iugu.withdraw;
+  const iugu = useContextPlatformFees()?.processing.iugu;
+  const withdrawFee = instantWithdraw ? iugu?.instantWithdraw : iugu?.withdraw;
   const balance = useFetchAccountBalance();
   const withdrawValue =
     balance !== undefined && withdrawFee !== undefined ? balance - withdrawFee : 0;
@@ -68,6 +72,7 @@ export const AccountSummary = ({ style, ...props }: Props) => {
               balance: `${balance}`,
               fee: formatCurrency(withdrawFee),
               value: `${withdrawValue}`,
+              instantWithdraw: `${instantWithdraw}`,
             },
           });
         }}
