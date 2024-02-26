@@ -1,4 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
+import { useContextProfile } from '@/common/auth/AuthContext';
+import { DefaultBadge } from '@/common/components/badges/DefaultBadge';
 import { DefaultListItem } from '@/common/components/lists/DefaultListItem';
 import { SingleListItem } from '@/common/components/lists/SingleListItem';
 import { ConfirmModal } from '@/common/components/modals/confirm-modal';
@@ -17,6 +19,7 @@ import {
   LogOut,
   Settings,
   User2,
+  Wallet,
 } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -24,8 +27,9 @@ import ProfileHeader from './header';
 
 export default function ProfileHome() {
   // context
-  const api = useContextApi();
   const router = useRouter();
+  const api = useContextApi();
+  const profile = useContextProfile();
   // state
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   // UI
@@ -71,6 +75,30 @@ export default function ProfileHome() {
           rightView={<ChevronRight size={16} color={colors.neutral800} />}
           onPress={() => router.push('/profile/images')}
         />
+
+        {profile?.tags?.includes('safe') ? (
+          <DefaultListItem
+            title="Saque instantâneo"
+            subtitles={['Configure seu PIX e receba imediatamente']}
+            leftView={<Wallet size={20} color={colors.black} />}
+            rightView={
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <DefaultBadge
+                  title="Novo"
+                  color="success900"
+                  backgroundColor="success100"
+                  borderColor="success100"
+                ></DefaultBadge>
+                <ChevronRight
+                  style={{ marginLeft: paddings.sm }}
+                  size={16}
+                  color={colors.neutral800}
+                />
+              </View>
+            }
+            onPress={() => router.push('/profile/pix')}
+          />
+        ) : null}
 
         <View style={{ flex: 1 }} />
         <SingleListItem

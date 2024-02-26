@@ -114,13 +114,14 @@ export default class CouriersApi {
     }
   }
   // withdraws
-  async requestWithdraw(amount: number) {
+  async requestWithdraw(amount: number, instant: boolean) {
     const accountId = this.auth.getUserId()!;
     try {
       const payload: RequestWithdrawPayload = {
         accountType: 'courier',
         accountId,
         amount,
+        instant,
         meta: { version: getAppVersion() },
       };
       const response = await requestWithdraw(payload);

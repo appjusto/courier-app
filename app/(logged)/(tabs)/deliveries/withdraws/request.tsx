@@ -24,8 +24,13 @@ export default function RequestWithdrawScreen() {
   const api = useContextApi();
   const showToast = useShowToast();
   // params
-  const search = useLocalSearchParams<{ balance: string; fee: string; value: string }>();
-  const { balance, fee, value } = search;
+  const search = useLocalSearchParams<{
+    balance: string;
+    fee: string;
+    value: string;
+    instantWithdraw: string;
+  }>();
+  const { balance, fee, value, instantWithdraw } = search;
   const balanceAsNumber = toNumber(balance);
   // tracking
   useTrackScreenView('Solicitar transferência');
@@ -36,7 +41,7 @@ export default function RequestWithdrawScreen() {
     setLoading(true);
     api
       .couriers()
-      .requestWithdraw(balanceAsNumber)
+      .requestWithdraw(balanceAsNumber, instantWithdraw === 'true')
       .then((id) => {
         setLoading(false);
         router.replace({
