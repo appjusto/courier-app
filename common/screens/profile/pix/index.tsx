@@ -152,7 +152,11 @@ export default function ProfilePIX({}: Props) {
       <SafeAreaView>
         <DefaultText size="lg">Saque instantâneo</DefaultText>
         <DefaultText style={{ marginTop: paddings.lg }} color="neutral700">
-          {`Agora você pode sacar instantaneamente seus ganhos na plataforma. Solicite e receba na hora, por uma taxa de ${fee}. Configure seus dados de recebimento para começar a utilizar.`}
+          Agora você pode receber seu saldo disponível logo após a solicitação de saque, basta
+          configurar seus dados PIX abaixo.
+        </DefaultText>
+        <DefaultText style={{ marginTop: paddings.lg }} color="neutral700" bold>
+          {`A taxa cobrada pela Iugu é de ${fee}. Nada desse valor fica com o appjusto.`}
         </DefaultText>
         <DefaultInput
           style={{ marginTop: paddings.lg }}

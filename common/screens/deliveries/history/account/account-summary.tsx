@@ -22,9 +22,10 @@ export const AccountSummary = ({ style, ...props }: Props) => {
   const profile = useContextProfile();
   const instantWithdraw = profile?.pix?.enabled === true;
   // state
-  const minWithdrawValue = useContextPlatformParams()?.marketplace.minWithdrawValue;
   const iugu = useContextPlatformFees()?.processing.iugu;
-  const withdrawFee = instantWithdraw ? iugu?.instantWithdraw : iugu?.withdraw;
+  const withdrawFee = (instantWithdraw ? iugu?.instantWithdraw : iugu?.withdraw) ?? 0;
+  const minWithdrawValue =
+    (useContextPlatformParams()?.marketplace.minWithdrawValue ?? 0) + withdrawFee;
   const balance = useFetchAccountBalance();
   const withdrawValue =
     balance !== undefined && withdrawFee !== undefined ? balance - withdrawFee : 0;
