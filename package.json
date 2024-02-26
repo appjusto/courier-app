@@ -5,6 +5,8 @@
   "scripts": {
     "start": "env-cmd -f .env.${ENV:-dev}.local expo start --dev-client",
     "start:dev": "ENV=dev npm run start",
+    "start:staging": "ENV=staging npm run start",
+    "start:live": "ENV=live npm run start",
     "update": "node ./scripts/update",
     "update:dev": "ENV=dev npm run update",
     "clear": "rm -rf node_modules ios android",
