@@ -109,7 +109,7 @@ export default function OngoingOrderScreen() {
           }}
         >
           {/* consumer name */}
-          <View>
+          <View style={{ maxWidth: '50%' }}>
             <DefaultText size="xs">{`Pedido #${order.code}${
               showConsumerName ? ' de' : ''
             }`}</DefaultText>
