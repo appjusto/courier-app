@@ -10,8 +10,9 @@ import { View } from 'react-native';
 
 export default function WithdrawFeedbackScreen() {
   // params
-  const params = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{ id: string; instantWithdraw: string }>();
   const withdrawId = params.id;
+  const instant = params.instantWithdraw === 'true';
   // tracking
   useTrackScreenView('Transferência solicitada');
   // UI
@@ -20,9 +21,13 @@ export default function WithdrawFeedbackScreen() {
       <Stack.Screen options={{ title: 'Transferência solicitada' }} />
       <FeedbackHeader
         title="Solicitação de transferência enviada com sucesso!"
-        text={[
-          'Transferências solicitadas após horário comercial serão compensadas até às 23h59 do próximo dia útil.',
-        ]}
+        text={
+          instant
+            ? []
+            : [
+                'Transferências solicitadas após horário comercial serão compensadas até às 23h59 do próximo dia útil.',
+              ]
+        }
         variant="success"
       />
       <View

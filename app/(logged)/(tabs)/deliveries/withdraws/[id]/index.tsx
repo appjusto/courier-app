@@ -47,17 +47,17 @@ export default function WithdrawDetailScreen() {
   // UI
   // console.log('withdraw', withdrawId, withdraw);
   if (!withdraw) return <Loading />;
-  const { status, data, amount, createdOn, type } = withdraw;
+  const { status, data, amount, createdOn, updatedOn, type } = withdraw;
   const payingAt = (() => {
-    const result = 'Até às 23:59';
     if (type === 'pix') {
-      return 'Em até 1h'; // TODO: revew
+      if (status === 'done' && updatedOn) return `Pago em ${formatTimestamp(updatedOn)}`;
+      return 'Em instantes';
     } else if (data.paying_at) {
       const calendar = Dayjs(new Date(data.paying_at)).calendar();
       if (status !== 'pending') return calendar;
-      return result + ' de ' + calendar;
+      return 'Até às 23:59 de ' + calendar;
     } else {
-      if (status === 'pending') return result + ' do próximo dia útil';
+      if (status === 'pending') return 'Até às 23:59 do próximo dia útil';
     }
     return '';
   })();

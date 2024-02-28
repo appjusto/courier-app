@@ -149,7 +149,7 @@ export default function ProfilePIX({}: Props) {
           setModalVisible(false);
         }}
       />
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
         <DefaultText size="lg">Saque instantâneo</DefaultText>
         <DefaultText style={{ marginTop: paddings.lg }} color="neutral700">
           Agora você pode receber seu saldo disponível logo após a solicitação de saque, basta
@@ -258,14 +258,24 @@ export default function ProfilePIX({}: Props) {
             onChangeText={setRandomKey}
           />
         ) : null}
-        <Switch
-          style={{ marginTop: paddings.lg }}
-          trackColor={{ false: colors.neutral200, true: colors.black }}
-          thumbColor={colors.white}
-          ios_backgroundColor={colors.white}
-          onValueChange={(value) => setDisabled(!value)}
-          value={!disabled}
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: paddings.lg,
+          }}
+        >
+          <Switch
+            trackColor={{ false: colors.neutral200, true: colors.black }}
+            thumbColor={colors.white}
+            ios_backgroundColor={colors.white}
+            onValueChange={(value) => setDisabled(!value)}
+            value={!disabled}
+          />
+          <DefaultText style={{ marginLeft: paddings.sm }} color="black">
+            {!disabled ? 'Saque instantâneo ativado' : 'Saque instantâneo desativado'}
+          </DefaultText>
+        </View>
         <View style={{ flex: 1 }} />
         <DefaultButton
           style={{ marginTop: paddings.lg, marginBottom: paddings.xl }}

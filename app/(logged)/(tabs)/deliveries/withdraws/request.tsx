@@ -32,6 +32,7 @@ export default function RequestWithdrawScreen() {
   }>();
   const { balance, fee, value, instantWithdraw } = search;
   const balanceAsNumber = toNumber(balance);
+  const instant = instantWithdraw === 'true';
   // tracking
   useTrackScreenView('Solicitar transferência');
   // state
@@ -41,12 +42,12 @@ export default function RequestWithdrawScreen() {
     setLoading(true);
     api
       .couriers()
-      .requestWithdraw(balanceAsNumber, instantWithdraw === 'true')
+      .requestWithdraw(balanceAsNumber, instant)
       .then((id) => {
         setLoading(false);
         router.replace({
           pathname: '/(logged)/(tabs)/deliveries/withdraws/[id]/feedback',
-          params: { id },
+          params: { id, instantWithdraw },
         });
       })
       .catch((error: unknown) => {
@@ -113,8 +114,9 @@ export default function RequestWithdrawScreen() {
           </View>
         </View>
         <MessageBox style={{ marginTop: paddings.lg }}>
-          Atenção: o saque pode ser solicitado a qualquer momento mas o valor compensa na conta
-          somente no próximo dia útil, até 23:59.
+          {instant === true
+            ? `Atenção: o saque pode ser solicitado todos os dias, entre 6h e 22h. O valor será compensado imediatamente na sua conta.`
+            : `Atenção: o saque pode ser solicitado durante o horário comercial e o valor será compensado na conta no próximo dia útil, até 23:59.`}
         </MessageBox>
         <DefaultButton
           style={{ marginVertical: paddings.lg }}
