@@ -95,7 +95,7 @@ export default function ProfilePIX({}: Props) {
       key = email;
     } else if (pixType === 'phone') {
       if (!phone || !isPhoneValid(phone)) return null;
-      key = phone;
+      key = `+55${phone}`;
     } else if (pixType === 'cnpj') {
       if (!cnpj || !cnpjutils.isValid(cnpj)) return null;
       key = cnpj;
