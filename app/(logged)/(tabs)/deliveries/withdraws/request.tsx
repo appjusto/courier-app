@@ -51,11 +51,12 @@ export default function RequestWithdrawScreen() {
         });
       })
       .catch((error: unknown) => {
-        if (error instanceof Error) crashlytics().recordError(error);
-        showToast(
-          'Não foi possível solicitar a transferência. Tente novamente mais tarde.',
-          'error'
-        );
+        let message = 'Não foi possível solicitar a transferência. Tente novamente mais tarde.';
+        if (error instanceof Error) {
+          message = error.message;
+          crashlytics().recordError(error);
+        }
+        showToast(message, 'error');
         setLoading(false);
       });
   };

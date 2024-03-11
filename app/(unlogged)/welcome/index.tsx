@@ -4,7 +4,6 @@ import { DefaultText } from '@/common/components/texts/DefaultText';
 import { BulletsSteps } from '@/common/screens/unlogged/welcome/BulletsSteps';
 import { WelcomeStep1Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep1Image';
 import { WelcomeStep2Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep2Image';
-import { WelcomeStep3Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep3Image';
 import { WelcomeStep4Image } from '@/common/screens/unlogged/welcome/images/WelcomeStep4Image';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
@@ -64,21 +63,21 @@ export default function Welcome() {
           ]}
           key="2"
         />
-        <WelcomeStep
+        {/* <WelcomeStep
           icon={<WelcomeStep3Image />}
           header={['Você está protegido por seguro em todas as corridas']}
           text={[
             'Todas as corridas feitas pela rede appjusto estão cobertas contra acidentes pelo seguro Iza, especializado nesse tipo de cobertura.',
           ]}
           key="3"
-        />
+        /> */}
         <WelcomeStep
           icon={<WelcomeStep4Image />}
           header={['Garanta seus direitos do governo sendo MEI']}
           text={[
             'Pra entrar no appjusto, você precisa ser um MEI. Ter o cadastro e pagar seus impostos em dia garantem direitos como auxílio financeiro em caso de afastamento, aposentadoria e possibilidade de empréstimos especiais.',
           ]}
-          key="4"
+          key="3"
         />
       </PagerView>
       <View style={{ padding: paddings.lg, marginBottom: 0 }}>
