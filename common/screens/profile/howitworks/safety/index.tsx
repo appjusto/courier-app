@@ -1,6 +1,7 @@
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { Accordion } from '@/common/components/containers/accordion/Accordion';
 import { DefaultText } from '@/common/components/texts/DefaultText';
+import { URL_IZA_SITE } from '@/common/constants/urls';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import lineHeight from '@/common/styles/lineHeight';
@@ -143,7 +144,7 @@ export default function SafetyProcess() {
         </View>
       </View>
       {/* seguro */}
-      {/* <DefaultText
+      <DefaultText
         size="lg"
         style={{
           marginTop: paddings.lg,
@@ -215,7 +216,7 @@ export default function SafetyProcess() {
         onSelectItem={(title) => {
           setSelectedItemTitle((current) => (title !== current ? title : ''));
         }}
-      /> */}
+      />
       {/* Cartilhas e cursos */}
       <DefaultText
         size="lg"
