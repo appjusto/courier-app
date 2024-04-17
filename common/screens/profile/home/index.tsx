@@ -100,6 +100,30 @@ export default function ProfileHome() {
           />
         ) : null}
 
+        <DefaultListItem
+          title="Seus créditos"
+          subtitles={[
+            'Compartilhe seu código e ganhe R$ 5 para cada pessoa que fizer um pedido pela primeira vez no appjusto',
+          ]}
+          leftView={<Wallet size={20} color={colors.black} />}
+          rightView={
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <DefaultBadge
+                title="Novo"
+                color="success900"
+                backgroundColor="success100"
+                borderColor="success100"
+              />
+              <ChevronRight
+                style={{ marginLeft: paddings.sm }}
+                size={16}
+                color={colors.neutral800}
+              />
+            </View>
+          }
+          onPress={() => router.push('/profile/credits')}
+        />
+
         <View style={{ flex: 1 }} />
         <SingleListItem
           title="Suporte"

@@ -1,5 +1,5 @@
 import { documentAs, documentsAs } from '@/common/firebase/documentAs';
-import { LedgerEntry, LedgerEntryStatus, WithId } from '@appjusto/types';
+import { LedgerEntry, LedgerEntryOperation, LedgerEntryStatus, WithId } from '@appjusto/types';
 import crashlytics from '@react-native-firebase/crashlytics';
 import firestore from '@react-native-firebase/firestore';
 import AuthApi from '../auth/AuthApi';
@@ -13,6 +13,7 @@ const entryRef = (id: string) => ledgerRef().doc(id);
 
 export interface ObserveLedgerOptions {
   statuses?: LedgerEntryStatus[];
+  operations?: LedgerEntryOperation[];
   limit?: number;
   from?: Date;
   to?: Date;
@@ -25,13 +26,16 @@ export default class LedgerApi {
     resultHandler: (orders: WithId<LedgerEntry>[]) => void
   ) {
     console.log('observeLedger', options);
-    const { statuses, from, to } = options;
+    const { statuses, operations, from, to } = options;
     let query = ledgerRef()
       .where('to.accountType', '==', 'courier')
       .where('to.accountId', '==', this.auth.getUserId())
       .orderBy('createdOn', 'desc');
     if (statuses) {
       query = query.where('status', 'in', statuses);
+    }
+    if (operations) {
+      query = query.where('operation', 'in', operations);
     }
     if (from) {
       query = query.where('createdOn', '>', fromDate(from));
