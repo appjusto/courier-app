@@ -13,16 +13,16 @@ import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import { formatCurrency } from '@/common/formatters/currency';
 import { formatDistance } from '@/common/formatters/distance';
 import { FullDate, formatTimestamp } from '@/common/formatters/timestamp';
+import { ProfileCode } from '@/common/screens/profile/code/profile-code';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import typography from '@/common/styles/typography';
 import crashlytics from '@react-native-firebase/crashlytics';
-import * as Clipboard from 'expo-clipboard';
 import { Stack } from 'expo-router';
 import * as Sharing from 'expo-sharing';
-import { Copy, Share2, ThumbsDown, ThumbsUp } from 'lucide-react-native';
+import { Share2, ThumbsDown, ThumbsUp } from 'lucide-react-native';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
@@ -120,7 +120,10 @@ export default function PublicProfileScreen() {
               value={about}
               onChangeText={setAbout}
               onFocus={() => setAboutFocused(true)}
-              onBlur={() => setAboutFocused(false)}
+              onBlur={() => {
+                setAboutFocused(false);
+                updateProfileHandler();
+              }}
             />
             {aboutFocused ? (
               <LinkButton
@@ -158,39 +161,7 @@ export default function PublicProfileScreen() {
             </View>
           </View> */}
           {/* code */}
-          <Pressable
-            onPress={() =>
-              Clipboard.setStringAsync(profile.code).then(() => {
-                showToast('Código copiado!', 'success');
-              })
-            }
-          >
-            <View
-              style={{
-                marginTop: paddings.lg,
-                padding: paddings.lg,
-                backgroundColor: colors.primary100,
-                ...borders.default,
-                borderColor: colors.primary300,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <View>
-                  <DefaultText size="xs">Código</DefaultText>
-                  <DefaultText size="md" color="black">
-                    {profile.code}
-                  </DefaultText>
-                </View>
-                <Copy size={24} color={colors.neutral900} />
-              </View>
-            </View>
-          </Pressable>
+          <ProfileCode />
           {/* statistics */}
           <View
             style={{
