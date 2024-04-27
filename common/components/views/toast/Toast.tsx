@@ -2,7 +2,7 @@ import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
 import { X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { Animated, Platform, Pressable } from 'react-native';
+import { Animated, Pressable } from 'react-native';
 import { DefaultText } from '../../texts/DefaultText';
 
 const duration = 250;
@@ -54,7 +54,7 @@ export default function Toast({ message, type, onHide }: Props) {
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        bottom: Platform.OS === 'android' ? 0 : 0,
+        bottom: paddings.lg,
         width: '100%',
         minHeight: 60,
         padding: paddings.xl,

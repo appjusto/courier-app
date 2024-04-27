@@ -33,8 +33,8 @@ export const ProfileCode = ({ style, ...props }: Props) => {
     codeRef.current?.focus();
   };
   const updateCodeHandler = () => {
-    if (code.length < 5) {
-      showToast('Seu código precisa ter pelo menos 5 e no máximo 14 letras.', 'error');
+    if (code.length !== 7) {
+      showToast('Seu código precisa ter 7 letras.', 'error');
       return;
     }
     setEditing(false);
@@ -89,9 +89,9 @@ export const ProfileCode = ({ style, ...props }: Props) => {
             ) : (
               <DefaultInput
                 ref={codeRef}
-                placeholder="5 a 14 letras"
+                placeholder="7 letras"
                 value={code}
-                maxLength={14}
+                maxLength={7}
                 onChangeText={setCode}
                 returnKeyType="done"
               />
@@ -122,7 +122,7 @@ export const ProfileCode = ({ style, ...props }: Props) => {
             <LinkButton variant="ghost" onPress={() => setEditing(false)}>
               Cancelar
             </LinkButton>
-            <LinkButton variant="ghost" onPress={updateCodeHandler}>
+            <LinkButton variant="ghost" disabled={code.length !== 7} onPress={updateCodeHandler}>
               Salvar
             </LinkButton>
           </View>
