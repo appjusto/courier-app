@@ -59,6 +59,7 @@ export default function MatchingScreen() {
   const [loading, setLoading] = useState(false);
   const [expiredModalShown, setExpiredModalShown] = useState(false);
   const [rejectModalShown, setRejectModalShown] = useState(false);
+  const [distanceExceedsModalShwon, setDistanceExceedsModalShwon] = useState(false);
   const order = useObserveOrder(request?.orderId, confirmed);
   console.log('requestId', requestId);
   // console.log('orderId', orderId);
@@ -93,11 +94,14 @@ export default function MatchingScreen() {
       setExpiredModalShown(true);
     }
   }, [situation]);
-  const distanceExceedsFleetLimit = routeDistanceToOrigin > 2 * (fleet?.maxDistanceToOrigin ?? 0);
   useEffect(() => {
+    if (!fleet) return;
+    if (!routeDistanceToOrigin) return;
+    const distanceExceedsFleetLimit = routeDistanceToOrigin > 2 * (fleet.maxDistanceToOrigin ?? 0);
     if (!distanceExceedsFleetLimit) return;
+    setDistanceExceedsModalShwon(true);
     trackEvent('Distância passou limite');
-  }, [distanceExceedsFleetLimit]);
+  }, [routeDistanceToOrigin, fleet]);
   // handlers
   const matchOrder = useCallback(() => {
     if (!request?.orderId) return;
@@ -151,7 +155,7 @@ export default function MatchingScreen() {
   const feePerKm = round(fee / (totalDistance / 1000), 2);
   const originAddress = getPartialAddress(request.originAddress);
   const destinationAddress = getPartialAddress(request.destinationAddress);
-  const hideValues = !route || distanceExceedsFleetLimit;
+  const hideValues = !route;
   return (
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />
@@ -165,9 +169,9 @@ export default function MatchingScreen() {
       />
       <ErrorModal
         text="Com sua localização atual, a distância para coleta é maior que o permitido pela sua frota."
-        visible={distanceExceedsFleetLimit}
+        visible={distanceExceedsModalShwon}
         onDismiss={() => {
-          router.back();
+          setDistanceExceedsModalShwon(false);
         }}
       />
       <SelectIssueModal

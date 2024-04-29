@@ -152,7 +152,7 @@ export default function ConfirmWithoutCodeScreen() {
         />
         <DefaultButton
           style={{ marginVertical: paddings.lg }}
-          title="Confirmar entrega com código"
+          title="Voltar"
           variant="outline"
           onPress={() => router.back()}
         />
