@@ -4,6 +4,7 @@ import { DefaultKeyboardAwareScrollView } from '@/common/components/containers/D
 import { PatternInput } from '@/common/components/inputs/pattern/PatternInput';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import typography from '@/common/styles/typography';
 import { CourierCosts } from '@appjusto/types';
 import { toNumber } from 'lodash';
@@ -67,7 +68,8 @@ export const CalculatorStep1 = ({ costs, onSave, style, ...props }: Props) => {
   // UI
   return (
     <DefaultKeyboardAwareScrollView
-      contentContainerStyle={[{ padding: paddings.lg }, style]}
+      style={{ ...screens.default }}
+      contentContainerStyle={{ padding: paddings.lg }}
       {...props}
     >
       <PatternInput

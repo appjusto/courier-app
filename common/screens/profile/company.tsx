@@ -163,7 +163,8 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
     <DefaultKeyboardAwareScrollView
-      contentContainerStyle={{ ...screens.default, padding: paddings.lg }}
+      style={{ ...screens.default }}
+      contentContainerStyle={{ padding: paddings.lg }}
     >
       <SafeAreaView>
         <DefaultText size="lg">

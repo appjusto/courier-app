@@ -214,7 +214,8 @@ export default function ProfileBank({ bankId, onSelectBank, onUpdateProfile }: P
   if (!profile || !accountTypes) return <Loading />;
   return (
     <DefaultKeyboardAwareScrollView
-      contentContainerStyle={{ ...screens.default, padding: paddings.lg }}
+      style={{ ...screens.default }}
+      contentContainerStyle={{ padding: paddings.lg }}
     >
       <SafeAreaView>
         <PersonTypeModal
