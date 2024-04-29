@@ -57,7 +57,7 @@ export default function Toast({ message, type, onHide }: Props) {
         bottom: paddings.lg,
         width: '100%',
         minHeight: 60,
-        padding: paddings.xl,
+        padding: 0,
         borderTopStartRadius: 8,
         borderTopEndRadius: 8,
         opacity,
