@@ -1,6 +1,6 @@
+import { trackEvent } from '@/api/analytics/track';
 import { processURL } from '@/common/deeplink/processURL';
 import { PushMessageData } from '@appjusto/types';
-import * as Linking from 'expo-linking';
 import React, { useEffect, useState } from 'react';
 import { useNotificationHandler } from '../useNotificationHandler';
 
@@ -17,7 +17,6 @@ const NotificationContext = React.createContext<Value>({});
 
 export const NotificationProvider = (props: Props) => {
   // state
-  const url = Linking.useURL();
   const [deeplink, setDeeplink] = useState<string>();
   // side effects
   const notification = useNotificationHandler();
@@ -29,12 +28,11 @@ export const NotificationProvider = (props: Props) => {
       message.action === 'order-request' ||
       message.action === 'order-chat'
     ) {
-      setDeeplink(message.url);
+      trackEvent('Clicou no push', { url: message.url });
+      const result = processURL(message.url);
+      if (result) setDeeplink(result);
     }
   }, [message]);
-  useEffect(() => {
-    if (url) setDeeplink(processURL(url));
-  }, [url]);
   // result
   return (
     <NotificationContext.Provider value={{ deeplink, setDeeplink }}>

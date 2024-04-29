@@ -162,7 +162,9 @@ export default function ProfileCompany({ onUpdateProfile }: Props) {
   const title = 'Dados da sua PJ';
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
-    <DefaultKeyboardAwareScrollView style={{ ...screens.default, padding: paddings.lg }}>
+    <DefaultKeyboardAwareScrollView
+      contentContainerStyle={{ ...screens.default, padding: paddings.lg }}
+    >
       <SafeAreaView>
         <DefaultText size="lg">
           {profileState.includes('approved')

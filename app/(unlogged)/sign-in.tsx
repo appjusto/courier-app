@@ -25,7 +25,7 @@ export default function SignIn() {
   useTrackScreenView('Login');
   // UI
   return (
-    <DefaultKeyboardAwareScrollView style={{ ...screens.headless }}>
+    <DefaultKeyboardAwareScrollView contentContainerStyle={{ ...screens.headless }}>
       <Stack.Screen options={{ title: 'Entrar' }} />
       <View
         style={{

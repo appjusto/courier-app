@@ -1,24 +1,24 @@
-import screens from '@/common/styles/screens';
-import { RefObject, forwardRef } from 'react';
+import { forwardRef } from 'react';
+import { Platform } from 'react-native';
 import {
   KeyboardAwareScrollView,
   KeyboardAwareScrollViewProps,
 } from 'react-native-keyboard-aware-scroll-view';
+import { DefaultScrollView } from './DefaultScrollView';
 
 export const DefaultKeyboardAwareScrollView = forwardRef(
   ({ style, ...props }: KeyboardAwareScrollViewProps, externalRef) => {
-    return (
-      <KeyboardAwareScrollView
-        ref={externalRef as RefObject<KeyboardAwareScrollView>}
-        style={[{ ...screens.default }, style]}
-        enableOnAndroid
-        enableAutomaticScroll
-        keyboardOpeningTime={0}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ flexGrow: 1 }}
-        scrollIndicatorInsets={{ right: 1 }}
-        {...props}
-      />
-    );
+    if (Platform.OS === 'ios') {
+      return (
+        <KeyboardAwareScrollView
+          enableAutomaticScroll
+          keyboardOpeningTime={0}
+          keyboardShouldPersistTaps="always"
+          scrollIndicatorInsets={{ right: 1 }}
+          {...props}
+        />
+      );
+    }
+    return <DefaultScrollView {...props} />;
   }
 );

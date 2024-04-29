@@ -72,7 +72,10 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
   };
   // UI
   return (
-    <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
+    <DefaultKeyboardAwareScrollView
+      contentContainerStyle={[{ padding: paddings.lg }, style]}
+      {...props}
+    >
       <PatternInput
         pattern="currency"
         title="Quanto você gasta por mês com taxas finaceiras?"

@@ -66,7 +66,10 @@ export const CalculatorStep1 = ({ costs, onSave, style, ...props }: Props) => {
   };
   // UI
   return (
-    <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
+    <DefaultKeyboardAwareScrollView
+      contentContainerStyle={[{ padding: paddings.lg }, style]}
+      {...props}
+    >
       <PatternInput
         titleStyle={{ ...typography.md }}
         pattern="twodigtsnumber"

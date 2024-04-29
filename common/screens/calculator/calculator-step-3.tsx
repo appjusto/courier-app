@@ -76,7 +76,10 @@ export const CalculatorStep3 = ({ costs, onSave, style, ...props }: Props) => {
   };
   // UI
   return (
-    <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
+    <DefaultKeyboardAwareScrollView
+      contentContainerStyle={[{ padding: paddings.lg }, style]}
+      {...props}
+    >
       <DefaultText size="md">Que tipo de veículo que você usa?</DefaultText>
       <RadioButton
         style={{ marginTop: paddings.xs }}
