@@ -141,7 +141,10 @@ export default function ProfilePIX({}: Props) {
   const title = 'Saque imediato';
   if (!profile) return <Loading backgroundColor="neutral50" title={title} />;
   return (
-    <DefaultKeyboardAwareScrollView style={{ ...screens.default, padding: paddings.lg }}>
+    <DefaultKeyboardAwareScrollView
+      style={{ ...screens.default }}
+      contentContainerStyle={{ padding: paddings.lg }}
+    >
       <PixTypeModal
         visible={modalVisible}
         onSelectType={(type) => {

@@ -11,6 +11,7 @@ export const useMapRoute = (to?: LatLng, mode?: CourierMode) => {
   // state
   const location = useContextInitialLocation();
   const [route, setRoute] = useState<RouteDetails | null>();
+  const [loading, setLoading] = useState(false);
   // side effects
   useEffect(() => {
     console.log('useMapRoute', to, mode, location);
@@ -22,6 +23,9 @@ export const useMapRoute = (to?: LatLng, mode?: CourierMode) => {
       setRoute(null);
       return;
     }
+    if (loading) return;
+    if (route) return;
+    setLoading(true);
     api
       .maps()
       .googleDirections(location, to, mode)
@@ -33,8 +37,9 @@ export const useMapRoute = (to?: LatLng, mode?: CourierMode) => {
         if (error instanceof Error) {
           showToast(error.message, 'warning');
         }
-      });
-  }, [api, showToast, location, to, mode]);
+      })
+      .finally(() => setLoading(false));
+  }, [api, showToast, location, to, mode, loading, route]);
   // result
   console.log('location:', location, '; to:', to, '; route distance:', route?.distance);
   return route;

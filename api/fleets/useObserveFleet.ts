@@ -1,18 +1,8 @@
-import { Fleet, WithId } from '@appjusto/types';
-import React from 'react';
-import { useContextApi } from '../ApiContext';
+import { useUniqState } from '@/common/react/useUniqState';
+import { useObserveFleets } from './useObserveFleets';
 
 export const useObserveFleet = (fleetId: string | undefined) => {
-  // context
-  const api = useContextApi();
-  // state
-  const [fleet, setFleet] = React.useState<WithId<Fleet> | null>();
-  // side effects
-  // observe fleet
-  React.useEffect(() => {
-    if (!fleetId) return;
-    return api.fleets().observeFleet(fleetId, setFleet);
-  }, [api, fleetId]);
-  // result
-  return fleet;
+  const ids = useUniqState(fleetId ? [fleetId] : undefined);
+  const fleets = useObserveFleets(ids);
+  return fleets?.find(() => true);
 };

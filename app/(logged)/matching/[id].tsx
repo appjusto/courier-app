@@ -2,7 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
-import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
+import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { getPartialAddress } from '@/api/maps/getPartialAddress';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
@@ -49,8 +49,8 @@ export default function MatchingScreen() {
   const requestId = params.id;
   // state
   const [matchKey, setMatchKey] = useState(nanoid());
-  const fleet = useObserveActiveFleet();
   const request = useObserveRequest(requestId);
+  const fleet = useObserveFleet(request?.fleetId);
   const requestDistanceToOrigin = request?.distanceToOrigin;
   const situation = request?.situation;
   const route = useMapRoute(request?.origin, profile?.mode);
@@ -61,10 +61,6 @@ export default function MatchingScreen() {
   const [rejectModalShown, setRejectModalShown] = useState(false);
   const [distanceExceedsModalShwon, setDistanceExceedsModalShwon] = useState(false);
   const order = useObserveOrder(request?.orderId, confirmed);
-  console.log('requestId', requestId);
-  // console.log('orderId', orderId);
-  // console.log('request', request);
-  // console.log('route', route);
   // tracking
   useTrackScreenView('Matching');
   // side effects
@@ -97,8 +93,8 @@ export default function MatchingScreen() {
   useEffect(() => {
     if (!fleet) return;
     if (!routeDistanceToOrigin) return;
-    const distanceExceedsFleetLimit = routeDistanceToOrigin > 2 * (fleet.maxDistanceToOrigin ?? 0);
-    if (!distanceExceedsFleetLimit) return;
+    const distanceExceeds = routeDistanceToOrigin > 2 * (fleet.maxDistanceToOrigin ?? 0);
+    if (!distanceExceeds) return;
     setDistanceExceedsModalShwon(true);
     trackEvent('Distância passou limite');
   }, [routeDistanceToOrigin, fleet]);
@@ -135,7 +131,6 @@ export default function MatchingScreen() {
         if (error instanceof Error) showToast(error.message, 'error');
       });
   };
-  console.log(requestId);
   stopOrderRequestSound().then(null).catch(null);
   // UI
   if (!request) return <Loading title="Nova corrida pra você!" />;
@@ -156,6 +151,13 @@ export default function MatchingScreen() {
   const originAddress = getPartialAddress(request.originAddress);
   const destinationAddress = getPartialAddress(request.destinationAddress);
   const hideValues = !route;
+  // logs
+  console.log('/matching/[id]', requestId);
+  // console.log(route);
+  // console.log('orderId', orderId);
+  // console.log('request', request);
+  // console.log('route', route);
+  // console.log('hideValues', hideValues);
   return (
     <DefaultView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title: 'Nova corrida pra você!' }} />

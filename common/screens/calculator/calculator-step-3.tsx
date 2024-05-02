@@ -8,6 +8,7 @@ import { RoundedText } from '@/common/components/texts/RoundedText';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import typography from '@/common/styles/typography';
 import { CourierCosts } from '@appjusto/types';
 import { toNumber } from 'lodash';
@@ -76,7 +77,11 @@ export const CalculatorStep3 = ({ costs, onSave, style, ...props }: Props) => {
   };
   // UI
   return (
-    <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
+    <DefaultKeyboardAwareScrollView
+      style={{ ...screens.default }}
+      contentContainerStyle={{ padding: paddings.lg }}
+      {...props}
+    >
       <DefaultText size="md">Que tipo de veículo que você usa?</DefaultText>
       <RadioButton
         style={{ marginTop: paddings.xs }}

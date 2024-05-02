@@ -38,12 +38,21 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
         showToast(`Você agora faz parte da frota ${fleet.name}!`, 'success');
       });
   };
+  const leaveFleet = () => {
+    trackEvent('Saiu da frota', { fleetId: fleet.id });
+    api
+      .fleets()
+      .leaveFleet(fleet.id)
+      .then(() => {});
+  };
   const copyToClipboard = () => {
     copyFleetLinkToClipboard(fleet.id).then(() => {
       showToast('Link da frota copiado!', 'success');
     });
   };
   // UI
+  const canJoin = !profile?.fleetsIds?.includes(fleet.id);
+  const canLeave = !canJoin && profile?.fleetsIds?.length && profile?.fleetsIds.length > 1;
   const usingFleet = profile?.fleetsIds.includes(fleet.id);
   const minimumFee = formatCurrency(fleet.minimumFee);
   const distanceThreshold = formatDistance(fleet.distanceThreshold);
@@ -132,11 +141,18 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
             router.push({ pathname: '/(logged)/fleets/[id]', params: { id: fleet.id } })
           }
         />
-        {!usingFleet ? (
+        {canJoin ? (
           <DefaultButton
             style={{ flex: 1, marginLeft: paddings.lg }}
             title="Entrar na frota"
             onPress={joinFleet}
+          />
+        ) : null}
+        {canLeave ? (
+          <DefaultButton
+            style={{ flex: 1, marginLeft: paddings.lg }}
+            title="Sair da frota"
+            onPress={leaveFleet}
           />
         ) : null}
       </View>

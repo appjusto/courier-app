@@ -6,6 +6,7 @@ import { RoundedText } from '@/common/components/texts/RoundedText';
 import { useShowToast } from '@/common/components/views/toast/ToastContext';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import screens from '@/common/styles/screens';
 import typography from '@/common/styles/typography';
 import { CourierCosts } from '@appjusto/types';
 import { toNumber } from 'lodash';
@@ -72,7 +73,11 @@ export const CalculatorStep4 = ({ costs, onSave, style, ...props }: Props) => {
   };
   // UI
   return (
-    <DefaultKeyboardAwareScrollView style={[{ padding: paddings.lg }, style]} {...props}>
+    <DefaultKeyboardAwareScrollView
+      style={{ ...screens.default }}
+      contentContainerStyle={{ padding: paddings.lg }}
+      {...props}
+    >
       <PatternInput
         pattern="currency"
         title="Quanto você gasta por mês com taxas finaceiras?"
