@@ -21,7 +21,7 @@ import { HowItWorksCard } from '@/common/screens/home/cards/how-it-works-card';
 import { NeedSupportCard } from '@/common/screens/home/cards/need-support-card';
 import { OngoingOrdersCards } from '@/common/screens/home/cards/ongoing-orders-cards';
 import { DisplayOverAppsModal } from '@/common/screens/home/display-over-apps-modal';
-import { HomeFleet } from '@/common/screens/home/fleet/home-fleet';
+import { HomeFleets } from '@/common/screens/home/fleet/home-fleets';
 import { HomeHeader } from '@/common/screens/home/header/home-header';
 import { LocationDisclosureModal } from '@/common/screens/home/location-disclosure-modal/location-disclosure-modal';
 import { SupportModal } from '@/common/screens/home/support-modal';
@@ -89,7 +89,7 @@ export default function HomeScreen() {
         <HomeHeader />
         <DefaultScrollView>
           <View style={{ padding: paddings.lg }}>
-            <HomeFleet />
+            <HomeFleets />
             <ActivitySummary
               // entriesSummary={entriesSummary}
               ordersSummary={ordersSummary}

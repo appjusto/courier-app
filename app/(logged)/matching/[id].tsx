@@ -2,7 +2,7 @@ import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
 import { useObserveRequest } from '@/api/couriers/requests/useObserveRequest';
-import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
+import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { getPartialAddress } from '@/api/maps/getPartialAddress';
 import { useMapRoute } from '@/api/maps/useMapRoute';
 import { useObserveOrder } from '@/api/orders/useObserveOrder';
@@ -49,8 +49,8 @@ export default function MatchingScreen() {
   const requestId = params.id;
   // state
   const [matchKey, setMatchKey] = useState(nanoid());
-  const fleet = useObserveActiveFleet();
   const request = useObserveRequest(requestId);
+  const fleet = useObserveFleet(request?.fleetId);
   const requestDistanceToOrigin = request?.distanceToOrigin;
   const situation = request?.situation;
   const route = useMapRoute(request?.origin, profile?.mode);

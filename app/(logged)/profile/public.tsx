@@ -1,7 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
-import { useContextProfile } from '@/common/auth/AuthContext';
+import { useContextFleets, useContextProfile } from '@/common/auth/AuthContext';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
@@ -34,11 +33,11 @@ export default function PublicProfileScreen() {
   const api = useContextApi();
   const profile = useContextProfile();
   const showToast = useShowToast();
+  const fleets = useContextFleets();
   // refs
   const aboutRef = useRef<TextInput>(null);
   const ref = useRef<ViewShot>() as RefObject<ViewShot>;
   // state
-  const fleet = useObserveActiveFleet();
   const [about, setAbout] = useState<string>();
   const [aboutFocused, setAboutFocused] = useState(false);
   // tracking
@@ -84,10 +83,7 @@ export default function PublicProfileScreen() {
       });
   };
   // UI
-  if (!profile || !fleet) return <Loading title="Seu perfil" />;
-  const minimumFee = formatCurrency(fleet.minimumFee);
-  const distanceThreshold = formatDistance(fleet.distanceThreshold);
-  const additionalPerKmAfterThreshold = formatCurrency(fleet.additionalPerKmAfterThreshold);
+  if (!profile || !fleets) return <Loading title="Seu perfil" />;
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen
@@ -214,46 +210,57 @@ export default function PublicProfileScreen() {
               ) : null}
             </View>
           </View>
-          {/* fleet */}
-          <View
-            style={{
-              marginTop: paddings.lg,
-              padding: paddings.lg,
-              ...borders.default,
-              borderColor: colors.neutral100,
-            }}
-          >
-            <RoundedText
-              style={{ backgroundColor: colors.primary100 }}
-              color="primary900"
-            >{`Frota ${fleet.name}`}</RoundedText>
-            <View
-              style={{
-                marginTop: paddings.lg,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <View>
-                <DefaultText size="xs">Mínimo</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="md" color="black">
-                  {minimumFee}
-                </DefaultText>
+          {/* fleets */}
+          {fleets.map((fleet) => {
+            const minimumFee = formatCurrency(fleet.minimumFee);
+            const distanceThreshold = formatDistance(fleet.distanceThreshold);
+            const additionalPerKmAfterThreshold = formatCurrency(
+              fleet.additionalPerKmAfterThreshold
+            );
+
+            return (
+              <View
+                key={fleet.id}
+                style={{
+                  marginTop: paddings.lg,
+                  padding: paddings.lg,
+                  ...borders.default,
+                  borderColor: colors.neutral100,
+                }}
+              >
+                <RoundedText
+                  style={{ backgroundColor: colors.primary100 }}
+                  color="primary900"
+                >{`Frota ${fleet.name}`}</RoundedText>
+                <View
+                  style={{
+                    marginTop: paddings.lg,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View>
+                    <DefaultText size="xs">Mínimo</DefaultText>
+                    <DefaultText style={{ marginTop: paddings.xs }} size="md" color="black">
+                      {minimumFee}
+                    </DefaultText>
+                  </View>
+                  <View>
+                    <DefaultText size="xs">Até</DefaultText>
+                    <DefaultText style={{ marginTop: paddings.xs }} size="md" color="black">
+                      {distanceThreshold}
+                    </DefaultText>
+                  </View>
+                  <View>
+                    <DefaultText size="xs">Adicional / KM</DefaultText>
+                    <DefaultText style={{ marginTop: paddings.xs }} size="md" color="black">
+                      {additionalPerKmAfterThreshold}
+                    </DefaultText>
+                  </View>
+                </View>
               </View>
-              <View>
-                <DefaultText size="xs">Até</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="md" color="black">
-                  {distanceThreshold}
-                </DefaultText>
-              </View>
-              <View>
-                <DefaultText size="xs">Adicional / KM</DefaultText>
-                <DefaultText style={{ marginTop: paddings.xs }} size="md" color="black">
-                  {additionalPerKmAfterThreshold}
-                </DefaultText>
-              </View>
-            </View>
-          </View>
+            );
+          })}
         </DefaultView>
       </ViewShot>
     </DefaultScrollView>

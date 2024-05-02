@@ -1,5 +1,6 @@
 import { useContextApi } from '@/api/ApiContext';
-import { CourierProfile, WithId } from '@appjusto/types';
+import { useObserveFleets } from '@/api/fleets/useObserveFleets';
+import { CourierProfile, Fleet, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useUser } from './useUser';
@@ -10,6 +11,7 @@ interface Value {
   user: FirebaseAuthTypes.User | null | undefined;
   userId: string | undefined;
   profile: WithId<CourierProfile> | undefined | null;
+  fleets: WithId<Fleet>[] | undefined | null;
 }
 
 interface Props {
@@ -23,6 +25,7 @@ export const AuthProvider = (props: Props) => {
   const user = useUser();
   const userId = user?.uid;
   const [profile, setProfile] = useState<WithId<CourierProfile> | null>();
+  const fleets = useObserveFleets(profile?.fleetsIds);
   console.log('userId', userId);
   console.log('profile', profile);
   // side effects
@@ -40,7 +43,7 @@ export const AuthProvider = (props: Props) => {
     }
   }, [user]);
   // result
-  const value: Value = { user, userId, profile };
+  const value: Value = { user, userId, profile, fleets };
   return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 };
 
@@ -56,8 +59,6 @@ export const useContextProfile = () => {
   return React.useContext(AuthContext)?.profile;
 };
 
-// export const useContextProfileLocation = () => {
-//   const coordinates = React.useContext(AuthContext)?.profile?.coordinates;
-//   if (coordinates)
-//     return { latitude: coordinates.latitude, longitude: coordinates.longitude } as LatLng;
-// };
+export const useContextFleets = () => {
+  return React.useContext(AuthContext)?.fleets;
+};

@@ -1,5 +1,5 @@
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
-import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
+import { useContextFleets, useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -14,18 +14,22 @@ import { View } from 'react-native';
 export default function FleetsScreen() {
   // context
   const router = useRouter();
-  // state
-  const fleet = useObserveActiveFleet();
+  const profile = useContextProfile();
+  const fleets = useContextFleets();
   // tracking
-  useTrackScreenView('Sua frota', { fleetId: fleet?.id }, Boolean(fleet));
+  useTrackScreenView('Sua frota', { fleetIds: profile?.fleetsIds }, Boolean(profile?.fleetsIds));
   // UI
   const title = 'Sua frota';
-  if (!fleet) return <Loading title={title} />;
+  if (!fleets) return <Loading title={title} />;
   return (
     <DefaultScrollView style={{ ...screens.default, padding: paddings.lg }}>
       <Stack.Screen options={{ title }} />
-      <DefaultText size="lg">Sua frota atual</DefaultText>
-      <FleetCard style={{ marginTop: paddings.xl }} fleet={fleet} />
+      <DefaultText size="lg">{fleets.length > 1 ? `Suas frotas` : 'Sua Frota'}</DefaultText>
+      <View style={{ marginTop: paddings.xl }}>
+        {fleets.map((fleet) => (
+          <FleetCard key={fleet.id} fleet={fleet} />
+        ))}
+      </View>
       <View style={{ flex: 1 }} />
       <DefaultButton
         style={{ marginTop: paddings.lg }}

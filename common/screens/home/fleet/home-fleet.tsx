@@ -1,4 +1,3 @@
-import { useObserveActiveFleet } from '@/api/fleets/useObserveActiveFleet';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { DefaultText } from '@/common/components/texts/DefaultText';
 import { RoundedText } from '@/common/components/texts/RoundedText';
@@ -7,6 +6,7 @@ import { formatDistance } from '@/common/formatters/distance';
 import borders from '@/common/styles/borders';
 import colors from '@/common/styles/colors';
 import paddings from '@/common/styles/paddings';
+import { Fleet, WithId } from '@appjusto/types';
 import { router } from 'expo-router';
 import { ChevronUp } from 'lucide-react-native';
 import { MotiView, useDynamicAnimation } from 'moti';
@@ -16,11 +16,12 @@ import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils';
 import { HomeFleetParam } from '../../profile/fleets/home-fleet-param';
 import { ShareFleetCard } from './share-fleet-card';
 
-interface Props extends ViewProps {}
+interface Props extends ViewProps {
+  fleet: WithId<Fleet> | null | undefined;
+}
 
-export const HomeFleet = ({ style, ...props }: Props) => {
+export const HomeFleet = ({ fleet, style, ...props }: Props) => {
   // state
-  const fleet = useObserveActiveFleet();
   const [opened, setOpened] = useState(false);
   // animation
   const animation = useDynamicAnimation(() => ({
@@ -110,7 +111,7 @@ export const HomeFleet = ({ style, ...props }: Props) => {
               >
                 <View style={{ flex: 1 }}>
                   <DefaultButton
-                    title="Trocar de frota"
+                    title="Gerenciar frotas"
                     variant="outline"
                     onPress={() => router.push('/fleets/search')}
                   />
