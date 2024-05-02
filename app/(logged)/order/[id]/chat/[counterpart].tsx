@@ -95,15 +95,16 @@ export default function ChatScreen() {
   // console.log(JSON.stringify(chat));
   // UI
   return (
-    <DefaultKeyboardAwareScrollView>
-      <DefaultView
-        style={{
+    <DefaultView style={{ flex: 1 }}>
+      <Stack.Screen options={{ title: counterpartName }} />
+      <DefaultKeyboardAwareScrollView
+        // style={{ flex: 1 }}
+        contentContainerStyle={{
           flex: 1,
           justifyContent: 'flex-end',
           backgroundColor: colors.neutral50,
         }}
       >
-        <Stack.Screen options={{ title: counterpartName }} />
         <View style={{ padding: paddings.lg }}>
           {chat
             ? chat.map((group) => (
@@ -201,7 +202,7 @@ export default function ChatScreen() {
             />
           </View>
         </SafeAreaView>
-      </DefaultView>
-    </DefaultKeyboardAwareScrollView>
+      </DefaultKeyboardAwareScrollView>
+    </DefaultView>
   );
 }
