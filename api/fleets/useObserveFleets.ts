@@ -14,6 +14,6 @@ export const useObserveFleets = (ids: string[] | undefined) => {
     return api.fleets().observeFleets(ids, setFleets);
   }, [api, ids]);
   // result
-  console.log(fleets);
+  // console.log(fleets);
   return fleets;
 };

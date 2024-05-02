@@ -3,6 +3,7 @@ import { useObserveFleets } from '@/api/fleets/useObserveFleets';
 import { CourierProfile, Fleet, WithId } from '@appjusto/types';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React, { useEffect, useState } from 'react';
+import { useUniqState } from '../react/useUniqState';
 import { useUser } from './useUser';
 
 const AuthContext = React.createContext<Value | undefined>(undefined);
@@ -25,7 +26,7 @@ export const AuthProvider = (props: Props) => {
   const user = useUser();
   const userId = user?.uid;
   const [profile, setProfile] = useState<WithId<CourierProfile> | null>();
-  const fleets = useObserveFleets(profile?.fleetsIds);
+  const fleets = useObserveFleets(useUniqState(profile?.fleetsIds));
   console.log('userId', userId);
   console.log('profile', profile);
   // side effects
