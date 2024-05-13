@@ -95,7 +95,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           {
             scheme: 'https',
             host: domain,
-            pathPrefix: '/',
+            pathPrefix: '/matching',
           },
         ],
         category: ['BROWSABLE', 'DEFAULT'],
