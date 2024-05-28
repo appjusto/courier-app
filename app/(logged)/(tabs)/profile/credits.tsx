@@ -27,8 +27,8 @@ export default function ProfileCreditsScreen() {
           Meus créditos
         </DefaultText>
         <DefaultText size="md" style={{ marginTop: paddings.sm }}>
-          Compartilhe seu código e ganhe R$ 5 para cada pessoa que fizer um pedido pela primeira vez
-          no appjusto.
+          Você e cada cliente que fizer o primeiro pedido com seu código ganham R$ 5,00. Para cada
+          restaurante aprovado, você ganha R$ 30,00.
         </DefaultText>
         <ProfileCode />
         <CreditsApprovedSummary style={{ marginTop: paddings.lg }} total={total} />

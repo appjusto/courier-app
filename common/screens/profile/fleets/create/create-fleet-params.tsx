@@ -49,7 +49,7 @@ export const CreateFleetParams = ({
       <CreateFleetParam
         style={{ marginTop: paddings.lg }}
         title="Pagamento Mínimo"
-        description="Valor que os entregadores dessa frota receberão ao percorrer a Distância Inicial Mínima."
+        description="Valor que os entregadores dessa frota receberão ao percorrer a Distância Inicial Mínima a partir do ponto de coleta."
         value={formatCurrency(minimumFee)}
         onDecrease={() =>
           setMinimumFee(minimumFee > REVENUE_DELTA ? minimumFee - REVENUE_DELTA : minimumFee)
@@ -59,7 +59,7 @@ export const CreateFleetParams = ({
       <CreateFleetParam
         style={{ marginTop: paddings.lg }}
         title="Distância inicial mínima"
-        description="Distância para o Pagamento Mínimo. Abaixo dessa distância, os entregadores dessa frota receberão o Pagamento Mínimo. Acima dessa distância, os entregadores receberão um Valor Adicional por Km Rodado."
+        description="Até essa distância, os entregadores dessa frota receberão o Pagamento Mínimo. Acima dessa distância, os entregadores receberão um Valor Adicional por Km Rodado. A distância é medida a partir do ponto de coleta."
         value={formatDistance(distanceThreshold)}
         onDecrease={() =>
           setDistanceThreshold(

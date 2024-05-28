@@ -27,7 +27,7 @@ export const FleetDetail = ({ fleet, showDescription = true, style, ...props }: 
           title="Pagamento Mínimo"
           description={
             showDescription
-              ? 'Valor que os entregadores dessa frota receberão ao percorrer a Distância Inicial Mínima.'
+              ? 'Valor que os entregadores dessa frota receberão ao percorrer a Distância Inicial Mínima a partir do ponto de coleta.'
               : undefined
           }
           value={minimumFee}
@@ -37,7 +37,7 @@ export const FleetDetail = ({ fleet, showDescription = true, style, ...props }: 
           title="Distância Inicial Mínima"
           description={
             showDescription
-              ? 'Distância para o Pagamento Mínimo. Abaixo dessa distância, os entregadores dessa frota receberão o Pagamento Mínimo. Acima dessa distância, os entregadores receberão um Valor Adicional por Km Rodado.'
+              ? 'Até essa distância, os entregadores dessa frota receberão o Pagamento Mínimo. Acima dessa distância, os entregadores receberão um Valor Adicional por Km Rodado. A distância é medida a partir do ponto de coleta.'
               : undefined
           }
           value={distanceThreshold}
