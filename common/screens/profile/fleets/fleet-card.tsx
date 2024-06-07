@@ -8,6 +8,7 @@ import { Fleet, WithId } from '@appjusto/types';
 
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
+import { reachedMaximumFleets } from '@/api/couriers/fleets/reachedMaximumFleets';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { OnlyIconButton } from '@/common/components/buttons/icon/OnlyIconButton';
@@ -141,7 +142,7 @@ export const FleetCard = ({ fleet, style, ...props }: Props) => {
             router.push({ pathname: '/(logged)/fleets/[id]', params: { id: fleet.id } })
           }
         />
-        {canJoin ? (
+        {canJoin && !reachedMaximumFleets(profile) ? (
           <DefaultButton
             style={{ flex: 1, marginLeft: paddings.lg }}
             title="Entrar na frota"

@@ -22,6 +22,7 @@ interface Props extends ViewProps {
   onSave: () => void;
 }
 
+const MINIMUM_REVENUE = 1000;
 const REVENUE_DELTA = 50;
 const DISTANCE_DELTA = 500;
 
@@ -52,7 +53,9 @@ export const CreateFleetParams = ({
         description="Valor que os entregadores dessa frota receberão ao percorrer a Distância Inicial Mínima a partir do ponto de coleta."
         value={formatCurrency(minimumFee)}
         onDecrease={() =>
-          setMinimumFee(minimumFee > REVENUE_DELTA ? minimumFee - REVENUE_DELTA : minimumFee)
+          setMinimumFee(
+            minimumFee - REVENUE_DELTA >= MINIMUM_REVENUE ? minimumFee - REVENUE_DELTA : minimumFee
+          )
         }
         onIncrease={() => setMinimumFee(minimumFee + REVENUE_DELTA)}
       />

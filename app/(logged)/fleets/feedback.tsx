@@ -1,6 +1,8 @@
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { reachedMaximumFleets } from '@/api/couriers/fleets/reachedMaximumFleets';
+import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
 import { LinkButton } from '@/common/components/buttons/link/LinkButton';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
@@ -15,6 +17,7 @@ import { View } from 'react-native';
 export default function CreateFleetFeedbackScreen() {
   // context
   const api = useContextApi();
+  const profile = useContextProfile();
   const showToast = useShowToast();
   // params
   const search = useLocalSearchParams<{ id: string; name: string }>();
@@ -46,11 +49,13 @@ export default function CreateFleetFeedbackScreen() {
       <View style={{ flex: 1, padding: paddings.lg }}>
         <View style={{ flex: 1 }} />
         <ShareFleetCard fleetId={id} fleetName={name} />
-        <DefaultButton
-          style={{ marginTop: paddings.lg }}
-          title="Entrar na frota"
-          onPress={joinFleet}
-        />
+        {!reachedMaximumFleets(profile) ? (
+          <DefaultButton
+            style={{ marginTop: paddings.lg }}
+            title="Entrar na frota"
+            onPress={joinFleet}
+          />
+        ) : null}
         <LinkButton
           style={{ marginTop: paddings.lg, alignSelf: 'center' }}
           size="md"

@@ -1,6 +1,7 @@
 import { useContextApi } from '@/api/ApiContext';
 import { trackEvent } from '@/api/analytics/track';
 import { useTrackScreenView } from '@/api/analytics/useTrackScreenView';
+import { reachedMaximumFleets } from '@/api/couriers/fleets/reachedMaximumFleets';
 import { useObserveFleet } from '@/api/fleets/useObserveFleet';
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultButton } from '@/common/components/buttons/default/DefaultButton';
@@ -50,7 +51,6 @@ export default function FleetDetailScreen() {
   // UI
   if (!fleet) return <Loading />;
   const usingFleet = profile?.fleetsIds.includes(fleet.id);
-
   return (
     <DefaultScrollView style={{ ...screens.default }}>
       <Stack.Screen
@@ -93,7 +93,7 @@ export default function FleetDetailScreen() {
       </View>
       <FleetDetail fleet={fleet} />
 
-      {!usingFleet ? (
+      {!usingFleet && !reachedMaximumFleets(profile) ? (
         <View style={{ padding: paddings.lg, backgroundColor: colors.white }}>
           <DefaultButton title="Participar dessa frota" onPress={joinFleet} />
         </View>
