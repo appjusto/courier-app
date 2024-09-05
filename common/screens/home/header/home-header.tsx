@@ -15,9 +15,8 @@ import { CourierStatus } from '@appjusto/types';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import { router } from 'expo-router';
 import { ArrowUpRight } from 'lucide-react-native';
-import { Pressable, Switch, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Selfie from '../../profile/images/selfie';
-import { ProfileStatusBadge } from './status-badge';
 
 export const HomeHeader = () => {
   // context
@@ -107,14 +106,14 @@ export const HomeHeader = () => {
           </View>
         </Pressable>
         <View style={{ flex: 1 }} />
-        <Switch
+        {/* <Switch
           trackColor={{ false: colors.neutral200, true: colors.black }}
           thumbColor={colors.white}
           ios_backgroundColor={colors.white}
           onValueChange={toggleWorking}
           value={working}
         />
-        <ProfileStatusBadge style={{ marginLeft: paddings.xs }} />
+        <ProfileStatusBadge style={{ marginLeft: paddings.xs }} /> */}
       </View>
       <HR
         style={{

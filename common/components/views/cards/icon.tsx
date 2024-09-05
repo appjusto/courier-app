@@ -51,7 +51,7 @@ const getIcon = (name: IconName, iconSize: number, variant?: Variant) => {
   let color = colors.primary500;
   if (variant === 'darker') color = colors.primary900;
   else if (variant === 'dark') color = colors.black;
-  else if (variant === 'warning') color = colors.warning500;
+  else if (variant === 'warning') color = colors.warning900;
   else if (variant === 'neutral') color = colors.neutral700;
 
   if (name === 'approval') {
@@ -119,7 +119,7 @@ export const DefaultCardIcon = ({
   let backgroundColor = colors.primary100;
   if (variant === 'darker') backgroundColor = colors.primary300;
   else if (variant === 'dark') backgroundColor = colors.primary300;
-  else if (variant === 'warning') backgroundColor = colors.warning100;
+  else if (variant === 'warning') backgroundColor = colors.warning300;
   else if (variant === 'neutral') backgroundColor = colors.neutral50;
   else if (variant === 'white') backgroundColor = colors.white;
   const size = iconSize * 2;

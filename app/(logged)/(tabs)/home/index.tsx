@@ -11,6 +11,8 @@ import { useContextAvailabilityModal } from '@/api/preferences/context/Preferenc
 import { useContextProfile } from '@/common/auth/AuthContext';
 import { DefaultScrollView } from '@/common/components/containers/DefaultScrollView';
 import { DefaultView } from '@/common/components/containers/DefaultView';
+import { DefaultCard } from '@/common/components/views/cards/default-card';
+import { DefaultCardIcon } from '@/common/components/views/cards/icon';
 import { useDismissNotifications } from '@/common/notifications/useDismissNotifications';
 import { ActivitySummary } from '@/common/screens/home/activity/activity-summary';
 import { AvailabilityModal } from '@/common/screens/home/availability-modal';
@@ -30,7 +32,7 @@ import paddings from '@/common/styles/paddings';
 import screens from '@/common/styles/screens';
 import { CourierMode } from '@appjusto/types';
 import { useState } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, Pressable, View } from 'react-native';
 
 export default function HomeScreen() {
   // context
@@ -107,6 +109,17 @@ export default function HomeScreen() {
           >
             <OngoingOrdersCards />
             <ActiveRequestsCards />
+            <Pressable
+              onPress={() => Linking.openURL('https://app-justo-staging.firebaseapp.com/')}
+            >
+              <DefaultCard
+                variant="warning"
+                style={{ marginBottom: paddings.sm }}
+                icon={<DefaultCardIcon variant="warning" iconName="alert" />}
+                title="Supensão das operações"
+                subtitle="Clique para ler o comunicado sobre a suspensão das operações do appjusto"
+              />
+            </Pressable>
             <AvailableChatCard />
             <CalculatorCard />
             <HowItWorksCard style={{ marginTop: paddings.sm }} />
