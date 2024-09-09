@@ -109,9 +109,7 @@ export default function HomeScreen() {
           >
             <OngoingOrdersCards />
             <ActiveRequestsCards />
-            <Pressable
-              onPress={() => Linking.openURL('https://app-justo-staging.firebaseapp.com/')}
-            >
+            <Pressable onPress={() => Linking.openURL('https://appjusto.com.br')}>
               <DefaultCard
                 variant="warning"
                 style={{ marginBottom: paddings.sm }}
