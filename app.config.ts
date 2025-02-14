@@ -128,13 +128,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         license: process.env.EXPO_PUBLIC_BACKGROUND_GEOLOCATION_LICENSE,
       },
     ],
-    [
-      'expo-gradle-ext-vars',
-      {
-        googlePlayServicesLocationVersion: '20.0.0',
-        appCompatVersion: '1.4.2',
-      },
-    ],
+    // [
+    //   'expo-gradle-ext-vars',
+    //   {
+    //     googlePlayServicesLocationVersion: '20.0.0',
+    //     appCompatVersion: '1.4.2',
+    //   },
+    // ],
     'react-native-background-fetch',
     [
       'expo-build-properties',
@@ -147,7 +147,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         },
       },
     ],
-    './plugins/react-native-maps-plugin',
+    // './plugins/react-native-maps-plugin',
+    'expo-asset',
+    'expo-font',
+    'expo-secure-store',
     // './plugins/withAndroidVerifiedLinksWorkaround',
   ],
   experiments: {
